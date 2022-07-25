@@ -1,0 +1,49 @@
+/*================================================================================
+	Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+	Version: 2.0
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+.available, .accepted, .paid, .Active, .Accepted, .Paid, .Yes, .Completed{
+   background-color: green;
+}
+
+.delivered,.Delivered,.New{
+   background-color: rgb(120, 233, 120);
+}
+
+.Online{
+   background-color: rgb(148, 255, 148);
+}
+
+.delivering,.Delivery{
+   background-color: rgb(241, 207, 11);
+}
+
+.unavailable,.Closed,.Canceled,.Rejected,.Blocked, .No {
+   background-color: #ea5455;
+}
+
+.Pending{
+   background-color: #ea54d1;
+}
+
+.Offline{
+   background-color:#000000;
+}
+
+
+.btn.btn-sm.btn-icon {
+   padding: 0.5rem;
+}
+
+.red-boder {
+   border: 3px solid red;
+   padding: 15px;
+}
