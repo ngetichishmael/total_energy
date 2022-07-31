@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -81,4 +80,6 @@ Route::group(['namespace' => 'Api'], function () {
    Route::post('verify/otp/{number}/{otp}','AuthController@verifyOTP');
 
    Route::post('/reset-password', 'AuthController@updatePassword');
+
+   Route::get('countOrders','OrdersCountController@index');
 });

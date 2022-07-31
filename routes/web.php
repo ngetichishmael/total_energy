@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +22,7 @@ Route::get('logout', 'Auth\LoginController@logout');
 
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => ['role:admin|verified']], function() {
+Route::group(['middleware' => ['verified']], function() {
    Route::get('dashboard', 'app\sokoflowController@dashboard')->name('app.dashboard');
    Route::get('dashboard/users-summary', 'app\sokoflowController@user_summary')->name('app.dashboard.user.summary');
 

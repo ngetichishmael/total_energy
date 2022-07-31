@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\app\survey;
 
+use App\Helpers\Helper as HelpersHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\survey\survey;
@@ -9,10 +10,10 @@ use App\Models\survey\category;
 use App\Models\survey\question_type;
 use App\Models\survey\questions;
 use App\Models\survey\answers;
-use Auth;
-use Session;
 use File;
 use Helper;
+use Illuminate\Support\Facades\Auth ;
+use Illuminate\Support\Facades\Session;
 
 class questionsController extends Controller
 {
@@ -75,14 +76,14 @@ class questionsController extends Controller
       //    $question->image = $fileName;
       // }
       $question->survey_code = $id;
-      $question->question_code = Helper::generateRandomString(12);
+      $question->question_code = HelpersHelper::generateRandomString(12);
       $question->type = $request->type;
       $question->question = $request->question;
       $question->answer = $request->correct;
       $question->position = 0;
       $question->time = $request->time;
       $question->points = $request->points;
-      $question->created_by = Auth::user()->id;
+      $question->created_by = FacadesAuth::user()->id;
       $question->save();
 
 
@@ -171,7 +172,7 @@ class questionsController extends Controller
          // SET UPLOAD PATH
          $destinationPath = base_path().'/public/trivia/questions/';
          // GET THE FILE EXTENSION
-         $extension = $file->getClientOriginalExtension();
+         $extension = $file->getClientOriginalExtension(); 
 
          // RENAME THE UPLOAD WITH RANDOM NUMBER
          $fileName = Helper::generateRandomString(10). '.' . $extension;

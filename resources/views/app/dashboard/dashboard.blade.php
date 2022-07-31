@@ -12,7 +12,7 @@
               <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Sales summary</button>
             </li>
             <li class="nav-item" role="presentation">
-               <a class="nav-link" href="{!! route('app.dashboard.user.summary') !!}">Employees summary</a>
+               <a class="nav-link"  href="{!! route('app.dashboard.user.summary') !!}">Employees summary</a>
             </li>
             <li class="nav-item" role="presentation">
               <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Customers summary</button>
