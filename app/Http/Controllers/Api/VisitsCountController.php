@@ -31,9 +31,9 @@ class VisitsCountController extends Controller
         $result = [
             "success" => true,
             "message" => "Visits Per Week, Month and Year respectively ",
-            "Customer Visits Per Week"=>$countWeek,
-            "Count Visits Per Month"=>$countMonth,
-            "Count Visits Per Year"=>$countYear,
+            "TotalVisitsPerThisWeek"=>$countWeek,
+            "TotalVisitsPerThisMonth"=>$countMonth,
+            "TotalVisitsThisYear"=>$countYear,
         ];
 
         return $result;

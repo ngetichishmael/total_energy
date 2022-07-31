@@ -25,9 +25,9 @@ class NewLeadsController extends Controller
         $result = [
             "success" => true,
             "message" => "Orders Per Week, Month and Year respectively ",
-            "New Leads this Week"=>$countWeek,
-            "New Leads this Month"=>$countMonth,
-            "New Leads this Year"=>$countYear,
+            "ThisWeekLeads"=>$countWeek,
+            "ThisMonthLeads"=>$countMonth,
+            "ThisYearLeads"=>$countYear,
         ];
 
         return $result;

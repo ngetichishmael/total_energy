@@ -19,7 +19,7 @@ class SalesMadeController extends Controller
         return response()->json([
             "success" => true,
             "message" => "Total Made ",
-            "Total" => $result,
+            "TotalSales" => $result,
          ]);
     }
 }
