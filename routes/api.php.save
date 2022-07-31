@@ -27,13 +27,13 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('customers/{customerID}/new-order/', 'customersController@new_order');
 
    //products
-   Route::get('cust@mers/{id}','productController@index');
    Route::get('products/{businessCode}', 'productsController@index');
 
    //product categories
    Route::get('products/categories/{businessCode}', 'productCategoriesController@index');
-   Route::get('products/{categoryID}/category', 'productCategoriesController@products_by_category');
-
+   Route::get('products/{categoryID}/category', 'productCategoriesController@products_by_category'); 
+Route::
+	
    //deliveries
    Route::get('deliveries/{businessCode}/{userCode}', 'deliveryController@index');
    Route::get('delivery/{code}/{businessCode}/details', 'deliveryController@details');
