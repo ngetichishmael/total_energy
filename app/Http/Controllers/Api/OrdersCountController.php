@@ -29,9 +29,9 @@ class OrdersCountController extends Controller
         ->count();
 
         $result = [
-            "Count Year"=>$countWeek,
-            "Count Month"=>$countMonth,
-            "Count Week"=>$countYear,
+            "Customer's Order Count Week"=>$countWeek,
+            "Customer's Order Count Month"=>$countMonth,
+            "Customer's Order Count Year"=>$countYear,
         ];
 
         return $result;

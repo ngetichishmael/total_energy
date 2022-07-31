@@ -34,7 +34,7 @@ class VisitsCountController extends Controller
         $result = [
             "Customer Visits Per Week"=>$countWeek,
             "Count Visits Per Month"=>$countMonth,
-            "Count Visits Per Week"=>$countYear,
+            "Count Visits Per Year"=>$countYear,
         ];
 
         return $result;
