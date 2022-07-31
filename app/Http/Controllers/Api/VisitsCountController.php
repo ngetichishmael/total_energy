@@ -10,10 +10,7 @@ class VisitsCountController extends Controller
 {
     
 
-    public function index(){
-
-        
-        
+    public function index(){        
         $countWeek= ModelsOrders::whereBetween('delivery_date',[
             now()->startOfWeek(),now()->endOfWeek()
         ])
@@ -32,6 +29,8 @@ class VisitsCountController extends Controller
         ->count();
 
         $result = [
+            "success" => true,
+            "message" => "Visits Per Week, Month and Year respectively ",
             "Customer Visits Per Week"=>$countWeek,
             "Count Visits Per Month"=>$countMonth,
             "Count Visits Per Year"=>$countYear,

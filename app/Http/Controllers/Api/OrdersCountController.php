@@ -29,6 +29,8 @@ class OrdersCountController extends Controller
         ->count();
 
         $result = [
+            "success" => true,
+            "message" => "Orders Per Week, Month and Year respectively ",
             "Customer's Order Count Week"=>$countWeek,
             "Customer's Order Count Month"=>$countMonth,
             "Customer's Order Count Year"=>$countYear,

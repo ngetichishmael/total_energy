@@ -83,4 +83,5 @@ Route::group(['namespace' => 'Api'], function () {
 
    Route::get('/countOrders','OrdersCountController@index')->middleware('auth:sanctum');
    Route::get('/countVisits','VisitsCountController@index')->middleware('auth:sanctum');
+   Route::get('/SalesMade','SalesMadeController@index')->middleware('auth:sanctum');
 });
