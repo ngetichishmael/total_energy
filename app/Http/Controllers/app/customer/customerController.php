@@ -11,6 +11,7 @@ use File;
 use Helper;
 use Session;
 use Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class customerController extends Controller{
 
@@ -20,7 +21,7 @@ class customerController extends Controller{
 
 	public function index(){
       $contacts = customers::join('business','business.business_code','=','customers.business_code')
-            ->where('customers.business_code',Auth::user()->business_code)
+            ->where('customers.business_code',FacadesAuth::user()->business_code)
             ->select('*','customers.id as customerID','customers.created_at as date_added','business.business_code as business_code','customers.business_code as business_code','customers.email as customer_email','customers.phone_number as phone_number')
             ->OrderBy('customers.id','DESC')
             ->paginate(50);

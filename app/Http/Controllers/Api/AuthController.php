@@ -9,6 +9,7 @@ use Validator;
 use App\Models\User;
 use App\Models\UserCode;
 use DB;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 /**
  * @group Authentication Api's
@@ -31,7 +32,7 @@ class AuthController extends Controller
    **/
    public function userLogin(Request $request)
    {
-      if(!Auth::attempt($request->only('email', 'password')))
+      if(!FacadesAuth::attempt($request->only('email', 'password')))
       {
          return response()
                ->json(['message' => 'Unauthorized'], 401);
