@@ -14,6 +14,7 @@ use Auth;
 use Helper;
 use Session;
 use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class routeScheduleController extends Controller
 {
@@ -28,7 +29,7 @@ class routeScheduleController extends Controller
       //
    //   $show = Route_sales::join('routes','routes.route_code','=','route_sales.routeID')->where('userID', $id);
      
-     $show_routes = DB::table('route_sales')
+     $show_routes = FacadesDB::table('route_sales')
      ->where('route_sales.userID', $id)
      ->join('routes', 'routes.route_code', '=', 'route_sales.routeID')
      ->join('route_customer', 'route_customer.routeID', '=', 'route_sales.routeID' )

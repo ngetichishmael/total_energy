@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
@@ -29,6 +30,20 @@ class CreateUsersTable extends Migration
          $table->text('admin_id')->nullable();
          $table->timestamps();
       });
+      DB::table('users')->insert([
+         'name'=>"Ishmael",
+         'email'=>"admin@gmail.com",
+         'email_verified_at'=>now(),
+         'password'=>bcrypt("123456"),
+         'businessID'=>"ABC",
+         'phone_number'=>"072345678",
+         'location'=>"Nairobi",
+         'gender'=>"male",
+         'status'=>"active",
+         'block_reason'=>"Nothing",
+         'admin_id'=>"1"
+
+      ]);     
    }
 
    /**

@@ -25,6 +25,8 @@ class customersController extends Controller
    **/
    public function index(Request $request, $businessCode)
    {
+      $user=$request->user();
+   
       $query = customers::where('business_code',$businessCode);
                            if($request->page_size){
                               $query->paginate($request->page_size);
@@ -34,6 +36,7 @@ class customersController extends Controller
       $customers = $query->OrderBy('id','DESC')->get();
 
       return response()->json([
+         "user"=>$user,
          "success" => true,
          "message" => "Customer List",
          "data" => $customers
