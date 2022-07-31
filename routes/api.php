@@ -82,4 +82,5 @@ Route::group(['namespace' => 'Api'], function () {
    Route::post('/reset-password', 'AuthController@updatePassword');
 
    Route::get('/countOrders','OrdersCountController@index')->middleware('auth:sanctum');
+   Route::get('/countVisits','OrdersCountController@index')->middleware('auth:sanctum');
 });
