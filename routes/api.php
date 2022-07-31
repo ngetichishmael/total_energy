@@ -26,7 +26,6 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('customers/{customerID}/new-order/', 'customersController@new_order');
 
    //products
-   Route::get('cust@mers/{id}','productController@index');
    Route::get('products/{businessCode}', 'productsController@index');
 
    //product categories
@@ -37,7 +36,7 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('deliveries/{businessCode}/{userCode}', 'deliveryController@index');
    Route::get('delivery/{code}/{businessCode}/details', 'deliveryController@details');
 
-   //customer checkin
+   //customer checking
    Route::post('customer/checkin/session',['uses' => 'checkinController@create_checkin_session']);
    Route::get('customer/{CustomerCode}/checkin',['uses' => 'checkinController@checkin','as' => 'customer.checkin']);
    Route::get('checkin/{checkinCode}/stock',['uses' => 'checkinController@stock','as' => 'checkin.stock']);

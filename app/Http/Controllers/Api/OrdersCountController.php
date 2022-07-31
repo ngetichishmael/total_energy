@@ -9,6 +9,7 @@ class OrdersCountController extends Controller
 {
     public function index(){
         
+
         return ModelsOrders::all();
     }
 }
