@@ -7,14 +7,16 @@ use App\Models\Orders as ModelsOrders;
 use Illuminate\Http\Request;
 class OrdersCountController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
+        $user=$request->user()->id;
         
+
         
         $countWeek= ModelsOrders::whereBetween('delivery_date',[
             now()->startOfWeek(),now()->endOfWeek()
         ])
-        ->where('customerID',auth()->user()->id)
+        ->where('customerID',$user)
         ->count();
 
         // SELECT COUNT(*) AS YEAR FROM `orders` WHERE YEAR(`orders`.`delivery_date`)=YEAR(NOW())
@@ -22,15 +24,16 @@ class OrdersCountController extends Controller
         // ->whereYear('created_at', '2016')
         // ->get();
         $countMonth=ModelsOrders::whereMonth('delivery_date',now())
-        ->where('customerID',auth()->user()->id)
+        ->where('customerID',$user)
         ->count();
         $countYear=ModelsOrders::whereYear('delivery_date',now())
-        ->where('customerID',auth()->user()->id)
+        ->where('customerID',$user)
         ->count();
 
         $result = [
             "success" => true,
             "message" => "Orders Per Week, Month and Year respectively ",
+            "User Id"=>$user,
             "CustomerOrderCountThisWeek"=>$countWeek,
             "CustomerOrderCountThisMonth"=>$countMonth,
             "CustomersOrderCountThisYear"=>$countYear,
