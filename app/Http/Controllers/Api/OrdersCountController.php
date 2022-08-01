@@ -39,7 +39,9 @@ class OrdersCountController extends Controller
             "CustomersOrderCountThisYear"=>$countYear,
         ];
 
-        return $result;
+        return response()->json([
+            $result
+        ]);
     }
 }
  

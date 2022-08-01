@@ -35,8 +35,9 @@ class VisitsCountController extends Controller
             "TotalVisitsPerThisMonth"=>$countMonth,
             "TotalVisitsThisYear"=>$countYear,
         ];
-
-        return $result;
+        return response()->json([
+            $result
+        ]);
     }
 
 }
