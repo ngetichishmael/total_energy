@@ -22,14 +22,20 @@ class NewLeadsController extends Controller
         $countYear=ModelsCustomers::whereYear('updated_at',now())
         ->count();
 
-        $result = [
+        // $result = [
+        //     "success" => true,
+        //     "message" => "Orders Per Week, Month and Year respectively ",
+        //     "ThisWeekLeads"=>$countWeek,
+        //     "ThisMonthLeads"=>$countMonth,
+        //     "ThisYearLeads"=>$countYear,
+        // ];
+
+        return response()->json([
             "success" => true,
             "message" => "Orders Per Week, Month and Year respectively ",
             "ThisWeekLeads"=>$countWeek,
             "ThisMonthLeads"=>$countMonth,
             "ThisYearLeads"=>$countYear,
-        ];
-
-        return $result;
+         ]);
     }
 }
