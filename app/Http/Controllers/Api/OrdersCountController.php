@@ -30,17 +30,22 @@ class OrdersCountController extends Controller
         ->where('customerID',$user)
         ->count();
 
-        $result = [
+        // $result = [
+        //     "success" => true,
+        //     "message" => "Orders Per Week, Month and Year respectively ",
+        //     "User Id"=>$user,
+        //     "CustomerOrderCountThisWeek"=>$countWeek,
+        //     "CustomerOrderCountThisMonth"=>$countMonth,
+        //     "CustomersOrderCountThisYear"=>$countYear,
+        // ];
+
+        return response()->json([
             "success" => true,
             "message" => "Orders Per Week, Month and Year respectively ",
             "User Id"=>$user,
             "CustomerOrderCountThisWeek"=>$countWeek,
             "CustomerOrderCountThisMonth"=>$countMonth,
             "CustomersOrderCountThisYear"=>$countYear,
-        ];
-
-        return response()->json([
-            $result
         ]);
     }
 }
