@@ -19,9 +19,10 @@ class SalesMadeController extends Controller
 
         $result= ModelsOrders::where('customerID',$user)
         ->sum('price_total');
+        
         return response()->json([
             "success" => true,
-            "message" => "Total Made ",
+            "message" => "Total Made",
             "TotalSales" => $result,
          ]);
          //15430

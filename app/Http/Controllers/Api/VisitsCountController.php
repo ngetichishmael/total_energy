@@ -28,15 +28,12 @@ class VisitsCountController extends Controller
         ->where('customerID',auth()->user()->id)
         ->count();
 
-        $result = [
+        return response()->json([
             "success" => true,
             "message" => "Visits Per Week, Month and Year respectively ",
             "TotalVisitsPerThisWeek"=>$countWeek,
             "TotalVisitsPerThisMonth"=>$countMonth,
             "TotalVisitsThisYear"=>$countYear,
-        ];
-        return response()->json([
-            $result
         ]);
     }
 
