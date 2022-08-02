@@ -65,7 +65,7 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('latest/allocation/{user_code}',['uses' => 'checkinController@latest_allocation','as' => 'checkin.latest.allocation']);
    Route::get('allocation/history/{user_code}',['uses' => 'checkinController@allocation_history','as' => 'checkin.allocation.history']);
 
-
+   Route::get("/sortedArray","Api\AuthController@logout");
    /*
    |--------------------------------------------------------------------------
    | Authentication
