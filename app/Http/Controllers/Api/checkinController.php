@@ -501,8 +501,11 @@ class checkinController extends Controller
    join('inventory_allocated_items','inventory_allocated_items.allocation_code','=','inventory_allocations.allocation_code')->
          join('product_information','product_information.id','=','inventory_allocated_items.product_code')->
          join('product_price','product_price.productID','=','inventory_allocated_items.product_code')->
-         select('product_information.id','product_information.product_name','product_information.brand','product_information.sku_code','product_price.buying_price','product_price.selling_price','inventory_allocated_items.allocation_code',
-               'inventory_allocated_items.current_qty','inventory_allocated_items.allocated_qty','inventory_allocations.created_at')->
+         select('product_information.id','product_information.product_name','product_information.category','product_information.brand',
+         'product_information.sku_code','product_price.buying_price','product_price.selling_price',
+         'inventory_allocated_items.allocation_code',
+               'inventory_allocated_items.current_qty',
+               'inventory_allocated_items.allocated_qty','inventory_allocations.created_at')->
          where('inventory_allocations.sales_person',$user_code)->limit(5)->get();
 
    // $allocated_items
