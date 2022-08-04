@@ -216,17 +216,34 @@ class customersController extends Controller
    **/
    public function order_details($orderCode){
       $order = Orders::where('order_code',$orderCode)->first();
-      $orderItems = Order_items::join('product_information','product_information.id','=','order_items.productID')
-                              ->where('order_code',$orderCode)
-                              ->orderby('product_information.id','desc')
-                              ->get();
+      $orders=DB::select('SELECT
+      `id`,
+      `order_code`,
+      `productID`,
+      `product_name`,
+      `quantity`,
+      `sub_total`,
+      `total_amount`,
+      `selling_price`,
+      `discount`,
+      `taxrate`,
+      `taxvalue`,
+      `created_at`,
+      `updated_at`
+  FROM
+      `order_items`
+  WHERE `order_code`=?', [$orderCode]);
+      // $orderItems = Order_items::join('product_information','product_information.id','=','order_items.productID')
+      //                         ->where('order_code',$orderCode)
+      //                         ->orderby('product_information.id','desc')
+      //                         ->get();
 
       return response()->json([
          "success"  => true,
          "status"   => 200,
          "message"  => "Customer orders",
          "order" => $order,
-         "order_items" => $orderItems,
+         "order_items" => $orders,
       ]);
    }
 
