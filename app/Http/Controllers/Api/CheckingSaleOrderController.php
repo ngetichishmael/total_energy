@@ -67,7 +67,7 @@ class CheckingSaleOrderController extends Controller
                     `updated_at`
                 )
                 VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
-                [$random, $value["productID"],$value["product_name"],$value["qty"],
+                [$random, $value["productID"],$product->product_name,$value["qty"],
                 $value["qty"] * $product->selling_price, $value["qty"] * $product->selling_price,
                 0,0,0,0, now(),now()
                 ]);
@@ -117,7 +117,7 @@ class CheckingSaleOrderController extends Controller
                     `updated_at`
                 )
                 VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
-                [$random, $value["productID"],$value["product_name"],$value["qty"],
+                [$random, $value["productID"],$product->product_name,$value["qty"],
                 $value["qty"] * $product->selling_price, $value["qty"] * $product->selling_price,
                 0,0,0,0, now(),now()
                 ]);
@@ -185,7 +185,7 @@ class CheckingSaleOrderController extends Controller
                 `updated_at`
             )
             VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
-            [$random, $value["productID"],$value["product_name"],$value["qty"],
+            [$random, $value["productID"],$product->product_name,$value["qty"],
             $value["qty"] * $product->selling_price, $value["qty"] * $product->selling_price,
             0,0,0,0, now(),now()
             ]);
@@ -236,7 +236,7 @@ class CheckingSaleOrderController extends Controller
                     `updated_at`
                 )
                 VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
-                [$random, $value["productID"],$value["product_name"],$value["qty"],
+                [$random, $value["productID"],$product->product_name,$value["qty"],
                 $value["qty"] * $product->selling_price, $value["qty"] * $product->selling_price,
                 0,0,0,0, now(),now()
                 ]);
