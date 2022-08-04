@@ -20,6 +20,7 @@ class SalesHistoryController extends Controller
         $query = DB::select('SELECT
         `customerID`,
         `user_code`,
+        `order_code`,
         `price_total`,
         `order_status`,
         `payment_status`,
