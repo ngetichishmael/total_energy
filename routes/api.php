@@ -42,8 +42,21 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('customer/{CustomerCode}/checkin',['uses' => 'checkinController@checkin','as' => 'customer.checkin']);
    Route::get('checkin/{checkinCode}/stock',['uses' => 'checkinController@stock','as' => 'checkin.stock']);
    Route::get('checkin/{checkinCode}/out',['uses' => 'checkinController@checkout','as' => 'check.out']);
-  // Route::post('checkin/{checkinCode}/add-to-cart',['uses' => 'checkinController@add_to_cart','as' => 'add.to.cart']);
-Route::post('checkin/{checkinCode}/add-to-cart','checkinController@add_to_cart')->middleware('auth:sanctum');
+  
+  
+  
+   // Route::post('checkin/{checkinCode}/add-to-cart',['uses' => 'checkinController@add_to_cart','as' => 'add.to.cart']);
+  //Route::post('checkin/{checkinCode}/add-to-cart','checkinController@add_to_cart')->middleware('auth:sanctum');
+
+  // Van Sales 
+  Route::post('checkin/vansales/{checkinCode}/add-to-cart','CheckingSaleOrderController@VanSales')->middleware('auth:sanctum');
+
+  //New Sales Order
+
+  Route::post('checkin/newsales/{checkinCode}/add-to-cart/{SalesOrder}/','CheckingSaleOrderController@NewSales')->middleware('auth:sanctum');
+
+
+
 
    Route::get('checkin/{checkinCode}/cart',['uses' => 'checkinController@cart','as' => 'checkin.cart']);
    Route::post('checkin/{checkinCode}/order-save',['uses' => 'checkinController@save_order','as' => 'checkin.order.save']);
@@ -90,5 +103,5 @@ Route::post('checkin/{checkinCode}/add-to-cart','checkinController@add_to_cart')
    Route::get('/SalesMade','SalesMadeController@index')->middleware('auth:sanctum');
    Route::get('/NewLeads','NewLeadsController@index')->middleware('auth:sanctum');
    Route::get('/NewLeads','NewLeadsController@index')->middleware('auth:sanctum');
-   Route::get('/SalesHistory','SalesHistoryController@index')->middleware('auth:sanctum');
+   Route::get('/SalesHistory/{shopID}','SalesHistoryController@index')->middleware('auth:sanctum');
 });

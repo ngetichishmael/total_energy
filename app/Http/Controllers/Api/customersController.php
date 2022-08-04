@@ -236,7 +236,9 @@ class customersController extends Controller
    * @param string $customerID this is the customer ID
    **/
    public function new_order($customerID){
-      $orders = Orders::where('customerID',$customerID)->where('order_status','Pending Delivery')->orderby('orders.id','desc')->get();
+      $orders = Orders::where('customerID',$customerID)
+      ->where('order_status','Pending Delivery')
+      ->orderby('orders.id','desc')->get();
 
       return response()->json([
          "success"  => true,
