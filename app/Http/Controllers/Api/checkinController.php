@@ -178,7 +178,8 @@ class checkinController extends Controller
       // ]);
 
       $checkin = checkin::where('code',$checkinCode)->first();
-      $user_code= request()->user->user_code;
+      $user_code= $request->user()->user_code;
+      $user=$request->user()->id;
 
 	$request = $request->all();
  		 //array_pop($request);
