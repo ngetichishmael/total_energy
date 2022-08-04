@@ -16,9 +16,6 @@ class SalesHistoryController extends Controller
         $checking = checkin::where('customer_id', $shopID)->first();
         $user_code = $request->user()->user_code;
         $customerID = $request->customer_id;
-        $name = customers::select('customer_name')
-            ->where('account', $customerID)
-            ->first();
 
         $query = DB::select('SELECT
         `customerID`,
@@ -32,15 +29,9 @@ class SalesHistoryController extends Controller
     FROM
         `orders` where `user_code`=? AND `customerID`=?', [$user_code, $shopID]);
 
-        $data = [
-            "name" => $name,
-            "Data" => $query
-        ];
-
         return response()->json([
             "success" => true,
-            "message" => "Product added to order",
-            "name" => $name,
+            "message" => "Sales / Van Sales",
             "Data" => $query
         ]);
     }
