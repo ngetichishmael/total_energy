@@ -34,7 +34,8 @@ class CheckingSaleOrderController extends Controller
                 $cart->total_amount = $value["qty"] * $product->selling_price;
                 $cart->userID = $user_code;
                 $cart->save();
-
+                $random=Str::random(8);
+ 
                 DB::insert('INSERT INTO `orders`
 
                 (`order_code`,`user_code`,`customerID`,
@@ -45,11 +46,32 @@ class CheckingSaleOrderController extends Controller
     
                 VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?,?)', 
     
-                [Str::random(8), $user_code, $checkin->customer_id, 
+                [$random, $user_code, $checkin->customer_id, 
                 $value["qty"] * $product->selling_price, '0', 
                 'Pending Delivery', 'Pending Payment', $value["qty"], 
                 $checkinCode, 'Van Sale', now(), $checkin->business_code, 
                 now() ]);
+
+                DB::insert('INSERT INTO `order_items`(
+                    `order_code`,
+                    `productID`,
+                    `product_name`,
+                    `quantity`,
+                    `sub_total`,
+                    `total_amount`,
+                    `selling_price`,
+                    `discount`,
+                    `taxrate`,
+                    `taxvalue`,
+                    `created_at`,
+                    `updated_at`
+                )
+                VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
+                [$random, $value["productID"],$value["product_name"],$value["qty"],
+                $value["qty"] * $product->selling_price, $value["qty"] * $product->selling_price,
+                0,0,0,0, now(),now()
+                ]);
+    
             } else {
                 $cart = new Cart;
                 $cart->productID = $value["productID"];
@@ -62,6 +84,7 @@ class CheckingSaleOrderController extends Controller
                 $cart->total_amount = $value["qty"] * $product->selling_price;
                 $cart->checkin_code = $checkinCode;
                 $cart->save();
+                $random=Str::random(8);
                 DB::insert('INSERT INTO `orders`
 
                 (`order_code`,`user_code`,`customerID`,
@@ -72,11 +95,33 @@ class CheckingSaleOrderController extends Controller
     
                 VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?,?)', 
     
-                [ Str::random(8), $user_code, $checkin->customer_id, 
+                [ $random, $user_code, $checkin->customer_id, 
                 $value["qty"] * $product->selling_price, '0', 
                 'Pending Delivery', 'Pending Payment', $value["qty"], 
                 $checkinCode, 'Van Sale', now(), $checkin->business_code, 
                 now() ]);
+
+
+                DB::insert('INSERT INTO `order_items`(
+                    `order_code`,
+                    `productID`,
+                    `product_name`,
+                    `quantity`,
+                    `sub_total`,
+                    `total_amount`,
+                    `selling_price`,
+                    `discount`,
+                    `taxrate`,
+                    `taxvalue`,
+                    `created_at`,
+                    `updated_at`
+                )
+                VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
+                [$random, $value["productID"],$value["product_name"],$value["qty"],
+                $value["qty"] * $product->selling_price, $value["qty"] * $product->selling_price,
+                0,0,0,0, now(),now()
+                ]);
+    
             }                       
         }
         return response()->json([
@@ -107,7 +152,8 @@ class CheckingSaleOrderController extends Controller
                 $cart->total_amount = $value["qty"] * $product->selling_price;
                 $cart->userID = $user_code;
                 $cart->save();
-
+                
+                $random= Str::random(8);
                 DB::insert('INSERT INTO `orders`
 
                 (`order_code`,`user_code`,`customerID`,
@@ -118,11 +164,34 @@ class CheckingSaleOrderController extends Controller
     
                 VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?,?)', 
     
-                [ Str::random(8), $user_code, $checkin->customer_id, 
+                [ $random, $user_code, $checkin->customer_id, 
                 $value["qty"] * $product->selling_price, '0', 
                 'Pending Delivery', 'Pending Payment', $value["qty"], 
                 $checkinCode, 'Van Sale', now(), $checkin->business_code, 
                 now() ]);
+
+            DB::insert('INSERT INTO `order_items`(
+                `order_code`,
+                `productID`,
+                `product_name`,
+                `quantity`,
+                `sub_total`,
+                `total_amount`,
+                `selling_price`,
+                `discount`,
+                `taxrate`,
+                `taxvalue`,
+                `created_at`,
+                `updated_at`
+            )
+            VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
+            [$random, $value["productID"],$value["product_name"],$value["qty"],
+            $value["qty"] * $product->selling_price, $value["qty"] * $product->selling_price,
+            0,0,0,0, now(),now()
+            ]);
+
+
+
             } else {
                 $cart = new Cart;
                 $cart->productID = $value["productID"];
@@ -135,8 +204,9 @@ class CheckingSaleOrderController extends Controller
                 $cart->total_amount = $value["qty"] * $product->selling_price;
                 $cart->checkin_code = $checkinCode;
                 $cart->save();
+                $random= Str::random(8);
                 DB::insert('INSERT INTO `orders`
-
+                
                 (`order_code`,`user_code`,`customerID`,
                 `price_total`,`balance`,`order_status`,
                 `payment_status`,`qty`,`checkin_code`,
@@ -145,12 +215,35 @@ class CheckingSaleOrderController extends Controller
     
                 VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?,?)', 
     
-                [Str::random(8), $user_code, $checkin->customer_id, 
+                [$random, $user_code, $checkin->customer_id, 
                 $value["qty"] * $product->selling_price, '0', 
                 'Pending Delivery', 'Pending Payment', $value["qty"], 
                 $checkinCode, 'Pre Order', now(), $checkin->business_code, 
                 now() ]);
-            }                       
+
+                DB::insert('INSERT INTO `order_items`(
+                    `order_code`,
+                    `productID`,
+                    `product_name`,
+                    `quantity`,
+                    `sub_total`,
+                    `total_amount`,
+                    `selling_price`,
+                    `discount`,
+                    `taxrate`,
+                    `taxvalue`,
+                    `created_at`,
+                    `updated_at`
+                )
+                VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
+                [$random, $value["productID"],$value["product_name"],$value["qty"],
+                $value["qty"] * $product->selling_price, $value["qty"] * $product->selling_price,
+                0,0,0,0, now(),now()
+                ]);
+    
+                
+            }   
+
         }
         return response()->json([
             "success" => true,
