@@ -22,6 +22,7 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('customers/{customerID}/{businessCode}/deliveries', 'customersController@deliveries');
    Route::get('customers/delivery/{code}/details', 'customersController@delivery_details');
    Route::get('customers/{customerID}/orders', 'customersController@orders');
+   
    Route::get('customers/order/{orderCode}/details', 'customersController@order_details');
    Route::get('customers/{customerID}/new-order/', 'customersController@new_order');
 
@@ -45,6 +46,7 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('checkin/{checkinCode}/cart',['uses' => 'checkinController@cart','as' => 'checkin.cart']);
    Route::post('checkin/{checkinCode}/order-save',['uses' => 'checkinController@save_order','as' => 'checkin.order.save']);
    Route::get('checkin/{checkinCode}/cart/{id}/delete',['uses' => 'checkinController@cart_delete','as' => 'checkin.cart.delete']);
+
    Route::get('checkin/{checkinCode}/orders',['uses' => 'checkinController@orders','as' => 'checkin.orders']);
 
    Route::post('checkin/{checkinCode}/order/edit/reason',['uses' => 'checkinController@order_edit_reason','as' => 'checkin.order.edit.reason']);
@@ -58,14 +60,14 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('checkin/{checkinCode}/visits',['uses' => 'checkinController@visits','as' => 'checkin.visits']);
    Route::post('checkin/{checkinCode}/visit/add',['uses' => 'checkinController@visit_add','as' => 'checkin.visit.add']);
 
-   //checkin visits
+   //checkin visits *History *
    Route::get('checkin/{checkinCode}/order/{orderID}/details',['uses' => 'checkinController@order_details','as' => 'checkin.order.details']);
+   
    Route::get('checkin/{checkinCode}/order/{orderID}/print',['uses' => 'checkinController@order_print','as' => 'checkin.order.print']);
 
    Route::get('latest/allocation/{user_code}',['uses' => 'checkinController@latest_allocation','as' => 'checkin.latest.allocation']);
    Route::get('allocation/history/{user_code}',['uses' => 'checkinController@allocation_history','as' => 'checkin.allocation.history']);
 
-   Route::get("/sortedArray","Api\AuthController@logout");
    /*
    |--------------------------------------------------------------------------
    | Authentication
@@ -85,4 +87,6 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('/countVisits','VisitsCountController@index')->middleware('auth:sanctum');
    Route::get('/SalesMade','SalesMadeController@index')->middleware('auth:sanctum');
    Route::get('/NewLeads','NewLeadsController@index')->middleware('auth:sanctum');
+   Route::get('/NewLeads','NewLeadsController@index')->middleware('auth:sanctum');
+   Route::get('/SalesHistory','SalesHistoryController@index')->middleware('auth:sanctum');
 });

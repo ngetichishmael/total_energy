@@ -178,9 +178,10 @@ class checkinController extends Controller
       // ]);
 
       $checkin = checkin::where('code',$checkinCode)->first();
+      $user_code= request()->user->user_code;
 
 	$request = $request->all();
- 		 array_pop($request);
+ 		 //array_pop($request);
   	foreach($request as $value) {
 
          $product = product_information::join('product_price','product_price.productID','=','product_information.id')
@@ -196,7 +197,7 @@ class checkinController extends Controller
             $cart->price = $product->selling_price;
             $cart->amount = $value["qty"] * $product->selling_price;
             $cart->total_amount = $value["qty"] * $product->selling_price;
-            $cart->userID = $checkin->user_code;
+            $cart->userID = $user_code;
             $cart->save();
          }else{
             $cart = new Cart;
@@ -205,7 +206,7 @@ class checkinController extends Controller
             $cart->qty = $value["qty"];
             $cart->price = $product->selling_price;
             $cart->amount = $value["qty"] * $product->selling_price;
-            $cart->userID = $checkin->user_code;
+            $cart->userID = $user_code;
             $cart->customer_account = $checkin->account_number;
             $cart->total_amount = $value["qty"] * $product->selling_price;
             $cart->checkin_code = $checkinCode;
@@ -225,8 +226,6 @@ class checkinController extends Controller
 
 
       // Session::flash('success','Product added to order');
-
-      
 
    }
 
