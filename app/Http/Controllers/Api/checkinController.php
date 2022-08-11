@@ -500,7 +500,8 @@ class checkinController extends Controller
    join('inventory_allocated_items','inventory_allocated_items.allocation_code','=','inventory_allocations.allocation_code')->
          join('product_information','product_information.id','=','inventory_allocated_items.product_code')->
          join('product_price','product_price.productID','=','inventory_allocated_items.product_code')->
-         select('product_information.id','product_information.product_name','product_information.category','product_information.brand',
+         select('product_information.id','product_information.product_name',
+         'product_information.category','product_information.brand',
          'product_information.sku_code','product_price.buying_price','product_price.selling_price',
          'inventory_allocated_items.allocation_code',
                'inventory_allocated_items.current_qty',
@@ -521,7 +522,9 @@ class checkinController extends Controller
    * @bodyParam user_code
    **/
   public function allocation_history($user_code){
-         $allocation = allocations::join('inventory_allocated_items','inventory_allocated_items.allocation_code','=','inventory_allocations.allocation_code')->
+         $allocation = allocations::
+         join('inventory_allocated_items','inventory_allocated_items.allocation_code'
+         ,'=','inventory_allocations.allocation_code')->
          join('product_information','product_information.id','=','inventory_allocated_items.product_code')->
          join('product_price','product_price.productID','=','inventory_allocated_items.product_code')->
          select('product_information.product_name','product_information.brand','product_information.sku_code','product_price.buying_price','product_price.selling_price','inventory_allocated_items.allocation_code',

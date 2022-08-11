@@ -104,4 +104,7 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('/NewLeads','NewLeadsController@index')->middleware('auth:sanctum');
    Route::get('/NewLeads','NewLeadsController@index')->middleware('auth:sanctum');
    Route::get('/SalesHistory/{shopID}','SalesHistoryController@index')->middleware('auth:sanctum');
+
+   Route::post('/scheduleVisit/{CustomerAccountNumber}','VisitScheduleController@NewVisit')->middleware('auth:sanctum');
+   Route::get('/scheduleVisit/checkAll','VisitScheduleController@index')->middleware('auth:sanctum');
 });

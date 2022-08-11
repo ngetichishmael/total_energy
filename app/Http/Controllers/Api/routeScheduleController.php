@@ -31,9 +31,9 @@ class routeScheduleController extends Controller
      
      $show_routes = FacadesDB::table('route_sales')
      ->where('route_sales.userID', $id)
-     ->join('routes', 'routes.route_code', '=', 'route_sales.routeID')
-     ->join('route_customer', 'route_customer.routeID', '=', 'route_sales.routeID' )
-     ->join('customers', 'customers.id', '=', 'route_customer.customerID')
+     ->leftJoin('routes', 'routes.route_code', '=', 'route_sales.routeID')
+     ->leftJoin('route_customer', 'route_customer.routeID', '=', 'route_sales.routeID' )
+     ->leftJoin('customers', 'customers.id', '=', 'route_customer.customerID')
      ->select('routes.name','routes.route_code','routes.status','routes.start_date','routes.end_date','customers.customer_name')
      
      ->get();
