@@ -1,6 +1,4 @@
 <?php
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -106,5 +104,6 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('/SalesHistory/{shopID}','SalesHistoryController@index')->middleware('auth:sanctum');
 
    Route::post('/scheduleVisit/{CustomerAccountNumber}','VisitScheduleController@NewVisit')->middleware('auth:sanctum');
-   Route::get('/scheduleVisit/checkAll','VisitScheduleController@index')->middleware('auth:sanctum');
+   Route::get('/scheduleVisit/checkAll','AddNewRouteController@index')->middleware('auth:sanctum');
+   Route::post('/AddNewRoute','AddNewRouteController@store')->middleware('auth:sanctum');
 });
