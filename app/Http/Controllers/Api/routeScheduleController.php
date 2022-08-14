@@ -34,7 +34,8 @@ class routeScheduleController extends Controller
      ->leftJoin('routes', 'routes.route_code', '=', 'route_sales.routeID')
      ->leftJoin('route_customer', 'route_customer.routeID', '=', 'route_sales.routeID' )
      ->leftJoin('customers', 'customers.id', '=', 'route_customer.customerID')
-     ->select('routes.*','customers.customer_name')
+     ->select('routes.name','routes.route_code','routes.status','routes.start_date','routes.end_date',
+              'customers.*')
      
      ->get();
      return response()->json([
