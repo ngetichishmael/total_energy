@@ -13,9 +13,9 @@ class SalesHistoryController extends Controller
 {
     public function index(Request $request, $shopID)
     {
-        $checking = checkin::where('customer_id', $shopID)->first();
+        //$checking = checkin::where('customer_id', $shopID)->first();
         $user_code = $request->user()->user_code;
-        $customerID = $request->customer_id;
+        //$customerID = $request->customer_id;
 
         $query = DB::select('SELECT
         `customerID`,
@@ -29,6 +29,56 @@ class SalesHistoryController extends Controller
         `created_at`
     FROM
         `orders` where `user_code`=? AND `customerID`=?', [$user_code, $shopID]);
+
+        return response()->json([
+            "success" => true,
+            "message" => "Sales / Van Sales",
+            "Data" => $query
+        ]);
+    }
+    public function vansales(Request $request, $shopID)
+    {
+        //$checking = checkin::where('customer_id', $shopID)->first();
+        $user_code = $request->user()->user_code;
+        //$customerID = $request->customer_id;
+        $vansales='order_type';
+        $query = DB::select('SELECT
+        `customerID`,
+        `user_code`,
+        `order_code`,
+        `price_total`,
+        `order_status`,
+        `payment_status`,
+        `checkin_code`,
+        `order_type`,
+        `created_at`
+    FROM
+        `orders`  where `order_type`=? AND `user_code`=? AND `customerID`=?', [$vansales,$user_code, $shopID]);
+
+        return response()->json([
+            "success" => true,
+            "message" => "Sales / Van Sales",
+            "Data" => $query
+        ]);
+    }
+    public function preorder(Request $request, $shopID)
+    {
+        //$checking = checkin::where('customer_id', $shopID)->first();
+        $user_code = $request->user()->user_code;
+       // $customerID = $request->customer_id;
+        $presales='order_type';
+        $query = DB::select('SELECT
+        `customerID`,
+        `user_code`,
+        `order_code`,
+        `price_total`,
+        `order_status`,
+        `payment_status`,
+        `checkin_code`,
+        `order_type`,
+        `created_at`
+    FROM
+        `orders` where `order_type`=? AND `user_code`=? AND `customerID`=?', [$presales,$user_code, $shopID]);
 
         return response()->json([
             "success" => true,
