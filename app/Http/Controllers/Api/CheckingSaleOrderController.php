@@ -39,7 +39,7 @@ class CheckingSaleOrderController extends Controller
         //        ->first();
                $total+=$value['qty'] * $product->selling_price;
                $quanty+=$value['qty'] ;
-                $checkInCart = Cart::where('checkin_code', $checkinCode)->where('productID', 15)->count();
+                $checkInCart = Cart::where('checkin_code', $checkinCode)->where('productID', $value["productID"])->count();
                 if ($checkInCart > 0) {
                     $cart = Cart::where('checkin_code', $checkinCode)->where('productID', $value["productID"])->first();
                     $cart->qty = $value['qty'] ;
