@@ -1,11 +1,14 @@
 <?php
+
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\customer\checkin;
 use App\Models\products\product_information;
 use App\Models\Cart;
+use App\Models\inventory\items;
 use App\Models\Orders as Order;
 use Illuminate\Support\Facades\DB;
 
@@ -13,27 +16,32 @@ use Illuminate\Support\Facades\DB;
 class CheckingSaleOrderController extends Controller
 {
 
-    public function amount(Request $request,$checkinCode){
+    public function amount(Request $request, $checkinCode)
+    {
         $checkin = checkin::where('code', $checkinCode)->first();
         $request = $request->all();
-        $total=0;
+        $total = 0;
         array_pop($request);
-        foreach ($request as $value){
-            $product = product_information::join('product_price',
-            'product_price.productID', '=', 'product_information.id')
-           ->where('product_information.id', $value["productID"])
-           ->where('product_information.business_code', $checkin->business_code)
-           ->first();
-           $total_amount = $value["qty"] * $product->selling_price;
-           $total+=$total_amount;
+        foreach ($request as $value) {
+            $product = product_information::join(
+                'product_price',
+                'product_price.productID',
+                '=',
+                'product_information.id'
+            )
+                ->where('product_information.id', $value["productID"])
+                ->where('product_information.business_code', $checkin->business_code)
+                ->first();
+            $total_amount = $value["qty"] * $product->selling_price;
+            $total += $total_amount;
         }
         return $total;
-        }
+    }
 
     //Start Vansales
     public function VanSales(Request $request, $checkinCode)
     {
-        $amountRequest=$request;
+        $amountRequest = $request;
         $checkin = checkin::where('code', $checkinCode)->first();
         $user_code = $request->user()->user_code;
         $request = $request->all();
@@ -71,6 +79,14 @@ class CheckingSaleOrderController extends Controller
                 $cart->checkin_code = $checkinCode;
                 $cart->save();
             }
+
+            DB::update('UPDATE
+            inventory_allocated_items
+        SET
+            current_qty =current_qty-?,
+            updated_at = ?
+        WHERE
+            product_code= ?',[$value["qty"], now(), $value["productID"]]);
         }
 
         DB::insert(
@@ -91,17 +107,17 @@ class CheckingSaleOrderController extends Controller
         VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?,?)',
 
             [
-                $random, 
-                $user_code, 
+                $random,
+                $user_code,
                 $checkin->customer_id,
                 $this->amount($amountRequest, $checkinCode),
                 $this->amount($amountRequest, $checkinCode),
-                'Pending Delivery', 
-                'Pending Payment', 
+                'Pending Delivery',
+                'Pending Payment',
                 $value["qty"],
-                $checkinCode, 
-                'Van sales', 
-                now(), 
+                $checkinCode,
+                'Van sales',
+                now(),
                 $checkin->business_code,
                 now()
             ]
@@ -123,17 +139,17 @@ class CheckingSaleOrderController extends Controller
         )
         VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
             [
-                $random, 
-                $value["productID"], 
-                $product->product_name, 
+                $random,
+                $value["productID"],
+                $product->product_name,
                 $value["qty"],
-                $value["qty"] * $product->selling_price, 
                 $value["qty"] * $product->selling_price,
-                0, 
-                0, 
-                0, 
-                0, 
-                now(), 
+                $value["qty"] * $product->selling_price,
+                0,
+                0,
+                0,
+                0,
+                now(),
                 now()
             ]
         );
@@ -150,7 +166,7 @@ class CheckingSaleOrderController extends Controller
     // Beginning of NewSales
     public function NewSales(Request $request, $checkinCode)
     {
-        $amountRequest=$request;
+        $amountRequest = $request;
         $checkin = checkin::where('code', $checkinCode)->first();
         $user_code = $request->user()->user_code;
         $request = $request->all();
@@ -243,10 +259,10 @@ class CheckingSaleOrderController extends Controller
         VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
             [
                 $random,
-                $value["productID"], 
-                $product->product_name, 
+                $value["productID"],
+                $product->product_name,
                 $value["qty"],
-                $value["qty"] * $product->selling_price, 
+                $value["qty"] * $product->selling_price,
                 $value["qty"] * $product->selling_price,
                 0, 0, 0, 0, now(), now()
             ]

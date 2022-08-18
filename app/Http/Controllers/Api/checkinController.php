@@ -530,6 +530,7 @@ class checkinController extends Controller
                'inventory_allocated_items.current_qty',
                'inventory_allocated_items.allocated_qty','inventory_allocations.created_at')->
          where('inventory_allocations.sales_person',$user_code)->limit(5)->get();
+         info($allocation);
 
    // $allocated_items
    return response()->json([
