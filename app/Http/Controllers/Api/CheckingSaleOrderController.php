@@ -39,35 +39,38 @@ class CheckingSaleOrderController extends Controller
         $request = $request->all();
         array_pop($request);
         foreach ($request as $value) {
-            $product = product_information::join(
-                'product_price',
-                'product_price.productID',
-                '=',
-                'product_information.id'
-            )
-                ->where('product_information.id', $value["productID"])
-                ->where('product_information.business_code', $checkin->business_code)
-                ->first();
+            
+            // $product = product_information::join(
+            //     'product_price','product_price.productID','=',
+            //     'product_information.id')
+            //     ->where('product_information.id', $value["productID"])
+            //     ->where('product_information.business_code', $checkin->business_code)
+            //     ->first();
+            $product =DB::select('SELECT * FROM `product_information` INNER JOIN `product_price` 
+            ON `product_price`.`productID` =`product_information`.`id`
+            WHERE `product_information`.`id` =? AND `product_information`.`business_code`
+             =? LIMIT 1;
+            ', [$value["productID"],$checkin->business_code]);
             $random = Str::random(8);
             $checkInCart = Cart::where('checkin_code', $checkinCode)->where('productID', $value["productID"])->count();
             if ($checkInCart > 0) {
                 $cart = Cart::where('checkin_code', $checkinCode)->where('productID', $value["productID"])->first();
                 $cart->qty = $value["qty"];
-                $cart->price = $product->selling_price;
-                $cart->amount = $value["qty"] * $product->selling_price;
-                $cart->total_amount = $value["qty"] * $product->selling_price;
+                $cart->price = $product()->selling_price;
+                $cart->amount = $value["qty"] * $product()->selling_price;
+                $cart->total_amount = $value["qty"] * $product()->selling_price;
                 $cart->userID = $user_code;
                 $cart->save();
             } else {
                 $cart = new Cart;
                 $cart->productID = $value["productID"];
-                $cart->product_name = $product->product_name;
+                $cart->product_name = $product()->product_name;
                 $cart->qty = $value["qty"];
-                $cart->price = $product->selling_price;
-                $cart->amount = $value["qty"] * $product->selling_price;
+                $cart->price = $product()->selling_price;
+                $cart->amount = $value["qty"] * $product()->selling_price;
                 $cart->userID = $user_code;
                 $cart->customer_account = $checkin->account_number;
-                $cart->total_amount = $value["qty"] * $product->selling_price;
+                $cart->total_amount = $value["qty"] * $product()->selling_price;
                 $cart->checkin_code = $checkinCode;
                 $cart->save();
             }
@@ -165,31 +168,39 @@ class CheckingSaleOrderController extends Controller
         $request = $request->all();
         array_pop($request);
         foreach ($request as $value) {
-            $product = product_information::join(
-                'product_price','product_price.productID',
-                '=','product_information.id')
-                ->where('product_information.id', $value["productID"])
-                ->where('product_information.business_code', $checkin->business_code)
-                ->first();
+            $product =DB::select('SELECT * FROM `product_information` INNER JOIN `product_price` 
+            ON `product_price`.`productID` =`product_information`.`id`
+            WHERE `product_information`.`id` =? AND `product_information`.`business_code`
+             =? LIMIT 1;
+            ', [$value["productID"],$checkin->business_code]);
+
+
+
+            // $product = product_information::join(
+            //     'product_price','product_price.productID',
+            //     '=','product_information.id')
+            //     ->where('product_information.id', $value["productID"])
+            //     ->where('product_information.business_code', $checkin->business_code)
+            //     ->first();
             $checkInCart = Cart::where('checkin_code', $checkinCode)->where('productID', $value["productID"])->count();
             if ($checkInCart > 0) {
                 $cart = Cart::where('checkin_code', $checkinCode)->where('productID', $value["productID"])->first();
                 $cart->qty = $value["qty"];
-                $cart->price = $product->selling_price;
-                $cart->amount = $value["qty"] * $product->selling_price;
-                $cart->total_amount = $value["qty"] * $product->selling_price;
+                $cart->price = $product()->selling_price;
+                $cart->amount = $value["qty"] * $product()->selling_price;
+                $cart->total_amount = $value["qty"] * $product()->selling_price;
                 $cart->userID = $user_code;
                 $cart->save();
             } else {
                 $cart = new Cart;
                 $cart->productID = $value["productID"];
-                $cart->product_name = $product->product_name;
+                $cart->product_name = $product()->product_name;
                 $cart->qty = $value["qty"];
-                $cart->price = $product->selling_price;
-                $cart->amount = $value["qty"] * $product->selling_price;
+                $cart->price = $product()->selling_price;
+                $cart->amount = $value["qty"] * $product()->selling_price;
                 $cart->userID = $user_code;
                 $cart->customer_account = $checkin->account_number;
-                $cart->total_amount = $value["qty"] * $product->selling_price;
+                $cart->total_amount = $value["qty"] * $product()->selling_price;
                 $cart->checkin_code = $checkinCode;
                 $cart->save();
             }
