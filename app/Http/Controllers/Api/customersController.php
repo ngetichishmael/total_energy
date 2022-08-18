@@ -229,7 +229,15 @@ class customersController extends Controller
       $order = Orders::where('order_code', $orderCode)->first();
       $user = DB::table('orders')->where('order_code', $orderCode)->first();
       $orders = DB::select('SELECT
-         *
+               `productID`,
+               `product_name`,
+               `qty`,
+               `price`,
+               `amount`,
+               `total_amount`,
+               `userID`,
+               `checkin_code`,
+               `customer_account`
           FROM
             `order_cart`
           WHERE `checkin_code`=?', [$user->checkin_code]);
