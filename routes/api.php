@@ -115,4 +115,9 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('/scheduleVisit/checkAll','AddNewRouteController@index')->middleware('auth:sanctum');
    Route::post('/AddNewRoute','AddNewRouteController@store')->middleware('auth:sanctum');
    Route::post('/payment','PaymentController@index')->middleware('auth:sanctum');
+
+
+   //Stock Lift
+
+   Route::post('/stocklift','StockLiftController@index')->middleware('auth:sanctum');
 });
