@@ -363,7 +363,7 @@ class checkinController extends Controller
       $orderItems = Order_items::where('order_code',$orderID)->orderby('id','desc')->get();
       $checkin = checkin::join('users','users.user_code','=','customer_checkin.user_code')
                         ->where('code',$order->checkin_code)
-                        ->first();
+                        ->get();
 
       return response()->json([
          "success" => true,
