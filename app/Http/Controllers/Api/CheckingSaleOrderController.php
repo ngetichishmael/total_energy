@@ -78,7 +78,7 @@ class CheckingSaleOrderController extends Controller
             '=',
             'product_information.id'
         )
-            ->where('product_information.id', $$request()->get["productID"])
+            ->where('product_information.id', $request()->get["productID"])
             ->where('product_information.business_code', $checkin->business_code)
             ->first();
         $random = Str::random(8);
@@ -166,12 +166,9 @@ class CheckingSaleOrderController extends Controller
         array_pop($request);
         foreach ($request as $value) {
             $product = product_information::join(
-                'product_price',
-                'product_price.productID',
-                '=',
-                'product_information.id'
-            )
-                ->where('product_information.id', $request()->get["productID"])
+                'product_price','product_price.productID',
+                '=','product_information.id')
+                ->where('product_information.id', $value["productID"])
                 ->where('product_information.business_code', $checkin->business_code)
                 ->first();
             $checkInCart = Cart::where('checkin_code', $checkinCode)->where('productID', $value["productID"])->count();
@@ -197,13 +194,14 @@ class CheckingSaleOrderController extends Controller
                 $cart->save();
             }
         }
+
         $product = product_information::join(
             'product_price',
             'product_price.productID',
             '=',
             'product_information.id'
         )
-            ->where('product_information.id', $value["productID"])
+            ->where('product_information.id', $amountRequest->query('productID'))
             ->where('product_information.business_code', $checkin->business_code)
             ->first();
         $random = Str::random(8);
@@ -234,7 +232,7 @@ class CheckingSaleOrderController extends Controller
                 $this->amount($amountRequest, $checkinCode),
                 'Pending Delivery',
                 'Pending Payment',
-                $request()->get["qty"],
+                $amountRequest->query('qty'),
                 $checkinCode,
                 'Pre Order',
                 now(),
@@ -261,11 +259,11 @@ class CheckingSaleOrderController extends Controller
         VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
             [
                 $random,
-                $$request()->get["productID"], 
+                $request()->get["productID"], 
                 $product->product_name, 
                 $request()->get["qty"],
                 $request["qty"] * $product->selling_price, 
-                $$request()->get["qty"] * $product->selling_price,
+                $request()->get["qty"] * $product->selling_price,
                 0, 0, 0, 0, now(), now()
             ]
         );
