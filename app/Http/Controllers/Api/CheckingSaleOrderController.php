@@ -72,7 +72,7 @@ class CheckingSaleOrderController extends Controller
                 $cart->save();
             }
         }
-
+        $random = Str::random(8);
         DB::insert(
             'INSERT INTO `orders`(
             `order_code`,
