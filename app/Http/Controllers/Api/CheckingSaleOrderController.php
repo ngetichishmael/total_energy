@@ -167,7 +167,7 @@ class CheckingSaleOrderController extends Controller
                 [ $random, $user_code, $checkin->customer_id, 
                 $value["qty"] * $product->selling_price, '0', 
                 'Pending Delivery', 'Pending Payment', $value["qty"], 
-                $checkinCode, 'Van Sale', now(), $checkin->business_code, 
+                $checkinCode, 'Pre Order', now(), $checkin->business_code, 
                 now() ]);
 
             DB::insert('INSERT INTO `order_items`(
