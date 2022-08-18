@@ -15,31 +15,12 @@ class PaymentController extends Controller
     {
 
         $orderID = $request->get('orderID');
-        // $checking_code = DB::select('SELECT `checkin_code` FROM `orders` WHERE `order_code`=?', [$orderID]);
-        // $data =$checking_code;
         $checking_code = DB::table('orders')->where('order_code', $orderID)->first();
         $code =$checking_code->checkin_code;
-        $total = DB::select('SELECT `total_amount` FROM `order_cart` WHERE `checkin_code`=?', [$code]);
         $amount = $request->get('amount');
         $transactionID = $request->get('transactionID');
         $paymentMethod = $request->get('paymentMethod');
-        //$userID = $request->user()->id;
-        $balance = (float)$total - $amount;
-
-    //     $query = DB::insert('INSERT INTO `order_payments`(
-    //     `amount`,
-    //     `balance`,
-    //     `payment_date`,
-    //     `payment_method`,
-    //     `reference_number`,
-    //     `order_id`,
-    //     `user_id`,
-    //     `created_at`,
-    //     `updated_at`
-    // )
-    // VALUES(?,?,?,?,?,?,?,?,?', [$amount, $balance, now(), $paymentMethod, 
-    //                            $transactionID, $orderID, $userID, now(), now()]);
-
+        $balance = $checking_code->balance - $amount;
 
    Payment::where('order_id', '=', $orderID)
     ->update([
@@ -55,7 +36,7 @@ class PaymentController extends Controller
 
   Orders::where('order_code', '=', $orderID)
     ->update([
-            'balance'=>$amount,
+            'balance'=>$balance,
             'order_status'=>'DELIVERED',
             'payment_status'=> $payment_status,
             'updated_at'=>now()
@@ -69,4 +50,23 @@ class PaymentController extends Controller
 
         ]);
     }
+ // $checking_code = DB::select('SELECT `checkin_code` FROM `orders` WHERE `order_code`=?', [$orderID]);
+        // $data =$checking_code;
+       // $total = DB::select('SELECT `total_amount` FROM `order_cart` WHERE `checkin_code`=?', [$code]);
+        //$userID = $request->user()->id;
+
+    //     $query = DB::insert('INSERT INTO `order_payments`(
+    //     `amount`,
+    //     `balance`,
+    //     `payment_date`,
+    //     `payment_method`,
+    //     `reference_number`,
+    //     `order_id`,
+    //     `user_id`,
+    //     `created_at`,
+    //     `updated_at`
+    // )
+    // VALUES(?,?,?,?,?,?,?,?,?', [$amount, $balance, now(), $paymentMethod, 
+    //                            $transactionID, $orderID, $userID, now(), now()]);
+
 }
