@@ -242,7 +242,7 @@ class customersController extends Controller
          "success"  => true,
          "status"   => 200,
          "message"  => "Customer orders",
-         "order" => $order,
+         "Data" => $order,
          "order_items" => $orders,
       ]);
    }
