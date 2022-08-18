@@ -6,4 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 class checkin extends Model
 {
    Protected $table = 'customer_checkin';
+   
 }
