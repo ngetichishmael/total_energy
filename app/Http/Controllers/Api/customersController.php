@@ -229,24 +229,9 @@ class customersController extends Controller
       $order = Orders::where('order_code', $orderCode)->first();
 
       $orders = DB::select('SELECT
-      `id`,
-      `order_code`,
-      `user_code`,
-      `customerID`,
-      `price_total`,
-      `balance`,
-      `discount`,
-      `order_status`,
-      `payment_status`,
-      `qty`,
-      `checkin_code`,
-      `order_type`,
-      `delivery_date`,
-      `business_code`,
-      `created_at`,
-      `updated_at`
+      *
   FROM
-      `orders`
+      `order_cart`
   WHERE `checkin_code`=?', [$orderCode]);
       // $orderItems = Order_items::join('product_information','product_information.id','=','order_items.productID')
       //                         ->where('order_code',$orderCode)

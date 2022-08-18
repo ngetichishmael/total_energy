@@ -18,6 +18,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Session;
 use App\Helpers\Helper;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session as FacadesSession;
 
 /**
@@ -359,7 +360,30 @@ class checkinController extends Controller
    **/
    public function order_details($orderID){
       $order = Orders::join('users','users.user_code','=','orders.user_code')->where('order_code',$orderID)->first();
-      $orderItems = Order_items::where('order_code',$orderID)->orderby('id','desc')->get();
+      //$orderItems = Order_items::where('order_code',$order->checkin_code)->orderby('id','desc')->get();
+      $orderCart =DB::select(
+         'SELECT
+         `id`,
+         `productID`,
+         `product_name`,
+         `qty`,
+         `price`,
+         `amount`,
+         `tax_rate`,
+         `tax_value`,
+         `discount`,
+         `total_amount`,
+         `note`,
+         `userID`,
+         `checkin_code`,
+         `customer_account`,
+         `created_at`,
+         `updated_at`
+     FROM
+         `order_cart`
+     WHERE
+     `checkin_code`=?', [$order->checkin_code]);
+
       $checkin = checkin::join('users','users.user_code','=','customer_checkin.user_code')
                         ->where('code',$order->checkin_code)
                         ->get();
@@ -368,7 +392,7 @@ class checkinController extends Controller
          "success" => true,
          "message" => "Order Details",
          "order" => $order,
-         "order_items" => $orderItems,
+         "order_items" => $orderCart,
          "checkin" => $checkin,
       ]);
    }

@@ -16,9 +16,7 @@ class CheckingSaleOrderController extends Controller
     {
         $checkin = checkin::where('code', $checkinCode)->first();
         $user_code = $request->user()->user_code;
-
         $request = $request->all();
-        array_pop($request);
         foreach ($request as $value) {
             $product = product_information::join('product_price',
                  'product_price.productID', '=', 'product_information.id')
@@ -128,6 +126,7 @@ class CheckingSaleOrderController extends Controller
                 $cart->checkin_code = $checkinCode;
                 $cart->save();    
             }   
+
         }
         $random= Str::random(8);
         DB::insert('INSERT INTO `orders`
