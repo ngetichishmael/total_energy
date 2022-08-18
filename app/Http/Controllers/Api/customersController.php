@@ -232,7 +232,7 @@ class customersController extends Controller
       *
   FROM
       `order_cart`
-  WHERE `checkin_code`=?', [$orderCode]);
+  WHERE `checkin_code`=?', [$order->checkin_code]);
       // $orderItems = Order_items::join('product_information','product_information.id','=','order_items.productID')
       //                         ->where('order_code',$orderCode)
       //                         ->orderby('product_information.id','desc')
