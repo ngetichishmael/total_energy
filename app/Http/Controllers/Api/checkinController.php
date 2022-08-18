@@ -359,7 +359,7 @@ class checkinController extends Controller
    * @param $orderID
    **/
    public function order_details($orderID){
-      $order = Orders::join('users','users.user_code','=','orders.user_code')->where('order_code',$orderID)->first();
+      $order = Orders::join('users','users.user_code','=','orders.user_code')->where('order_code',$orderID)->get();
       $orderItems = Order_items::where('order_code',$orderID)->orderby('id','desc')->get();
       $checkin = checkin::join('users','users.user_code','=','customer_checkin.user_code')
                         ->where('code',$order->checkin_code)
