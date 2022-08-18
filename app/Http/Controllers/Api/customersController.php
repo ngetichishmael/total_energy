@@ -244,10 +244,10 @@ class customersController extends Controller
       `delivery_date`,
       `business_code`,
       `created_at`,
-      `updated_at``
+      `updated_at`
   FROM
-      `order`
-  WHERE `checkin_code`=?', [$order->checkin_code]);
+      `orders`
+  WHERE `checkin_code`=?', [$orderCode]);
       // $orderItems = Order_items::join('product_information','product_information.id','=','order_items.productID')
       //                         ->where('order_code',$orderCode)
       //                         ->orderby('product_information.id','desc')

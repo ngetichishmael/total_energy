@@ -14,12 +14,11 @@ use App\Models\Order_edit_reason;
 use App\Models\Orders;
 use App\Models\Order_items;
 use App\Models\Cart;
-use App\Models\business;
 use App\Models\User;
-use Auth;
-use Helper;
+use Illuminate\Support\Facades\Auth;
 use Session;
-use PDF;
+use App\Helpers\Helper;
+use Illuminate\Support\Facades\Session as FacadesSession;
 
 /**
  * @group Checkin Api's
@@ -425,7 +424,7 @@ class checkinController extends Controller
       $order->price_total = $orderItem->sum('total_amount');
       $order->save();
 
-      Session::flash('success','Order Updated successfully');
+      FacadesSession::flash('success','Order Updated successfully');
 
       return response()->json([
          "success" => true,
