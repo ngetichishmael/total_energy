@@ -51,7 +51,7 @@ class SalesHistoryController extends Controller
         // `checkin_code`,
         // `order_type`,
         // `created_at`
-        $vansales='Van sale';
+        $vansales='Van sales';
         $query = DB::select('SELECT
         *
     FROM
