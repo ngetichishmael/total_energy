@@ -41,7 +41,7 @@ class SalesHistoryController extends Controller
         //$checking = checkin::where('customer_id', $shopID)->first();
         $user_code = $request->user()->user_code;
         //$customerID = $request->customer_id;
-        $vansales='order_type';
+        $vansales='Van sale';
         $query = DB::select('SELECT
         `customerID`,
         `user_code`,
@@ -53,11 +53,13 @@ class SalesHistoryController extends Controller
         `order_type`,
         `created_at`
     FROM
-        `orders`  where `order_type`=? AND `user_code`=? AND `customerID`=?', [$vansales,$user_code, $shopID]);
+        `orders`  where `order_type`=? 
+                  AND `user_code`=? AND `customerID`=?',
+                  [$vansales,$user_code, $shopID]);
 
         return response()->json([
             "success" => true,
-            "message" => "Sales / Van Sales",
+            "message" => "Van Sales Order",
             "Data" => $query
         ]);
     }
@@ -66,7 +68,7 @@ class SalesHistoryController extends Controller
         //$checking = checkin::where('customer_id', $shopID)->first();
         $user_code = $request->user()->user_code;
        // $customerID = $request->customer_id;
-        $presales='order_type';
+        $presales='Pre order';
         $query = DB::select('SELECT
         `customerID`,
         `user_code`,
@@ -82,7 +84,7 @@ class SalesHistoryController extends Controller
 
         return response()->json([
             "success" => true,
-            "message" => "Sales / Van Sales",
+            "message" => "New Sales Order",
             "Data" => $query
         ]);
     }

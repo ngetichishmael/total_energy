@@ -101,9 +101,15 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('/SalesMade','SalesMadeController@index')->middleware('auth:sanctum');
    Route::get('/NewLeads','NewLeadsController@index')->middleware('auth:sanctum');
    Route::get('/NewLeads','NewLeadsController@index')->middleware('auth:sanctum');
+
+
+   //Sales History
+   //Start
    Route::get('/SalesHistory/{shopID}','SalesHistoryController@index')->middleware('auth:sanctum');
-   Route::get('php','SalesHistoryController@vansales')->middleware('auth:sanctum');
+   Route::get('/SalesHistory/vansale/{shopID}','SalesHistoryController@vansales')->middleware('auth:sanctum');
    Route::get('/SalesHistory/newsale/{shopID}','SalesHistoryController@preorder')->middleware('auth:sanctum');
+
+   //End
 
    Route::post('/scheduleVisit/{CustomerAccountNumber}','VisitScheduleController@NewVisit')->middleware('auth:sanctum');
    Route::get('/scheduleVisit/checkAll','AddNewRouteController@index')->middleware('auth:sanctum');
