@@ -171,7 +171,7 @@ class CheckingSaleOrderController extends Controller
                 '=',
                 'product_information.id'
             )
-                ->where('product_information.id', $$request()->get["productID"])
+                ->where('product_information.id', $request()->get["productID"])
                 ->where('product_information.business_code', $checkin->business_code)
                 ->first();
             $checkInCart = Cart::where('checkin_code', $checkinCode)->where('productID', $value["productID"])->count();
