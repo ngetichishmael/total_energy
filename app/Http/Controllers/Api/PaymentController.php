@@ -53,7 +53,7 @@ class PaymentController extends Controller
     
   (string) $payment_status = $balance ==0 ? "PAID": "PARTIAL PAID"; ;
 
-  $result= Orders::where('order_code', '=', $orderID)
+  Orders::where('order_code', '=', $orderID)
     ->update([
             'balance'=>$amount,
             'order_status'=>'DELIVERED',
@@ -65,7 +65,7 @@ class PaymentController extends Controller
         return response()->json([
             "success" => true,
             "message" => "Successfully",
-            "Result" => $result
+            "Result" => $orderID
 
         ]);
     }
