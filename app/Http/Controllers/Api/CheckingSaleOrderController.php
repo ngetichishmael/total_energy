@@ -156,6 +156,7 @@ class CheckingSaleOrderController extends Controller
         return response()->json([
             "success" => true,
             "message" => "Product added to order",
+            "order_code"=>$random,
             "data"    => $checkin
         ]);
     }
@@ -270,6 +271,7 @@ class CheckingSaleOrderController extends Controller
         return response()->json([
             "success" => true,
             "message" => "Product added to order",
+            "order_code"=>$random,
             "data"    => $checkin
         ]);
     }
