@@ -35,7 +35,7 @@ class AddNewRouteController extends Controller
             $customers = new Route_customer;
             $customers->business_code  = Auth::user()->business_code;
             $customers->routeID = $code;
-            $customers->customerID =$customerID;
+            $customers->customerID = Auth::user()->id;
             $customers->created_by = Auth::user()->user_code;
             $customers->save();
    
