@@ -123,6 +123,7 @@ Route::group(['namespace' => 'Api'], function () {
 
    // Select all Items
    Route::get('/stocklift/show','StockLiftController@show')->middleware('auth:sanctum');
+   Route::get('/stocklift/receive','StockLiftController@receive')->middleware('auth:sanctum');
 
 
 });

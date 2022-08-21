@@ -98,4 +98,27 @@ class StockLiftController extends Controller
                 "data"    => $query
             ]);
     }
+    public function receive(Request $request){
+                $user_code = $request->user()->user_code;
+                $businessCode=$request->user()->business_code;
+                $query = DB::select('SELECT
+                `product_information`.`id` AS `product ID`,
+                `product_information`.`product_name` AS `Product Name`,
+                `inventory_allocations`.`status`,
+                `inventory_allocations`.`date_allocated`,
+                `inventory_allocated_items`.`allocated_qty` AS `Quantity Allocated`,
+                `inventory_allocated_items`.`business_code`
+            FROM
+                `product_information`
+            INNER JOIN `inventory_allocations` ON `inventory_allocations`.`business_code` = `product_information`.`business_code`
+            INNER JOIN `inventory_allocated_items` ON `inventory_allocations`.`allocation_code` = `inventory_allocated_items`.`allocation_code`
+            WHERE
+                `product_information`.`business_code` = ? AND `inventory_allocations`.`sales_person` = ?', [$businessCode,$user_code]);
+
+            return response()->json([
+                "success" => true,
+                "message" => "All Available Product Information",
+                "data"    => $query
+            ]);
+    }
 }
