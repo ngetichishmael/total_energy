@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Customers;
 use Livewire\Component;
 use App\Models\customer\customers;
 use Livewire\WithPagination;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 class Index extends Component
 {
    use WithPagination;

@@ -120,4 +120,9 @@ Route::group(['namespace' => 'Api'], function () {
    //Stock Lift
 
    Route::post('/stocklift','StockLiftController@index')->middleware('auth:sanctum');
+
+   // Select all Items
+   Route::get('/stocklift/show','StockLiftController@show')->middleware('auth:sanctum');
+
+
 });

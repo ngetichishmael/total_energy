@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Delivery;
 use App\Models\Delivery;
 use Livewire\Component;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
 
 class index extends Component
