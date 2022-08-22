@@ -14,8 +14,8 @@ class StockLiftController extends Controller
         $user_code = $request->user()->user_code;
         $business_code = $request->user()->business_code;
         $random = Str::random(20);
-        $request = $request->collect();
-        //array_pop($request);
+        $request = $request->all();
+        array_pop($request);
         foreach ($request as $value) {
            DB::insert('INSERT INTO `inventory_allocated_items`(
                     `business_code`,
