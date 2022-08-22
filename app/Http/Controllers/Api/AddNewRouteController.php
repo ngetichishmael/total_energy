@@ -16,8 +16,10 @@ class AddNewRouteController extends Controller
     public function store(Request $request)
    {
 
-            $customerID=$request->query('customer_id');
+            //$requestID=$request->collect();
+           $customerID=$request->get('customer_id');
 
+            info($customerID);
             $code =  Helper::generateRandomString(20);
             $route = new Routes;
             $route->business_code = Auth::user()->business_code;
