@@ -16,18 +16,18 @@ class AddNewRouteController extends Controller
     public function store(Request $request)
    {
 
-    $customerID=$request->query('customer_id');
+            $customerID=$request->query('customer_id');
 
-      $code =  Helper::generateRandomString(20);
-      $route = new Routes;
-      $route->business_code = Auth::user()->business_code;
-      $route->route_code = $code;
-      $route->name = $request->name;
-      $route->status = $request->status;
-      $route->start_date = $request->start_date;
-      $route->end_date = $request->end_date;
-      $route->created_by = Auth::user()->user_code;
-      $route->save();
+            $code =  Helper::generateRandomString(20);
+            $route = new Routes;
+            $route->business_code = Auth::user()->business_code;
+            $route->route_code = $code;
+            $route->name = $request->name;
+            $route->status = $request->status;
+            $route->start_date = $request->start_date;
+            $route->end_date = $request->end_date;
+            $route->created_by = Auth::user()->user_code;
+            $route->save();
 
 
       //save customers
@@ -35,7 +35,7 @@ class AddNewRouteController extends Controller
             $customers = new Route_customer;
             $customers->business_code  = Auth::user()->business_code;
             $customers->routeID = $code;
-            $customers->customerID = Auth::user()->id;
+            $customers->customerID =$customerID;
             $customers->created_by = Auth::user()->user_code;
             $customers->save();
    

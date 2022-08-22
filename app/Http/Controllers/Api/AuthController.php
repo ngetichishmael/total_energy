@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Auth;
-use Validator;
+use App\Http\Controllers\Api\JWTException;
 use App\Models\User;
 use App\Models\UserCode;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 /**
  * @group Authentication Api's
@@ -100,7 +100,7 @@ class AuthController extends Controller
 public function sendOTP($number) {
    
 
-   $user = DB::table('users')->where('phone_number',$number)->get();
+   $user = FacadesDB::table('users')->where('phone_number',$number)->get();
    
    if ($user) {
    try {
