@@ -32,7 +32,9 @@ class AuthController extends Controller
    **/
    public function userLogin(Request $request)
    {
-      if(!FacadesAuth::attempt($request->only('email', 'password')))
+
+      //(!Auth::attempt(['email' => $request->email, 'password' => $request->password], true))
+      if(!FacadesAuth::attempt(['email' => $request->email, 'password' => $request->password], true))
       {
          return response()
                ->json(['message' => 'Unauthorized'], 401);
