@@ -226,7 +226,7 @@ class customersController extends Controller
     **/
    public function order_details($orderCode)
    {
-      //$order = Orders::where('order_code', $orderCode)->first();
+      $order = Orders::where('order_code', $orderCode)->first();
       $user = DB::table('orders')->where('order_code', $orderCode)->first();
 
       // `id`,
@@ -265,12 +265,13 @@ class customersController extends Controller
       //                         ->where('order_code',$orderCode)
       //                         ->orderby('product_information.id','desc')
       //                         ->get();
- //"Data" => $order,
+ //
       return response()->json([
          "success"  => true,
          "status"   => 200,
          "message"  => "Customer orders",
          "order_items" => $orders,
+         "Data" => $order
       ]);
    }
 
