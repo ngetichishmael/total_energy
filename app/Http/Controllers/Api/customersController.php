@@ -255,12 +255,29 @@ class customersController extends Controller
       //                         ->orderby('product_information.id','desc')
       //                         ->get();
  //
+   $payment=DB::select('SELECT
+               `amount`,
+               `balance`,
+               `bank_charges`,
+               `payment_date`,
+               `payment_method`,
+               `reference_number`,
+               `order_id`,
+               `user_id`,
+               `created_at`,
+               `updated_at`
+            FROM
+               `order_payments`
+            WHERE
+            `checkin_id`=?', [$user->checkin_code]);
+
       return response()->json([
          "success"  => true,
          "status"   => 200,
          "message"  => "Customer orders",
          "order_items" => $orders,
-         "Data" => $order
+         "Data" => $order,
+         "Payment" => $payment
       ]);
    }
 
