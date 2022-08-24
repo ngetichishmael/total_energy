@@ -246,21 +246,10 @@ class customersController extends Controller
       // `created_at`,
       // `updated_at`
       $orders = DB::select('SELECT
-                  `order_cart`.`customer_account`,
-                  `orders`.`order_code`,
-                  `orders`.`price_total`,
-                  `orders`.`balance`,
-                  `orders`.`order_status`,
-                  `orders`.`payment_status`,
-                  `orders`.`order_type`,
-                  `orders`.`delivery_date`,
-                  `orders`.`business_code`
-            FROM
-                  `order_cart`
-            INNER JOIN `orders` ON `orders`.`checkin_code` = `order_cart`.`checkin_code`
-            WHERE
-                  `order_cart`.`checkin_code` = ?
-                  GROUP BY `orders`.`order_code`', [$user->checkin_code]);
+                  *
+                  FROM
+            `order_cart`
+          WHERE `checkin_code`=?', [$user->checkin_code]);
       // $orderItems = Order_items::join('product_information','product_information.id','=','order_items.productID')
       //                         ->where('order_code',$orderCode)
       //                         ->orderby('product_information.id','desc')
