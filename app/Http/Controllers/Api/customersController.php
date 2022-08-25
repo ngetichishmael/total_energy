@@ -269,7 +269,7 @@ class customersController extends Controller
             FROM
                `order_payments`
             WHERE
-            `order_id`=?', [$user->checkin_code]);
+            `order_id`=?', [$orderCode]);
 
       return response()->json([
          "success"  => true,
