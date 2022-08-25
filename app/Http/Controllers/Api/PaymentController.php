@@ -36,7 +36,7 @@ class PaymentController extends Controller
                     `created_at`,
                     `updated_at`
                 )
-                VALUES(?,?,?,?,?,?,?,? )',[$amount,
+                VALUES(?,?,?,?,?,?,?,?,? )',[$amount,
                                 $balance,
                                 now(),
                                 $paymentMethod,
