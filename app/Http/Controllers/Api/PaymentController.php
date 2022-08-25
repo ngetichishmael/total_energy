@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Orders;
-use Illuminate\Support\Str;
-use App\Models\order_payments as Payment;
+// use Illuminate\Support\Str;
+// use App\Models\order_payments as Payment;
 
 class PaymentController extends Controller
 {
@@ -17,12 +17,12 @@ class PaymentController extends Controller
 
         $orderID = $request->get('orderID');
         $checking_code = DB::table('orders')->where('order_code', $orderID)->first();
-        $code =$checking_code->checkin_code;
+       // $code =$checking_code->checkin_code;
         $amount = $request->get('amount');
         $transactionID = $request->get('transactionID');
         $paymentMethod = $request->get('paymentMethod');
         $balance = $checking_code->balance - $amount;
-        $random = Str::random(20);
+        //$random = Str::random(20);
         $ID = $request->user()->id;
 
    DB::insert('INSERT INTO `order_payments`(
@@ -40,8 +40,8 @@ class PaymentController extends Controller
                                 $balance,
                                 now(),
                                 $paymentMethod,
-                                $random,
                                 $transactionID,
+                                $orderID,
                                 $ID,
                                 now(),
                                 now()]);
