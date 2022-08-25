@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Orders;
+use Illuminate\Support\Str;
 use App\Models\order_payments as Payment;
 
 class PaymentController extends Controller
@@ -21,17 +22,30 @@ class PaymentController extends Controller
         $transactionID = $request->get('transactionID');
         $paymentMethod = $request->get('paymentMethod');
         $balance = $checking_code->balance - $amount;
+        $random = Str::random(20);
+        $ID = $request->user()->id;
 
-   Payment::where('order_id', '=', $orderID)
-    ->update([
-            'amount'=>$amount,
-            'balance'=>$balance,
-            'payment_date'=>now(),
-            'payment_method'=>$paymentMethod,
-            'reference_number'=>$transactionID,
-            'updated_at'=>now()
-    ]);
-    
+   DB::insert('INSERT INTO `order_payments`(
+                    `amount`,
+                    `balance`,
+                    `payment_date`,
+                    `payment_method`,
+                    `reference_number`,
+                    `order_id`,
+                    `user_id`,
+                    `created_at`,
+                    `updated_at`
+                )
+                VALUES(?,?,?,?,?,?,?,? )',[$amount,
+                                $balance,
+                                now(),
+                                $paymentMethod,
+                                $random,
+                                $transactionID,
+                                $ID,
+                                now(),
+                                now()]);
+
   (string) $payment_status = $balance ==0 ? "PAID": "PARTIAL PAID"; ;
 
   Orders::where('order_code', '=', $orderID)
@@ -50,23 +64,4 @@ class PaymentController extends Controller
 
         ]);
     }
- // $checking_code = DB::select('SELECT `checkin_code` FROM `orders` WHERE `order_code`=?', [$orderID]);
-        // $data =$checking_code;
-       // $total = DB::select('SELECT `total_amount` FROM `order_cart` WHERE `checkin_code`=?', [$code]);
-        //$userID = $request->user()->id;
-
-    //     $query = DB::insert('INSERT INTO `order_payments`(
-    //     `amount`,
-    //     `balance`,
-    //     `payment_date`,
-    //     `payment_method`,
-    //     `reference_number`,
-    //     `order_id`,
-    //     `user_id`,
-    //     `created_at`,
-    //     `updated_at`
-    // )
-    // VALUES(?,?,?,?,?,?,?,?,?', [$amount, $balance, now(), $paymentMethod, 
-    //                            $transactionID, $orderID, $userID, now(), now()]);
-
 }
