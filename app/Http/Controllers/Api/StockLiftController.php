@@ -15,71 +15,54 @@ class StockLiftController extends Controller
         $business_code = $request->user()->business_code;
         $random = Str::random(20);
         $request = $request->all();
+        $totalQuantity =0;
         array_pop($request);
         foreach ($request as $value) {
-            $productID=DB::select('SELECT `product_code` FROM `inventory_allocated_items` where `product_code`=?', [$value["productID"]]);
-            // if($productID==0){
-           DB::insert('INSERT INTO `inventory_allocated_items`(
-                    `business_code`,
-                    `allocation_code`,
-                    `product_code`,
-                    `current_qty`,
-                    `allocated_qty`,
-                    `returned_qty`,
-                    `created_by`,
-                    `updated_by`,
-                    `created_at`,
-                    `updated_at`
-                )
-                VALUES(
-                    ?,?,?,
-                    (SELECT `current_stock` FROM `product_inventory` WHERE `productID` = ?),
-                    ?,?,?,?,?,?);', 
-                    [$business_code, 
-                     $random,
-                     $value["productID"],
-                     $value["productID"],
-                     $value["qty"],
-                     0,
-                     $user_code,
-                     $user_code,
-                     now(),
-                     now()
-                    ]);
-                    info($value);
-                //}
-                // else{
-                //     $total =  $productID+ $value["productID"];
-                //     DB::update('UPDATE `inventory_allocated_items` SET `allocated_qty` = ? WHERE `product_code` = ?', [$total,$value["productID"]]);
-                // }
-        }
-        DB::insert('INSERT INTO `inventory_allocations`(
-            `business_code`,
-            `allocation_code`,
-            `sales_person`,
-            `status`,
-            `created_by`,
-            `updated_by`,
-            `created_at`,
-            `updated_at`
-        )
-        VALUES(?,?,?,?,?,?,?,?)', 
-              [$business_code, 
-              $random,
-              $user_code,
-              'Waiting acceptance',
-              $user_code,
-              $user_code,
-              now(),
-              now()
-              ]);
+            $productID=DB::select('SELECT * FROM `inventory_allocated_items` where `product_code`=?', [$value["productID"]]);
+            $currentStock= DB::select('SELECT `current_stock` FROM `product_inventory` WHERE `productID` = ?', [$value["productID"]]);
+            $currentAmount=$productID == 0 ? $totalQuantity : $productID['allocated_qty'];
+                DB::table('inventory_allocated_items')
+                    ->updateOrInsert(
+                        ['product_code' => $value["productID"], 'created_by' => $user_code ],
+                        ['business_code' => $business_code,
+                         'allocation_code' => $random,
+                         'current_qty' => $currentStock['current_stock'],
+                         'allocated_qty' => $currentAmount +$value['qty'],
+                         'returned_qty' => 0,
+                         'created_by' => $user_code,
+                         'updated_by' => $user_code,
+                         'created_at' => now(),
+                         'updated_at' => now()
+                        ]
+                        );
+                     }
+                        DB::insert('INSERT INTO `inventory_allocations`(
+                            `business_code`,
+                            `allocation_code`,
+                            `sales_person`,
+                            `status`,
+                            `created_by`,
+                            `updated_by`,
+                            `created_at`,
+                            `updated_at`
+                        )
+                        VALUES(?,?,?,?,?,?,?,?)', 
+                            [$business_code, 
+                            $random,
+                            $user_code,
+                            'Waiting acceptance',
+                            $user_code,
+                            $user_code,
+                            now(),
+                            now()
+                            ]);
 
-        return response()->json([
-            "success" => true,
-            "message" => "All Available Product Information",
-            "Result"    => "Successful"
-        ]);
-        
+                        return response()->json([
+                            "success" => true,
+                            "message" => "All Available Product Information",
+                            "Result"    => "Successful"
+                        ]);
+                        
     }
     public function show(Request $request)
     {
