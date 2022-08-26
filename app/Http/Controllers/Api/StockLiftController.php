@@ -17,6 +17,8 @@ class StockLiftController extends Controller
         $request = $request->all();
         array_pop($request);
         foreach ($request as $value) {
+            $productID=DB::select('SELECT `product_code` FROM `inventory_allocated_items` where `product_code`=?', [$value["productID"]]);
+            if($productID==0){
            DB::insert('INSERT INTO `inventory_allocated_items`(
                     `business_code`,
                     `allocation_code`,
@@ -45,6 +47,10 @@ class StockLiftController extends Controller
                      now()
                     ]);
                     info($value);
+                }else{
+                    $total =  $productID+ $value["productID"];
+                    DB::update('UPDATE `inventory_allocated_items` SET `allocated_qty` = ? WHERE `product_code` = ?', [$total,$value["productID"]]);
+                }
         }
         DB::insert('INSERT INTO `inventory_allocations`(
             `business_code`,
