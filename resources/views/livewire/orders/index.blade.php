@@ -20,7 +20,7 @@
             <thead>
                <th width="1%">#</th>
                <th>Order Type</th>
-               <th>OrderID</th>
+               {{-- <th>OrderID</th> --}}
                <th>Customer</th>
                <th>Sales Person</th>
                <th>Amount</th>
@@ -34,7 +34,7 @@
                   <tr>
                      <td>{!! $count+1 !!}</td>
                      <td>{!! $order->order_type !!}</td>
-                     <td>{!! $order->order_id !!}</td>
+                     {{-- <td>{!! $order->order_id !!}</td> --}}
                      <td>{!! $order->customer_name !!}</td>
                      <td>{!! $order->name !!}</td>
                      <td>ksh {!! number_format($order->price_total) !!}</td>
