@@ -83,7 +83,7 @@ class CheckingSaleOrderController extends Controller
             DB::update('UPDATE
             inventory_allocated_items
         SET
-            current_qty =current_qty-?,
+            allocated_qty =allocated_qty-?,
             updated_at = ?
         WHERE
             product_code= ?',[$value["qty"], now(), $value["productID"]]);
