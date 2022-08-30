@@ -81,7 +81,6 @@ class customersController extends Controller
    {
       $validator           =  Validator::make($request->all(), [
          "customer_name"   => "required",
-         "email"           => "email",
          "contact_person"  => "required",
          "business_code"   => "required",
          "created_by"      => "required",
@@ -93,12 +92,13 @@ class customersController extends Controller
       if ($validator->fails()) {
          return response()->json(["status" => 401, "message" => "validation_error", "errors" => $validator->errors()]);
       }
+      $emailData= $request->email == null ? null : $request->email;
 
       $customer = new customers;
       $customer->customer_name = $request->customer_name;
       $customer->contact_person = $request->contact_person;
       $customer->phone_number = $request->phone_number;
-      $customer->email = $request->email;
+      $customer->email = $emailData;
       $customer->address = $request->address;
       $customer->latitude = $request->latitude;
       $customer->longitude = $request->longitude;
