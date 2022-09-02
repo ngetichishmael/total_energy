@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\DB;
 class StockDistributer extends Controller
 {
  public function index(){
-    $query=DB::query("SELECT
+    $query=DB::select('SELECT
             `name`,
             `email`,
             `phone_number`,
             `telephone`,
             `business_code`
         FROM
-            `suppliers`");
-
+            `suppliers`');
         return response()->json([
                 "success" => true,
                 "message" => "All Suppliers",
