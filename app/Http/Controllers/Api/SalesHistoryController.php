@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-use App\Models\customer\checkin;
-use App\Models\customer\customers;
 use Illuminate\Support\Facades\DB;
 
 class SalesHistoryController extends Controller

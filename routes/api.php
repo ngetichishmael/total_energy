@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\surveyController;
+use App\Http\Controllers\Api\ReconcilationController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -130,7 +131,9 @@ Route::group(['namespace' => 'Api'], function () {
 
    // Surveying
    Route::get('/survey',[surveyController::class,'index']);
-   // Route::get('/survey','surveyController@index')->middleware('auth:sanctum');
+
+   // Reconcillations
+   Route::get('/reconcile/payment',[ReconcilationController::class,'index'])->middleware('auth:sanctum');
 
 
 });
