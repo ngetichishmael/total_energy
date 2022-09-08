@@ -11,14 +11,14 @@ class ReconcilationController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
-        $mpesa = DB::select('SELECT SUM(`amount`)
+        $mpesa = DB::select('SELECT SUM(`amount`) as Mpesa
                 FROM
-                    `order_payments` as Mpesa
+                    `order_payments` 
                 WHERE
                     `order_payments`.`payment_method` =? AND `order_payments`.`user_id`=?', ['PaymentMethods.Mpesa', $user_id]);
-        $cash = DB::select('SELECT SUM(`amount`)
+        $cash = DB::select('SELECT SUM(`amount`) as Cash
                 FROM
-                    `order_payments` as Cash
+                    `order_payments` 
                 WHERE
                     `order_payments`.`payment_method` =? AND `order_payments`.`user_id`=?', ['PaymentMethods.Cash', $user_id]);
         $cheque = DB::select('SELECT SUM(`amount`) as Cheque
