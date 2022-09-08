@@ -14,6 +14,6 @@ class answers extends Model
     */
    public function questions()
    {
-       return $this->hasOne(questions::class, 'survey_code', 'survey_code');
+       return $this->hasOne(questions::class, 'questionID', 'id');
    }
 }
