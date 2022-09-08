@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Api\surveyController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -125,6 +127,9 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('/distributors','StockDistributer@index')->middleware('auth:sanctum');
    Route::get('/stocklift/show','StockLiftController@show')->middleware('auth:sanctum');
    Route::get('/stocklift/receive','StockLiftController@receive')->middleware('auth:sanctum');
+
+   // Surveying
+   Route::get('/survey',[surveyController::class,'index']);
 
 
 });

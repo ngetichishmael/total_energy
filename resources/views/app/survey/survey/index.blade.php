@@ -34,7 +34,7 @@
                         <th>End</th>
                         <th>Type</th>
                         <th>Status</th>
-                        <th>Date Create</th>
+                        <th>Date CreateD</th>
                         <th width="16%">Actions</th>
                      </tr>
                   </thead>
