@@ -15,4 +15,13 @@ class questions extends Model
    {
        return $this->belongsTo(survey::class, 'code', 'survey_code');
    }
+   /**
+    * Get the user that owns the questions
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    */
+   public function type()
+   {
+       return $this->belongsTo(question_type::class, 'type', 'id');
+   }
 }
