@@ -83,7 +83,7 @@ class questionsController extends Controller
       $question->position = 0;
       $question->time = $request->time;
       $question->points = $request->points;
-      $question->created_by = FacadesAuth::user()->id;
+      $question->created_by = Auth::user()->id;
       $question->save();
 
 
