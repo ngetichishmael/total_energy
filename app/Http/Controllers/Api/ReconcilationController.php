@@ -33,9 +33,9 @@ class ReconcilationController extends Controller
 return response()->json([
     "success" => true,
     "message" => "Total Amount Expected",
-    "Data" => $mpesa,
-    "Data" => $cash,
-    "Data" => $cheque
+    "Mpesa" => $mpesa,
+    "Cash" => $cash,
+    "Cheque" => $cheque
 ]);
     }
 }
