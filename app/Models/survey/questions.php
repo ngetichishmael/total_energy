@@ -24,4 +24,13 @@ class questions extends Model
    {
        return $this->belongsTo(question_type::class, 'type', 'id');
    }
+   /**
+    * Get the answers associated with the questions
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
+   public function answers()
+   {
+       return $this->hasOne(answers::class, 'survey_code', 'survey_code');
+   }
 }

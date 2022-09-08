@@ -129,8 +129,8 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('/stocklift/receive','StockLiftController@receive')->middleware('auth:sanctum');
 
    // Surveying
-   //Route::get('/survey',[surveyController::class,'index']);
-   Route::get('/survey','surveyController@index')->middleware('auth:sanctum');
+   Route::get('/survey',[surveyController::class,'index']);
+   // Route::get('/survey','surveyController@index')->middleware('auth:sanctum');
 
 
 });

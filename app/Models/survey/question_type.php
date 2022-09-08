@@ -16,4 +16,13 @@ class question_type extends Model
    {
        return $this->hasMany(questions::class, 'type', 'id');
    }
+   /**
+    * Get the user associated with the question_type
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
+   public function answers()
+   {
+       return $this->hasOne(answers::class,'survey_code','survey_code');
+   }
 }
