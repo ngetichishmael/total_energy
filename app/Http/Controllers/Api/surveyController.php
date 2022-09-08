@@ -12,11 +12,11 @@ class surveyController extends Controller
   public function index()
   {
     $typeOnline = "online";
-    $surveyOnline= Survey::with('questions')
-                  ->where('type', $typeOnline)
-                  ->get();
+    // $surveyOnline= Survey::with('questions')
+    //               ->where('type', $typeOnline)
+    //               ->get();
 
-    //$surveyOnline = DB::select('SELECT * FROM `survey` where type=?', [$typeOnline]);
+    $surveyOnline = DB::select('SELECT * FROM `survey` where type=?', [$typeOnline]);
     return response()->json([
       "success" => true,
       "message" => "All Available Product Information",
