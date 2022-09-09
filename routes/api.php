@@ -130,7 +130,8 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('/stocklift/receive','StockLiftController@receive')->middleware('auth:sanctum');
 
    // Surveying
-   Route::get('/survey',[surveyController::class,'index']);
+   Route::get('/survey',[surveyController::class,'getAllSurvey']);
+   Route::get('/survey/questions/{surveyCode}',[surveyController::class,'getAllQuestions']);
 
    // Reconcillations
    Route::get('/reconcile/payment',[ReconcilationController::class,'index'])->middleware('auth:sanctum');

@@ -1,6 +1,7 @@
 <?php
 namespace App\Models\survey;
 
+use App\Models\survey_questions_options;
 use Illuminate\Database\Eloquent\Model;
 
 class questions extends Model
@@ -32,5 +33,14 @@ class questions extends Model
    public function answers()
    {
        return $this->hasOne(answers::class, 'id', 'questionID');
+   }
+   /**
+    * Get the Option associated with the questions
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
+   public function options()
+   {
+       return $this->hasOne(survey_questions_options::class, 'survey_code', 'options');
    }
 }

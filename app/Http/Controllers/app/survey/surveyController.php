@@ -6,10 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\survey\survey;
 use App\Models\survey\category;
 use Illuminate\Http\Request;
-use Helper;
-use Session;
-use Auth;
-use File;
+use App\Helpers\Helper;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class surveyController extends Controller
 {

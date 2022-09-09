@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\app\survey;
 
-use App\Helpers\Helper as HelpersHelper;
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\survey\survey;
+use App\Models\survey_questions_options as Options;
 use App\Models\survey\category;
 use App\Models\survey\question_type;
 use App\Models\survey\questions;
 use App\Models\survey\answers;
 use File;
-use Helper;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth ;
 use Illuminate\Support\Facades\Session;
 
@@ -75,10 +76,13 @@ class questionsController extends Controller
       //    $file->move($destinationPath, $fileName);
       //    $question->image = $fileName;
       // }
+      
+      $optionsRandom=Str::random(10);
       $question->survey_code = $id;
-      $question->question_code = HelpersHelper::generateRandomString(12);
+      $question->question_code = Helper::generateRandomString(12);
       $question->type = $request->type;
       $question->question = $request->question;
+      $question->options = $optionsRandom;
       $question->answer = $request->correct;
       $question->position = 0;
       $question->time = $request->time;
@@ -91,16 +95,22 @@ class questionsController extends Controller
       $answers = new answers;
       $answers->survey_code = $id;
       $answers->questionID = $question->id;
-      $answers->option_a = $request->option_a;
-      $answers->option_b = $request->option_b;
-      $answers->option_c = $request->option_c;
-      $answers->option_d = $request->option_d;
       $answers->correct = $request->correct;
+      $answers->options = $optionsRandom;
       $answers->created_by = Auth::user()->id;
       $answers->save();
 
+      // Options for Survey questions
+      $options  = new Options();
+      $options->questionID = $question->id;
+      $options->survey_code = $optionsRandom;
+      $options->options_a = $request->option_a;
+      $options->options_b = $request->option_b;
+      $options->options_c = $request->option_c;
+      $options->options_d = $request->option_d;
+      $options->save();
+      info($id);
       Session::flash('success','Question successfully added');
-
       return redirect()->route('survey.questions.index',$id);
    }
 
@@ -165,7 +175,7 @@ class questionsController extends Controller
       //questions
       $question = questions::find($questionID);
       if($question->question_code == ""){
-         $question->question_code = Helper::generateRandomString(12);
+         $question->question_code = Str::random(12);
       }
       if(!empty($request->image)){
          $file = $request->image;
@@ -175,7 +185,7 @@ class questionsController extends Controller
          $extension = $file->getClientOriginalExtension(); 
 
          // RENAME THE UPLOAD WITH RANDOM NUMBER
-         $fileName = Helper::generateRandomString(10). '.' . $extension;
+         $fileName = Str::random(10). '.' . $extension;
          // MOVE THE UPLOADED FILES TO THE DESTINATION DIRECTORY
          $file->move($destinationPath, $fileName);
          $question->image = $fileName;
