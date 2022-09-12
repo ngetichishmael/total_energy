@@ -48,19 +48,21 @@ class checkinController extends Controller
       $lon2 = $request->longitude;
       $unit = "K";
 
+      $checking_code= $request->checkin_code == null?Helper::generateRandomString(20):$request->checking_code;
+      $startTime= $request-> startTime == null?date('H:i:s'):$request-> startTime;
       $distance = round(Helper::distance($lat1, $lon1, $lat2, $lon2, $unit),2);
 
       //if($distance < 0.05){
 
          //create a check in session
          $checkin = new checkin;
-         $checkin->code           = Helper::generateRandomString(20);
+         $checkin->code           = $checking_code;
          $checkin->customer_id    = $customer->id;
          $checkin->account_number = $request->customerID;
          $checkin->checkin_type   = $request->checkin_type;
          $checkin->user_code      = $request->user_code;
          $checkin->ip             = Helper::get_client_ip();
-         $checkin->start_time     = date('H:i:s');
+         $checkin->start_time     = $startTime;
          $checkin->business_code  = $customer->business_code;
          $checkin->save();
 
