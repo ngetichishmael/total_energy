@@ -11,13 +11,14 @@ class SurveryAnswersController extends Controller
     public function index(Request $request)
     {
         info($request);
-        $data= $request->all();
+        $data= $request;
         $response = new Response();
-        $response->survey_code=$data()->survey_code;
-        $response->question_code=$data()->question_code;
-        $response->customer_id=$data()->customer_id;
-        $response->answer=$data()->answer;
-        $response->reason=$data()->reason;
+        $response->survey_code=$data->survey_code;
+        $response->question_code=$data->question_code;
+        $response->customer_id=$data->customer_id;
+        $response->answer=$data->answer;
+        $response->reason=$data->reason;
+        $response->save();
 
         return response()->json([
             "success" => true,
