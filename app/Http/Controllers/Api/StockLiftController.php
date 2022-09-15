@@ -93,6 +93,7 @@ class StockLiftController extends Controller
     {
         $businessCode = $request->user()->business_code;
         $supplierID= $request->supplierID;
+        // Hello wo
         $query = DB::select('SELECT
         `suppliers`.`name` AS `Distributer`,
         `suppliers`.`id`,
