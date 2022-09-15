@@ -38,10 +38,14 @@ class sokoflowController extends Controller
          $item2 = DB::table('order_payments')
          ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
          ->where('user_id', auth()->id())->where('payment_method', 'PaymentMethods.Cheque')->sum('amount'),
+         $total = DB::table('order_payments')
+         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
+         ->where('user_id', auth()->id())->sum('amount'),
          // ddd($item),
          'Cash' => $item,
          'Mpesa' => $item1,
          'Cheque' => $item2,
+         'total' => $total,
          'Reconcilled' => $order,
 
      ]);

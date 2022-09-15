@@ -27,7 +27,7 @@
                   <table class="table table-striped table-bordered">
                      <thead>
                         <th>Total Collected</th>
-                        <th width="20%">0.00</th>
+                        <th width="20%">{{$total}}</th>
                      </thead>
                      <tbody>
                         <tr class="table-success">

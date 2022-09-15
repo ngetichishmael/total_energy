@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\app;
 
 use App\Http\Controllers\Controller;
+use App\Models\customers;
 use Illuminate\Http\Request;
 use App\Models\Orders;
 use App\Models\Order_items;
 use App\Models\warehousing;
 use App\Models\Delivery_items;
 use App\Models\Delivery;
+use App\Models\order_payments;
 use App\Models\User;
 use Auth;
 use Session;
@@ -24,8 +26,10 @@ class ordersController extends Controller
    public function details($code){
       $order = Orders::where('business_code', Auth::user()->business_code)->where('order_code',$code)->first();
       $items = Order_items::where('order_code',$order->order_code)->get();
-
-      return view('app.orders.details', compact('order','items'));
+      $test = customers::where('OrderCode',$order->order_code)->first();
+      $payment = order_payments::where('order_id',$order->order_code)->first();
+      // dd($payment);
+      return view('app.orders.details', compact('order','items', 'test', 'payment'));
    }
 
    //allocation

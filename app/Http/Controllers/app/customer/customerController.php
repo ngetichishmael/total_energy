@@ -29,7 +29,7 @@ class customerController extends Controller
 			->where('customers.business_code', FacadesAuth::user()->business_code)
 			->select('*', 'customers.id as customerID', 'customers.created_at as date_added', 'business.business_code as business_code', 'customers.business_code as business_code', 'customers.email as customer_email', 'customers.phone_number as phone_number')
 			->OrderBy('customers.id', 'DESC')
-			->paginate(50);
+			->paginate(10);
 		$count = 1;
 
 		return view('app.customers.index', compact('count', 'contacts'));
