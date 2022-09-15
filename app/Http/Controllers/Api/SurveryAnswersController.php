@@ -16,11 +16,11 @@ class SurveryAnswersController extends Controller
         array_pop($data);
         info($data);
         foreach ($data as $data) {
-            $response->survey_code = $data->survey_code;
-            $response->question_code = $data->question_code;
-            $response->customer_id = $data->customer_id;
-            $response->answer = $data->answer;
-            $response->reason = $data->reason;
+            $response->survey_code = $data["survey_code"];
+            $response->question_code = $data["question_code"];
+            $response->customer_id = $data["customer_id"];
+            $response->answer = $data["answer"];
+            $response->reason = $data["reason"];
             $response->save();
         }
         return response()->json([
