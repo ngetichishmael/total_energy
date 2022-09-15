@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class StockLiftController extends Controller
 {
@@ -91,24 +92,28 @@ class StockLiftController extends Controller
     public function show(Request $request)
     {
         $businessCode = $request->user()->business_code;
+        $supplierID= $request->supplierID;
         $query = DB::select('SELECT
+        `suppliers`.`name` AS `Distributer`,
+        `suppliers`.`id`,
         `product_information`.`id` AS `product ID`,
         `product_inventory`.`current_stock` AS `current stock`,
         `product_information`.`product_name` AS `product name`
             FROM
                 `product_information`
             INNER JOIN `business` ON `business`.`business_code` = `product_information`.`business_code`
-            INNER JOIN `product_inventory` ON `product_inventory`.`productID` = `product_information`.`id`
+            INNER JOIN `suppliers` ON `suppliers`.`business_code` = `product_information`.`business_code`
+            INNER JOIN `product_inventory` ON `product_inventory`.`business_code` = `suppliers`.`business_code`
             INNER JOIN `product_price` ON `product_price`.`productID` = `product_information`.`id`
             WHERE
-                `product_information`.`business_code` = ?
+                `product_information`.`business_code` = ? AND `suppliers`.`id` = ?
             ORDER BY
                 `product ID`
-            DESC', [$businessCode]);
+            DESC', [$businessCode,$supplierID]);
 
         return response()->json([
             "success" => true,
-            "message" => "All Available Product Information",
+            "message" => "All Available Product Information filtered by Distributers",
             "data"    => $query
         ]);
     }

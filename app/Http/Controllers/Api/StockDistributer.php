@@ -10,6 +10,7 @@ class StockDistributer extends Controller
 {
  public function index(){
     $query=DB::select('SELECT
+            `id`,
             `name`,
             `email`,
             `phone_number`,
