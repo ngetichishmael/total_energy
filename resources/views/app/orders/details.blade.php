@@ -110,7 +110,7 @@
                   <ol class="breadcrumb">
                      <li class="breadcrumb-item"><a href="#">Home</a></li>
                      <li class="breadcrumb-item"><a href="#">Orders</a></li>
-                     <li class="breadcrumb-item active">{!! $order->order_id !!}</li>
+                     <li class="breadcrumb-item active">{!! $order->order_code !!}</li>
                      <li class="breadcrumb-item active">Details</li>
                   </ol>
                </div>
@@ -127,16 +127,13 @@
                   <div class="col-sm-6">
                      <div>
                            <span class="text-sm text-grey-m2 align-middle">To:</span>
-                           <span class="text-600 text-110 text-blue align-middle">Alex Doe</span>
+                           <span class="text-600 text-110 text-blue align-middle">{{$test->customer_name}}</span>
                      </div>
                      <div class="text-grey-m2">
                            <div class="my-1">
-                              Street, City
+                              Address, <span class="text-blue">{!! $test->address !!}</span>
                            </div>
-                           <div class="my-1">
-                              State, Country
-                           </div>
-                           <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600">111-111-111</b></div>
+                           <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600">(+254){!! $test->phone_number !!}</b></div>
                      </div>
                   </div>
                   <!-- /.col -->
@@ -146,11 +143,11 @@
                      <div class="text-grey-m2">
                         <div class="mt-1">Invoice </div>
 
-                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">ID:</span> #{!! $order->order_id !!}</div>
+                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">ID:</span> #{!! $order->id !!}</div>
 
                         <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Issue Date:</span> {!! $order->created_at !!}</div>
 
-                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25">Unpaid</span></div>
+                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25 text-black-50">{!! $order->order_status !!}</span></div>
                      </div>
                   </div>
                   <!-- /.col -->
@@ -161,8 +158,8 @@
 
                   <div class="table-responsive">
                      <table class="table table-striped table-borderless border-0 border-b-2 brc-default-l1">
-                        <thead class=">
-                           <tr class="text-white">
+                        <thead>
+                           <tr class="text-black">
                               <th class="opacity-2">#</th>
                               <th>Description</th>
                               <th>Qty</th>
@@ -196,7 +193,7 @@
                                  SubTotal
                               </div>
                               <div class="col-5">
-                                 <span class="text-120 text-secondary-d1">$2,250</span>
+                                 <span class="text-120 text-secondary-d1">Ksh {!! $item->sub_total !!}</span>
                               </div>
                            </div>
 
@@ -205,7 +202,7 @@
                                  Tax (10%)
                               </div>
                               <div class="col-5">
-                                 <span class="text-110 text-secondary-d1">$225</span>
+                                 <span class="text-110 text-secondary-d1">{!! $item->taxrate !!}%</span>
                               </div>
                            </div>
 
@@ -214,7 +211,7 @@
                                  Total Amount
                               </div>
                               <div class="col-5">
-                                 <span class="text-150 text-success-d3 opacity-2">$2,475</span>
+                                 <span class="text-150 text-success-d3 opacity-2">Ksh {!! $item->total_amount !!}</span>
                               </div>
                            </div>
                      </div>
@@ -231,9 +228,9 @@
             <div class="card-header">Order Payments</div>
             <div class="card-body">
                <h6>
-                  <b>Amount:</b> <br>
-                  <b>Payment Date:</b> <br>
-                  <b>Payment Method:</b> <br>
+                  <b>Amount:</b> {!! $payment->amount !!} <br>
+                  <b>Payment Date:</b> {!! $payment->payment_date !!}<br> 
+                  <b>Payment Method:</b> {!! $payment->payment_method !!}<br>
                </h6>
                <hr>
             </div>
