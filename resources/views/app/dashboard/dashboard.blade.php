@@ -31,31 +31,44 @@
                      </thead>
                      <tbody>
                         <tr class="table-success">
+                           @if(!$Cash == NULL)
                            <td>Cash</td>
-                           <td>00</td>
+                           <td>{{$Cash}}</td>
+                           @else
+                           <td>Cash</td>
+                           <td>N/A</td>
+                           @endif
                         </tr>
                         <tr class="table-success">
+                           @if(!$Mpesa == NULL)
                            <td>Mpesa</td>
-                           <td>00</td>
+                           <td>{{$Mpesa}}</td>
+                           @else
+                           <td>Mpesa</td>
+                           <td>N/A</td>
+                           @endif
                         </tr>
                         <tr class="table-success">
+                           @if(!$Cheque == NULL)
                            <td>Cheque</td>
-                           <td>00</td>
+                           <td>{{$Cheque}}</td>
+                           @else
+                           <td>Cheque</td>
+                           <td>N/A</td>
+                           @endif
                         </tr>
                         <tr class="table-success">
-                           <td>Not Yet Reconcilled</td>
-                           <td>00</td>
-                        </tr>
-                        <tr class="table-success">
-                           <td>Reconcilled Not Approved</td>
-                           <td>00</td>
-                        </tr>
-                        <tr class="table-success">
-                           <td>Reconcilled Approved</td>
-                           <td>00</td>
+                           @if(!$Reconcilled == NULL)
+                           <td>Is it Reconcilled</td>
+                           <td>{{ $Reconcilled->Reconcilled ? 'TRUE' : 'FALSE' }}</td>
+                           @else
+                           <td>Is it Reconcilled</td>
+                           <td>N/A</td>
+                           @endif
                         </tr>
                      </tbody>
                   </table>
+          
                </div>
                <div class="col-md-12">
                   <h4>Receivables Aging</h4>

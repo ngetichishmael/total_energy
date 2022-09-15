@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\app;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\business;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Models\order_payments;
 
 class sokoflowController extends Controller
 {
@@ -22,8 +24,27 @@ class sokoflowController extends Controller
    /**
    * dashboard controller instance.
    */
-   public function dashboard(){
-      return view('app.dashboard.dashboard');
+   public function dashboard(order_payments $order){
+      // $orders = order_payments::all();
+
+      return view('app.dashboard.dashboard', [
+         
+         $item = DB::table('order_payments')
+         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
+         ->where('user_id', auth()->id())->where('payment_method', 'PaymentMethods.Cash')->sum('amount'),
+         $item1 = DB::table('order_payments')
+         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
+         ->where('user_id', auth()->id())->where('payment_method', 'PaymentMethods.Mpesa')->sum('amount'),
+         $item2 = DB::table('order_payments')
+         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
+         ->where('user_id', auth()->id())->where('payment_method', 'PaymentMethods.Cheque')->sum('amount'),
+         // ddd($item),
+         'Cash' => $item,
+         'Mpesa' => $item1,
+         'Cheque' => $item2,
+         'Reconcilled' => $order,
+
+     ]);
    }
 
    //user summary
