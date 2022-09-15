@@ -40,6 +40,31 @@
                </div>
             </div>
             <div class="col-md-6">
+
+               {{-- single true false--}}
+               <div class="row" id="true_false" style="display: none">
+                  <div class="col-md-8">
+                     <div class="form-group col-md-12">
+                        <label for="input-1" class="d-block">Option</label>
+                        <div><input type="text" name="option_a" placeholder="TRUE" value="TRUE" class="form-control"></div>
+                     </div>
+                     <div class="form-group col-md-12">
+                        <div><input type="text" name="option_b" placeholder="FALSE" value="FALSE" class="form-control"></div>
+                     </div>
+                  </div>
+                  <div class="col col-md-4">
+                     <div class="form-group col-md-12">
+                        <label for="input-1" class="d-block">Is correct option?</label>
+                        <div><input type="radio" name="correct" value="option_a" style="margin: 14px;"></div>
+                     </div>
+                     <div class="form-group col-md-12">
+                        <div><input type="radio" name="correct" value="option_b" style="margin: 14px;"></div>
+                     </div>
+                  </div>
+               </div>
+
+
+               {{-- multichoice --}}
                <div class="row" id="multichoice"  style="display: none">
                   <div class="col-md-8">
                      <div class="form-group mb-1 col-md-12">
@@ -78,26 +103,7 @@
                      </div>
                   </div>
                </div>
-               <div class="row" id="true_false" style="display: none">
-                  <div class="col-md-8">
-                     <div class="form-group col-md-12">
-                        <label for="input-1" class="d-block">Option</label>
-                        <div><input type="text" name="option_a" placeholder="TRUE" value="TRUE" class="form-control"></div>
-                     </div>
-                     <div class="form-group col-md-12">
-                        <div><input type="text" name="option_b" placeholder="FALSE" value="FALSE" class="form-control"></div>
-                     </div>
-                  </div>
-                  <div class="col col-md-4">
-                     <div class="form-group col-md-12">
-                        <label for="input-1" class="d-block">Is correct option?</label>
-                        <div><input type="radio" name="correct" value="option_a" style="margin: 14px;"></div>
-                     </div>
-                     <div class="form-group col-md-12">
-                        <div><input type="radio" name="correct" value="option_b" style="margin: 14px;"></div>
-                     </div>
-                  </div>
-               </div>
+             {{-- multichoice  end--}}
             </div>
             <div class="col-md-12">
                <button type="submit" class="btn btn-success btn-sm submit float-right"><i class="fad fa-save"></i> Add Question</button>

@@ -5,10 +5,11 @@ namespace App\Http\Controllers\app\survey;
 use App\Http\Controllers\Controller;
 use App\Models\survey\category;
 use Illuminate\Http\Request;
-use Helper;
+use App\Helpers\Helper;
 use File;
-use Auth;
-use Session;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class categoryController extends Controller
 {
@@ -86,7 +87,10 @@ class categoryController extends Controller
 
          $directory = base_path().'/public/trivia/category/'.$old->image;
 
-         if (File::exists($directory)) {
+         // if (File::exists($directory)) {
+         //    unlink($directory);
+         // }
+         if(file_exists($directory)) {
             unlink($directory);
          }
 
@@ -127,7 +131,7 @@ class categoryController extends Controller
 
       $directory = base_path().'/public/trivia/category/'.$old->image;
 
-      if (File::exists($directory)) {
+      if(file_exists($directory)) {
          unlink($directory);
       }
 

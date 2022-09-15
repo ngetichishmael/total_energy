@@ -7,11 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\survey\survey;
 use App\Models\survey_questions_options as Options;
-use App\Models\survey\category;
 use App\Models\survey\question_type;
 use App\Models\survey\questions;
 use App\Models\survey\answers;
-use File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth ;
 use Illuminate\Support\Facades\Session;
@@ -55,6 +53,7 @@ class questionsController extends Controller
     */
    public function store(Request $request,$id)
    {
+      info($request);
       $this->validate($request,[
          'types' => '',
          'questions' => '',
@@ -109,7 +108,6 @@ class questionsController extends Controller
       $options->options_c = $request->option_c;
       $options->options_d = $request->option_d;
       $options->save();
-      info($id);
       Session::flash('success','Question successfully added');
       return redirect()->route('survey.questions.index',$id);
    }
@@ -207,23 +205,25 @@ class questionsController extends Controller
 
 
       //answers
+      $options = Options::find($request->answerID);
       $answers = answers::find($request->answerID);
       $answers->survey_code = $triviaID;
       $answers->questionID = $questionID;
       if($request->type == 1){
-         $answers->option_a = $request->option_a;
-         $answers->option_b = $request->option_b;
-         $answers->option_c = $request->option_c;
-         $answers->option_d = $request->option_d;
+         $options->options_a = $request->option_a;
+         $options->options_b = $request->option_b;
+         $options->options_c = $request->option_c;
+         $options->options_d = $request->option_d;
          $answers->correct = $request->correct_answer;
       }
       if($request->type == 2){
-         $answers->option_a = $request->true;
-         $answers->option_b = $request->false;
+         $options->options_a = $request->true;
+         $options->options_b = $request->false;
          $answers->correct = $request->true_false_answer;
       }
       $answers->updated_by = Auth::user()->id;
       $answers->save();
+      $options->save();
 
       Session::flash('success','Question successfully updated');
 
