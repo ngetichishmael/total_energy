@@ -22,11 +22,12 @@
    <div class="card">
       <div class="card-body">
          {!! Form::open(array('route' => 'survey.store','enctype'=>'multipart/form-data')) !!}
+         @csrf
             <div class="row">
                <div class="col-md-6">
                   <div class="form-group mb-1">
                      {!! Form::label('title', 'Title', array('class'=>'control-label')) !!}
-                     {!! Form::text('title', null, array('class' => 'form-control', 'placeholder' => 'Title')) !!}
+                     {!! Form::text('title', null, array('class' => 'form-control', 'placeholder' => 'Title', 'required')) !!}
                   </div>
                   {{-- <div class="form-group mb-1">
                      {!! Form::label('title','Category', array('class'=>'control-label')) !!}
@@ -38,7 +39,7 @@
                   </div> --}}
                   <div class="form-group mb-1">
                      {!! Form::label('type','Type', array('class'=>'control-label')) !!}
-                     {{ Form::select('type',['online'=>'Online'], null, ['class' => 'form-control']) }}
+                     {{ Form::select('type',['online'=>'Online'], null, ['class' => 'form-control']), 'required' }}
                   </div>
                </div>
                <div class="col-md-6">
@@ -60,7 +61,7 @@
                      <div class="col-md-6">
                         <div class="form-group">
                            <label for="">Start Date</label>
-                           {!! Form::date('start_date',null,['class'=>'form-control']) !!}
+                           {!! Form::date('start_date',null,['class'=>'form-control'],'required') !!}
                         </div>
                      </div>
                      <div class="col-md-6">
@@ -74,8 +75,8 @@
                <div class="col-md-12 mb-1">
                   <div class="panel-body">
                      <div class="form-group">
-                        <label for="">Link to sales person</label>
-                        {!! Form::select('description',[],null,['class'=>'form-control my-editor']) !!}
+                        <label for="description">Link to sales person</label>
+                        {!! Form::select('sales_person',[$users],null,['class'=>'form-control my-editor']) !!}
                      </div>
                   </div>
                </div>

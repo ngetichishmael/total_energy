@@ -7,25 +7,42 @@ use App\Models\survey\survey;
 use App\Models\survey\category;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
 class surveyController extends Controller
 {
    //index
-   public function index(){
-      $surveries = survey::orderby('id','desc')->get();
-      return view('app.survey.survey.index',compact('surveries'));
+   public function index()
+   {
+      $surveries = survey::orderby('id', 'desc')->get();
+      return view('app.survey.survey.index', compact('surveries'));
    }
 
    //create trivia
-   public function create(){
-      $category = category::orderby('id','desc')->pluck('title','id')->prepend('choose category','');
-      return view('app.survey.survey.create',compact('category'));
+   public function create()
+   {
+      $users = User::pluck('name');
+      $category = category::orderby('id', 'desc')->pluck('title', 'id')->prepend('choose category', '');
+      return view('app.survey.survey.create', compact('category', 'users'));
    }
 
    //store trivia
-   public function store(Request $request){
+   public function store(Request $request)
+   {
+
+      $request->validate([
+         'title' => 'required',
+         'type' => 'required',
+         'status' => 'required',
+         'start_date' => 'required',
+         'end_date' => 'required',
+         'description' => 'required',
+
+
+      ]);
+
       $survey = new survey;
       // if(!empty($request->image)){
       //    $file = $request->image;
@@ -54,23 +71,25 @@ class surveyController extends Controller
       $survey->created_by = Auth::user()->id;
       $survey->save();
 
-      Session::flash('success','Survey successfully created');
+      Session::flash('success', 'Survey successfully created');
 
       return redirect()->route('survey.index');
    }
 
 
    //edit trivia
-   public function edit($code){
-      $category = category::orderby('id','desc')->pluck('title','id')->prepend('choose category','');
-      $edit = survey::where('code',$code)->first();
+   public function edit($code)
+   {
+      $category = category::orderby('id', 'desc')->pluck('title', 'id')->prepend('choose category', '');
+      $edit = survey::where('code', $code)->first();
 
-      return view('app.survey.survey.edit',compact('category','edit'));
+      return view('app.survey.survey.edit', compact('category', 'edit'));
    }
 
    //update trivia
-   public function update(Request $request,$code){
-      $survey = survey::where('code',$code)->first();
+   public function update(Request $request, $code)
+   {
+      $survey = survey::where('code', $code)->first();
       // if(!empty($request->image)){
       //    $old = survey::where('code','=',$code)->select('image')->first();
 
@@ -104,16 +123,16 @@ class surveyController extends Controller
       $survey->updated_by = Auth::user()->id;
       $survey->save();
 
-      Session::flash('success','Survey successfully updated');
+      Session::flash('success', 'Survey successfully updated');
 
       return redirect()->back();
    }
 
    //trivia details
-   public function show($code){
-      $survey = survey::where('code',$code)->first();
+   public function show($code)
+   {
+      $survey = survey::where('code', $code)->first();
 
-      return view('app.survey.survey.show',compact('survey'));
+      return view('app.survey.survey.show', compact('survey'));
    }
-
 }
