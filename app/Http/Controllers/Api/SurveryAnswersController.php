@@ -14,6 +14,7 @@ class SurveryAnswersController extends Controller
         $data = $request->all();
         $response = new Response();
         array_pop($data);
+        info($data);
         foreach ($data as $data) {
             $response->survey_code = $data->survey_code;
             $response->question_code = $data->question_code;
