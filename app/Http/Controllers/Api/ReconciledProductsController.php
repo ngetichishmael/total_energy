@@ -12,6 +12,7 @@ class ReconciledProductsController extends Controller
     {
         $usercode = $request->user()->user_code;
         $request= $request->all();
+        array_pop($request);
         info($request);
         foreach ($request as $data){
             $reconciled_products= new ReconciledProducts();
