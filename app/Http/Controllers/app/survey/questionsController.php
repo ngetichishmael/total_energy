@@ -210,6 +210,7 @@ class questionsController extends Controller
       $answers->survey_code = $triviaID;
       $answers->questionID = $questionID;
       if($request->type == 1){
+         //Options for Question Types 
          $options->options_a = $request->option_a;
          $options->options_b = $request->option_b;
          $options->options_c = $request->option_c;
