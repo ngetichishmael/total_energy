@@ -241,4 +241,8 @@ class questionsController extends Controller
    {
       //
    }
+   public function destroyAll($id)
+   {
+      //
+   }
 }
