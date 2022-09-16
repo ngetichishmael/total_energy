@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\surveyController;
 use App\Http\Controllers\Api\SurveryAnswersController;
 use App\Http\Controllers\Api\ReconcilationController;
+use App\Http\Controllers\Api\ReconciledProductsController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -137,6 +138,7 @@ Route::group(['namespace' => 'Api'], function () {
 
    // Reconcillations
    Route::get('/reconcile/payment',[ReconcilationController::class,'index'])->middleware('auth:sanctum');
+   Route::post('/reconcile/products',[ReconciledProductsController::class,'index'])->middleware('auth:sanctum');
 
 
 });
