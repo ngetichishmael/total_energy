@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class StockLiftController extends Controller
 {
@@ -16,6 +15,7 @@ class StockLiftController extends Controller
         $business_code = $request->user()->business_code;
         $random = Str::random(20);
         $request = $request->all();
+        info($request);
         array_pop($request);
         foreach ($request as $value) {
             $stock = DB::select('SELECT `product_code`  FROM `inventory_allocated_items` WHERE `product_code` =? AND `created_by`= ?', [$value["productID"], $user_code]);
