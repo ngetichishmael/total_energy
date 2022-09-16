@@ -108,8 +108,8 @@
                <h2 class="content-header-title float-start mb-0">Order Details</h2>
                <div class="breadcrumb-wrapper">
                   <ol class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                     <li class="breadcrumb-item"><a href="#">Orders</a></li>
+                     <li class="breadcrumb-item"><a href="/sokoflowadmin">Home</a></li>
+                     <li class="breadcrumb-item"><a href="{!! route('orders.index') !!}">Orders</a></li>
                      <li class="breadcrumb-item active">{!! $order->order_code !!}</li>
                      <li class="breadcrumb-item active">Details</li>
                   </ol>
