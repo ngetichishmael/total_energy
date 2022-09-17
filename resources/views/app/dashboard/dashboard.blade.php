@@ -31,40 +31,20 @@
                      </thead>
                      <tbody>
                         <tr class="table-success">
-                           @if(!$Cash == NULL)
                            <td>Cash</td>
                            <td>{{$Cash}}</td>
-                           @else
-                           <td>Cash</td>
-                           <td>N/A</td>
-                           @endif
                         </tr>
                         <tr class="table-success">
-                           @if(!$Mpesa == NULL)
                            <td>Mpesa</td>
                            <td>{{$Mpesa}}</td>
-                           @else
-                           <td>Mpesa</td>
-                           <td>N/A</td>
-                           @endif
                         </tr>
                         <tr class="table-success">
-                           @if(!$Cheque == NULL)
                            <td>Cheque</td>
                            <td>{{$Cheque}}</td>
-                           @else
-                           <td>Cheque</td>
-                           <td>N/A</td>
-                           @endif
                         </tr>
                         <tr class="table-success">
-                           @if(!$Reconcilled == NULL)
-                           <td>Is it Reconcilled</td>
-                           <td>{{ $Reconcilled->Reconcilled ? 'TRUE' : 'FALSE' }}</td>
-                           @else
-                           <td>Is it Reconcilled</td>
-                           <td>N/A</td>
-                           @endif
+                           <td>Total Reconciled</td>
+                           <td>{{ $reconciled }}</td>
                         </tr>
                      </tbody>
                   </table>

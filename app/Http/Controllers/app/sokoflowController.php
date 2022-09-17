@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\app;
 
-use App\Models\business;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\order_payments;
+use App\Models\order_payments as OrderPayment;
 
 class sokoflowController extends Controller
 {
@@ -24,31 +22,20 @@ class sokoflowController extends Controller
    /**
    * dashboard controller instance.
    */
-   public function dashboard(order_payments $order){
+   public function dashboard(){
       // $orders = order_payments::all();
 
-      return view('app.dashboard.dashboard', [
-         
-         $item = DB::table('order_payments')
-         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
-         ->where('user_id', auth()->id())->where('payment_method', 'PaymentMethods.Cash')->sum('amount'),
-         $item1 = DB::table('order_payments')
-         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
-         ->where('user_id', auth()->id())->where('payment_method', 'PaymentMethods.Mpesa')->sum('amount'),
-         $item2 = DB::table('order_payments')
-         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
-         ->where('user_id', auth()->id())->where('payment_method', 'PaymentMethods.Cheque')->sum('amount'),
-         $total = DB::table('order_payments')
-         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
-         ->where('user_id', auth()->id())->sum('amount'),
-         // ddd($item),
-         'Cash' => $item,
-         'Mpesa' => $item1,
-         'Cheque' => $item2,
-         'total' => $total,
-         'Reconcilled' => $order,
+      $Cash=OrderPayment::where('payment_method','Payments.Cash')->sum('amount');
+      $Mpesa=OrderPayment::where('payment_method','Payments.Cash')->sum('amount');
+      $Cheque=OrderPayment::where('payment_method','Payments.Cash')->sum('amount');
+      $reconciled=OrderPayment::where('isReconcile','true')->count('amount');
+      $total=OrderPayment::sum('amount');
+      $Cash = $Cash ?? 'No Cash Collected'; 
+      $Mpesa = $Mpesa ?? 'No Mpesa Collected'; 
+      $Cheque = $Cheque ?? 'No Cheque Collected'; 
+      $total = $total ?? 'No Total Collected'; 
 
-     ]);
+      return view('app.dashboard.dashboard',compact('Cash', 'Mpesa','Cheque','reconciled','total'));
    }
 
    //user summary

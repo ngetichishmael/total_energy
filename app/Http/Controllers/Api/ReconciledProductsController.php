@@ -16,7 +16,7 @@ class ReconciledProductsController extends Controller
         info($request);
         foreach ($request as $data){
             $reconciled_products= new ReconciledProducts();
-            $reconciled_products->productID = $data['productID'];gi
+            $reconciled_products->productID = $data['productID'];
             $reconciled_products->amount = $data['amount'];
             $reconciled_products->supplierID = $data['supplierID'];
             $reconciled_products->userCode  = $usercode;

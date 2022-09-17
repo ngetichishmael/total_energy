@@ -15,10 +15,10 @@ class Index extends Component
    public $orderAsc = false;
    public $customer_name = null;
 
-   public function updatingSearch()
-   {
-      $this->resetPage();
-   }
+   // public function updatingSearch()
+   // {
+   //    $this->resetPage();
+   // }
    public function render()
    {
       $orders =  Orders::join('customers','customers.id','=','orders.customerID')
