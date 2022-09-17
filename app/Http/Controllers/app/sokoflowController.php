@@ -25,9 +25,9 @@ class sokoflowController extends Controller
    public function dashboard(){
       // $orders = order_payments::all();
 
-      $Cash=OrderPayment::where('payment_method','Payments.Cash')->sum('amount');
-      $Mpesa=OrderPayment::where('payment_method','Payments.Cash')->sum('amount');
-      $Cheque=OrderPayment::where('payment_method','Payments.Cash')->sum('amount');
+      $Cash=OrderPayment::where('payment_method','PaymentMethods.Mpesa')->sum('amount');
+      $Mpesa=OrderPayment::where('payment_method','PaymentMethods.Cash')->sum('amount');
+      $Cheque=OrderPayment::where('payment_method','PaymentMethods.Cheque')->sum('amount');
       $reconciled=OrderPayment::where('isReconcile','true')->count('amount');
       $total=OrderPayment::sum('amount');
       $Cash = $Cash ?? 'No Cash Collected'; 
