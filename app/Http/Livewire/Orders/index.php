@@ -10,15 +10,15 @@ class Index extends Component
 {
    use WithPagination;
    public $perPage = 10;
-   public $search = '';
+   public $search;
    public $orderBy = 'orders.id';
    public $orderAsc = false;
    public $customer_name = null;
 
-   // public function updatingSearch()
-   // {
-   //    $this->resetPage();
-   // }
+   public function updatingSearch()
+   {
+      $this->resetPage();
+   }
    public function render()
    {
       $orders =  Orders::join('customers','customers.id','=','orders.customerID')
@@ -31,6 +31,14 @@ class Index extends Component
 
       return view('livewire.orders.index', compact('orders'));
    }
+
+   // public function render()
+   // {
+   //    return view('livewire.orders.index',[
+   //       'orders' => Orders::whereLike('model', $this->search??''),
+
+   //    ]);
+   // }
 }
 
 

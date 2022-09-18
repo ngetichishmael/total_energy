@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\ReconciledProducts as ReconciledProducts;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReconciledProductsController extends Controller
 {
@@ -21,6 +22,23 @@ class ReconciledProductsController extends Controller
             $reconciled_products->supplierID = $data['supplierID'];
             $reconciled_products->userCode  = $usercode;
             $reconciled_products->save();
+            DB::update('UPDATE
+            `inventory_allocated_items`
+                    SET
+                        `allocated_qty` = `allocated_qty`-?,
+                        `returned_qty` = ?,
+                        `updated_at` = CURRENT_DATE
+                    WHERE
+                    `inventory_allocated_items`.`created_at`=( SELECT
+                                                        MAX(`inventory_allocated_items`.`created_at`)
+                                                        FROM `inventory_allocated_items`
+                                                        WHERE `inventory_allocated_items`.`product_code` = ?AND
+                                                        `inventory_allocated_items`.`created_by` =?
+                                                        )', [$data['amount'],$data['amount'],$data['productID'],
+                                                        $usercode]);
+
+
+
         }
 
         return response()->json([

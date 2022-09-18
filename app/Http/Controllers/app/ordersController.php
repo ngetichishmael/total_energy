@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\app;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\customers;
 use Illuminate\Http\Request;
@@ -12,9 +13,9 @@ use App\Models\Delivery_items;
 use App\Models\Delivery;
 use App\Models\order_payments;
 use App\Models\User;
-use Auth;
-use Session;
-use Helper;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 class ordersController extends Controller
 {
    //orders
