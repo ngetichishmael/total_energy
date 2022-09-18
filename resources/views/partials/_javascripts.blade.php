@@ -87,6 +87,7 @@
    });
 </script>
 <livewire:scripts />
+@livewireScripts
 <script>
    var x = document.getElementById("location");
    function getLocation() {
