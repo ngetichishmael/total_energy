@@ -109,8 +109,13 @@
                               <i data-feather="shopping-bag" class="font-medium-5"></i>
                               </div>
                            </div>
-                           <h2 class="fw-bolder">0.00</h2>
+                           @if(!$sales == NULL)
+                           <h2 class="fw-bolder">{{$sales}}</h2>
                            <p class="card-text">Total Sales Amount</p>
+                           @else
+                           <h2 class="fw-bolder">N/A</h2>
+                           <p class="card-text">Total Sales Amount</p>
+                           @endif
                         </div>
                      </div>
                   </div>

@@ -170,6 +170,7 @@ Route::group(['middleware' => ['verified']], function() {
 
    /* === delivery === */
    Route::get('delivery',['uses' => 'app\deliveryController@index','as' => 'delivery.index']);
+   Route::get('delivery/{code}/details',['uses' => 'app\deliveryController@details','as' => 'delivery.details']);
 
 
    /* === Warehousing === */
