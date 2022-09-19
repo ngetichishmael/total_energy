@@ -29,13 +29,21 @@ class ReconciledProductsController extends Controller
                         `returned_qty` = ?,
                         `updated_at` = CURRENT_DATE
                     WHERE
-                    `inventory_allocated_items`.`created_at`IN ( SELECT
-                                                        MAX(`inventory_allocated_items`.`created_at`)
-                                                        FROM `inventory_allocated_items`
-                                                        WHERE `inventory_allocated_items`.`product_code` =? AND
-                                                        `inventory_allocated_items`.`created_by` =?
-                                                        )', [$data['amount'],$data['amount'],$data['productID'],
-                                                        $usercode]);
+                    `inventory_allocated_items`.`created_at`=?)', [$data['amount'],$data['amount'],$usercode]);
+            // DB::update('UPDATE
+            // `inventory_allocated_items`
+            //         SET
+            //             `allocated_qty` = `allocated_qty`-?,
+            //             `returned_qty` = ?,
+            //             `updated_at` = CURRENT_DATE
+            //         WHERE
+            //         `inventory_allocated_items`.`created_at`IN ( SELECT
+            //                                             MAX(`inventory_allocated_items`.`created_at`)
+            //                                             FROM `inventory_allocated_items`
+            //                                             WHERE `inventory_allocated_items`.`product_code` =? AND
+            //                                             `inventory_allocated_items`.`created_by` =?
+            //                                             )', [$data['amount'],$data['amount'],$data['productID'],
+            //                                             $usercode]);
 
 
 
