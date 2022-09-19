@@ -32,7 +32,7 @@ class ReconciledProductsController extends Controller
                     `inventory_allocated_items`.`created_at`=( SELECT
                                                         MAX(`inventory_allocated_items`.`created_at`)
                                                         FROM `inventory_allocated_items`
-                                                        WHERE `inventory_allocated_items`.`product_code` = ?AND
+                                                        WHERE `inventory_allocated_items`.`product_code` =? AND
                                                         `inventory_allocated_items`.`created_by` =?
                                                         )', [$data['amount'],$data['amount'],$data['productID'],
                                                         $usercode]);
