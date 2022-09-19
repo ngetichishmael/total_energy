@@ -29,7 +29,7 @@ class ReconciledProductsController extends Controller
                         `returned_qty` = ?,
                         `updated_at` = CURRENT_DATE
                     WHERE
-                    `inventory_allocated_items`.`created_at`=?)', [$data['amount'],$data['amount'],$usercode]);
+                    `inventory_allocated_items`.`created_by`=?)', [$data['amount'],$data['amount'],$usercode]);
             // DB::update('UPDATE
             // `inventory_allocated_items`
             //         SET
