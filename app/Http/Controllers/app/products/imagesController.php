@@ -1,14 +1,16 @@
 <?php
-namespace App\Http\Controllers\app\finance\products;
+namespace App\Http\Controllers\app\products;
+
+use App\Helpers\Helper as HelpersHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\wingu\file_manager;
-use App\Models\finance\products\product_information;
-use Session;
-use Helper;
+use App\Models\file_manager;
+use App\Models\products\product_information;
 use File;
 use Wingu;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File as FacadesFile;
+use Illuminate\Support\Facades\Session;
 
 class imagesController extends Controller{
 
@@ -39,7 +41,7 @@ class imagesController extends Controller{
       $size =  $file->getSize();
 
       //change file name
-      $filename = Helper::generateRandomString(40). '.' .$extension;
+      $filename = HelpersHelper::generateRandomString(40). '.' .$extension;
 
       //move file
       $file->move($directory, $filename);
@@ -69,7 +71,7 @@ class imagesController extends Controller{
    {
       $images = file_manager::where('fileID', $id)->where('businessID',Auth::user()->businessID)->where('section','products')->where('folder','Finance')->get();
 
-      $product = product_information::where('id',$id)->where('businessID',Auth::user()->businessID)->first();
+      $product = Product_information::where('id',$id)->where('businessID',Auth::user()->businessID)->first();
       $count = 1;
       $productID = $id;
 
@@ -116,7 +118,7 @@ class imagesController extends Controller{
       $directory = base_path().'/public/businesses/'.Wingu::business(Auth::user()->businessID)->businessID.'/finance/products/';
       $delete = $directory.$oldimagename->file_name;
 
-      if (File::exists($delete)) {
+      if (FacadesFile::exists($delete)) {
          unlink($delete);
       }
 

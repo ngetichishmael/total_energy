@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\app\finance\products;
+namespace App\Http\Controllers\app\products;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\finance\suppliers\suppliers;
-use App\Models\finance\suppliers\contact_persons;
-use App\Models\finance\lpo\lpo;
-use App\Models\finance\lpo\lpo_products;
-use App\Models\finance\lpo\lpo_settings as settings;
-use App\Models\finance\products\product_information;
-use App\Models\finance\products\product_price;
-use App\Models\finance\products\product_inventory;
-use App\Models\wingu\status; 
-use App\Models\wingu\file_manager as docs;
-use App\Models\finance\tax;
-use App\Models\finance\currency;
+use App\Models\suppliers\suppliers;
+use App\Models\suppliers\contact_persons;
+use App\Models\lpo;
+use App\Models\lpo\lpo_products;
+use App\Models\products\product_information;
+use App\Models\products\product_price;
+use App\Models\products\product_inventory;
+use App\Models\file_manager as docs;
+use App\Models\tax;
+use App\Models\currency;
 use App\Models\crm\emails;
 use App\Mail\sendLpo;
-use Session;
+use App\Models\settings;
+use App\Models\status;
 use Helper;
 use Finance;
 use Wingu;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use PDF;
 use Mail;
 

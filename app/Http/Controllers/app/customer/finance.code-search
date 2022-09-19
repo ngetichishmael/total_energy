@@ -1,0 +1,850 @@
+# Query: finance
+# Excluding: lluminate
+# ContextLines: 1
+
+246 results - 54 files
+
+app\Exports\customers.php:
+  6  use Maatwebsite\Excel\Concerns\WithHeadings;
+  7: use App\Models\finance\customer\customers as customer;
+  8  use Auth;
+
+app\Helpers\Finance.php:
+  46  
+  47: class Finance
+  48  {
+
+app\Http\Controllers\app\customer\customerController.php:
+  196  
+  197: 			return redirect()->route('finance.contact.index');
+  198  		} else {
+
+app\Http\Controllers\app\customer\groupsController.php:
+    1  <?php
+    2: // namespace App\Http\Controllers\app\finance\contact;
+    3  
+
+    6  use App\Http\Controllers\Controller;
+    7: use App\Models\finance\customer\groups;
+    8  use Auth;
+
+   25        $groups = groups::where('businessID',Auth::user()->business_code)->orderby('id','desc')->get();
+   26:       return view('app.finance.contacts.groups.index', compact('groups','count'));
+   27     }
+
+   66  
+   67:       return view('app.finance.contacts.groups.edit', compact('groups','count','edit'));
+   68     }
+
+  107  
+  108:       return redirect()->route('finance.contact.groups.index');
+  109     }
+
+app\Http\Controllers\app\products\attributeController.php:
+   2  
+   3: namespace App\Http\Controllers\app\products;
+   4  
+
+   6  use App\Http\Controllers\Controller;
+   7: use App\Models\finance\products\attributes;
+   8  use Limitless;
+
+  27              $count = 1;
+  28:             return view('app.finance.products.attributes.index', compact('attributes','count'));
+  29      }
+
+  86  
+  87:         return view('app.finance.products.attributes.edit', compact('attributes','count','edit'));
+  88  
+
+app\Http\Controllers\app\products\imagesController.php:
+    5  use App\Models\wingu\file_manager;
+    6: use App\Models\finance\products\product_information;
+    7  use Session;
+
+   27        //directory
+   28: 		$directory = base_path().'/public/businesses/'.Wingu::business(Auth::user()->businessID)->businessID.'/finance/products/';
+   29  
+
+   52        $image->file_size  = $size;
+   53:       $image->folder 	 = 'Finance';
+   54  		$image->section 	 = 'products';
+
+   69     {
+   70:       $images = file_manager::where('fileID', $id)->where('businessID',Auth::user()->businessID)->where('section','products')->where('folder','Finance')->get();
+   71  
+
+   75  
+   76:       return view('app.finance.products.images', compact('productID','images','count','product'));
+   77     }
+
+   90                    ->where('cover', 1)
+   91:                   ->where('folder','Finance')
+   92                    ->where('section','products')
+
+  115  
+  116:       $directory = base_path().'/public/businesses/'.Wingu::business(Auth::user()->businessID)->businessID.'/finance/products/';
+  117        $delete = $directory.$oldimagename->file_name;
+
+app\Http\Controllers\app\products\productController.php:
+  292                 //directory
+  293:                $directory = base_path().'/storage/files/business/'.Wingu::business(Auth::user()->business_code)->primary_email.'/finance/products/';
+  294                 $images = file_manager::where('fileID',$id)->where('business_code', Auth::user()->business_code)->where('folder','products')->get();
+
+app\Http\Controllers\app\products\settingsController.php:
+   2  
+   3: namespace App\Http\Controllers\app\products;
+   4  
+
+   6  use Illuminate\Http\Request;
+   7: use App\Models\finance\products\product_information;
+   8  use Helper;
+
+  74  
+  75:       return view('app.finance.products.settings', compact('productID','product'));
+  76     }
+
+app\Http\Controllers\app\products\stockcontrolController.php:
+    6  use App\Http\Controllers\Controller;
+    7: use App\Models\finance\suppliers\suppliers;
+    8: use App\Models\finance\suppliers\contact_persons;
+    9: use App\Models\finance\lpo\lpo;
+   10: use App\Models\finance\lpo\lpo_products;
+   11: use App\Models\finance\lpo\lpo_settings as settings;
+   12: use App\Models\finance\products\product_information;
+   13: use App\Models\finance\products\product_price;
+   14: use App\Models\finance\products\product_inventory;
+   15  use App\Models\wingu\status; 
+   16  use App\Models\wingu\file_manager as docs;
+   17: use App\Models\finance\tax;
+   18: use App\Models\finance\currency;
+   19  use App\Models\crm\emails;
+
+   22  use Helper;
+   23: use Finance;
+   24  use Wingu;
+
+   51  							->get();
+   52: 		return view('app.finance.products.stock.index', compact('lpos'));
+   53     }
+
+   63  
+   64:       return view('app.finance.products.stock.order', compact('suppliers','products','status'));
+   65     }
+
+  132  
+  133: 		return redirect()->route('finance.product.stock.control');
+  134  
+
+  169  
+  170: 		return view('app.finance.products.stock.show', compact('supplier','lpo','products','count','filec','files','persons','template'));
+  171  	}
+
+  199  
+  200: 		return view('app.finance.products.stock.edit', compact('suppliers','supplier','taxed','count','lpo','products','lpoproducts','taxs'));
+  201  	}
+
+  295  		
+  296: 		$directory = base_path().'/storage/files/business/'.$lpo->primary_email.'/finance/lpo/';
+  297  		
+
+  306  
+  307: 		return view('app.finance.products.stock.mail', compact('lpo','files','contacts','supplier'));
+  308  	}
+
+  393  		if($request->attaches == 'Yes'){
+  394: 			$attachment = base_path().'/storage/files/business/'.Wingu::business(Auth::user()->businessID)->primary_email.'/finance/lpo/'.Finance::lpo()->prefix.$lpo->lpo_number.'.pdf';
+  395  		}else{
+
+  402  		//recorord activity
+  403: 		$activities = 'lpo #'.Finance::lpo()->prefix.$lpo->lpo_number.' has been sent to the supplier by '.Auth::user()->name;
+  404  		$section = 'LPO';
+
+  429  		//directory
+  430: 		$directory = base_path().'/storage/files/business/'.Wingu::business(Auth::user()->businessID)->primary_email.'/finance/lpo/';
+  431  
+
+  451        $upload->folder 	   = 'lpo';
+  452: 		$upload->name 		   = Finance::lpo()->prefix.$lpo->lpo_number;
+  453  		$upload->file_name   = $filename;
+
+  489  
+  490: 		return $pdf->download(Finance::lpo()->prefix.$lpo->lpo_number.'.pdf');
+  491  	}
+
+  520  
+  521: 		return $pdf->stream(Finance::lpo()->prefix.$lpo->lpo_number.'.pdf');
+  522  	}
+
+app\Http\Controllers\app\products\variantsController.php:
+    2  
+    3: namespace App\Http\Controllers\app\products;
+    4  
+
+    6  use App\Http\Controllers\Controller;
+    7: use App\Models\finance\products\product_information;
+    8: use App\Models\finance\products\product_price;
+    9: use App\Models\finance\products\product_inventory;
+   10: use App\Models\finance\products\product_gallery;
+   11: use App\Models\finance\products\attributes; 
+   12: use App\Models\finance\currency;
+   13: use App\Models\finance\tax;
+   14  use Auth;
+   15: use Finance;
+   16  use Session;
+
+   51  
+   52:       return view('app.finance.products.variants.index', compact('productID','product','variants','taxes','count','values','currency'));
+   53     }
+
+   91        $product->attributeID = $request->attribute;
+   92:       $product->product_name = $request->name.'-'.Finance::products_attributes($request->variant)->value;
+   93        $product->businessID = Auth::user()->businessID;
+
+  122           //directory
+  123:          $directory = base_path().'/storage/files/business/'.Wingu::business(Auth::user()->businessID)->primary_email.'/finance/products/';
+  124  
+
+  196  
+  197:       return view('app.finance.products.variants.edit', compact('productID','product','edit','taxes','values'));
+  198     }
+
+  223        $product->attributeID = $request->attribute;
+  224:       $product->product_name = $request->name.'-'.Finance::products_attributes($request->variant)->value;
+  225        $product->businessID = Auth::user()->businessID;
+
+  254           //directory
+  255:          $directory = base_path().'/storage/files/business/'.Wingu::business(Auth::user()->businessID)->primary_email.'/finance/products/';
+  256  
+
+app\Http\Controllers\app\settings\creditnoteController.php:
+   2  
+   3: namespace App\Http\Controllers\app\settings;
+   4  
+
+   6  use App\Http\Controllers\Controller;
+   7: use App\Models\finance\creditnote\creditnote_settings;
+   8  use Session;
+
+  20  		if($check != 1){
+  21: 			Finance::creditnote_setting_setup();
+  22        }
+
+  26  
+  27:       return view('app.finance.creditnote.settings.index', compact('settings','count'));
+  28  
+
+app\Http\Controllers\app\settings\invoiceController.php:
+   2  
+   3: namespace App\Http\Controllers\app\finance\settings;
+   4  
+
+   6  use App\Http\Controllers\Controller;
+   7: use App\Models\finance\invoice\invoice_settings;
+   8  use App\Models\wingu\status;
+
+  33  
+  34:       return view('app.finance.invoices.settings.index', compact('settings','statuses','count'));
+  35     }
+
+app\Http\Controllers\app\settings\lpoController.php:
+   1  <?php
+   2: namespace App\Http\Controllers\app\finance\settings;
+   3  use Illuminate\Http\Request;
+   4  use App\Http\Controllers\Controller;
+   5: use App\Models\finance\lpo\lpo_settings;
+   6  use Session;
+
+   8  use Wingu;
+   9: use Finance;
+  10  
+
+  19  		if($check != 1){
+  20: 			Finance::lpo_setting_setup();
+  21        }
+
+  25  
+  26:       return view('app.finance.purchaseorders.settings.index', compact('settings','count'));
+  27     }
+
+app\Http\Controllers\app\settings\quoteController.php:
+   2  
+   3: namespace App\Http\Controllers\app\settings;
+   4  
+
+   6  use App\Http\Controllers\Controller;
+   7: use App\Models\finance\quotes\quote_settings;
+   8  use Session;
+
+  20  		if($check != 1){
+  21: 			Finance::quote_setting_setup();
+  22        }
+
+  26  
+  27:       return view('app.finance.quotes.settings.index', compact('settings','count'));
+  28     }
+
+app\Http\Controllers\app\settings\salesordersController.php:
+   2  
+   3: namespace App\Http\Controllers\app\settings;
+   4  
+
+   6  use App\Http\Controllers\Controller; 
+   7: use App\Models\finance\salesorder\salesorder_settings;
+   8  use Session;
+
+  10  use Wingu;
+  11: use Finance;
+  12  
+
+  21  		if($check != 1){
+  22: 			Finance::salesorder_setting_setup();
+  23        }
+
+  27  
+  28:       return view('app.finance.salesorders.settings.index', compact('settings','count'));
+  29     }
+
+app\Http\Controllers\app\settings\taxesController.php:
+   2  
+   3: namespace App\Http\Controllers\app\settings;
+   4  
+
+   6  use App\Http\Controllers\Controller;
+   7: use App\Models\finance\tax;
+   8  use Wingu;
+
+  20        $count = 1;
+  21:       return view('app.finance.taxes.index', compact('taxes','count'));
+  22     }
+
+  51  
+  52:       return redirect()->route('finance.settings.taxes');
+  53     }
+
+  92  
+  93:       return redirect()->route('finance.settings.taxes');
+  94     }
+
+app\Http\Controllers\app\supplier\importController.php:
+   6  use App\Http\Controllers\Controller;
+   7: use App\Models\finance\suppliers\category;
+   8  use App\Imports\suppliers as import;
+
+  26        $groups = category::OrderBy('id','DESC')->where('businessID',Auth::user()->businessID)->pluck('name','id')->prepend('Choose category','');
+  27:       return view('app.finance.suppliers.import', compact('groups'));
+  28     }
+
+  47  
+  48:          return redirect()->route('finance.supplier.index');
+  49        }else{
+
+app\Imports\suppliers.php:
+  7  use Maatwebsite\Excel\Concerns\WithHeadingRow;
+  8: use App\Models\finance\suppliers\suppliers as supplier;
+  9: use App\Models\finance\suppliers\supplier_address;
+  10  use Helper;
+
+app\Mail\sendEstimates.php:
+  11  use Wingu;
+  12: use Finance;
+  13  use Auth;
+
+  54  
+  55:       $path = base_path().'/public/businesses/'.Wingu::business(Auth::user()->businessID)->businessID.'/finance/'.$doctype.'/';
+  56  
+
+app\Mail\sendInvoices.php:
+  52  
+  53:       $path = base_path().'/public/businesses/'.Wingu::business(Auth::user()->businessID)->businessID.'/finance/invoices/';
+  54  
+
+app\Mail\sendLpo.php:
+  54  
+  55:       $path = base_path().'/public/businesses/'.Wingu::business(Auth::user()->businessID)->businessID.'/finance/'.$doctype.'/';
+  56  
+
+app\Mail\sendPayment.php:
+  10  use Wingu;
+  11: use Finance;
+  12  use Auth;
+
+  54  
+  55:       $path = base_path().'/storage/files/business/'.Wingu::business(Auth::user()->businessID)->businessID.'/finance/'.$doctype.'/';
+  56  
+
+app\Mail\sendPosReceipt.php:
+  2  namespace App\Mail;
+  3: use App\Models\finance\invoice\invoice_products;
+  4: use App\Models\finance\customer\customers;
+  5: use App\Models\finance\invoice\invoices;
+  6  use Illuminate\Queue\SerializesModels;
+
+app\Mail\sendQuotes.php:
+  58  
+  59:         $path = base_path().'/public/businesses/'.$business->business_code.'/finance/'.$doctype.'/';
+  60  
+
+  86                      if($business->bcc != ""){
+  87:                         $message->bcc($business->bcc,'Finance');
+  88                      }
+
+app\Mail\sendSalesorders.php:
+  49  
+  50:       $path = base_path().'/public/businesses/'.Wingu::business(Auth::user()->businessID)->businessID.'/finance/salesorder/';
+  51  
+
+app\Models\currency.php:
+  2  
+  3: namespace App\Models\finance;
+  4  
+
+app\Models\products\attributes.php:
+  1  <?php
+  2: namespace App\Models\finance\products;
+  3  
+
+config\app.php:
+  234           'Helper' => App\Helpers\Helper::class,
+  235:          'Finance' => App\Helpers\Finance::class,
+  236           'Sales' => App\Helpers\Sales::class,
+
+public\app-assets\fonts\fontawesome\metadata\categories.yml:
+  881    label: Files
+  882: finance:
+  883    icons:
+
+  910      - wallet
+  911:   label: Finance
+  912  fitness:
+
+public\app-assets\images\pages\coming-soon-dark.svg:
+   9  </g>
+  10: <g id="Finance Presentation">
+  11  <g id="DesktopDasboard">
+
+public\app-assets\images\pages\coming-soon.svg:
+  68                  </g>
+  69:                 <g id="Finance-Presentation" transform="translate(95.000000, 82.000000)">
+  70                      <g id="DesktopDasboard">
+
+resources\views\app\customers\groups\edit.blade.php:
+   7  @section('sidebar')
+   8: 	@include('app.finance.partials._menu')
+   9  @endsection
+
+  15        <ol class="breadcrumb pull-right">
+  16:          <li class="breadcrumb-item"><a href="javascript:;">Finance</a></li>
+  17           <li class="breadcrumb-item"><a href="#">Customer</a></li>
+  18:          <li class="breadcrumb-item"><a href="{!! route('finance.contact.groups.index') !!}">Category</a></li>
+  19           <li class="breadcrumb-item active">Update</li>
+
+  45                                <td>
+  46:                                  <a href="{!! route('finance.contact.groups.edit',$group->id) !!}" class="btn btn-pink"><i class="far fa-edit"></i> Edit</a>
+  47:                                  <a href="{!! route('finance.contact.groups.delete',$group->id) !!}" class="btn btn-danger delete"><i class="fas fa-trash"></i> Delete</a>
+  48                                </td>
+
+  63                    <div class="panel-body">
+  64:                      {!! Form::model($edit, ['route' => ['finance.contact.groups.update',$edit->id], 'method'=>'post','enctype'=>'multipart/form-data']) !!}
+  65                          @csrf
+
+resources\views\app\customers\groups\index.blade.php:
+   7  @section('sidebar')
+   8: 	@include('app.finance.partials._menu')
+   9  @endsection
+
+  15        <ol class="breadcrumb pull-right">
+  16:          <li class="breadcrumb-item"><a href="javascript:;">Finance</a></li>
+  17           <li class="breadcrumb-item"><a href="#">Customer</a></li>
+  18:          <li class="breadcrumb-item"><a href="{!! route('finance.contact.groups.index') !!}">Category</a></li>
+  19           <li class="breadcrumb-item active">Index</li>
+
+  46                                   @permission('update-customercategory')
+  47:                                     <a href="{!! route('finance.contact.groups.edit',$group->id) !!}" class="btn btn-pink btn-sm"><i class="far fa-edit"></i> Edit</a>
+  48                                   @endpermission
+  49                                   @permission('delete-customercategory')
+  50:                                     <a href="{!! route('finance.contact.groups.delete',$group->id) !!}" class="btn btn-danger delete btn-sm"><i class="fas fa-trash"></i> Delete</a>
+  51                                   @endpermission
+
+  67                    <div class="panel-body">
+  68:                      {!! Form::open(array('route' => 'finance.contact.groups.store')) !!}
+  69                          @csrf
+
+resources\views\app\products\description.blade.php:
+   6  @section('sidebar')
+   7: 	@include('app.finance.partials._menu')
+   8  @endsection
+
+  14        <ol class="breadcrumb pull-right">
+  15:          <li class="breadcrumb-item"><a href="{!! route('finance.index') !!}">Finance</a></li>
+  16:          <li class="breadcrumb-item"><a href="{!! route('finance.product.index') !!}">Items</a></li>
+  17           <li class="breadcrumb-item active">Description</li>
+
+  24        <div class="row">
+  25:          @include('app.finance.partials._shop_menu')
+  26           <div class="col-md-9">
+  27:             {!! Form::model($product, ['route' => ['finance.description.update',$product->id], 'method'=>'post','data-parsley-validate' => '','enctype'=>'multipart/form-data']) !!}
+  28                 {!! csrf_field() !!}
+
+resources\views\app\products\images.blade.php:
+   6  @section('sidebar')
+   7: 	@include('app.finance.partials._menu')
+   8  @endsection
+
+  14        <ol class="breadcrumb pull-right">
+  15: 			<li class="breadcrumb-item"><a href="{!! route('finance.index') !!}">Finance</a></li>
+  16:          <li class="breadcrumb-item"><a href="{!! route('finance.product.index') !!}">Items</a></li>
+  17           <li class="breadcrumb-item active">Item Images</li>
+
+  24        <div class="row">
+  25:          @include('app.finance.partials._shop_menu')
+  26           <div class="col-md-9">
+
+  56                                   <td style="width:12%">
+  57:                                     <center><img src="{!! asset('businesses/'.Wingu::business(Auth::user()->businessID)->businessID .'/finance/products/'. $image->file_name) !!}" width="80px" height="60px"></center>
+  58                                   </td>
+
+  64                                         <center style="float:left;">
+  65:                                           {!! Form::model($image, ['route' => ['finance.product.images.update',$image->id], 'method'=>'post']) !!}
+  66                                            {!! Form::hidden('product_id', $product->id) !!}
+
+  73                                      <center style="float:right;">
+  74:                                        {!! Form::open(['route' => ['finance.product.images.destroy', $image->id],'method'=>'post']) !!}
+  75                                         {!! Form::hidden('product_image_id', $image->product_image_id) !!}
+
+  97              <div class="modal-body">
+  98:                {!! Form::open(array('route' => 'finance.product.images.store','class'=>'dropzone','id'=>'addimages','action' => 'post')) !!}
+  99                    @csrf
+
+resources\views\app\products\price.blade.php:
+  49                                <option value="{!! $price->taxID !!}">
+  50:                                  {!! Finance::tax($price->taxID)->name !!}-{!! Finance::tax($price->taxID)->rate !!}%
+  51                                </option>
+
+  90                                @foreach ($prices as $price)
+  91:                                  {!! Form::model($price,['route' =>['finance.price.update',$price->id],'method'=>'post']) !!}
+  92                                      <tr>
+
+resources\views\app\products\settings.blade.php:
+   6  @section('sidebar')
+   7: 	@include('app.finance.partials._menu')
+   8  @endsection
+
+  14        <ol class="breadcrumb pull-right">
+  15:          <li class="breadcrumb-item"><a href="{!! route('finance.index') !!}">Finance</a></li>
+  16:          <li class="breadcrumb-item"><a href="{!! route('finance.product.index') !!}">Items</a></li>
+  17           <li class="breadcrumb-item active">Settings</li>
+
+  24        <div class="row">
+  25:          @include('app.finance.partials._shop_menu')
+  26           <div class="col-md-9">
+
+resources\views\app\products\brands\edit.blade.php:
+  41                             <td>{!! $br->name !!}</td>
+  42:                            {{-- <td>{!! Finance::products_by_brand_count($br->id) !!}</td> --}}
+  43                             <td>
+
+resources\views\app\products\category\edit.blade.php:
+  42  
+  43:                            {{-- <td>{!! Finance::products_by_category_count($all->id) !!}</td> --}}
+  44                             <td>
+
+resources\views\app\products\category\index.blade.php:
+  44  
+  45:                            {{-- <td>{!! Finance::products_by_category_count($all->id) !!}</td> --}}
+  46                             <td>
+
+resources\views\app\products\details\overview.blade.php:
+   5              <div class="col-md-4">
+   6:                @if(Finance::check_product_image($details->proID) == 1)
+   7:                   <img src="{!! asset('businesses/'.Wingu::business(Auth::user()->businessID)->businessID.'/finance/products/'.Finance::product_image($details->proID)->file_name) !!}" width="80px" height="60px">
+   8                 @else
+
+  22                       @if($details->supplierID != "")
+  23:                         <span class="text-primary"><b>{!! Finance::supplier($details->supplierID)->supplierName !!}</b></span>
+  24                       @endif<br>
+
+  26                       @if($details->brandID != "")
+  27:                         @if(Finance::check_brand() == 1)
+  28:                            <span class="text-primary"><b>{!! Finance::brand($details->brandID)->name !!}</b></span>
+  29                          @endif
+
+  39                    Category<br>
+  40:                   @foreach (Finance::get_products_categories($details->proID) as $category)
+  41                       <span class="badge badge-primary">{!!$category->name  !!}</span>
+
+  44                    Tags <br>
+  45:                   @foreach (Finance::get_products_by_tags($details->proID) as $tag)
+  46                       <span class="badge badge-warning">{!!$tag->name  !!}</span>
+
+resources\views\app\products\details\show.blade.php:
+  32        </div>
+  33:       @if(Request::is('finance/items/'.$details->proID.'/details'))
+  34           @include('app.products.details.overview')
+
+resources\views\app\products\orders\index.blade.php:
+   7  @section('sidebar')
+   8: 	@include('app.finance.partials._menu')
+   9  @endsection
+
+  15        <ol class="breadcrumb pull-right">
+  16:          <li class="breadcrumb-item"><a href="{!! route('finance.index') !!}">Finance</a></li>
+  17:          <li class="breadcrumb-item"><a href="{!! route('finance.product.index') !!}">Items</a></li>
+  18:          <li class="breadcrumb-item"><a href="{!! route('finance.product.index') !!}">e-Commerce</a></li>
+  19:          <li class="breadcrumb-item"><a href="{!! route('finance.ecommerce.orders') !!}">Orders</a></li>
+  20        </ol>
+
+  56                                   <td>{!! date('jS F, Y', strtotime($order->order_date)) !!}</td>
+  57:                                  <td><a href="{!! route('finance.ecommerce.orders.view',$order->orderID) !!}" class="btn btn-pink btn-sm"><i class="fas fa-eye"></i> view order</a></td>
+  58                                </tr>
+
+resources\views\app\products\orders\show.blade.php:
+  127  @section('sidebar')
+  128: 	@include('app.finance.partials._menu')
+  129  @endsection
+
+  135        <ol class="breadcrumb pull-right">
+  136:          <li class="breadcrumb-item"><a href="{!! route('finance.index') !!}">Finance</a></li>
+  137:          <li class="breadcrumb-item"><a href="{!! route('finance.product.index') !!}">Items</a></li>
+  138:          <li class="breadcrumb-item"><a href="{!! route('finance.product.index') !!}">e-Commerce</a></li>
+  139:          <li class="breadcrumb-item"><a href="{!! route('finance.ecommerce.orders') !!}">Orders</a></li>
+  140           <li class="breadcrumb-item active">View</li>
+
+  168                                      <td>
+  169:                                        <img src="{!! asset('businesses/.'$order->businessID.'/finance/products/'.$item['item']['image']) !!}" alt="" width="100%">
+  170                                      </td>
+
+resources\views\app\products\stock\edit.blade.php:
+    6  @section('sidebar')
+    7: 	@include('app.finance.partials._menu')
+    8  @endsection
+
+   14        <ol class="breadcrumb pull-right">
+   15:          <li class="breadcrumb-item"><a href="javascript:;">Finance</a></li>
+   16:          <li class="breadcrumb-item"><a href="{!! route('finance.lpo.index') !!}">Stock control</a></li>
+   17           <li class="breadcrumb-item active">Edit Purchase Order</li>
+
+   22        @include('partials._messages')
+   23:       {!! Form::model($lpo, ['route' => ['finance.product.stock.order.update',$lpo->id], 'method'=>'post','enctype'=>'multipart/form-data']) !!}
+   24           @csrf 
+
+   43                    <div class="input-group">
+   44:                      <span class="input-group-addon solso-pre">{{ Finance::lpo()->prefix }}</span>
+   45                       {!! Form::text('lpo_number', null, array('class' => 'form-control equired no-line', 'autocomplete' => 'off', 'placeholder' => '','readonly' => '')) !!}
+
+   98                                      <option value="{{ $product->productID }}">
+   99:                                        @if(Finance::check_product($product->productID) == 1)
+  100:                                           {!! Finance::product($product->productID)->product_name !!}
+  101                                         @else
+
+  155  @endsection
+  156: @include('app.finance.partials._lpo')
+
+resources\views\app\products\stock\index.blade.php:
+   6  @section('sidebar')
+   7: 	@include('app.finance.partials._menu')
+   8  @endsection
+
+  14        <div class="pull-right">
+  15: 			@if(Finance::lpo_count() != Wingu::plan()->lpos && Finance::lpo_count() < Wingu::plan()->lpos)
+  16  				@permission('create-stockcontrol')
+  17: 					<a href="{!! route('finance.product.stock.order') !!}" class="btn btn-pink"> Order stock</a>
+  18  				@endpermission
+
+  74  								</td>
+  75: 								<td>{!! Finance::lpo_items($v->lpoID) !!}</td>
+  76  								<td>{!! $v->code !!} {!! number_format($v->total) !!}</td>
+
+  85  											@permission('read-stockcontrol')
+  86: 												<li><a href="{{ route('finance.product.stock.order.show', $v->lpoID) }}"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp; View</a></li>
+  87  											@endpermission
+  88  											@permission('update-stockcontrol')
+  89: 												<li><a href="{!! route('finance.product.stock.order.edit', $v->lpoID) !!}"><i class="fas fa-edit"></i>&nbsp;&nbsp; Edit</a></li>
+  90  											@endpermission
+  91  											@permission('delete-stockcontrol')
+  92: 												<li><a href="{!! route('finance.lpo.delete', $v->lpoID) !!}"><i class="fas fa-trash-alt delete"></i>&nbsp;&nbsp; Delete</a></li>
+  93  											@endpermission
+
+resources\views\app\products\stock\mail.blade.php:
+   8  @section('sidebar')
+   9: 	@include('app.finance.partials._menu')
+  10  @endsection
+
+  16        <div class="pull-right">
+  17:          <a href="{!! route('finance.product.stock.order.show',$lpo->lpoID) !!}" class="btn btn-pink"><i class="fas fa-chevron-left"></i> Back to view</a>
+  18        </div>
+
+  26                 <div class="panel-body">
+  27:                   <form class="" action="{!! route('finance.stock.mail.send') !!}" method="post" enctype="multipart/form-data">
+  28                       <input type="hidden" name="lpoID" value="{!! $lpo->lpoID !!}" required>
+
+  72     						<div class="form-group mt-3">
+  73: 	   						<a href="{!! asset('businesses/'.$lpo->primary_email.'/finance/lpo/'.$lpo->prefix.$lpo->lpo_number) !!}.pdf" target="_blank" class="ml-3" id="preview"> Preview Attached LPO</a>
+  74     						</div>
+
+resources\views\app\products\stock\order.blade.php:
+    6  @section('sidebar')
+    7: 	@include('app.finance.partials._menu')
+    8  @endsection
+
+   14        <ol class="breadcrumb pull-right">
+   15:          <li class="breadcrumb-item"><a href="javascript:;">Finance</a></li>
+   16:          <li class="breadcrumb-item"><a href="{!! route('finance.lpo.index') !!}">Stock control</a></li>
+   17           <li class="breadcrumb-item active">New Purchase Order</li>
+
+   22        @include('partials._messages')
+   23:       {{ Form::open(array('route' => 'finance.product.stock.order.post','autocomplete' => 'off')) }}
+   24           @csrf
+
+   40                    <div class="input-group">
+   41:                      <span class="input-group-addon solso-pre">{{ Finance::lpo()->prefix }}</span>
+   42:                      <input type="text" name="lpo_number" class="form-control required no-line" autocomplete="off" value="{{ Finance::lpo()->number + 1 }}" readonly>
+   43                    </div>
+
+  145  @endsection
+  146: @include('app.finance.partials._lpo')
+
+resources\views\app\products\stock\show.blade.php:
+   16  @section('sidebar')
+   17: 	@include('app.finance.partials._menu')
+   18  @endsection
+
+   31  					<div class="col-md-8">
+   32: 						<a href="{!! route('finance.stock.mail', $lpo->lpoID) !!}" class="btn btn-sm btn-default m-b-10 p-l-5">
+   33  							<i class="fas fa-envelope"></i> Email
+   34  						</a>
+   35: 						<a href="{!! route('finance.product.stock.order.edit', $lpo->lpoID) !!}" class="btn btn-sm btn-default m-b-10 p-l-5">
+   36  							<i class="fas fa-edit"></i> Edit
+   37  						</a>
+   38: 						<a href="{!! route('finance.product.stock.order.pdf', $lpo->lpoID) !!}" target="_blank" class="btn btn-sm btn-white m-b-10 p-l-5">
+   39  							<i class="fa fa-file-pdf t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF
+   40  						</a>
+   41: 						<a href="{!! route('finance.product.stock.order.print', $lpo->lpoID) !!}" target="_blank" class="btn btn-sm btn-white m-b-10 p-l-5">
+   42  							<i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print
+
+   48  							<ul class="dropdown-menu dropdown-menu-right">
+   49: 								{{-- <li><a href="{!! url('/') !!}/storage/files/finance/lpo/{!! $lpo->file !!}" target="_blank">View LPO as customer</a></li> --}}
+   50  								<li><a href="#" data-toggle="modal" data-target="#attach-files">Attach Files</a></li>
+   51  								@if($lpo->statusID != 10)
+   52: 									<li><a href="{!! route('finance.lpo.status.change',[$lpo->lpoID,10]) !!}">Mark as Draft</a></li>
+   53  								@endif
+   54  								@if($lpo->statusID != 11)
+   55: 								<li><a href="{!! route('finance.lpo.status.change',[$lpo->lpoID,11]) !!}">Mark as Expired</a></li>
+   56  								@endif
+   57  								@if($lpo->statusID != 12)
+   58: 								<li><a href="{!! route('finance.lpo.status.change',[$lpo->lpoID,12]) !!}">Mark as Declined</a></li>
+   59  								@endif
+   60  								@if($lpo->statusID != 13)
+   61: 								<li><a href="{!! route('finance.lpo.status.change',[$lpo->lpoID,13]) !!}">Mark as Accepted</a></li>
+   62  								@endif
+   63  								@if($lpo->statusID != 6)
+   64: 								<li><a href="{!! route('finance.lpo.status.change',[$lpo->lpoID,6]) !!}">Mark as Sent</a></li>
+   65  								@endif
+   66  								@if($lpo->statusID != 14)
+   67: 								<li><a href="{!! route('finance.stock.delivered',[$lpo->lpoID]) !!}">Mark as Delivered</a></li>
+   68  								@endif
+
+   70  								@permission('delete-stockcontrol')
+   71: 								<li><a href="{!! route('finance.lpo.delete',$lpo->lpoID) !!}" class="text-danger">Delete LPO</a></li>
+   72  								@endpermission
+
+   90  				<div class="modal-body">
+   91: 					<form action="{!! route('finance.stock.attach') !!}" class="dropzone" id="my-awesome-dropzone" method="post">
+   92  						@csrf()
+
+  126  										<td>
+  127: 											<a href="{!! route('finance.lpo.attachment.delete',$file->id) !!}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+  128  										</td>
+
+  149  			var file = document.getElementById("fileID").value;
+  150: 			$.get(url+'/finance/lpo/file/'+status+'/'+file, function(data){
+  151  				//success data
+
+resources\views\app\products\variants\edit.blade.php:
+   6  @section('sidebar')
+   7: 	@include('app.finance.partials._menu')
+   8  @endsection
+
+  15  	<ol class="breadcrumb pull-right">
+  16: 		<li class="breadcrumb-item"><a href="{!! route('finance.index') !!}">Finance</a></li>
+  17: 		<li class="breadcrumb-item"><a href="{!! route('finance.product.index') !!}">Products</a></li>
+  18  		<li class="breadcrumb-item active">Edit variants</li>
+
+  25  	<div class="row">
+  26: 		@include('app.finance.partials._shop_menu')
+  27  		<div class="col-md-9">
+
+  32              <div class="panel-body">
+  33:                {!! Form::model($edit, ['route' => ['finance.products.variants.update',$edit->prodID], 'method'=>'post','enctype'=>'multipart/form-data']) !!}
+  34                    <div class="row">
+
+resources\views\app\products\variants\index.blade.php:
+   6  @section('sidebar')
+   7: 	@include('app.finance.partials._menu')
+   8  @endsection
+
+  15  	<ol class="breadcrumb pull-right">
+  16: 		<li class="breadcrumb-item"><a href="{!! route('finance.index') !!}">Finance</a></li>
+  17: 		<li class="breadcrumb-item"><a href="{!! route('finance.product.index') !!}">Products</a></li>
+  18  		<li class="breadcrumb-item active">Edit variants</li>
+
+  25  	<div class="row">
+  26: 		@include('app.finance.partials._shop_menu')
+  27  		<div class="col-md-9">
+
+  51                             <td>
+  52:                               <img src="{!! asset('businesses/'.Wingu::business(Auth::user()->businessID)->businessID .'/finance/products/'.Finance::product_image($variant->prodID)->file_name) !!}" width="80px" height="60px">
+  53                             </td>
+
+  57                             <td>
+  58:                               <a href="{!! route('finance.products.variants.edit',[$productID,$variant->prodID]) !!}" class="btn btn-primary btn-sm">Edit</a>
+  59:                               <a href="{!! route('finance.products.destroy',$variant->prodID) !!}" class="btn btn-sm btn-danger">Delete</a>
+  60                             </td>
+
+  70  <!-- Modal -->
+  71: <form action="{!! route('finance.products.variants.store',$productID) !!}" method="post" enctype="multipart/form-data">
+  72     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+resources\views\app\suppliers\import.blade.php:
+   5  @section('sidebar')
+   6: 	@include('app.finance.partials._menu')
+   7  @endsection
+
+  13        <div class="pull-right">
+  14:          <a href="{!! route('finance.supplier.download.sample.import') !!}" class="btn btn-pink"><i class="fal fa-file-download"></i> Download Sample</a>
+  15        </div>
+
+resources\views\app\taxes\index.blade.php:
+   10  @section('sidebar')
+   11: 	@include('app.finance.partials._menu')
+   12  @endsection
+
+   18        <ol class="breadcrumb pull-right">
+   19:          <li class="breadcrumb-item"><a href="javascript:;">Finance</a></li>
+   20           <li class="breadcrumb-item"><a href="#">Settings</a></li>
+
+   27        <div class="row">
+   28:          @include('app.finance.partials._settings_nav')
+   29           <div class="col-md-9">
+
+   68                                         @permission('delete-taxes')
+   69:                                           <a href="{!! route('finance.settings.delete', $tax->id) !!}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</a>
+   70                                         @endpermission
+
+   90              <div class="modal-body">
+   91:                <form action="{!! route('finance.settings.taxes.store') !!}" method="POST">
+   92                    @csrf
+
+  128              <div class="modal-body">
+  129:                {!! Form::open(array('route' => 'finance.settings.update','post','autocomplete'=>'off')) !!}  
+  130                    {!! csrf_field() !!}
+
+  163           $.ajax({
+  164:             url: url+"/finance/settings/taxes/"+id+"/edit",
+  165              dataType:"json",
+
+resources\views\livewire\products\products.blade.php:
+  39                             <center>
+  40:                               @if(Finance::check_product_image($product->proID) == 1)
+  41:                                  <img src="{!! asset('businesses/'.Wingu::business(Auth::user()->businessID)->businessID .'/finance/products/'.Finance::product_image($product->proID)->file_name) !!}" width="80px" height="60px">
+  42                                @else

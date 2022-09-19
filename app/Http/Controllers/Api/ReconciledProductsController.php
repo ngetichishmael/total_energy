@@ -29,7 +29,7 @@ class ReconciledProductsController extends Controller
                         `returned_qty` = ?,
                         `updated_at` = CURRENT_DATE
                     WHERE
-                    `inventory_allocated_items`.`created_at`=( SELECT
+                    `inventory_allocated_items`.`created_at`IN ( SELECT
                                                         MAX(`inventory_allocated_items`.`created_at`)
                                                         FROM `inventory_allocated_items`
                                                         WHERE `inventory_allocated_items`.`product_code` =? AND

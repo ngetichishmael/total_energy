@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\app;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\business;
 use App\Models\country;
 use App\Models\activity_log;
-use Session;
-use Auth;
-use Helper;
+use Illuminate\Support\Facades\Auth ;
+use Illuminate\Support\Facades\Session;
 
 class settingsController extends Controller
 {

@@ -11,8 +11,9 @@ use Helper;
 use Input;
 use File;
 use Auth;
+use Illuminate\Support\Facades\Session as FacadesSession;
 use Wingu;
-use Excel;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ImportController extends Controller
 {
@@ -43,7 +44,7 @@ class ImportController extends Controller
 
 		Excel::import(new products, $file);
 
-		Session::flash('success', 'Product imported Successfully.');
+		FacadesSession::flash('success', 'Product imported Successfully.');
 
 		return redirect()->route('product.index');
    }

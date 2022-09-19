@@ -1,8 +1,10 @@
 <?php
-namespace App\Http\Controllers\app\finance\contact;
+// namespace App\Http\Controllers\app\finance\contact;
+
+namespace App\Http\Controllers\app\customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\finance\customer\groups;
+use App\Models\customer\groups;
 use Auth;
 use Session;
 

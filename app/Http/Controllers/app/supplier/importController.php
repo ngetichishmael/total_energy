@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\app\finance\supplier;
+namespace App\Http\Controllers\app\supplier;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\finance\suppliers\category;
+use App\Models\suppliers\category;
 use App\Imports\suppliers as import;
 use App\Exports\suppliers as export;
-use Session;
-use Auth;
-use Excel;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
+use SebastianBergmann\Exporter\Exporter;
+
 class importController extends Controller
 {
    public function __construct(){
@@ -61,7 +63,7 @@ class importController extends Controller
    * @return \Illuminate\Http\Response
    */
    public function export(){
-      return Excel::download(new export, 'suppliers.xlsx');
+      return Excel::download(new Exporter, 'suppliers.xlsx');
    }
 
    /**
