@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\app\survey;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Helpers\Helper;
+use Illuminate\Http\Request;
 use App\Models\survey\survey;
 use App\Models\survey\category;
-use Illuminate\Http\Request;
-use App\Helpers\Helper;
-use App\Models\User;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class surveyController extends Controller
 {
@@ -134,5 +135,16 @@ class surveyController extends Controller
       $survey = survey::where('code', $code)->first();
 
       return view('app.survey.survey.show', compact('survey'));
+   }
+
+   public function delete($id)
+   {
+
+      $slider = survey::select('id')->where('code', $id)->first();
+      $slider->delete();
+
+      Session::flash('success', 'The survey was successfully deleted !');
+
+      return redirect()->route('survey.index');
    }
 }

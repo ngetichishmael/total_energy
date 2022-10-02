@@ -8,8 +8,8 @@
                <h2 class="content-header-title float-start mb-0">Survey </h2>
                <div class="breadcrumb-wrapper">
                   <ol class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                     <li class="breadcrumb-item"><a href="#">Survey</a></li>
+                     <li class="breadcrumb-item"><a href="/">Home</a></li>
+                     <li class="breadcrumb-item"><a href="{!! route('survey.index') !!}">Survey</a></li>
                      <li class="breadcrumb-item active">Edit</li>
                   </ol>
                </div>
