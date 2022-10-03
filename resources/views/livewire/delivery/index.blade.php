@@ -38,8 +38,8 @@
                         <td>{!! $deliver->customer_name !!}</td>
                         <td>{!! $deliver->name !!}</td>
                         <td>{!! $deliver->delivery_date !!}</td>
-                        <td><a href="" class="badge {!! $deliver->delivery_status !!}">{!! $deliver->delivery_status !!}</a></td>
-                        <td><a href="" class="btn btn-sm btn-success">view</a></td>
+                        <td><a href="" class="badge {!! $deliver->delivery_status !!}" style="color: rgb(2, 66, 100);">{!! $deliver->delivery_status !!}</a></td>
+                        <td><a href="{!! route('delivery.details',$deliver->order_code) !!}" class="btn btn-sm btn-success">View</a></td>
                     </tr>
                     @endforeach
                     </tr>

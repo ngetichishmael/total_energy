@@ -9,8 +9,8 @@
                <h2 class="content-header-title float-start mb-0">Survey </h2>
                <div class="breadcrumb-wrapper">
                   <ol class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                     <li class="breadcrumb-item"><a href="#">Survey</a></li>
+                     <li class="breadcrumb-item"><a href="/">Home</a></li>
+                     <li class="breadcrumb-item"><a href="{!! route('survey.index') !!}">Survey</a></li>
                      <li class="breadcrumb-item active">List</li>
                   </ol>
                </div>
@@ -49,7 +49,7 @@
                            </td>
                            <td>{{ date('j M Y',strtotime($survery->end_date)) }}</td>
                            <td>{!! $survery->type !!}</td>
-                           <td><span class="badge {!! $survery->name !!}">{!! $survery->name !!}</span></td>
+                           <td>{!! $survery->status !!}</td>
                            <td>{{ date('j M Y',strtotime($survery->updated_at)) }}</td>
                            <td>
                               <a href="{!! route('survey.show',$survery->code) !!}" class="btn btn-sm btn-warning"><i class="fas fa-eye" aria-hidden="true"></i></a>

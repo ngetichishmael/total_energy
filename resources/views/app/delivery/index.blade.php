@@ -11,8 +11,8 @@
                <h2 class="content-header-title float-start mb-0">Delivery </h2>
                <div class="breadcrumb-wrapper">
                   <ol class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                     <li class="breadcrumb-item"><a href="#">Delivery</a></li>
+                     <li class="breadcrumb-item"><a href="sokoflowadmin">Home</a></li>
+                     <li class="breadcrumb-item"><a href="{!! route('delivery.index') !!}">Delivery</a></li>
                      <li class="breadcrumb-item active">List</li>
                   </ol>
                </div>

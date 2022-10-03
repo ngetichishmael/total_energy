@@ -25,6 +25,7 @@ class sokoflowController extends Controller
    public function dashboard(){
       // $orders = order_payments::all();
 
+<<<<<<< HEAD
       $Cash=OrderPayment::where('payment_method','PaymentMethods.Mpesa')->sum('amount');
       $Mpesa=OrderPayment::where('payment_method','PaymentMethods.Cash')->sum('amount');
       $Cheque=OrderPayment::where('payment_method','PaymentMethods.Cheque')->sum('amount');
@@ -34,6 +35,32 @@ class sokoflowController extends Controller
       $Mpesa = $Mpesa ?? 'No Mpesa Collected'; 
       $Cheque = $Cheque ?? 'No Cheque Collected'; 
       $total = $total ?? 'No Total Collected'; 
+=======
+      return view('app.dashboard.dashboard', [
+         
+         $item = DB::table('order_payments')
+         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
+         ->where('user_id', auth()->id())->where('payment_method', 'PaymentMethods.Cash')->sum('amount'),
+         $item1 = DB::table('order_payments')
+         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
+         ->where('user_id', auth()->id())->where('payment_method', 'PaymentMethods.Mpesa')->sum('amount'),
+         $item2 = DB::table('order_payments')
+         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
+         ->where('user_id', auth()->id())->where('payment_method', 'PaymentMethods.Cheque')->sum('amount'),
+         $sales = DB::table('order_payments')
+         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
+         ->where('user_id', auth()->id())->sum('balance'),
+         $total = DB::table('order_payments')
+         ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
+         ->where('user_id', auth()->id())->sum('amount'),
+         // ddd($item),
+         'Cash' => $item,
+         'Mpesa' => $item1,
+         'Cheque' => $item2,
+         'sales' => $sales,
+         'total' => $total,
+         'Reconcilled' => $order,
+>>>>>>> origin/design
 
       return view('app.dashboard.dashboard',compact('Cash', 'Mpesa','Cheque','reconciled','total'));
    }
