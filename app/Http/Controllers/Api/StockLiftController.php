@@ -95,7 +95,6 @@ class StockLiftController extends Controller
         $supplierID= $request->supplierID;
         // Hello wo
         $query = DB::select('SELECT
-        `suppliers`.`name` AS `Distributer`,
         `suppliers`.`id`,
         `product_information`.`business_code` as `business_code`,
         `product_information`.`sku_code`,
