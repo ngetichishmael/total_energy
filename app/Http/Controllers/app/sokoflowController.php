@@ -23,18 +23,18 @@ class sokoflowController extends Controller
    * dashboard controller instance.
    */
    public function dashboard(){
-      $Cash=OrderPayment::where('payment_method','PaymentMethods.Mpesa')->sum('amount');
-      $Mpesa=OrderPayment::where('payment_method','PaymentMethods.Cash')->sum('amount');
-      $Cheque=OrderPayment::where('payment_method','PaymentMethods.Cheque')->sum('amount');
-      $reconciled=OrderPayment::where('isReconcile','true')->count('amount');
-      $total=OrderPayment::sum('amount');
-      $Cash = $Cash ?? 'No Cash Collected'; 
-      $Mpesa = $Mpesa ?? 'No Mpesa Collected'; 
-      $Cheque = $Cheque ?? 'No Cheque Collected'; 
-      $total = $total ?? 'No Total Collected'; 
+      // $Cash=OrderPayment::where('payment_method','PaymentMethods.Mpesa')->sum('amount');
+      // $Mpesa=OrderPayment::where('payment_method','PaymentMethods.Cash')->sum('amount');
+      // $Cheque=OrderPayment::where('payment_method','PaymentMethods.Cheque')->sum('amount');
+      // $reconciled=OrderPayment::where('isReconcile','true')->count('amount');
+      // $total=OrderPayment::sum('amount');
+      // $Cash = $Cash ?? 'No Cash Collected';
+      // $Mpesa = $Mpesa ?? 'No Mpesa Collected';
+      // $Cheque = $Cheque ?? 'No Cheque Collected';
+      // $total = $total ?? 'No Total Collected';
 
       return view('app.dashboard.dashboard', [
-         
+
          $item = DB::table('order_payments')
          ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile' ,'user_id')
          ->where('user_id', auth()->id())->where('payment_method', 'PaymentMethods.Cash')->sum('amount'),
@@ -55,9 +55,9 @@ class sokoflowController extends Controller
          'Cheque' => $item2,
          'sales' => $sales,
          'total' => $total,
-         'Reconcilled' => $order,
+         'Reconcilled' => 'null']);
 
-      return view('app.dashboard.dashboard',compact('Cash', 'Mpesa','Cheque','reconciled','total'));
+      // return view('app.dashboard.dashboard',compact('Cash', 'Mpesa','Cheque','reconciled','total'));
    }
 
    //user summary

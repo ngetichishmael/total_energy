@@ -44,7 +44,7 @@
                         </tr>
                         <tr class="table-success">
                            <td>Total Reconciled</td>
-                           <td>{{ $reconciled }}</td>
+                           <td>null</td>
                         </tr>
                      </tbody>
                   </table>
