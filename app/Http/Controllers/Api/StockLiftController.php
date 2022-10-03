@@ -97,7 +97,14 @@ class StockLiftController extends Controller
         $query = DB::select('SELECT
         `suppliers`.`name` AS `Distributer`,
         `suppliers`.`id`,
+        `product_information`.`business_code` as `business_code`,
+        `product_information`.`sku_code`,
+        `product_information`.`brand`,
+        `product_information`.`category`,
         `product_information`.`id` AS `product ID`,
+        `product_information`.`created_at` as `date`,
+        `product_information`.`product_name` as `product_name`,
+        `product_price`.`selling_price` as `price`,
         `product_inventory`.`current_stock` AS `current stock`,
         `product_information`.`product_name` AS `product name`
             FROM
