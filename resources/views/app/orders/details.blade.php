@@ -224,6 +224,7 @@
       </div>
       <div class="col-md-4">
          <center><a href="{!! route('orders.delivery.allocation',$order->order_code) !!}" class="btn btn-block btn-warning mb-2">Allocate Delivery</a></center>
+         @if($payment)
          <div class="card">
             <div class="card-header">Order Payments</div>
             <div class="card-body">
@@ -235,6 +236,19 @@
                <hr>
             </div>
          </div>
+         @else
+         <div class="card">
+            <div class="card-header">Order Payments</div>
+            <div class="card-body">
+               <h6>
+                  <b>Amount:</b> N/A <br>
+                  <b>Payment Date:</b> N/A <br> 
+                  <b>Payment Method:</b> N/A <br>
+               </h6>
+               <hr>
+            </div>
+         </div>
+         @endif
       </div>
    </div>
 @endsection

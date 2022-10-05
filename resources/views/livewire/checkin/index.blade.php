@@ -31,7 +31,7 @@
                   <tr>
                      <td>{!! $count+1 !!}</td>
                      <td>{!! $checkin->customer_name !!}</td>
-                     <td>{!! $checkin->checkin_type !!}</td>
+                     <td>{!! $checkin->account_type !!}</td>
                      <td>{!! $checkin->start_time !!} - {!! $checkin->stop_time !!}</td>
                      <td>{!! $checkin->created_at !!}</td>
                      <td>{!! $checkin->name !!}</td>

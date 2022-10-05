@@ -25,8 +25,12 @@ class ordersController extends Controller
    //order details
    public function details($code){
       $order = Orders::where('business_code', Auth::user()->business_code)->where('order_code',$code)->first();
+      // dd($code);
       $items = Order_items::where('order_code',$order->order_code)->get();
-      $test = customers::where('OrderCode',$order->order_code)->first();
+      $Customer_id = Orders::select('customerID')->where('order_code', $code)->first();
+      $id = $Customer_id->customerID;
+      $test = customers::where('id',$id)->first();
+      // dd($test->id);
       $payment = order_payments::where('order_id',$order->order_code)->first();
       // dd($payment);
       return view('app.orders.details', compact('order','items', 'test', 'payment'));
