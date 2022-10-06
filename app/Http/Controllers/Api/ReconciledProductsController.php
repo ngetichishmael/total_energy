@@ -9,20 +9,20 @@ use Illuminate\Support\Facades\DB;
 
 class ReconciledProductsController extends Controller
 {
-    public function index(Request $request)
-    {
-        $usercode = $request->user()->user_code;
-        $request= $request->all();
-        array_pop($request);
-        info($request);
-        foreach ($request as $data){
-            $reconciled_products= new ReconciledProducts();
-            $reconciled_products->productID = $data['productID'];
-            $reconciled_products->amount = $data['amount'];
-            $reconciled_products->supplierID = $data['supplierID'];
-            $reconciled_products->userCode  = $usercode;
-            $reconciled_products->save();
-            DB::update('UPDATE
+   public function index(Request $request)
+   {
+      $usercode = $request->user()->user_code;
+      $request = $request->all();
+      array_pop($request);
+      info($request);
+      foreach ($request as $data) {
+         $reconciled_products = new ReconciledProducts();
+         $reconciled_products->productID = $data['productID'];
+         $reconciled_products->amount = $data['amount'];
+         $reconciled_products->supplierID = $data['supplierID'];
+         $reconciled_products->userCode  = $usercode;
+         $reconciled_products->save();
+         DB::update('UPDATE
             `inventory_allocated_items`
                     SET
                         `current_qty` =`current_qty`-?,
@@ -30,23 +30,22 @@ class ReconciledProductsController extends Controller
                         `returned_qty` = ?,
                         `updated_at` = CURRENT_DATE
                     WHERE
-                    `inventory_allocated_items`.`created_by`=?', [$data['amount'],$data['amount'],$data['amount'],$usercode]);
+                    `inventory_allocated_items`.`created_by`=?', [$data['amount'], $data['amount'], $data['amount'], $usercode]);
 
-            DB::update('UPDATE
+         DB::update('UPDATE
             `product_inventory`
                     SET
                         `current_stock` =`current_stock`-?,
-                        `updated_by`=?
+                        `updated_by`=?,
                         `updated_at` = CURRENT_DATE
                     WHERE
-                    `product_inventory`.`productID`=?',[ $data['amount'],$usercode,$data['productID']]);
-        }
+                    `product_inventory`.`productID`=?', [$data['amount'], $usercode, $data['productID']]);
+      }
 
-        return response()->json([
-            "success" => true,
-            "message" => "All products were successfully reconciled",
-            "Result"    => "Successful"
-        ]);
-    }
-
+      return response()->json([
+         "success" => true,
+         "message" => "All products were successfully reconciled",
+         "Result"    => "Successful"
+      ]);
+   }
 }
