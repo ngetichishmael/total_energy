@@ -33,7 +33,7 @@ class ReconciledProductsController extends Controller
                     `inventory_allocated_items`.`created_by`=?', [$data['amount'],$data['amount'],$data['amount'],$usercode]);
 
             DB::update('UPDATE
-            `product_inventory``
+            `product_inventory`
                     SET
                         `current_stock` =`current_stock`-?,
                         `updated_by`=?
