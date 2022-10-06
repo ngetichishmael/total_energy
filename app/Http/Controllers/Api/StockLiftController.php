@@ -58,6 +58,11 @@ class StockLiftController extends Controller
                     SET   `allocated_qty` = `allocated_qty`+? where `product_code` = ?', [$value["qty"],$value["productID"]]);
             }
             $stock =null;
+            DB::table('product_inventory')
+            ->where('productID',$value["productID"])
+            ->update(['current_stock','current_stock'-$value["qty"]]);
+
+
         }
         DB::insert(
             'INSERT INTO `inventory_allocations`(

@@ -27,7 +27,7 @@ class ReconciledProductsController extends Controller
             `inventory_allocated_items`
                     SET
                         `current_qty` =`current_qty`-?,
-                        `allocated_qty` =?,
+                        `allocated_qty` =`allocated_qty`-?,
                         `returned_qty` = ?,
                         `updated_at` = CURRENT_DATE
                     WHERE
@@ -41,6 +41,7 @@ class ReconciledProductsController extends Controller
                         `updated_at` = CURRENT_DATE
                     WHERE
                     `product_inventory`.`productID`=?', [$data['amount'], $id, $data['productID']]);
+                    
       }
 
       return response()->json([
