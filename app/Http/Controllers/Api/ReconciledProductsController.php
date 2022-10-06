@@ -12,6 +12,7 @@ class ReconciledProductsController extends Controller
    public function index(Request $request)
    {
       $usercode = $request->user()->user_code;
+      $id = $request->user()->id;
       $request = $request->all();
       array_pop($request);
       info($request);
@@ -39,7 +40,7 @@ class ReconciledProductsController extends Controller
                         `updated_by`=?,
                         `updated_at` = CURRENT_DATE
                     WHERE
-                    `product_inventory`.`productID`=?', [$data['amount'], $usercode, $data['productID']]);
+                    `product_inventory`.`productID`=?', [$data['amount'], $id, $data['productID']]);
       }
 
       return response()->json([
