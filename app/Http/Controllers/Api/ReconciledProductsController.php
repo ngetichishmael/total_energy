@@ -23,25 +23,23 @@ class ReconciledProductsController extends Controller
          $reconciled_products->supplierID = $data['supplierID'];
          $reconciled_products->userCode  = $usercode;
          $reconciled_products->save();
-         DB::update('UPDATE
-            `inventory_allocated_items`
-                    SET
-                        `current_qty` =`current_qty`-?,
-                        `allocated_qty` =`allocated_qty`-?,
-                        `returned_qty` = ?,
-                        `updated_at` = CURRENT_DATE
-                    WHERE
-                    `inventory_allocated_items`.`created_by`=?', [$data['amount'], $data['amount'], $data['amount'], $usercode]);
 
-         DB::update('UPDATE
-            `product_inventory`
-                    SET
-                        `current_stock` =`current_stock`-?,
-                        `updated_by`=?,
-                        `updated_at` = CURRENT_DATE
-                    WHERE
-                    `product_inventory`.`productID`=?', [$data['amount'], $id, $data['productID']]);
-                    
+         DB::table('inventory_allocated_items')
+         ->where('created_by',$usercode)
+         ->decrement('allocated_qty',$data['amount'],[
+            'updated_at'=>now()
+         ]);
+         DB::table('inventory_allocated_items')
+         ->where('created_by',$usercode)
+         ->where('allocated_qty', '<', 1 )
+         ->delete();
+
+         DB::table('product_inventory')
+         ->where('created_by',$usercode)
+         ->increment('current_stock',$data['amount'],[
+            'updated_by'=>now(),
+            'updated_by'=>$id,
+         ]);
       }
 
       return response()->json([

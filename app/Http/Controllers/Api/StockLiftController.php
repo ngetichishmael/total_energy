@@ -53,14 +53,15 @@ class StockLiftController extends Controller
                     ]
                     );
             } else {
-                DB::update('UPDATE
-                `inventory_allocated_items`
-                    SET   `allocated_qty` = `allocated_qty`+? where `product_code` = ?', [$value["qty"],$value["productID"]]);
+
+               DB::table('inventory_allocated_items')
+               ->where('product_code',$value["productID"])
+               ->increment('allocated_qty',$value["qty"]);
             }
             $stock =null;
             DB::table('product_inventory')
             ->where('productID',$value["productID"])
-            ->update(['current_stock','current_stock'-$value["qty"]]);
+            ->decrement('current_stock',$value["qty"]);
 
 
         }
