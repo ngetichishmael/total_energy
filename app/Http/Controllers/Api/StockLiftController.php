@@ -111,9 +111,9 @@ class StockLiftController extends Controller
             INNER JOIN `product_price` ON `product_price`.`productID` = `product_information`.`id`
             WHERE
                 `product_information`.`business_code` = ? AND `product_information`.`supplierID` = ?
-            GROUP BY `productID`
+            GROUP BY `SupplierID`
             ORDER BY
-            `SupplierID`
+            `productID`
             DESC', [$businessCode,$supplierID]);
 
         return response()->json([
