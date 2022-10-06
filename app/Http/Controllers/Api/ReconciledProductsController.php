@@ -30,7 +30,6 @@ class ReconciledProductsController extends Controller
             'updated_at'=>now()
          ]);
          DB::table('inventory_allocated_items')
-         ->where('created_by',$usercode)
          ->where('allocated_qty', '<', 1 )
          ->delete();
 
