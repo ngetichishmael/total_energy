@@ -95,7 +95,7 @@ class StockLiftController extends Controller
         $supplierID= $request->supplierID;
         // Hello wo
         $query = DB::select('SELECT
-        `suppliers`.`id`,
+        `suppliers`.`id` as `SupplierID`,
         `product_information`.`business_code` as `business_code`,
         `product_information`.`sku_code`,
         `product_information`.`brand`,
@@ -104,8 +104,7 @@ class StockLiftController extends Controller
         `product_information`.`created_at` as `date`,
         `product_information`.`product_name` as `product_name`,
         `product_price`.`selling_price` as `price`,
-        `product_inventory`.`current_stock` AS `current stock`,
-        `product_information`.`product_name` AS `product name`
+        `product_inventory`.`current_stock` AS `current stock`
             FROM
                 `product_information`
             INNER JOIN `business` ON `business`.`business_code` = `product_information`.`business_code`
@@ -114,8 +113,9 @@ class StockLiftController extends Controller
             INNER JOIN `product_price` ON `product_price`.`productID` = `product_information`.`id`
             WHERE
                 `product_information`.`business_code` = ? AND `suppliers`.`id` = ?
+            GROUP BY `product ID`
             ORDER BY
-                `product ID`
+            `suppliers`.`id`
             DESC', [$businessCode,$supplierID]);
 
         return response()->json([
