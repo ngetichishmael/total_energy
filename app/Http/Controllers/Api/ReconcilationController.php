@@ -13,19 +13,19 @@ class ReconcilationController extends Controller
         $user_id = $request->user()->id;
         $mpesa = DB::select('SELECT SUM(`amount`) as Mpesa
                 FROM
-                    `order_payments` 
+                    `order_payments`
                 WHERE
-                    `order_payments`.`payment_method` =? AND `order_payments`.`user_id`=?', ['PaymentMethods.Mpesa', $user_id]);
+                    `order_payments`.`payment_method` =? AND`order_payments`.`isReconcile` =? AND `order_payments`.`user_id`=?', ['PaymentMethods.Mpesa','false', $user_id]);
         $cash = DB::select('SELECT SUM(`amount`) as Cash
                 FROM
-                    `order_payments` 
+                    `order_payments`
                 WHERE
-                    `order_payments`.`payment_method` =? AND `order_payments`.`user_id`=?', ['PaymentMethods.Cash', $user_id]);
+                    `order_payments`.`payment_method` =? AND`order_payments`.`isReconcile` =? AND `order_payments`.`user_id`=?', ['PaymentMethods.Cash', 'false',$user_id]);
         $cheque = DB::select('SELECT SUM(`amount`) as Cheque
                 FROM
-                    `order_payments` 
+                    `order_payments`
                 WHERE
-                    `order_payments`.`payment_method` =? AND `order_payments`.`user_id`=?', ['PaymentMethods.Cheque', $user_id]);
+                    `order_payments`.`payment_method` =? AND`order_payments`.`isReconcile` =? AND `order_payments`.`user_id`=?', ['PaymentMethods.Cheque','false', $user_id]);
 
         return response()->json([
             "success" => true,

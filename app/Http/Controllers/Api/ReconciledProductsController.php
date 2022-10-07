@@ -39,6 +39,9 @@ class ReconciledProductsController extends Controller
             'updated_by'=>now(),
             'updated_by'=>$id,
          ]);
+         DB::table('order_payments')
+         ->where('user_id', $id )
+         ->update(['isReconcile'=>'true']);
       }
 
       return response()->json([
