@@ -67,7 +67,8 @@
             <a class="d-flex align-items-center" href="#"><i data-feather='clipboard'></i><span class="menu-title text-truncate">Survey</span></a>
             <ul class="menu-content">
                <li><a class="d-flex align-items-center" href="{!! route('survey.index') !!}"><i data-feather="circle"></i><span class="menu-item text-truncate">Survey</span></a></li>
-               <li><a class="d-flex align-items-center" href="{!! route('survey.index') !!}"><i data-feather="circle"></i><span class="menu-item text-truncate">Survey Responses</span></a></li>
+               <li><a class="d-flex align-items-center" href="{!! route('survey.active') !!}"><i data-feather="circle"></i><span class="menu-item text-truncate">Active Survey</span></a></li>
+               <li><a class="d-flex align-items-center" href="{!! route('survey.responses') !!}"><i data-feather="circle"></i><span class="menu-item text-truncate">Survey Responses</span></a></li>
                {{-- <li><a class="d-flex align-items-center" href="{!! route('survey.category.index') !!}"><i data-feather="circle"></i><span class="menu-item text-truncate">Categories</span></a></li> --}}
             </ul>
          </li>

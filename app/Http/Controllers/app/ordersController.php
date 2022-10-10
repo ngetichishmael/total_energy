@@ -27,13 +27,15 @@ class ordersController extends Controller
       $order = Orders::where('business_code', Auth::user()->business_code)->where('order_code',$code)->first();
       // dd($code);
       $items = Order_items::where('order_code',$order->order_code)->get();
+      $sub = Order_items::select('sub_total')->where('order_code',$order->order_code)->get();
+      $total = Order_items::select('total_amount')->where('order_code',$order->order_code)->get();
       $Customer_id = Orders::select('customerID')->where('order_code', $code)->first();
       $id = $Customer_id->customerID;
       $test = customers::where('id',$id)->first();
       // dd($test->id);
       $payment = order_payments::where('order_id',$order->order_code)->first();
       // dd($payment);
-      return view('app.orders.details', compact('order','items', 'test', 'payment'));
+      return view('app.orders.details', compact('order','items', 'test', 'payment', 'sub', 'total'));
    }
 
    //allocation
@@ -75,7 +77,7 @@ class ordersController extends Controller
             $items->business_code = Auth::user()->business_code;
             $items->delivery_code = $delivery->delivery_code;
             $items->delivery_item_code = Helper::generateRandomString(20);
-            $items->item_code =  $request->item_code[$i];
+            // $items->item_code =  $request->item_code[$i];
             $items->allocated_quantity = $request->allocate[$i];
             $items->created_by = Auth::user()->user_code;
             $items->save();

@@ -21,6 +21,7 @@
                <th width="1%">#</th>
                <th>Customer</th>
                <th>Type</th>
+               <th>Check In</th>
                <th>Time Spent</th>
                <th>Date</th>
                <th>Employee</th>
@@ -32,8 +33,9 @@
                      <td>{!! $count+1 !!}</td>
                      <td>{!! $checkin->customer_name !!}</td>
                      <td>{!! $checkin->account_type !!}</td>
-                     <td>{!! $checkin->start_time !!} - {!! $checkin->stop_time !!}</td>
-                     <td>{!! $checkin->created_at !!}</td>
+                     <td>{!! $checkin->created_at->format('d M Y')  !!} at {!! $checkin->created_at->format('H:i:s')  !!}</td>
+                     <td>{!! $checkin->timeAgo  !!}</td>
+                     <td>{!! $checkin->updated_at !!}</td>
                      <td>{!! $checkin->name !!}</td>
                      {{-- <td>
                         <a href="" class="btn btn-sm btn-success btn-block">View</a>

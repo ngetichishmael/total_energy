@@ -193,7 +193,7 @@
                                  SubTotal
                               </div>
                               <div class="col-5">
-                                 <span class="text-120 text-secondary-d1">Ksh {!! $item->sub_total !!}</span>
+                                 <span class="text-120 text-secondary-d1">Ksh {!! $sub->sum('sub_total') !!}</span>
                               </div>
                            </div>
 
@@ -211,7 +211,7 @@
                                  Total Amount
                               </div>
                               <div class="col-5">
-                                 <span class="text-150 text-success-d3 opacity-2">Ksh {!! $item->total_amount !!}</span>
+                                 <span class="text-150 text-success-d3 opacity-2">Ksh {!! $total->sum('total_amount') !!}</span>
                               </div>
                            </div>
                      </div>

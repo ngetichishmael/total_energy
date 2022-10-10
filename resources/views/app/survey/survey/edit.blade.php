@@ -43,7 +43,7 @@
                   </div>
                   <div class="form-group mb-1">
                      {!! Form::label('title','Category Status', array('class'=>'control-label')) !!}
-                     {{ Form::select('status',[15=>'Active',22=>'Closed'], null, ['class' => 'form-control', 'required' => '']) }}
+                     {{ Form::select('status',['Active'=>'Active','Closed'=>'Closed'], null, ['class' => 'form-control', 'required' => '']) }}
                   </div>
                   {{-- <div class="form-group mb-1">
                      <label>Image</label>
@@ -68,14 +68,14 @@
 
                   </div>
                </div>
-               <div class="col-md-12 mb-1 mt-1">
+               {{-- <div class="col-md-12 mb-1 mt-1">
                   <div class="panel-body">
                      <div class="form-group">
                         <label for="">Link to sales person</label>
                         {!! Form::select('description',[],null,['class'=>'form-control my-editor']) !!}
                      </div>
                   </div>
-               </div>
+               </div> --}}
                <div class="col-md-12 mt-1 mb-2">
                   <div class="panel-body">
                      <div class="form-group">
