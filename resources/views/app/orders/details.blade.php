@@ -193,7 +193,7 @@
                                  SubTotal
                               </div>
                               <div class="col-5">
-                                 <span class="text-120 text-secondary-d1">Ksh {!! $item->sub_total !!}</span>
+                                 <span class="text-120 text-secondary-d1">Ksh {!! $sub->sum('sub_total') !!}</span>
                               </div>
                            </div>
 
@@ -211,7 +211,7 @@
                                  Total Amount
                               </div>
                               <div class="col-5">
-                                 <span class="text-150 text-success-d3 opacity-2">Ksh {!! $item->total_amount !!}</span>
+                                 <span class="text-150 text-success-d3 opacity-2">Ksh {!! $total->sum('total_amount') !!}</span>
                               </div>
                            </div>
                      </div>
@@ -224,6 +224,7 @@
       </div>
       <div class="col-md-4">
          <center><a href="{!! route('orders.delivery.allocation',$order->order_code) !!}" class="btn btn-block btn-warning mb-2">Allocate Delivery</a></center>
+         @if($payment)
          <div class="card">
             <div class="card-header">Order Payments</div>
             <div class="card-body">
@@ -235,6 +236,19 @@
                <hr>
             </div>
          </div>
+         @else
+         <div class="card">
+            <div class="card-header">Order Payments</div>
+            <div class="card-body">
+               <h6>
+                  <b>Amount:</b> N/A <br>
+                  <b>Payment Date:</b> N/A <br> 
+                  <b>Payment Method:</b> N/A <br>
+               </h6>
+               <hr>
+            </div>
+         </div>
+         @endif
       </div>
    </div>
 @endsection

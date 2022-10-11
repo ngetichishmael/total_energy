@@ -4,13 +4,14 @@ namespace App\Http\Controllers\app;
 
 use Auth;
 use Session;
+use App\Models\User;
+use App\Models\Orders;
 use App\Models\Delivery;
 use App\Models\customers;
 use App\Models\Order_items;
-use App\Models\order_payments;
 use Illuminate\Http\Request;
+use App\Models\order_payments;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 
 class deliveryController extends Controller
 {
@@ -24,7 +25,9 @@ class deliveryController extends Controller
       $allocate = Delivery::select('allocated')->where('business_code', Auth::user()->business_code)->where('order_code',$code)->first();
       $user = User::select('name')->where('user_code',$allocate->allocated)->first();
       $items = Order_items::where('order_code',$order->order_code)->get();
-      $test = customers::where('OrderCode',$order->order_code)->first();
+      $Customer_id = Orders::select('customerID')->where('order_code', $code)->first();
+      $id = $Customer_id->customerID;
+      $test = customers::where('id',$id)->first();
       $payment = order_payments::where('order_id',$order->order_code)->first();
       // dd($user);
       return view('app.delivery.details', compact('order','items', 'test', 'payment', 'user'));
