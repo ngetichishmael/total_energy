@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Products;
 use App\Models\products\product_information;
 use Livewire\Component;
-use Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Livewire\WithPagination;
 
 class Products extends Component
@@ -24,7 +24,7 @@ class Products extends Component
                      ->whereNull('parentID')
                      ->where('default_inventory','Yes')
                      ->where('default_price','Yes')
-                     ->where('product_information.business_code', Auth::user()->business_code)
+                     ->where('product_information.business_code', FacadesAuth::user()->business_code)
                      ->select('product_information.id as proID','product_information.created_at as date','product_price.selling_price as price','product_information.product_name as product_name','product_inventory.current_stock as stock','product_information.created_at as date','product_information.business_code as business_code','sku_code','brand')
                      ->orderBy($this->orderBy,$this->orderAsc ? 'desc' : 'asc')
                      ->simplePaginate($this->perPage);

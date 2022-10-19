@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+require __DIR__.'/admin.php';
+
 Route::get('/', 'Auth\LoginController@showLoginForm')->name('home.page');
 Route::get('sokoflowadmin', 'Auth\LoginController@showLoginForm');
 Route::get('signup', 'Auth\RegisterController@signup_form')->name('signup.page');

@@ -52,6 +52,23 @@
                     </span>
                 </a>
             </li>
+            <li class="nav-item {!! Nav::isResource('product') !!}">
+                <a class="d-flex align-items-center" href="#"><i data-feather="target"></i><span
+                        class="menu-title text-truncate" data-i18n="Invoice">Target</span></a>
+                <ul class="menu-content">
+                    <li><a class="d-flex align-items-center" href=" {{ route('sales.target') }}"><i
+                                data-feather="credit-card"></i><span class="menu-item text-truncate">Sales</span></a></li>
+                    <li><a class="d-flex align-items-center" href="{{ route('visit.target') }}"><i
+                                data-feather="truck"></i><span class="menu-item text-truncate">Visits</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center" href="{{ route('leads.target') }}"><i
+                                data-feather="compass"></i><span class="menu-item text-truncate">Leads</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center" href="{{ route('order.target') }}"><i
+                                data-feather="shopping-cart"></i><span class="menu-item text-truncate">Orders</span></a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item {!! Nav::isResource('supplier') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather='refresh-ccw'></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Suppliers</span></a>
