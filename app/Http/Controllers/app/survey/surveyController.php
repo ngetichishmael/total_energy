@@ -20,7 +20,18 @@ class surveyController extends Controller
       $surveries = survey::orderby('id', 'desc')->get();
       return view('app.survey.survey.index', compact('surveries'));
    }
+   public function active()
+   {
+      $surveries = survey::orderby('id', 'desc')->get();
+      return view('app.survey.survey.active', compact('surveries'));
+   }
 
+   public function responses() {
+      $surveries = DB::table('survey_responses')->join('survey','survey.code','=','survey_responses.survey_code')->join('survey_questions','survey_questions.question_code','=','survey_responses.question_code')
+      ->join('customers','customers.id','=','survey_responses.customer_id')->orderby('survey_responses.id', 'desc')->get();
+
+      return view('app.survey.survey.responses', compact('surveries'));
+   }
    //create trivia
    public function create()
    {

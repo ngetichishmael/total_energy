@@ -218,6 +218,8 @@ Route::group(['middleware' => ['verified']], function() {
 
    /* === survey === */
    Route::get('survey/list','app\survey\surveyController@index')->name('survey.index');
+   Route::get('survey/active','app\survey\surveyController@active')->name('survey.active');
+   Route::get('survey/responses','app\survey\surveyController@responses')->name('survey.responses');
    Route::get('survey/create','app\survey\surveyController@create')->name('survey.create');
    Route::post('survey/store','app\survey\surveyController@store')->name('survey.store');
    Route::get('survey/{code}/show','app\survey\surveyController@show')->name('survey.show');

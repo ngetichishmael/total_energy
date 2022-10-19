@@ -1,13 +1,13 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header mb-1">
-        <ul class="nav navbar-nav flex-row">
-            <li class="nav-item me-auto">
-                <a class="" href="#">
-                    <center><img src="{!! asset('app-assets/images/logo.png') !!}" alt="soko flow" class="img" width="80%"></center>
-                </a>
-            </li>
-            {{-- <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="lapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li> --}}
-        </ul>
+       <ul class="nav navbar-nav flex-row">
+          <li class="nav-item me-auto">
+             <a class="" href="#">
+                <center><img src="{!! asset('app-assets/images/logo.png') !!}" alt="soko flow" class="img" width="80%"></center>
+             </a>
+          </li>
+          {{-- <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li> --}}
+       </ul>
     </div>
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
@@ -154,4 +154,6 @@
             </li>
         </ul>
     </div>
-</div>
+ </div>
+
+

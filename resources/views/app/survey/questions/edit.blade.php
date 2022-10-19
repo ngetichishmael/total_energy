@@ -34,7 +34,7 @@
             <div class="col-md-6">
                <div class="form-group mb-1">
                   <label for="">Question Type</label>
-                  {!! Form::select('type',$types,null,['id'=>'question_types','class'=>'form-control','required'=>'']) !!}
+                  {!! Form::select('type',$types,null,['id'=>'question_types','class'=>'form-control','disabled']) !!}
                </div>
 
                <div class="form-group mb-1">

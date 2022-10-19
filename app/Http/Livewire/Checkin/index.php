@@ -6,11 +6,12 @@ use Livewire\Component;
 use App\Models\customer\checkin;
 use Livewire\WithPagination;
 use Auth;
+use Carbon\Carbon;
 class Index extends Component
 {
    use WithPagination;
    public $perPage = 40;
-   public $search = '';
+   public $search;
    public $orderBy = 'customer_checkin.id';
    public $orderAsc = false;
 
@@ -21,8 +22,12 @@ class Index extends Component
 
    public function render()
    {
+      $search = '%'.$this->search.'%';
       $checkins =  checkin::join('customers','customers.id','=','customer_checkin.customer_id')
-                           ->join('users','users.user_code','=','customer_checkin.user_code')
+                           ->join('users','users.user_code','=','customer_checkin.user_code')->
+                           where(function ($query) use ($search) {
+                              return $query->where('customer_name', 'like', $search)
+                                            ->orWhere('name', 'like', $search);})
                            ->orderBy($this->orderBy,$this->orderAsc ? 'asc' : 'desc')
                            ->simplePaginate($this->perPage);
 
