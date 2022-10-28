@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\surveyController;
 use App\Http\Controllers\Api\SurveryAnswersController;
 use App\Http\Controllers\Api\ReconcilationController;
 use App\Http\Controllers\Api\ReconciledProductsController;
-use App\Http\Controllers\api\TargetsController;
+use App\Http\Controllers\Api\TargetsController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
