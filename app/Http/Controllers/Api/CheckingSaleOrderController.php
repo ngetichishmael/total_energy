@@ -204,9 +204,6 @@ class CheckingSaleOrderController extends Controller
             $cart->checkin_code = $checkinCode;
             $cart->save();
          }
-         DB::table('orders_targets')
-            ->where('user_code', $user_code)
-            ->increment('AchievedOrdersTarget', $value["qty"] * $product->selling_price);
       }
       $random = Str::random(8);
       DB::insert(
@@ -271,6 +268,9 @@ class CheckingSaleOrderController extends Controller
             0, 0, 0, 0, now(), now()
          ]
       );
+      DB::table('orders_targets')
+            ->where('user_code', $user_code)
+            ->increment('AchievedOrdersTarget', $value["qty"] * $product->selling_price);
       return response()->json([
          "success" => true,
          "message" => "Product added to order",
