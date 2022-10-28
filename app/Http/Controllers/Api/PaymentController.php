@@ -55,7 +55,9 @@ class PaymentController extends Controller
             'payment_status'=> $payment_status,
             'updated_at'=>now()
     ]);
-
+    DB::table('sales_targets')
+    ->where('user_code',$request->user_code)
+    ->increment('AchievedSalesTarget',$amount);
 
         return response()->json([
             "success" => true,

@@ -92,7 +92,7 @@ class customersController extends Controller
       if ($validator->fails()) {
          return response()->json(["status" => 401, "message" => "validation_error", "errors" => $validator->errors()]);
       }
-      $emailData= $request->email == null ? null : $request->email;
+      $emailData = $request->email == null ? null : $request->email;
 
       $customer = new customers;
       $customer->customer_name = $request->customer_name;
@@ -105,6 +105,10 @@ class customersController extends Controller
       $customer->business_code = $request->business_code;
       $customer->created_by = $request->user_code;
       $customer->save();
+
+      DB::table('leads_targets')
+         ->where('user_code', $request->user_code)
+         ->increment('AchievedLeadsTarget');
 
       return response()->json([
          "success" => true,
@@ -254,8 +258,8 @@ class customersController extends Controller
       //                         ->where('order_code',$orderCode)
       //                         ->orderby('product_information.id','desc')
       //                         ->get();
- //
-   $payment=DB::select('SELECT
+      //
+      $payment = DB::select('SELECT
                `amount`,
                `balance`,
                `bank_charges`,

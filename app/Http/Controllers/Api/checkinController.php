@@ -74,7 +74,9 @@ class checkinController extends Controller
          // $activityID = $checkin->code;
 
 		   // Helper::activity($activities,$section,$action,$activityID,$business_code);
-
+         DB::table('visits_targets')
+         ->where('user_code',$request->user_code)
+         ->increment('AchievedVisitsTarget');
          return response()->json([
             "success" => true,
             "message" => "Checking Session Created Successfully",
