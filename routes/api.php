@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\surveyController;
 use App\Http\Controllers\Api\SurveryAnswersController;
 use App\Http\Controllers\Api\ReconcilationController;
 use App\Http\Controllers\Api\ReconciledProductsController;
+use App\Http\Controllers\api\TargetsController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,7 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('customers/{customerID}/{businessCode}/deliveries', 'customersController@deliveries');
    Route::get('customers/delivery/{code}/details', 'customersController@delivery_details');
    Route::get('customers/{customerID}/orders', 'customersController@orders');
-   
+
    Route::get('customers/order/{orderCode}/details', 'customersController@order_details');
    Route::get('customers/{customerID}/new-order/', 'customersController@new_order');
 
@@ -45,13 +46,13 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('customer/{CustomerCode}/checkin',['uses' => 'checkinController@checkin','as' => 'customer.checkin']);
    Route::get('checkin/{checkinCode}/stock',['uses' => 'checkinController@stock','as' => 'checkin.stock']);
    Route::get('checkin/{checkinCode}/out',['uses' => 'checkinController@checkout','as' => 'check.out']);
-  
-  
-  
+
+
+
    // Route::post('checkin/{checkinCode}/add-to-cart',['uses' => 'checkinController@add_to_cart','as' => 'add.to.cart']);
   //Route::post('checkin/{checkinCode}/add-to-cart','checkinController@add_to_cart')->middleware('auth:sanctum');
 
-  // Van Sales 
+  // Van Sales
   Route::post('checkin/vansales/{checkinCode}/add-to-cart','CheckingSaleOrderController@VanSales')->middleware('auth:sanctum');
 
   //New Sales Order
@@ -74,13 +75,13 @@ Route::group(['namespace' => 'Api'], function () {
    Route::post('checkin/checkinCode/cancel',['uses' => 'checkinController@order_cancellation','as' => 'checkin.order.cancellation']);
 
    Route::get('route/schedule/{id}',['uses' => 'routeScheduleController@show','as' => 'route.schedule']);
-   
+
    Route::get('checkin/{checkinCode}/visits',['uses' => 'checkinController@visits','as' => 'checkin.visits']);
    Route::post('checkin/{checkinCode}/visit/add',['uses' => 'checkinController@visit_add','as' => 'checkin.visit.add']);
 
    //checkin visits *History *
    Route::get('checkin/{checkinCode}/order/{orderID}/details',['uses' => 'checkinController@order_details','as' => 'checkin.order.details']);
-   
+
    Route::get('checkin/{checkinCode}/order/{orderID}/print',['uses' => 'checkinController@order_print','as' => 'checkin.order.print']);
 
    Route::get('latest/allocation/{user_code}',['uses' => 'checkinController@latest_allocation','as' => 'checkin.latest.allocation']);
@@ -94,7 +95,7 @@ Route::group(['namespace' => 'Api'], function () {
    Route::post('login',  'AuthController@userLogin');
    Route::post('signup', 'AuthController@userSignUp');
    // Route::get('user/{phonenumber}/details', 'AuthController@user_details');
-   
+
    // send otp
    Route::post('send/otp/{number}','AuthController@sendOTP');
    Route::post('verify/otp/{number}/{otp}','AuthController@verifyOTP');
@@ -139,6 +140,6 @@ Route::group(['namespace' => 'Api'], function () {
    // Reconcillations
    Route::get('/reconcile/payment',[ReconcilationController::class,'index'])->middleware('auth:sanctum');
    Route::post('/reconcile/products',[ReconciledProductsController::class,'index'])->middleware('auth:sanctum');
-
+   Route::get('/get/targets', [TargetsController::class, 'getSalespersonTarget'])->middleware('auth:sanctum');
 
 });

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth'])->group(function () {
-   Route::resource('sales', app\Target\SalesController::class)->names([
+   Route::resource('target/sales', app\Target\SalesController::class)->names([
       'index' => 'sales.target',
       'show' => 'sales.target.show',
       'edit' => 'sales.target.edit',
@@ -23,7 +23,7 @@ Route::middleware(['auth'])->group(function () {
       'create' => 'sales.target.create',
       'store' => 'sales.target.store',
   ]);
-   Route::resource('visit', app\Target\VisitsController::class)->names([
+   Route::resource('target/visit', app\Target\VisitsController::class)->names([
       'index' => 'visit.target',
       'show' => 'visit.target.show',
       'edit' => 'visit.target.edit',
@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
       'create' => 'visit.target.create',
       'store' => 'visit.target.store',
   ]);
-   Route::resource('leads', app\Target\LeadsController::class)->names([
+   Route::resource('target/leads', app\Target\LeadsController::class)->names([
       'index' => 'leads.target',
       'show' => 'leads.target.show',
       'edit' => 'leads.target.edit',

@@ -52,7 +52,7 @@
                     </span>
                 </a>
             </li>
-            <li class="nav-item {!! Nav::isResource('product') !!}">
+            <li class="nav-item {!! Nav::isResource('target') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather="target"></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Target</span></a>
                 <ul class="menu-content">

@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration
    {
       Schema::create('users', function (Blueprint $table) {
          $table->id();
+         $table->string('user_code');
          $table->string('name');
          $table->string('email')->unique();
          $table->timestamp('email_verified_at')->nullable();
@@ -29,7 +30,7 @@ class CreateUsersTable extends Migration
          $table->text('block_reason')->nullable();
          $table->text('admin_id')->nullable();
          $table->timestamps();
-      });    
+      });
    }
 
    /**
