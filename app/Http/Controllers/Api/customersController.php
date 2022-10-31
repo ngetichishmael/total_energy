@@ -92,6 +92,7 @@ class customersController extends Controller
       if ($validator->fails()) {
          return response()->json(["status" => 401, "message" => "validation_error", "errors" => $validator->errors()]);
       }
+      $user_code= $request->user()->user_code;
       $emailData = $request->email == null ? null : $request->email;
 
       $customer = new customers;
@@ -107,7 +108,7 @@ class customersController extends Controller
       $customer->save();
 
       DB::table('leads_targets')
-         ->where('user_code', $request->user_code)
+         ->where('user_code', $user_code)
          ->increment('AchievedLeadsTarget');
 
       return response()->json([

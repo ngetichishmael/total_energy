@@ -15,6 +15,7 @@ class PaymentController extends Controller
     public function index(Request $request)
     {
 
+      $user_code= $request->user()->user_code;
         $orderID = $request->get('orderID');
         $checking_code = DB::table('orders')->where('order_code', $orderID)->first();
        // $code =$checking_code->checkin_code;
@@ -56,7 +57,7 @@ class PaymentController extends Controller
             'updated_at'=>now()
     ]);
     DB::table('sales_targets')
-    ->where('user_code',$request->user_code)
+    ->where('user_code',$user_code)
     ->increment('AchievedSalesTarget',$amount);
 
         return response()->json([
