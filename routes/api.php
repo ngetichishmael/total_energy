@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\surveyController;
 use App\Http\Controllers\Api\SurveryAnswersController;
 use App\Http\Controllers\Api\ReconcilationController;
 use App\Http\Controllers\Api\ReconciledProductsController;
+use App\Http\Controllers\Api\ReportsController;
 use App\Http\Controllers\Api\TargetsController;
 use Illuminate\Support\Facades\Route;
 /*
@@ -141,5 +142,11 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('/reconcile/payment',[ReconcilationController::class,'index'])->middleware('auth:sanctum');
    Route::post('/reconcile/products',[ReconciledProductsController::class,'index'])->middleware('auth:sanctum');
    Route::get('/get/targets', [TargetsController::class, 'getSalespersonTarget'])->middleware('auth:sanctum');
+
+
+   /**
+    * Reports
+    */
+    Route::get('/get/reports', [ReportsController::class, 'getReports'])->middleware('auth:sanctum');
 
 });
