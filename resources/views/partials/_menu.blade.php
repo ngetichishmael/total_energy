@@ -111,7 +111,6 @@
                             <span class="menu-item text-truncate">Survey</span>
                         </a>
                     </li>
-                    {{-- <li><a class="d-flex align-items-center" href="{!! route('survey.category.index') !!}"><i data-feather="circle"></i><span class="menu-item text-truncate">Categories</span></a></li> --}}
                 </ul>
             </li>
             <li class="nav-item {!! Nav::isResource('routes') !!}">

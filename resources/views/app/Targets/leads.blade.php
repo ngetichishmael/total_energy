@@ -17,4 +17,5 @@
    @include('partials._messages')
    {{-- @livewire('products.products') --}}
    @livewire('target.lead')
+   
 @endsection
