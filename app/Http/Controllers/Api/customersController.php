@@ -79,6 +79,7 @@ class customersController extends Controller
     **/
    public function add_customer(Request $request)
    {
+      $user_code = $request->user()->user_code;
       $validator           =  Validator::make($request->all(), [
          "customer_name"   => "required",
          "contact_person"  => "required",
@@ -92,7 +93,6 @@ class customersController extends Controller
       if ($validator->fails()) {
          return response()->json(["status" => 401, "message" => "validation_error", "errors" => $validator->errors()]);
       }
-      $user_code= $request->user()->user_code;
       $emailData = $request->email == null ? null : $request->email;
 
       $customer = new customers;
