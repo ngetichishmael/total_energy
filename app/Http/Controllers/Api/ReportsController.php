@@ -26,7 +26,9 @@ class ReportsController extends Controller
          ->where('order_status', 'DELIVERED')
          ->count();
       $countOrdersWeekly = Orders::where('user_code', $user_code)
-         ->whereWeek('created_at', today())
+         ->whereBetween('created_at', [
+            now()->startOfWeek(), now()->endOfWeek()
+         ])
          ->where('order_status', 'DELIVERED')
          ->count();
       $countOrdersMonthly = Orders::where('user_code', $user_code)
@@ -38,7 +40,9 @@ class ReportsController extends Controller
          ->where('order_status', 'DELIVERED')
          ->sum('price_total');
       $totalSalesWeekly = Orders::where('user_code', $user_code)
-         ->whereWeek('created_at', today())
+         ->whereBetween('created_at', [
+            now()->startOfWeek(), now()->endOfWeek()
+         ])
          ->where('order_status', 'DELIVERED')
          ->sum('price_total');
       $totalSalesMonthly = Orders::where('user_code', $user_code)
