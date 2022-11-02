@@ -24,17 +24,17 @@ class ReportsController extends Controller
       $countOrdersToday = Orders::where('user_code', $user_code)
          ->whereDate('created_at', '=', Carbon::today()->toDateString())
          ->where('order_status', 'DELIVERED')
-         ->count();
+         ->get();
       $countOrdersWeekly = Orders::where('user_code', $user_code)
          ->whereBetween('created_at', [
             now()->startOfWeek(), now()->endOfWeek()
          ])
          ->where('order_status', 'DELIVERED')
-         ->count();
+         ->get();
       $countOrdersMonthly = Orders::where('user_code', $user_code)
          ->whereMonth('created_at', today())
          ->where('order_status', 'DELIVERED')
-         ->count();
+         ->get();
       $totalSalesToday = Orders::where('user_code', $user_code)
          ->whereDate('created_at', '=', Carbon::today()->toDateString())
          ->where('order_status', 'DELIVERED')
@@ -54,9 +54,9 @@ class ReportsController extends Controller
          "success" => true,
          "status" => 200,
          "Data" => [
-            'countOrdersToday' => $countOrdersToday,
-            'countOrdersWeekly' => $countOrdersWeekly,
-            'countOrdersMonthly' => $countOrdersMonthly,
+            'OrdersToday' => $countOrdersToday,
+            'OrdersWeekly' => $countOrdersWeekly,
+            'OrdersMonthly' => $countOrdersMonthly,
             'totalSalesToday' => $totalSalesToday,
             'totalSalesWeekly' => $totalSalesWeekly,
             'totalSalesMonthly' => $totalSalesMonthly,
