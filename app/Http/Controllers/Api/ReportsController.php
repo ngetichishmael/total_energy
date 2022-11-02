@@ -24,29 +24,35 @@ class ReportsController extends Controller
       $countOrdersToday = Orders::where('user_code', $user_code)
          ->whereDate('created_at', '=', Carbon::today()->toDateString())
          ->where('order_status', 'DELIVERED')
+         ->where('order_type', 'Van sales')
          ->get();
       $countOrdersWeekly = Orders::where('user_code', $user_code)
          ->whereBetween('created_at', [
             now()->startOfWeek(), now()->endOfWeek()
          ])
          ->where('order_status', 'DELIVERED')
+         ->where('order_type', 'Van sales')
          ->get();
       $countOrdersMonthly = Orders::where('user_code', $user_code)
          ->whereMonth('created_at', today())
+         ->where('order_type', 'Van sales')
          ->where('order_status', 'DELIVERED')
          ->get();
       $totalSalesToday = Orders::where('user_code', $user_code)
          ->whereDate('created_at', '=', Carbon::today()->toDateString())
+         ->where('order_type', 'Van sales')
          ->where('order_status', 'DELIVERED')
          ->sum('price_total');
       $totalSalesWeekly = Orders::where('user_code', $user_code)
          ->whereBetween('created_at', [
             now()->startOfWeek(), now()->endOfWeek()
          ])
+         ->where('order_type', 'Van sales')
          ->where('order_status', 'DELIVERED')
          ->sum('price_total');
       $totalSalesMonthly = Orders::where('user_code', $user_code)
          ->whereMonth('created_at', today())
+         ->where('order_type', 'Van sales')
          ->where('order_status', 'DELIVERED')
          ->sum('price_total');
 
