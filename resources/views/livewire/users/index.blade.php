@@ -47,9 +47,21 @@
                         </td>
                         <td>{!! $user->status !!}</td>
                         <td>
+                           <div class="d-flex" style="gap:2px;">
+                              <a href="{{ route('user.edit', $user->id) }}"
+                                  class="btn btn-primary btn-sm">Edit</a>
+                              <a href="#"
+                                  class="btn btn-danger btn-sm">Delete</a>
+                              {{-- <a href="{!! route('user.destroy', $user->id) !!}"
+                                  class="btn btn-secondary btn-sm">Delete</a> --}}
+                          </div>
                            {{-- <a href="{{ route('users.details', $user->proID) }}" class="btn btn-warning btn-sm"><i class="fas fa-eye"></i></a> --}}
-                           <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                           <a href="{!! route('user.destroy', $user->id) !!}" class="btn btn-danger delete btn-sm"><i class="fas fa-trash"></i></a>
+                           {{-- <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-sm">
+                              <i class="fas fa-edit"></i>
+                           </a>
+                           <a href="{!! route('user.destroy', $user->id) !!}" class="btn btn-danger delete btn-sm">
+                              <i class="fas fa-trash"></i>
+                           </a> --}}
                         </td>
                      </tr>
                   @endif
