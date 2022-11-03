@@ -58,6 +58,7 @@ class routesController extends Controller
       $route->route_code = $code;
       $route->name = $request->name;
       $route->status = $request->status;
+      $route->Type= "Assigned";
       $route->start_date = $request->start_date;
       $route->end_date = $request->end_date;
       $route->created_by = Auth::user()->user_code;

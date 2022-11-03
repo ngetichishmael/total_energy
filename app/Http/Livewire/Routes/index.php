@@ -10,11 +10,12 @@ use Auth;
 class Index extends Component
 {
    use WithPagination;
+   protected $paginationTheme = 'bootstrap';
    public $perPage = 10;
    public $search = '';
    public function render()
    {
-      $routes = Routes::simplePaginate($this->perPage);
+      $routes = Routes::paginate($this->perPage);
 
       return view('livewire.routes.index', compact('routes'));
    }

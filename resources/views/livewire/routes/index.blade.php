@@ -1,5 +1,5 @@
 <div>
-   <div class="row mb-2">
+   <div class="mb-2 row">
       <div class="col-md-9">
          <label for="">Search</label>
          <input wire:model.debounce.300ms="search" type="text" class="form-control" placeholder="Enter route name">
@@ -21,9 +21,8 @@
                <tr>
                   <th width="1%">#</th>
                   <th>Name</th>
-                  <th>Customers</th>
-                  <th>Sales People</th>
                   <th>Status</th>
+                  <th>Type</th>
                   <th>Start Date</th>
                   <th>End Date</th>
                   <th>Action</th>
@@ -34,14 +33,15 @@
                   <tr>
                      <td>{!! $count+1 !!}</td>
                      <td>{!! $route->name !!}</td>
-                     <td>0</td>
-                     <td>0</td>
                      <td>{!! $route->status !!}</td>
+                     <td>{!! $route->Type !!}</td>
                      <td>{!! $route->start_date !!}</td>
                      <td>{!! $route->end_date !!}</td>
                      <td>
+                        <div class="d-flex" style="gap:2px;">
                         <a href="#" class="btn btn-warning btn-sm">View</a>
                         <a href="#" class="btn btn-primary btn-sm">Edit</a>
+                        </div>
                      </td>
                   </tr>
                @endforeach
