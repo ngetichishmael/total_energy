@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Routes extends Model
 {
-   Protected $table = 'routes';
+   protected $table = 'routes';
+   protected $guarded = [];
+
 }

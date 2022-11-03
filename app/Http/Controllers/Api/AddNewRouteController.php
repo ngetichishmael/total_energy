@@ -18,14 +18,13 @@ class AddNewRouteController extends Controller
 
             //$requestID=$request->collect();
            $customerID=$request->get('customer_id');
-
-            info($customerID);
             $code =  Helper::generateRandomString(20);
             $route = new Routes;
             $route->business_code = Auth::user()->business_code;
             $route->route_code = $code;
             $route->name = $request->name;
             $route->status = $request->status;
+            $route->Type = "Individual";
             $route->start_date = $request->start_date;
             $route->end_date = $request->end_date;
             $route->created_by = Auth::user()->user_code;
@@ -33,24 +32,24 @@ class AddNewRouteController extends Controller
 
 
       //save customers
-   
+
             $customers = new Route_customer;
             $customers->business_code  = Auth::user()->business_code;
             $customers->routeID = $code;
             $customers->customerID =$customerID;
             $customers->created_by = Auth::user()->user_code;
             $customers->save();
-   
+
 
       //save sales person
-      
+
             $sales = new Route_sales;
             $sales->business_code  = Auth::user()->business_code;
             $sales->routeID = $code;
             $sales->userID = Auth::user()->id;
             $sales->created_by = Auth::user()->user_code;
             $sales->save();
-      
+
       return response()->json([
          "success" => true,
          "status" => 200,
@@ -67,16 +66,16 @@ class AddNewRouteController extends Controller
         //     ->select('users.*', 'contacts.phone', 'orders.price')
         //     ->get();
 
-        // SELECT `visitschedule`.`Date`, `customers`.`customer_name` 
+        // SELECT `visitschedule`.`Date`, `customers`.`customer_name`
         // FROM `visitschedule` INNER JOIN `customers` ON `customers`.`account` = `visitschedule`.`shopID`;
 
         $data = DB::table('routes')
         ->select(
-            'business_code', 
-            'route_code', 
-            'name', 
+            'business_code',
+            'route_code',
+            'name',
             'status',
-            'start_date', 
+            'start_date',
             'end_date')
         ->where('routes.business_code',$user)
         ->get();
