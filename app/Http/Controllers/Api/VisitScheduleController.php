@@ -21,7 +21,7 @@ class VisitScheduleController extends Controller
         //     ->select('users.*', 'contacts.phone', 'orders.price')
         //     ->get();
 
-        // SELECT `visitschedule`.`Date`, `customers`.`customer_name` 
+        // SELECT `visitschedule`.`Date`, `customers`.`customer_name`
         // FROM `visitschedule` INNER JOIN `customers` ON `customers`.`account` = `visitschedule`.`shopID`;
 
         $data = DB::table('visitschedule')
@@ -53,10 +53,11 @@ class VisitScheduleController extends Controller
     {
         $user = $request->user()->user_code;
         $date = request()->date;
-        
+
         $schedule = ModelsVisitschedule::create([
             'user_code' => $user,
             'shopID' => $shopID,
+            'Type' => 'Individual',
             'Date' => $date,
         ]);
         $schedule->save();

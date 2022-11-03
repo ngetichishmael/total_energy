@@ -11,6 +11,7 @@ class visitschedule extends Model
     protected $fillable = [
         'user_code',
         'shopID',
+        'Type',
         'Date',
     ];
 
