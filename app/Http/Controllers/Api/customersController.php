@@ -108,7 +108,7 @@ class customersController extends Controller
       $customer->save();
 
       DB::table('leads_targets')
-         ->where('user_code', $user_code)
+         ->where('user_code',$request->user_code)
          ->increment('AchievedLeadsTarget');
 
       return response()->json([
