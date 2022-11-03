@@ -76,7 +76,6 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('checkin/{checkinCode}/order/{itemID}/delete/item',['uses' => 'checkinController@order_delete_item','as' => 'checkin.order.delete.item']);
    Route::post('checkin/checkinCode/cancel',['uses' => 'checkinController@order_cancellation','as' => 'checkin.order.cancellation']);
 
-   Route::get('route/schedule/{id}',['uses' => 'routeScheduleController@show','as' => 'route.schedule']);
 
    Route::get('checkin/{checkinCode}/visits',['uses' => 'checkinController@visits','as' => 'checkin.visits']);
    Route::post('checkin/{checkinCode}/visit/add',['uses' => 'checkinController@visit_add','as' => 'checkin.visit.add']);
@@ -121,7 +120,6 @@ Route::group(['namespace' => 'Api'], function () {
 
    Route::post('/scheduleVisit/{CustomerAccountNumber}','VisitScheduleController@NewVisit')->middleware('auth:sanctum');
    Route::get('/scheduleVisit/checkAll','AddNewRouteController@index')->middleware('auth:sanctum');
-   Route::post('/AddNewRoute','AddNewRouteController@store')->middleware('auth:sanctum');
    Route::post('/payment','PaymentController@index')->middleware('auth:sanctum');
 
 
@@ -154,5 +152,12 @@ Route::group(['namespace' => 'Api'], function () {
      * Deliveries
      */
     Route::get('/get/deliveries', [DeliveriesController::class, 'getDeliveries'])->middleware('auth:sanctum');
+
+    /**
+     * Routess schedules
+     */
+    Route::post('/AddNewRoute','AddNewRouteController@store')->middleware('auth:sanctum');
+    Route::get('route/schedule/{id}',['uses' => 'routeScheduleController@show','as' => 'route.schedule']);
+
 
 });
