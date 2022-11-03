@@ -31,6 +31,7 @@ class VisitScheduleController extends Controller
                 'customers.customer_name',
                 'visitschedule.shopID',
                 'visitschedule.Date',
+                'visitschedule.Type',
                 'visitschedule.VisitedStatus')
         ->where('visitschedule.user_code',$user)
         ->get();
