@@ -75,6 +75,7 @@ class AddNewRouteController extends Controller
             'route_code',
             'name',
             'status',
+            'Type',
             'start_date',
             'end_date')
         ->where('routes.business_code',$user)
