@@ -39,7 +39,7 @@ class usersController extends Controller
       $user->name = $request->name;
       $user->account_type = $request->account_type;
       $user->status = 'Active';
-      $user->password = Hash::make($request->phone_number);
+      $user->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
       $user->business_code = Auth::user()->business_code;
       $user->save();
 
@@ -78,5 +78,10 @@ class usersController extends Controller
       Session::flash('success','User updated Successfully');
 
       return redirect()->back();
+   }
+   public function destroy($id){
+      User::where('id', $id)->delete();
+      Session::flash('success','User deleted Successfully');
+      return redirect()->route('users.index');
    }
 }

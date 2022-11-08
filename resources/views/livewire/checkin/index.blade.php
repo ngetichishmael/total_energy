@@ -20,7 +20,6 @@
             <thead>
                <th width="1%">#</th>
                <th>Customer</th>
-               <th>Type</th>
                <th>Check In</th>
                <th>Time Spent</th>
                <th>Date</th>
@@ -32,7 +31,6 @@
                   <tr>
                      <td>{!! $count+1 !!}</td>
                      <td>{!! $checkin->customer_name !!}</td>
-                     <td>{!! $checkin->account_type !!}</td>
                      <td>{!! $checkin->created_at->format('d M Y')  !!} at {!! $checkin->created_at->format('H:i:s')  !!}</td>
                      <td>{!! $checkin->timeAgo  !!}</td>
                      <td>{!! $checkin->updated_at !!}</td>
@@ -44,7 +42,7 @@
                @endforeach
             </tbody>
          </table>
-         {!! $checkins->links() !!}
+         <div class="mt-1">{!! $checkins->links() !!}</div>
       </div>
    </div>
 </div>

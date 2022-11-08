@@ -65,7 +65,7 @@
                             </div>
                             <div class="media-body my-auto">
                                 <h4 class="font-weight-bolder mb-0">
-                                 {{ number_format($activeUser) }}
+                                 {{ number_format($activeUser) }} / {{  number_format($activeAll) }}
                                 </h4>
                                 <p class="card-text font-small-3 mb-0">Active Users</p>
                             </div>

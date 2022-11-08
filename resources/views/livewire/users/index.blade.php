@@ -26,7 +26,6 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Phone</th>
-                  <th>Account</th>
                   <th>Status</th>
                   <th width="12%">Actions</th>
                </tr>
@@ -41,16 +40,12 @@
                            {!! $user->email !!}
                         </td>
                         <td>{!! $user->phone_number !!}</td>
-
-                        <td>
-                           {!! $user->account !!}
-                        </td>
                         <td>{!! $user->status !!}</td>
                         <td>
                            <div class="d-flex" style="gap:2px;">
                               <a href="{{ route('user.edit', $user->id) }}"
                                   class="btn btn-primary btn-sm">Edit</a>
-                              <a href="#"
+                              <a href="{!! route('user.destroy', $user->id) !!}"
                                   class="btn btn-danger btn-sm">Delete</a>
                               {{-- <a href="{!! route('user.destroy', $user->id) !!}"
                                   class="btn btn-secondary btn-sm">Delete</a> --}}
@@ -68,7 +63,7 @@
                @endforeach
             </tbody>
          </table>
-         {!! $users->links() !!}
+         <div class="mt-1">{!! $users->links() !!}</div>
       </div>
    </div>
 </div>

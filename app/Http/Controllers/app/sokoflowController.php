@@ -45,39 +45,41 @@ class sokoflowController extends Controller
          ->whereBetween('created_at', [$week, $today])
          ->sum('amount');
       $sumAll = DB::table('order_payments')
-      ->sum('amount');
-     $vansales =Orders::where('order_type','Van sales')
-                        ->where('order_status','DELIVERED')
-                        ->sum('price_total');
-     $preorder =Orders::where('order_type','Pre Order')
-                        ->where('order_status','DELIVERED')
-                        ->sum('price_total');
-     $orderfullment =Orders::where('order_status','DELIVERED')
-                        ->count();
-      $activeUser=User::where('account_type','Sales')
-                        ->where('status','Active')
-                        ->count();
-      $brands=DB::table('order_items')->select('product_name', DB::raw( 'SUM(total_amount) as total'))
-                        ->groupBy('product_name')
-                        ->orderBy('total','desc')
-                        ->limit(7)
-                        ->get();
-      $catergories=DB::table('order_items')->select('product_name', DB::raw( 'SUM(total_amount) as total'))
-                        ->groupBy('product_name')
-                        ->orderBy('total','asc')
-                        ->limit(7)
-                        ->get();
-      $arrayLabel=[];
-      $arrayData=[];
-      $arrayCLabel=[];
-      $arrayCData=[];
-      foreach($brands as $br){
-         array_push($arrayLabel,$br->product_name);
-         array_push($arrayData,$br->total);
+         ->sum('amount');
+      $vansales = Orders::where('order_type', 'Van sales')
+         ->where('order_status', 'DELIVERED')
+         ->sum('price_total');
+      $preorder = Orders::where('order_type', 'Pre Order')
+         ->where('order_status', 'DELIVERED')
+         ->sum('price_total');
+      $orderfullment = Orders::where('order_status', 'DELIVERED')
+         ->count();
+      $activeUser = DB::table('customer_checkin')
+         ->distinct('user_code')
+         ->whereDate('created_at', Carbon::today())
+         ->count();
+      $activeAll = User::where('account_type', 'Sales')->count();
+      $brands = DB::table('order_items')->select('product_name', DB::raw('SUM(total_amount) as total'))
+         ->groupBy('product_name')
+         ->orderBy('total', 'desc')
+         ->limit(7)
+         ->get();
+      $catergories = DB::table('order_items')->select('product_name', DB::raw('SUM(total_amount) as total'))
+         ->groupBy('product_name')
+         ->orderBy('total', 'asc')
+         ->limit(7)
+         ->get();
+      $arrayLabel = [];
+      $arrayData = [];
+      $arrayCLabel = [];
+      $arrayCData = [];
+      foreach ($brands as $br) {
+         array_push($arrayLabel, $br->product_name);
+         array_push($arrayData, $br->total);
       }
-      foreach($catergories as $br){
-         array_push($arrayCLabel,$br->product_name);
-         array_push($arrayCData,$br->total);
+      foreach ($catergories as $br) {
+         array_push($arrayCLabel, $br->product_name);
+         array_push($arrayCData, $br->total);
       }
       $brandsales = new BrandSales();
       $brandsales->labels($arrayLabel);
@@ -92,7 +94,7 @@ class sokoflowController extends Controller
 
       $catergories = new CatergoryChart();
       $catergories->labels($arrayCLabel);
-      $catergories->dataset('Least Perfom Brand', 'bar',$arrayCData )->options([
+      $catergories->dataset('Least Perfom Brand', 'bar', $arrayCData)->options([
          "responsive" => true,
          'color' => "#94DB9D",
          'backgroundColor' => '#f07f21',
@@ -105,31 +107,32 @@ class sokoflowController extends Controller
          ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile', 'user_id')
          ->where('user_id', auth()->id())->sum('balance');
 
-      $cash=OrderPayment::where('payment_method','PaymentMethods.Cash')->sum('amount');
-      $mpesa=OrderPayment::where('payment_method','PaymentMethods.Mpesa')->sum('amount');
-      $cheque=OrderPayment::where('payment_method','PaymentMethods.Cheque')->sum('amount');
+      $cash = OrderPayment::where('payment_method', 'PaymentMethods.Cash')->sum('amount');
+      $mpesa = OrderPayment::where('payment_method', 'PaymentMethods.Mpesa')->sum('amount');
+      $cheque = OrderPayment::where('payment_method', 'PaymentMethods.Cheque')->sum('amount');
 
-      $strike=DB::table('customer_checkin')->whereDate('created_at', Carbon::today())->count();
-      $customersCount=Orders::distinct('customerID')->whereDate('created_at', Carbon::today())->count();
+      $strike = DB::table('customer_checkin')->whereDate('created_at', Carbon::today())->count();
+      $customersCount = Orders::distinct('customerID')->whereDate('created_at', Carbon::today())->count();
 
       return view('app.dashboard.dashboard', [
          'Cash' => $cash,
          'Mpesa' => $mpesa,
          'Cheque' => $cheque,
          'sales' => $sales,
-         'total' => $cash+$cheque+$mpesa,
+         'total' => $cash + $cheque + $mpesa,
          'brandsales' => $brandsales,
          'catergories' => $catergories,
          'vansales' => $vansales,
          'preorder' => $preorder,
          'orderfullment' => $orderfullment,
          'activeUser' => $activeUser,
-         'daily' =>$daily,
+         'activeAll' => $activeAll,
+         'daily' => $daily,
          'weekly' => $weekly,
          'monthly' => $monthly,
-         'sumAll' =>$sumAll,
-         'strike' =>$strike,
-         'customersCount' =>$customersCount,
+         'sumAll' => $sumAll,
+         'strike' => $strike,
+         'customersCount' => $customersCount,
       ]);
 
       // return view('app.dashboard.dashboard',compact('Cash', 'Mpesa','Cheque','reconciled','total'));

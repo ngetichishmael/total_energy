@@ -10,7 +10,8 @@ use Carbon\Carbon;
 class Index extends Component
 {
    use WithPagination;
-   public $perPage = 40;
+ protected $paginationTheme = 'bootstrap';
+   public $perPage = 10;
    public $search;
    public $orderBy = 'customer_checkin.id';
    public $orderAsc = false;
@@ -29,7 +30,7 @@ class Index extends Component
                               return $query->where('customer_name', 'like', $search)
                                             ->orWhere('name', 'like', $search);})
                            ->orderBy($this->orderBy,$this->orderAsc ? 'asc' : 'desc')
-                           ->simplePaginate($this->perPage);
+                           ->paginate($this->perPage);
 
       return view('livewire.checkin.index', compact('checkins'));
    }

@@ -10,6 +10,7 @@ use Auth;
 class Index extends Component
 {
    use WithPagination;
+ protected $paginationTheme = 'bootstrap';
    public $perPage = 10;
    public $search = '';
    public $orderBy = 'id';
@@ -20,7 +21,7 @@ class Index extends Component
 
       $users =  User::where('business_code', Auth::user()->business_code)
                      ->orderBy($this->orderBy,$this->orderAsc ? 'desc' : 'asc')
-                     ->simplePaginate($this->perPage);
+                     ->paginate($this->perPage);
 
       return view('livewire.users.index', compact('users'));
    }

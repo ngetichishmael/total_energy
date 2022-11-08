@@ -27,14 +27,7 @@ class supplierController extends Controller{
 	}
 
 	public function index(){
-		$suppliers = suppliers::join('business','business.business_code','=','suppliers.business_code')
-							->where('suppliers.business_code',Auth::user()->business_code)
-                     ->select('*','suppliers.id as supplierID','suppliers.name as supplier_name','suppliers.email as supplier_email','suppliers.phone_number as phone_number','suppliers.created_at as created_at')
-							->OrderBy('suppliers.id','DESC')
-							->get();
-		$count = 1;
-
-		return view('app.suppliers.index', compact('suppliers','count'));
+		return view('app.suppliers.index');
 	}
 
 	public function create(){
