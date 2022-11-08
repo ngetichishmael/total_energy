@@ -1,7 +1,7 @@
 <!-- BEGIN: Vendor JS-->
 <script src="{!! asset('app-assets/vendors/js/vendors.min.js') !!}"></script>
 <!-- BEGIN Vendor JS-->
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
 <!-- BEGIN: Page Vendor JS-->
 <script src="{!! asset('app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js') !!}"></script>
 <script src="{!! asset('app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js') !!}"></script>

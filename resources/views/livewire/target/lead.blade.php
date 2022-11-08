@@ -6,9 +6,9 @@
             <input wire:model.debounce.300ms="search" type="text" class="form-control" placeholder="Search ...">
             <!-- Button trigger modal -->
             <div class="mt-1">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <a href="{{ route('sales.target.create') }}" type="button" class="btn btn-primary" >
                     New Target
-                </button>
+                </a>
             </div>
         </div>
         <div class="col-md-3">
@@ -35,9 +35,9 @@
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>hello World</td>
-                        <td>hello World</td>
-                        <td>hello World</td>
+                        <td>400</td>
+                        <td>3000</td>
+                        <td>200</td>
                     </tr>
 
                 </tbody>
