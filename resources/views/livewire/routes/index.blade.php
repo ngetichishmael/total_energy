@@ -47,7 +47,7 @@
                @endforeach
             </tbody>
          </table>
-         {!! $routes->links() !!}
+         <div class="mt-1">{!! $routes->links() !!}</div>
       </div>
    </div>
 </div>

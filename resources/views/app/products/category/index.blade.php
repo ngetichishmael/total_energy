@@ -44,8 +44,10 @@
 
                            {{-- <td>{!! Finance::products_by_category_count($all->id) !!}</td> --}}
                            <td>
-                              <a href="{{ route('product.category.edit', $all->id) }}" class="btn btn-primary btn-sm"><i class="far fa-edit"></i> Edit</a>
-                              <a href="{!! route('product.category.destroy', $all->id) !!}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash"></i> Delete</a>
+                              <div class="d-flex" style="gap:20px">
+                                 <a href="{{ route('product.category.edit', $all->id) }}" class="btn btn-primary btn-sm"><i class="far fa-edit"></i> Edit</a>
+                                 <a href="{!! route('product.category.destroy', $all->id) !!}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash"></i> Delete</a>
+                              </div>
                            </td>
                         </tr>
                      @endforeach

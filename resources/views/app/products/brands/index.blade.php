@@ -44,8 +44,14 @@
                            <td>{!! $count++ !!}</td>
                            <td>{!! $all->name !!}</td>
                            <td>
-                              <a href="{{ route('product.brand.edit', $all->id) }}" class="btn btn-sm btn-primary"><i class="far fa-edit"></i></a>
-                              <a href="{!! route('product.brand.destroy', $all->id) !!}" class="btn btn-sm delete btn-danger"><i class="fas fa-trash"></i></a>
+                              <div class="d-flex" style="gap: 20px;">
+                                 <a href="{{ route('product.brand.edit', $all->id) }}" class="btn btn-sm btn-primary">
+                                    Edit
+                                    </a>
+                                 <a href="{!! route('product.brand.destroy', $all->id) !!}" class="btn btn-sm delete btn-danger">
+                                    DELETE
+                                 </a>
+                              </div>
                            </td>
                         </tr>
                      @endforeach

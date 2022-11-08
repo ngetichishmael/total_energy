@@ -11,7 +11,7 @@
                   <thead>
                      <th>#</th>
                      <th>Sales Person</th>
-                     <th>Total Items</th>
+                     {{-- <th>Total Items</th> --}}
                      <th>Date Allocated</th>
                      <th>Allocated by</th>
                      <th>Status</th>
@@ -22,7 +22,7 @@
                         <tr>
                            <td>{!! $count+1 !!}</td>
                            <td>{!! $allocation->name !!}</td>
-                           <td>{!! Sales::total_allocated_items($allocation->allocation_code)->sum('current_qty') !!}</td>
+                           {{-- <td>{!! Sales::total_allocated_items($allocation->allocation_code)->sum('current_qty') !!}</td> --}}
                            <td>{!! date('F jS, Y', strtotime($allocation->created_at)) !!}</td>
                            <td>{!! Sales::user($allocation->created_by)->name !!}</td>
                            <td><span class="badge bg-secondary">{!! $allocation->status !!}</span></td>
@@ -33,6 +33,9 @@
                      @endforeach
                   </tbody>
                </table>
+            </div>
+            <div class="mt-1">
+               {{ $allocations->links() }}
             </div>
          </div>
       </div>
