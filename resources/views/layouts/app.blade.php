@@ -12,7 +12,7 @@
    <!-- END: Header-->
 
    <!-- BEGIN: Main Menu-->
-   @include('partials._menu')
+   @include('partials.menu')
    <!-- END: Main Menu-->
 
    <!-- BEGIN: Content-->
