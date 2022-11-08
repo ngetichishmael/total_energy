@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\app\Map\MapsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
       'create' => 'leads.target.create',
       'store' => 'leads.target.store',
   ]);
-   Route::resource('order', app\Target\OrdersController::class)->names([
+   Route::resource('target/order', app\Target\OrdersController::class)->names([
       'index' => 'order.target',
       'show' => 'order.target.show',
       'edit' => 'order.target.edit',
@@ -50,5 +51,8 @@ Route::middleware(['auth'])->group(function () {
       'create' => 'order.target.create',
       'store' => 'order.target.store',
   ]);
+  Route::group(['prefix' => 'maps'], function () {
+   Route::get('/', [MapsController::class, 'index'])->name('maps');
+});
 });
 

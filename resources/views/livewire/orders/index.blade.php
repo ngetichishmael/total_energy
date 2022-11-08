@@ -1,6 +1,6 @@
 <div>
-   <div class="row mb-1">
-      <div class="col-md-10">
+   <div class="d-flex justify-content-between align-items-center mx-50 pt-0 pb-2">
+      <div class="col-md-6">
          <label for="">Search</label>
          <input type="text" wire:model="search" class="form-control" placeholder="Enter customer name">
       </div>
@@ -15,6 +15,13 @@
             <option value="100">200</option>
          </select>
       </div>
+      <div class="col-md-3">
+         <button type="button" class="btn btn-icon btn-outline-success" wire:click="export"
+             wire:loading.attr="disabled" data-toggle="tooltip" data-placement="top" title="Export Excel">
+             <img src="{{ asset('assets/img/excel.png') }}"alt="Export Excel" width="20" height="20"
+                 data-toggle="tooltip" data-placement="top" title="Export Excel">Export to Excel
+         </button>
+     </div>
    </div>
    <div class="card card-default">
       <div class="card-body">
@@ -50,8 +57,8 @@
                @endforeach
             </tbody>
          </table>
-         {!! $orders->links() !!}
       </div>
+      {!! $orders->links() !!}
    </div>
 </div>
 @section('scripts')

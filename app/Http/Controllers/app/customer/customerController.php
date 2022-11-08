@@ -25,14 +25,7 @@ class customerController extends Controller
 
 	public function index()
 	{
-		$contacts = customers::join('business', 'business.business_code', '=', 'customers.business_code')
-			->where('customers.business_code', FacadesAuth::user()->business_code)
-			->select('*', 'customers.id as customerID', 'customers.created_at as date_added', 'business.business_code as business_code', 'customers.business_code as business_code', 'customers.email as customer_email', 'customers.phone_number as phone_number')
-			->OrderBy('customers.id', 'DESC')
-			->paginate(10);
-		$count = 1;
-
-		return view('app.customers.index', compact('count', 'contacts'));
+		return view('app.customers.index');
 	}
 
 	public function create()

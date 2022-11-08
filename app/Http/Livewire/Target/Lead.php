@@ -2,12 +2,19 @@
 
 namespace App\Http\Livewire\Target;
 
+use App\Models\LeadsTargets;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class Lead extends Component
 {
     public function render()
     {
-        return view('livewire.target.lead');
+      $today = Carbon::now();
+      $leads=LeadsTargets::all();
+        return view('livewire.target.lead',[
+         'leads' => $leads,
+         'today' =>$today
+        ]);
     }
 }

@@ -18,6 +18,13 @@
                         Dashboards</span>
                 </a>
             </li>
+            <li class="nav-item {!! Nav::isResource('maps') !!}">
+               <a class="d-flex align-items-center" href="{!! route('maps') !!}">
+                   <i data-feather='globe'></i>
+                   <span class="menu-title text-truncate" data-i18n="Todo">
+                       Maps</span>
+               </a>
+           </li>
             <li class="nav-item {!! Nav::isResource('product') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Products</span></a>

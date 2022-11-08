@@ -17,8 +17,7 @@ class surveyController extends Controller
    //index
    public function index()
    {
-      $surveries = survey::orderby('id', 'desc')->get();
-      return view('app.survey.survey.index', compact('surveries'));
+      return view('app.survey.survey.index');
    }
    public function active()
    {

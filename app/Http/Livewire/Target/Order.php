@@ -2,12 +2,19 @@
 
 namespace App\Http\Livewire\Target;
 
+use App\Models\OrdersTarget;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class Order extends Component
 {
     public function render()
     {
-        return view('livewire.target.order');
+      $today = Carbon::now();
+      $orders=OrdersTarget::all();
+        return view('livewire.target.order',[
+         'orders' => $orders,
+         'today' =>$today
+        ]);
     }
 }

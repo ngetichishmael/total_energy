@@ -47,7 +47,7 @@
                         <div class="media">
                             <div class="avatar bg-light-danger mr-2">
                                 <div class="avatar-content">
-                                    <span class="material-symbols-outlined">insights</span>
+                                 <i data-feather="award  " class="avatar-icon font-medium-3"></i>
                                 </div>
                             </div>
                             <div class="media-body my-auto">

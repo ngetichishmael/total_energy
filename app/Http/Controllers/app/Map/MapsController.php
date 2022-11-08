@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\app\Target;
+namespace App\Http\Controllers\app\Map;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class VisitsController extends Controller
+class MapsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class VisitsController extends Controller
      */
     public function index()
     {
-      return view('app.Targets.visits');
+      return view('livewire.maps.layout');
     }
 
     /**
@@ -24,7 +24,7 @@ class VisitsController extends Controller
      */
     public function create()
     {
-      return view('livewire.visits.layout');
+        //
     }
 
     /**

@@ -6,10 +6,10 @@
            <input wire:model.debounce.300ms="search" type="text" class="form-control" placeholder="Search ...">
            <!-- Button trigger modal -->
            <div class="mt-1">
-               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                   New Target
-               </button>
-           </div>
+            <a href="{{ route('order.target.create') }}" type="button" class="btn btn-primary">
+                New Target
+            </a>
+        </div>
        </div>
        <div class="col-md-3">
            <label for="">Items Per</label>
@@ -30,39 +30,53 @@
                        <th>Sales Person</th>
                        <th>Target</th>
                        <th>Achieved</th>
+                       <th>Dead Line</th>
+                       <th>Count Down</th>
                    </tr>
                </thead>
                <tbody>
-                   <tr>
-                       <td>1</td>
-                       <td>hello World</td>
-                       <td>hello World</td>
-                       <td>hello World</td>
-                   </tr>
-
-               </tbody>
+                  @forelse ($orders as $order)
+                      <tr>
+                          <td>{{ $order->id }}</td>
+                          <td>{{ $order->User()->pluck('name')->implode('') }}</td>
+                          <td>{{ number_format($order->OrdersTarget) }}</td>
+                          <td>{{ number_format($order->AchievedOrdersTarget) }}</td>
+                          <td>{{ $order->Deadline }}</td>
+                          <td>
+                              @if ($today < $order->Deadline)
+                                  <button type="button" class="btn btn-outline-success">
+                                      <i data-feather="star" class="mr-25"></i>
+                                      <span>
+                                          @php
+                                              $now = time();
+                                              $deadline = strtotime($order->Deadline);
+                                              $datediff = $deadline-$now;
+                                              echo round($datediff / (60 * 60 * 24));
+                                          @endphp
+                                      </span>
+                                  </button>
+                              @else
+                                  <button type="button" class="btn btn-outline-danger">
+                                     <i data-feather="alert-triangle" class="mr-25"></i>
+                                     <span>
+                                         @php
+                                             $now = time();
+                                             $deadline = strtotime($order->Deadline);
+                                             $datediff = $deadline-$now;
+                                             echo round($datediff / (60 * 60 * 24));
+                                         @endphp
+                                     </span>
+                                 </button>
+                              @endif
+                          </td>
+                      </tr>
+                  @empty
+                      <tr>
+                          <td colspan="4"> No orders Available</td>
+                      </tr>
+                  @endforelse
+              </tbody>
            </table>
-       </div>
-   </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-   aria-hidden="true">
-   <div class="modal-dialog" role="document">
-       <div class="modal-content">
-           <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                   <span aria-hidden="true">&times;</span>
-               </button>
-           </div>
-           <div class="modal-body">
-               ...
-           </div>
-           <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-primary">Save changes</button>
-           </div>
        </div>
    </div>
 </div>

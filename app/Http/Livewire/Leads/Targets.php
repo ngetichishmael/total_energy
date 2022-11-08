@@ -9,33 +9,34 @@ use Livewire\Component;
 
 class Targets extends Component
 {
-   public $QPTargets;
+   public $Targets;
    public $users;
-   public $countQPTargets = true;
-   protected $rules = [
-      'setTargets.*.primarykey' => 'required',
-      'setTargets.*.Target' => 'required',
-   ];
+   public $countTargets = true;
    public function mount()
    {
+
+      $today = Carbon::now();
+      $lastDayofMonth =  Carbon::parse($today)->endOfMonth()->toDateString();
       $this->users = User::where('account_type', 'Sales')->get();
       $this->QPTargets = LeadsTargets::all();
       $this->fill([
-         'QPTargets' => collect([['primarykey' => '']]),
+         'Targets' => collect([
+            ['primarykey' => '','deadline' => $lastDayofMonth]
+         ]),
       ]);
    }
 
-   public function addQPTargets()
+   public function addTargets()
    {
-      $this->QPTargets->push(new LeadsTargets());
-      $this->countQPTargets = true;
+      $this->Targets->push(new LeadsTargets());
+      $this->countTargets = true;
    }
 
-   public function removeQPTargets($index)
+   public function removeTargets($index)
    {
-      $this->QPTargets->pull($index);
-      if (count($this->QPTargets) < 1) {
-         $this->countQPTargets = false;
+      $this->Targets->pull($index);
+      if (count($this->Targets) < 1) {
+         $this->countTargets = false;
       }
    }
    public function submit()
@@ -44,17 +45,18 @@ class Targets extends Component
 
       $lastDayofMonth =    Carbon::parse($today)->endOfMonth()->toDateString();
       $this->validate([
-         'QPTargets.*.primarykey' => 'required',
-         'QPTargets.*.Target' => 'required',
+         'Targets.*.primarykey' => 'required',
+         'Targets.*.deadline' => 'required',
+         'Targets.*.Target' => 'required',
      ]);
-      foreach ($this->DepositTargets as $value) {
+      foreach ($this->Targets as $value) {
          if ($value["primarykey"] === 'ALL') {
             $users = User::where('account_type', 'Sales')->get();
             foreach ($users as $user) {
                LeadsTargets::updateOrCreate(
                   [
                      'user_code' => $user->user_code,
-                     'Deadline' => $lastDayofMonth
+                     'Deadline' => $value['deadline'] ?? $lastDayofMonth
                   ],
                   [
                      'LeadsTarget' => $value['Target']
@@ -64,16 +66,16 @@ class Targets extends Component
          } else {
             LeadsTargets::updateOrCreate(
                [
-                  'primarykey' => $value["primarykey"],
-                  'Deadline' => $lastDayofMonth
+                  'user_code' => $value["primarykey"],
                ],
                [
+                  'Deadline' =>  $value['deadline'] ?? $lastDayofMonth,
                   'LeadsTarget' => $value['Target']
                ]
             );
          }
       }
-      return redirect()->to('/target/sales');
+      return redirect()->to('/target/leads');
    }
    public function render()
    {

@@ -24,7 +24,7 @@ class LeadsController extends Controller
      */
     public function create()
     {
-        
+      return view('livewire.leads.layout');
     }
 
     /**
