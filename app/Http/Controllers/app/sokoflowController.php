@@ -4,10 +4,12 @@ namespace App\Http\Controllers\app;
 
 use App\Charts\BrandSales;
 use App\Charts\CatergoryChart;
+use App\Charts\SalesTargetChart;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\order_payments as OrderPayment;
 use App\Models\Orders;
+use App\Models\SalesTarget;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -59,48 +61,36 @@ class sokoflowController extends Controller
          ->whereDate('created_at', Carbon::today())
          ->count();
       $activeAll = User::where('account_type', 'Sales')->count();
-      $brands = DB::table('order_items')->select('product_name', DB::raw('SUM(total_amount) as total'))
-         ->groupBy('product_name')
-         ->orderBy('total', 'desc')
-         ->limit(7)
-         ->get();
-      $catergories = DB::table('order_items')->select('product_name', DB::raw('SUM(total_amount) as total'))
-         ->groupBy('product_name')
-         ->orderBy('total', 'asc')
-         ->limit(7)
-         ->get();
-      $arrayLabel = [];
-      $arrayData = [];
-      $arrayCLabel = [];
-      $arrayCData = [];
-      foreach ($brands as $br) {
-         array_push($arrayLabel, $br->product_name);
-         array_push($arrayData, $br->total);
-      }
-      foreach ($catergories as $br) {
-         array_push($arrayCLabel, $br->product_name);
-         array_push($arrayCData, $br->total);
-      }
-      $brandsales = new BrandSales();
-      $brandsales->labels($arrayLabel);
-      $brandsales->dataset('Best Perfom Brand', 'bar', $arrayData)->options([
-         "responsive" => true,
-         'color' => "#94DB9D",
-         'backgroundColor' => '#35827b',
-         "borderWidth" => 2,
-         "borderRadius" => 5,
-         "borderSkipped" => false,
-      ]);
 
-      $catergories = new CatergoryChart();
-      $catergories->labels($arrayCLabel);
-      $catergories->dataset('Least Perfom Brand', 'bar', $arrayCData)->options([
+      $createdTimeLine = DB::select('SELECT
+      DATE_FORMAT(created_at,\'%M:%Y\') AS creation,
+                     SUM(total_amount) AS total
+                  FROM
+                     `order_items`
+                  GROUP BY
+                     `creation`
+                  ORDER BY
+                     `total`
+                  ASC');
+      $arrayTLabel = [];
+      $arrayTData = [];
+
+      foreach ($createdTimeLine as $br) {
+         array_push($arrayTLabel, $br->creation);
+         array_push($arrayTData, $br->total);
+      }
+
+
+      $createdTimeLine = new CatergoryChart();
+      $createdTimeLine->labels($arrayTLabel);
+      $createdTimeLine->dataset('Monthly Performance', 'line', $arrayTData)->options([
          "responsive" => true,
          'color' => "#94DB9D",
-         'backgroundColor' => '#f07f21',
+         'backgroundColor' => '#07ed6f',
          "borderWidth" => 2,
          "borderRadius" => 5,
-         "borderSkipped" => false,
+         "borderSkipped" => true,
+         "beginAtZero"=>true,
       ]);
 
       $sales = DB::table('order_payments')
@@ -120,8 +110,7 @@ class sokoflowController extends Controller
          'Cheque' => $cheque,
          'sales' => $sales,
          'total' => $cash + $cheque + $mpesa,
-         'brandsales' => $brandsales,
-         'catergories' => $catergories,
+         'catergories' => $createdTimeLine,
          'vansales' => $vansales,
          'preorder' => $preorder,
          'orderfullment' => $orderfullment,
@@ -132,7 +121,7 @@ class sokoflowController extends Controller
          'monthly' => $monthly,
          'sumAll' => $sumAll,
          'strike' => $strike,
-         'customersCount' => $customersCount,
+         'customersCount' => $customersCount
       ]);
 
       // return view('app.dashboard.dashboard',compact('Cash', 'Mpesa','Cheque','reconciled','total'));

@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Delivery extends Model
 {
-    Protected $table = 'delivery';
+    protected $table = 'delivery';
+    protected $guarded = [];
 
     public function scopeSearch($query, $term) {
         $term = "%$term%";

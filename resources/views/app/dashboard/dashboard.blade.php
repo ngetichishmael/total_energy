@@ -46,7 +46,7 @@
                         <div class="media">
                             <div class="avatar bg-light-danger mr-2">
                                 <div class="avatar-content">
-                                 <i data-feather="award" class="avatar-icon font-medium-3"></i>
+                                    <i data-feather="award" class="avatar-icon font-medium-3"></i>
                                 </div>
                             </div>
                             <div class="media-body my-auto">
@@ -64,7 +64,7 @@
                             </div>
                             <div class="media-body my-auto">
                                 <h4 class="font-weight-bolder mb-0">
-                                 {{ number_format($activeUser) }} / {{  number_format($activeAll) }}
+                                    {{ number_format($activeUser) }} / {{ number_format($activeAll) }}
                                 </h4>
                                 <p class="card-text font-small-3 mb-0">Active Users</p>
                             </div>
@@ -119,34 +119,42 @@
             </ul>
         </div>
         <div class="col-md-12">
-         <div class="col-12">
-            <section>
-                <div class="row">
-                   <div class="col-6">
-                      <div class="col-md-12">
-                          <div class="row">
-                              <div class="col-md-12">
-                                  <div class="col-md-12">
-                                      {!! $brandsales->container() !!}
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                   </div>
-                   <div class="col-6">
-                      <div class="col-md-12">
-                          <div class="row">
-                              <div class="col-md-12">
-                                  <div class="col-md-12">
-                                      {!! $catergories->container() !!}
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                   </div>
-                </div>
-            </section>
-        </div>
+            <div class="col-12">
+                <section>
+                    <div class="row">
+                        @livewire('dashboard.brand-chart')
+                        <div class="col-6">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            {!! $catergories->container() !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-12">
+                <section>
+                    <div class="row">
+                        @livewire('leads.chart')
+                        <div class="col-6">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            {!! $catergories->container() !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
@@ -168,7 +176,7 @@
                                     </tr>
                                     <tr class="table-success">
                                         <td>Cheque</td>
-                                        <td>{{ number_format($Cheque )}}</td>
+                                        <td>{{ number_format($Cheque) }}</td>
                                     </tr>
                                     <tr class="table-success">
                                         <td>Total Reconciled</td>
@@ -180,10 +188,10 @@
                         <div class="col-6">
                             <h4>Receivables Aging</h4>
                             <table class="table table-striped table-bordered">
-                              <thead>
-                                 <th>Total Collected</th>
-                                 <th width="20%"></th>
-                             </thead>
+                                <thead>
+                                    <th>Total Collected</th>
+                                    <th width="20%"></th>
+                                </thead>
                                 <tbody>
                                     <tr class="table-warning">
                                         <td>Today</td>
@@ -214,8 +222,7 @@
     </div>
 @endsection
 @section('scripts')
-{!! $brandsales->script() !!}
-{!! $catergories->script() !!}
+    {!! $catergories->script() !!}
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/js/charts/apexcharts.min.js') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/js/scripts/pages/dashboard-ecommerce.min.js') !!}">
 @endsection

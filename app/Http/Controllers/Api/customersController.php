@@ -104,11 +104,11 @@ class customersController extends Controller
       $customer->latitude = $request->latitude;
       $customer->longitude = $request->longitude;
       $customer->business_code = $request->business_code;
-      $customer->created_by = $request->user_code;
+      $customer->created_by = $request->user()->user_code;
       $customer->save();
 
       DB::table('leads_targets')
-         ->where('user_code',$request->user_code)
+         ->where('user_code',$request->user()->user_code)
          ->increment('AchievedLeadsTarget');
 
       return response()->json([

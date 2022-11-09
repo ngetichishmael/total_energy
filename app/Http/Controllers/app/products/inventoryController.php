@@ -6,9 +6,10 @@ use App\Models\products\product_information;
 use App\Models\products\product_inventory;
 use App\Models\products\product_price;
 use App\Models\Branches;
-use Auth;
 use Session;
 use Hr;
+use Illuminate\Support\Facades\Auth ;
+
 class inventoryController extends Controller{
 
    public function __construct(){
@@ -19,7 +20,7 @@ class inventoryController extends Controller{
    * Display inventory
    **/
    public function inventory($id){
-      $mainBranch = Branches::where('businessID',Auth::user()->business_code)->where('main_branch','Yes')->first();
+      $mainBranch = Branches::where('businessID', Auth::user()->business_code)->where('main_branch','Yes')->first();
 
       //product infromation
       $product = product_information::where('id',$id)->where('business_code',Auth::user()->business_code)->first();
