@@ -29,6 +29,6 @@ class deliveryController extends Controller
          ->where('order_code',$code)
          ->select('*')
          ->get();
-      return view('app.delivery.details', compact('deliveries', 'code','total','subtotal'));
+      return view('app.delivery.invoice', compact('deliveries', 'code','total','subtotal'));
    }
 }
