@@ -40,7 +40,7 @@ class checkinController extends Controller
    public function create_checkin_session(Request $request){
       $customer = customers::where('id',$request->customerID)->first();
 
-      $user = User::where('user_code', $request->user_code)->first();
+      // $user = User::where('user_code', $request->user_code)->first();
 
       $lat1 = $customer->latitude;
       $lon1 = $customer->longitude;
