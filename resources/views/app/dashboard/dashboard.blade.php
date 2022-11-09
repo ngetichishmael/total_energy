@@ -20,7 +20,6 @@
                         <div class="media">
                             <div class="avatar bg-light-primary mr-2">
                                 <div class="avatar-content">
-
                                     <span class="material-symbols-outlined">production_quantity_limits</span>
                                 </div>
                             </div>
@@ -47,7 +46,7 @@
                         <div class="media">
                             <div class="avatar bg-light-danger mr-2">
                                 <div class="avatar-content">
-                                 <i data-feather="award  " class="avatar-icon font-medium-3"></i>
+                                 <i data-feather="award" class="avatar-icon font-medium-3"></i>
                                 </div>
                             </div>
                             <div class="media-body my-auto">
