@@ -79,7 +79,7 @@ class customersController extends Controller
     **/
    public function add_customer(Request $request)
    {
-      $user_code = $request->user()->user_code;
+   //   $user_code = $request->user()->user_code;
       $validator           =  Validator::make($request->all(), [
          "customer_name"   => "required",
          "contact_person"  => "required",
