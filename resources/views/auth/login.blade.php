@@ -10,7 +10,7 @@
     <div class="dashboard-landing">
         <div class="left-side">
             <nav>
-                <img src={{ asset('app-assets/images/logo.svg') }} class="logo" alt="Fresh Life" />
+                <img src={{ asset('app-assets/images/bglogo.png') }} class="logo" alt="Soko Flow" />
             </nav>
             <img src="{{ asset('app-assets/images/loginpage.svg') }}" alt="" class="img-fluid">
             <h1 class="title">Soko Flow</h1>

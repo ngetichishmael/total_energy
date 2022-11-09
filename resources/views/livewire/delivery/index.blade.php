@@ -39,13 +39,13 @@
                         <td>{!! $deliver->name !!}</td>
                         <td>{!! $deliver->delivery_date !!}</td>
                         <td><a href="" class="badge {!! $deliver->delivery_status !!}" style="color: rgb(2, 66, 100);">{!! $deliver->delivery_status !!}</a></td>
-                        <td><a href="{!! route('delivery.details',$deliver->order_code) !!}" class="btn btn-sm btn-success">View</a></td>
+                        <td><a href="{!! route('delivery.details',$deliver->order_code,$deliver->name) !!}" class="btn btn-sm btn-success">View</a></td>
                     </tr>
                     @endforeach
                     </tr>
                 </tbody>
             </table>
-            {!! $deliveries->links() !!}
+            <div class="mt-1">{!! $deliveries->links() !!}</div>
         </div>
     </div>
 </div>

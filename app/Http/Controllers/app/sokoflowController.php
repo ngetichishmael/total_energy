@@ -61,38 +61,6 @@ class sokoflowController extends Controller
          ->whereDate('created_at', Carbon::today())
          ->count();
       $activeAll = User::where('account_type', 'Sales')->count();
-
-      $createdTimeLine = DB::select('SELECT
-      DATE_FORMAT(created_at,\'%M:%Y\') AS creation,
-                     SUM(total_amount) AS total
-                  FROM
-                     `order_items`
-                  GROUP BY
-                     `creation`
-                  ORDER BY
-                     `total`
-                  ASC');
-      $arrayTLabel = [];
-      $arrayTData = [];
-
-      foreach ($createdTimeLine as $br) {
-         array_push($arrayTLabel, $br->creation);
-         array_push($arrayTData, $br->total);
-      }
-
-
-      $createdTimeLine = new CatergoryChart();
-      $createdTimeLine->labels($arrayTLabel);
-      $createdTimeLine->dataset('Monthly Performance', 'line', $arrayTData)->options([
-         "responsive" => true,
-         'color' => "#94DB9D",
-         'backgroundColor' => '#07ed6f',
-         "borderWidth" => 2,
-         "borderRadius" => 5,
-         "borderSkipped" => true,
-         "beginAtZero"=>true,
-      ]);
-
       $sales = DB::table('order_payments')
          ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile', 'user_id')
          ->where('user_id', auth()->id())->sum('balance');
@@ -110,7 +78,6 @@ class sokoflowController extends Controller
          'Cheque' => $cheque,
          'sales' => $sales,
          'total' => $cash + $cheque + $mpesa,
-         'catergories' => $createdTimeLine,
          'vansales' => $vansales,
          'preorder' => $preorder,
          'orderfullment' => $orderfullment,

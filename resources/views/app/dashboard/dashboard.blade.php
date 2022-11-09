@@ -120,37 +120,23 @@
         </div>
         <div class="col-md-12">
             <div class="col-12">
-                <section>
-                    <div class="row">
+                <div class="row">
+                    <div class="col-6 border border-secondary">
                         @livewire('dashboard.brand-chart')
-                        <div class="col-6">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="col-md-12">
-                                            {!! $catergories->container() !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                </section>
+                    <div class="col-6 border border-secondary">
+                        @livewire('dashboard.catergory-chart')
+                    </div>
+                </div>
             </div>
             <div class="col-12">
                 <section>
                     <div class="row">
-                        @livewire('leads.chart')
-                        <div class="col-6">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="col-md-12">
-                                            {!! $catergories->container() !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class=" col-6 border border-primary">
+                            @livewire('dashboard.individual-targets')
+                        </div>
+                        <div class=" col-6 border border-primary">
+                            @livewire('dashboard.percentage-targets')
                         </div>
                     </div>
                 </section>
@@ -222,7 +208,6 @@
     </div>
 @endsection
 @section('scripts')
-    {!! $catergories->script() !!}
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/js/charts/apexcharts.min.js') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/js/scripts/pages/dashboard-ecommerce.min.js') !!}">
 @endsection
