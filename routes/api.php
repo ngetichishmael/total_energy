@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CustomerVisitsOrders;
 use App\Http\Controllers\Api\DeliveriesController;
 use App\Http\Controllers\Api\surveyController;
 use App\Http\Controllers\Api\SurveryAnswersController;
@@ -152,6 +153,11 @@ Route::group(['namespace' => 'Api'], function () {
      * Deliveries
      */
     Route::get('/get/deliveries', [DeliveriesController::class, 'getDeliveries'])->middleware('auth:sanctum');
+
+    /**
+     * Visits and Order Count
+     */
+    Route::get('/get/count/{customerID}', [CustomerVisitsOrders::class, 'getCounts'])->middleware('auth:sanctum');
 
     /**
      * Routess schedules
