@@ -12,7 +12,7 @@
             <nav>
                 <img src={{ asset('app-assets/images/bglogo.png') }} class="logo" alt="Soko Flow" />
             </nav>
-            <img src="{{ asset('app-assets/images/loginpage.svg') }}" alt="" class="img-fluid">
+            {{-- <img src="{{ asset('app-assets/images/loginpage.svg') }}" alt="" class="img-fluid"> --}}
             <h1 class="title">Soko Flow</h1>
         </div>
         <div class="right-side">
@@ -20,9 +20,9 @@
                 <!-- Login v1 -->
                 <div>
                     <div class="card-body">
-                        <h4 class="card-title mb-1">Welcome to sokoflow! 👋</h4>
-                        <p class="card-text mb-2">Please sign-in to your account</p>
-                        <form class="auth-login-form mt-2" action="{{ route('login') }}" method="POST">
+                        <h4 class="mb-1 card-title">Welcome to sokoflow! 👋</h4>
+                        <p class="mb-2 card-text">Please sign-in to your account</p>
+                        <form class="mt-2 auth-login-form" action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="mb-1">
                                 <label for="login-email" class="form-label">Email</label>
@@ -47,7 +47,7 @@
                                         name="password" tabindex="2"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                         aria-describedby="login-password" />
-                                    <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                                    <span class="cursor-pointer input-group-text"><i data-feather="eye"></i></span>
                                     @if ($errors->has('password'))
                                         <span class="help-block">
                                             <strong class="text-danger">{{ $errors->first('password') }}</strong>

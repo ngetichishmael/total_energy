@@ -54,8 +54,8 @@ return [
     |
     */
 
-    // 'asset_url' => config('app.url'),
-    'asset_url' => 'https://apps.sokoflow.com/',
+    'asset_url' => config('app.url'),
+    // 'asset_url' => 'https://apps.sokoflow.com/',
 
     /*
     |--------------------------------------------------------------------------
@@ -69,8 +69,8 @@ return [
     |
     */
 
-    // 'app_url' => config('app.url'),
-    'app_url' => 'https://apps.sokoflow.com',
+    'app_url' => config('app.url'),
+    // 'app_url' => 'https://apps.sokoflow.com',
 
     /*
     |--------------------------------------------------------------------------
