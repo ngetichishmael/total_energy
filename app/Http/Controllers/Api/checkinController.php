@@ -41,10 +41,10 @@ class checkinController extends Controller
    {
       $customer = customers::where('id', $request->customerID)->first();
       $checkingCount = checkin::where('customer_id', $request->customerID)
-         ->where('user_code', $$request->user_code)
+         ->where('user_code', $request->user_code)
          ->count();
       $orderCount = Orders::where('customerID', $request->customerID)
-         ->where('user_code', $$request->user_code)
+         ->where('user_code', $request->user_code)
          ->count();
 
       // $user = User::where('user_code', $request->user_code)->first();
