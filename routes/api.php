@@ -44,8 +44,8 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('delivery/{code}/{businessCode}/details', 'deliveryController@details');
 
    //customer checking
-   Route::post('customer/checkin/session',['uses' => 'checkinController@create_checkin_session']);
-   Route::get('customer/{CustomerCode}/checkin',['uses' => 'checkinController@checkin','as' => 'customer.checkin']);
+   Route::post('customer/checkin/session',['uses' => 'checkinController@create_checkin_session'])->middleware('auth:sanctum');
+   Route::get('customer/{CustomerCode}/checkin',['uses' => 'checkinController@checkin','as' => 'customer.checkin'])->middleware('auth:sanctum');
    Route::get('checkin/{checkinCode}/stock',['uses' => 'checkinController@stock','as' => 'checkin.stock']);
    Route::get('checkin/{checkinCode}/out',['uses' => 'checkinController@checkout','as' => 'check.out']);
 
