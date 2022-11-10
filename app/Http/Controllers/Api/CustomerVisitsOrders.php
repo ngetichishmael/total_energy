@@ -12,7 +12,7 @@ class CustomerVisitsOrders extends Controller
     public function getCounts(Request $request,$customerID)
     {
       $checkingCount = checkin::where('customer_id', $customerID)
-      ->where('user_code', $request->user_code)
+      ->where('user_code', $request->user()->user_code)
       ->count();
    $orderCount = Orders::where('customerID', $customerID)
       ->where('user_code', $request->user()->user_code)
