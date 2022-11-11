@@ -24,7 +24,7 @@ class Products extends Component
          ->join('business', 'business.business_code', '=', 'product_information.business_code')
          ->join('product_inventory', 'product_inventory.productID', '=', 'product_information.id')
          ->join('product_price', 'product_price.productID', '=', 'product_information.id')
-         ->where('product_information.business_code', Auth::user()->business_code)
+         ->where('product_information.business_code', Auth()->user()->business_code)
          ->select(
             'product_information.id as proID',
             'product_information.created_at as date',

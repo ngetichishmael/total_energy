@@ -3,10 +3,8 @@
 namespace App\Http\Livewire\Supplier;
 
 use App\Models\suppliers\suppliers;
-// use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Auth;
 
 class Dashboard extends Component
 {
@@ -16,7 +14,7 @@ class Dashboard extends Component
     public function render()
     {
       $suppliers = suppliers::join('business','business.business_code','=','suppliers.business_code')
-							->where('suppliers.business_code',Auth::user()->business_code)
+							->where('suppliers.business_code',Auth()->user()->business_code)
                      ->select('*','suppliers.id as supplierID','suppliers.name as supplier_name','suppliers.email as supplier_email','suppliers.phone_number as phone_number','suppliers.created_at as created_at')
 							->OrderBy('suppliers.id','DESC')
 							->paginate(7);
