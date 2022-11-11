@@ -31,18 +31,8 @@
                 </thead>
                 <tbody>
                     @foreach ($products as $key => $product)
-                        @if ($product->businessID == Auth::user()->businessID)
                             <tr>
                                 <td>{!! $key + 1 !!}</td>
-                                {{-- <td>
-                           <center>
-                              @if (Finance::check_product_image($product->proID) == 1)
-                                 <img src="{!! asset('businesses/'.Wingu::business(Auth::user()->businessID)->businessID .'/finance/products/'.Finance::product_image($product->proID)->file_name) !!}" width="80px" height="60px">
-                              @else
-                                 <img src="{!! asset('assets/img/product_placeholder.jpg') !!}" width="80px" height="60px">
-                              @endif
-                           </center>
-                        </td> --}}
                                 <td>{!! $product->product_name !!}</td>
                                 <td>
                                     ksh{!! number_format($product->price) !!}
@@ -61,12 +51,11 @@
                                             <span>Edit</span>
                                         </a>
                                         <a href="{!! route('products.destroy', $product->proID) !!}" class="btn btn-danger delete btn-sm">
-                                          <span>DELETE</span>
+                                            <span>DELETE</span>
                                         </a>
                                     </div>
                                 </td>
                             </tr>
-                        @endif
                     @endforeach
                 </tbody>
             </table>

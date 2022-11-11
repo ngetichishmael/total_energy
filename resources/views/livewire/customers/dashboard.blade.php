@@ -28,7 +28,6 @@
                </thead>
                <tbody>
                    @foreach ($contacts as $count => $contact)
-                       @if ($contact->businessID == Auth::user()->businessID)
                            <tr {{-- class="success" --}}>
                                <td>{!! $count + 1 !!}</td>
                                <td>
@@ -45,7 +44,6 @@
                                        class="btn btn-sm btn-primary">Edit</a>
                                </td>
                            </tr>
-                       @endif
                    @endforeach
                </tbody>
            </table>

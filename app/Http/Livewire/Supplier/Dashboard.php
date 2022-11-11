@@ -3,9 +3,10 @@
 namespace App\Http\Livewire\Supplier;
 
 use App\Models\suppliers\suppliers;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Auth;
 
 class Dashboard extends Component
 {
