@@ -12,20 +12,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($suppliers as $supplier)
+                @foreach ($suppliers as $count=> $supplier)
                     <tr {{-- class="success" --}}>
-                        <td>{!! $count++ !!}</td>
-                        <td>{!! $supplier->supplier_name !!}</td>
-                        <td>{!! $supplier->supplier_email !!}</td>
+                        <td>{!! $count+1 !!}</td>
+                        <td>{!! $supplier->name !!}</td>
+                        <td>{!! $supplier->email !!}</td>
                         <td>{!! $supplier->phone_number !!}</td>
                         <td>{!! date('d F, Y', strtotime($supplier->created_at)) !!}</td>
                         <td>
                             <div class="d-flex" style="gap: 20px">
-                                <a href="{{ route('supplier.edit', $supplier->supplierID) }}"
+                                <a href="{{ route('supplier.edit', $supplier->id) }}"
                                     class="btn btn-sm btn-primary">
                                     <span>Edit</span>
                                 </a>
-                                <a href="{!! route('supplier.delete', $supplier->supplierID) !!}" class="btn btn-sm btn-danger delete">
+                                <a href="{!! route('supplier.delete', $supplier->id) !!}" class="btn btn-sm btn-danger delete">
                                  <span>Delete</span>
                               </a>
                             </div>

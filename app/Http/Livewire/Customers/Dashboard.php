@@ -14,29 +14,23 @@ class Dashboard extends Component
    use WithPagination;
    protected $paginationTheme = 'bootstrap';
    public $perPage = 10;
-   public $search;
+   public ?string $search = null;
    public function render()
    {
-      $contacts = customers::join('business', 'business.business_code', '=', 'customers.business_code')
-         ->where(
-            'customers.business_code',
-            Auth::user()->business_code
-         )
-         ->whereNotNull('customers.email')
-         ->select(
-            '*',
-            'customers.id as customerID',
-            'customers.created_at as date_added',
-            'business.business_code as business_code',
-            'customers.business_code as business_code',
-            'customers.email as customer_email',
-            'customers.phone_number as phone_number'
-         )
+      $searchTerm = '%' . $this->search . '%';
+      $contacts = customers::whereLike(
+         [
+            'customer_name',
+            'phone_number',
+            'address',
+
+         ],
+         $searchTerm)
+         ->where('business_code', Auth::user()->business_code)
+         ->whereNotNull('email')
          ->paginate($this->perPage);
-      $count = 1;
       return view('livewire.customers.dashboard', [
-         'contacts' => $contacts,
-         'count' => $count,
+         'contacts' => $contacts
       ]);
    }
    public function export()

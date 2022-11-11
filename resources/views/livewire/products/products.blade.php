@@ -35,7 +35,7 @@
                                 <td>{!! $key + 1 !!}</td>
                                 <td>{!! $product->product_name !!}</td>
                                 <td>
-                                    ksh{!! number_format($product->price) !!}
+                                    ksh: {!! number_format($product->ProductPrice->selling_price) !!}
                                 </td>
                                 <td>{!! $product->sku_code !!}</td>
 
@@ -46,11 +46,11 @@
                                 <td>
                                     {{-- <a href="{{ route('products.details', $product->proID) }}" class="btn btn-warning btn-sm"><i class="fas fa-eye"></i></a> --}}
                                     <div class="d-flex" style="gap: 20px">
-                                        <a href="{{ route('products.edit', $product->proID) }}"
+                                        <a href="{{ route('products.edit', $product->id) }}"
                                             class="btn btn-primary btn-sm">
                                             <span>Edit</span>
                                         </a>
-                                        <a href="{!! route('products.destroy', $product->proID) !!}" class="btn btn-danger delete btn-sm">
+                                        <a href="{!! route('products.destroy', $product->id) !!}" class="btn btn-danger delete btn-sm">
                                             <span>DELETE</span>
                                         </a>
                                     </div>

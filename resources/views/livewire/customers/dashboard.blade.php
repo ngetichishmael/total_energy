@@ -33,14 +33,14 @@
                                <td>
                                    {!! $contact->customer_name !!}
                                </td>
-                               <td>{!! $contact->customer_email !!}</td>
+                               <td>{!! $contact->email !!}</td>
                                <td>{!! $contact->phone_number !!}</td>
                                <td>
                                    {!! $contact->address !!}
                                </td>
                                <td>
                                    {{-- <a href="#" class="btn btn-sm btn-warning">View</a> --}}
-                                   <a href="{{ route('customer.edit', $contact->customerID) }}"
+                                   <a href="{{ route('customer.edit', $contact->id) }}"
                                        class="btn btn-sm btn-primary">Edit</a>
                                </td>
                            </tr>

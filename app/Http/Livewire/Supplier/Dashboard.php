@@ -13,12 +13,9 @@ class Dashboard extends Component
  protected $paginationTheme = 'bootstrap';
     public function render()
     {
-      $suppliers = suppliers::join('business','business.business_code','=','suppliers.business_code')
-							->where('suppliers.business_code',Auth()->user()->business_code)
-                     ->select('*','suppliers.id as supplierID','suppliers.name as supplier_name','suppliers.email as supplier_email','suppliers.phone_number as phone_number','suppliers.created_at as created_at')
+      $suppliers = suppliers::where('suppliers.business_code',Auth()->user()->business_code)
 							->OrderBy('suppliers.id','DESC')
 							->paginate(7);
-		$count = 1;
-        return view('livewire.supplier.dashboard',compact('suppliers','count'));
+        return view('livewire.supplier.dashboard',compact('suppliers'));
     }
 }

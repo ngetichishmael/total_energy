@@ -12,7 +12,7 @@
             <nav>
                 <img src={{ asset('app-assets/images/bglogo.png') }} class="logo" alt="Soko Flow" />
             </nav>
-            {{-- <img src="{{ asset('app-assets/images/loginpage.svg') }}" alt="" class="img-fluid"> --}}
+            <img src="{{ asset('app-assets/images/loginpage.svg') }}" alt="" class="img-fluid">
             <h1 class="title">Soko Flow</h1>
         </div>
         <div class="right-side">
