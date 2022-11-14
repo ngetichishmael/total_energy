@@ -204,10 +204,9 @@ class CheckingSaleOrderController extends Controller
             $cart->checkin_code = $checkinCode;
             $cart->save();
          }
-      }
-      $random = Str::random(8);
-      DB::insert(
-         'INSERT INTO `orders`(
+         $random = Str::random(8);
+         DB::insert(
+            'INSERT INTO `orders`(
             `order_code`,
             `user_code`,
             `customerID`,
@@ -225,25 +224,25 @@ class CheckingSaleOrderController extends Controller
 
         VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?,?)',
 
-         [
-            $random,
-            $user_code,
-            $checkin->customer_id,
-            $this->amount($amountRequest, $checkinCode),
-            $this->amount($amountRequest, $checkinCode),
-            'Pending Delivery',
-            'Pending Payment',
-            $value["qty"],
-            $checkinCode,
-            'Pre Order',
-            now(),
-            $checkin->business_code,
-            now()
-         ]
-      );
+            [
+               $random,
+               $user_code,
+               $checkin->customer_id,
+               $this->amount($amountRequest, $checkinCode),
+               $this->amount($amountRequest, $checkinCode),
+               'Pending Delivery',
+               'Pending Payment',
+               $value["qty"],
+               $checkinCode,
+               'Pre Order',
+               now(),
+               $checkin->business_code,
+               now()
+            ]
+         );
 
-      DB::insert(
-         'INSERT INTO `order_items`(
+         DB::insert(
+            'INSERT INTO `order_items`(
         `order_code`,
         `productID`,
         `product_name`,
@@ -258,19 +257,20 @@ class CheckingSaleOrderController extends Controller
         `updated_at`)
 
         VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
-         [
-            $random,
-            $value["productID"],
-            $product->product_name,
-            $value["qty"],
-            $value["qty"] * $product->selling_price,
-            $value["qty"] * $product->selling_price,
-            0, 0, 0, 0, now(), now()
-         ]
-      );
-      DB::table('orders_targets')
+            [
+               $random,
+               $value["productID"],
+               $product->product_name,
+               $value["qty"],
+               $value["qty"] * $product->selling_price,
+               $value["qty"] * $product->selling_price,
+               0, 0, 0, 0, now(), now()
+            ]
+         );
+         DB::table('orders_targets')
             ->where('user_code', $user_code)
             ->increment('AchievedOrdersTarget', $value["qty"] * $product->selling_price);
+      }
       return response()->json([
          "success" => true,
          "message" => "Product added to order",
