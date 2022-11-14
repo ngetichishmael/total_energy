@@ -9,23 +9,17 @@ use Livewire\Component;
 class PercentageTargets extends Component
 {
 
-    public function render()
-    {
-      $salestarget = new SalesTargetChart();
-      $salestarget->labels(['Total Sales', 'Total Achieved']);
-      $salestarget->dataset("Total Sales", 'pie', [SalesTarget::sum('SalesTarget'),SalesTarget::sum('AchievedSalesTarget')])->options([
-         "responsive" => true,
-         'color' => "#94DB9D",
-         'backgroundColor' =>[
-            "#f07d20",
-            '#35827b'
-         ],
-         "borderWidth" => 2,
-         "borderRadius" => 5,
-         "borderSkipped" => false,
-      ]);
-        return view('livewire.dashboard.percentage-targets',[
-         'total' => $salestarget,
-        ]);
-    }
+   public $salestarget;
+   public $Targets;
+   public $TargetAchieved;
+   public function render()
+   {
+
+      return view('livewire.dashboard.percentage-targets');
+   }
+   public function mount(){
+      $this->salestarget=['Total Sales', 'Total Achieved'];
+      $this->Targets=SalesTarget::sum('SalesTarget');
+      $this->TargetAchieved=SalesTarget::sum('AchievedSalesTarget');
+   }
 }

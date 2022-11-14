@@ -26,7 +26,7 @@ class Leads extends Component
       $salestarget->dataset($this->label, 'bar', $this->arraySTargets)->options([
          "responsive" => true,
          'color' => "#94DB9D",
-         'backgroundColor' => "#0739ed",
+         'backgroundColor' => "#f07d20",
          "borderWidth" => 2,
          "borderRadius" => 5,
          "borderSkipped" => false,
