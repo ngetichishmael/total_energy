@@ -3,8 +3,8 @@
        <div class="row">
            <div class="col-md-12">
                <div class="col-md-12">
-                  <div>
-                     <canvas id="myChart" width="400" height="200"></canvas>
+                  <div style="height: 400px; width:400px;">
+                     <canvas id="myChart" width="200" height="200"></canvas>
                  </div>
                </div>
            </div>
