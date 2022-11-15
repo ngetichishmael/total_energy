@@ -119,12 +119,10 @@ class CheckingSaleOrderController extends Controller
       foreach ($request as $value) {
          $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
          $random = Str::random(8);
-         Cart::updateOrCreate(
+         Cart::Create(
             [
                'checkin_code' => $checkinCode,
-               'productID' => $value["productID"]
-            ],
-            [
+               'productID' => $value["productID"],
                "product_name" => $product->product_name,
                "qty" => $value["qty"],
                "price" => $product->ProductPrice->selling_price,
