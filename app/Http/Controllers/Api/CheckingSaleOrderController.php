@@ -41,15 +41,13 @@ class CheckingSaleOrderController extends Controller
       $checkin = checkin::where('code', $checkinCode)->first();
       $user_code = $request->user()->user_code;
       $request = $request->collect();
+      $random = Str::random(8);
       foreach ($request as $value) {
          $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
-         $random = Str::random(8);
          Cart::updateOrCreate(
             [
                'checkin_code' => $checkinCode,
-               'productID' => $value["productID"]
-            ],
-            [
+               'productID' => $value["productID"],
                "product_name" => $product->product_name,
                "qty" => $value["qty"],
                "price" => $product->ProductPrice->selling_price,
@@ -116,9 +114,9 @@ class CheckingSaleOrderController extends Controller
       $checkin = checkin::where('code', $checkinCode)->first();
       $user_code = $request->user()->user_code;
       $request = $request->collect();
+      $random = Str::random(8);
       foreach ($request as $value) {
          $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
-         $random = Str::random(8);
          Cart::Create(
             [
                'checkin_code' => $checkinCode,
