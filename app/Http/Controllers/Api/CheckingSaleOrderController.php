@@ -70,7 +70,7 @@ class CheckingSaleOrderController extends Controller
             [
                'order_code' => $random,
                'user_code' => $user_code,
-               'customerID' => $checkin["customer_id"],
+               'customerID' => $checkin->customer_id,
                'price_total' => $this->amount($amountRequest, $checkinCode),
                'balance' => $this->amount($amountRequest, $checkinCode),
                'order_status' => 'Pending Delivery',
@@ -85,20 +85,19 @@ class CheckingSaleOrderController extends Controller
          );
          Order_items::create(
             [
-               'order_code' => $random,
-               'productID' => $value["productID"],
-               'product_name' => $product->product_name,
-               'quantity' => $value["qty"],
-               'sub_total' => $value["qty"] * $product->selling_price,
-               'total_amount' => $value["qty"] * $product->selling_price,
-               'selling_price' => 0,
-               'discount' => 0,
-               'taxrate' => 0,
-               'taxvalue' => 0,
-               'created_at' => now(),
-               'updated_at' => now(),
-            ]
-         );
+            'order_code' => $random,
+            'productID' => $value["productID"],
+            'product_name' => $product->product_name,
+            'quantity' => $value["qty"],
+            'sub_total' => $value["qty"] * $product->selling_price,
+            'total_amount' => $value["qty"] * $product->selling_price,
+            'selling_price' => 0,
+            'discount' => 0,
+            'taxrate' => 0,
+            'taxvalue' => 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+         ]);
       }
       return response()->json([
          "success" => true,
@@ -125,7 +124,7 @@ class CheckingSaleOrderController extends Controller
             [
                'checkin_code' => $checkinCode,
                'productID' => $value["productID"],
-               "product_name" => $checkin["customer_id"],
+               "product_name" => $product->product_name,
                "qty" => $value["qty"],
                "price" => $product->ProductPrice->selling_price,
                "amount" => $value["qty"] * $product->ProductPrice->selling_price,
