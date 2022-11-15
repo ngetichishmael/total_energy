@@ -233,33 +233,11 @@ class customersController extends Controller
    {
       $order = Orders::where('order_code', $orderCode)->first();
       $user = DB::table('orders')->where('order_code', $orderCode)->first();
-
-      // `id`,
-      // `productID`,
-      // `product_name`,
-      // `qty`,
-      // `price`,
-      // `amount`,
-      // `tax_rate`,
-      // `tax_value`,
-      // `discount`,
-      // `total_amount`,
-      // `note`,
-      // `userID`,
-      // `checkin_code`,
-      // `customer_account`,
-      // `created_at`,
-      // `updated_at`
       $orders = DB::select('SELECT
                   *
                   FROM
             `order_cart`
           WHERE `checkin_code`=?', [$user->checkin_code]);
-      // $orderItems = Order_items::join('product_information','product_information.id','=','order_items.productID')
-      //                         ->where('order_code',$orderCode)
-      //                         ->orderby('product_information.id','desc')
-      //                         ->get();
-      //
       $payment = DB::select('SELECT
                `amount`,
                `balance`,
