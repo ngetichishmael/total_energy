@@ -44,7 +44,7 @@ class CheckingSaleOrderController extends Controller
       $random = Str::random(8);
       foreach ($request as $value) {
          $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
-         Cart::updateOrCreate(
+         Cart::create(
             [
                'checkin_code' => $checkinCode,
                'productID' => $value["productID"],
@@ -66,35 +66,39 @@ class CheckingSaleOrderController extends Controller
                   'updated_at' => now()
                ]
             );
-         Order::create([
-            'order_code' => $random,
-            'user_code' => $user_code,
-            'customerID' => $checkin->customer_id,
-            'price_total' => $this->amount($amountRequest, $checkinCode),
-            'balance' => $this->amount($amountRequest, $checkinCode),
-            'order_status' => 'Pending Delivery',
-            'payment_status' => 'Pending Payment',
-            'qty' => $value["qty"],
-            'checkin_code' => $checkinCode,
-            'order_type' => 'Van sales',
-            'delivery_date' => now(),
-            'business_code' => $checkin->business_code,
-            'updated_at' => now(),
-         ]);
-         Order_items::create([
-            'order_code' => $random,
-            'productID' => $value["productID"],
-            'product_name' => $product->product_name,
-            'quantity' => $value["qty"],
-            'sub_total' => $value["qty"] * $product->selling_price,
-            'total_amount' => $value["qty"] * $product->selling_price,
-            'selling_price' => 0,
-            'discount' => 0,
-            'taxrate' => 0,
-            'taxvalue' => 0,
-            'created_at' => now(),
-            'updated_at' => now(),
-         ]);
+         Order::create(
+            [
+               'order_code' => $random,
+               'user_code' => $user_code,
+               'customerID' => $checkin["customer_id"],
+               'price_total' => $this->amount($amountRequest, $checkinCode),
+               'balance' => $this->amount($amountRequest, $checkinCode),
+               'order_status' => 'Pending Delivery',
+               'payment_status' => 'Pending Payment',
+               'qty' => $value["qty"],
+               'checkin_code' => $checkinCode,
+               'order_type' => 'Van sales',
+               'delivery_date' => now(),
+               'business_code' => $checkin->business_code,
+               'updated_at' => now(),
+            ]
+         );
+         Order_items::create(
+            [
+               'order_code' => $random,
+               'productID' => $value["productID"],
+               'product_name' => $product->product_name,
+               'quantity' => $value["qty"],
+               'sub_total' => $value["qty"] * $product->selling_price,
+               'total_amount' => $value["qty"] * $product->selling_price,
+               'selling_price' => 0,
+               'discount' => 0,
+               'taxrate' => 0,
+               'taxvalue' => 0,
+               'created_at' => now(),
+               'updated_at' => now(),
+            ]
+         );
       }
       return response()->json([
          "success" => true,
@@ -117,11 +121,11 @@ class CheckingSaleOrderController extends Controller
       $random = Str::random(8);
       foreach ($request as $value) {
          $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
-         Cart::Create(
+         Cart::create(
             [
                'checkin_code' => $checkinCode,
                'productID' => $value["productID"],
-               "product_name" => $product->product_name,
+               "product_name" => $checkin["customer_id"],
                "qty" => $value["qty"],
                "price" => $product->ProductPrice->selling_price,
                "amount" => $value["qty"] * $product->ProductPrice->selling_price,
