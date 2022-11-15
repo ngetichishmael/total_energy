@@ -48,9 +48,7 @@ class CheckingSaleOrderController extends Controller
       $request = $request->all();
       // array_pop($request);
       foreach ($request as $value) {
-         $product = product_information::where('id', $value["productID"])
-            ->where('business_code', $checkin->business_code)
-            ->first();
+         $product = product_information::where('id', $value["productID"])->first();
          $random = Str::random(8);
          Cart::updateOrCreate(
             [
