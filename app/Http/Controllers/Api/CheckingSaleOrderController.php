@@ -131,6 +131,7 @@ class CheckingSaleOrderController extends Controller
                "amount" => $value["qty"] * $product->ProductPrice->selling_price,
                "total_amount" => $value["qty"] * $product->ProductPrice->selling_price,
                "userID" => $user_code,
+               "order_code" => $random,
             ]
          );
          Orders::create([

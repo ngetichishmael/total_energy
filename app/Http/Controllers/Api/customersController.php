@@ -10,6 +10,7 @@ use App\Models\customer\customers;
 use App\Models\Delivery;
 use App\Models\Delivery_items;
 use App\Models\Order_items;
+use App\Models\order_payments;
 use App\Models\Orders;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -234,22 +235,7 @@ class customersController extends Controller
    {
       $order = Orders::where('order_code', $orderCode)->first();
       $orders =  Cart::where('order_code', $orderCode)->get();
-      $payment = DB::select('SELECT
-               `amount`,
-               `balance`,
-               `bank_charges`,
-               `payment_date`,
-               `payment_method`,
-               `reference_number`,
-               `order_id`,
-               `user_id`,
-               `created_at`,
-               `updated_at`
-            FROM
-               `order_payments`
-            WHERE
-            `order_id`=?', [$orderCode]);
-
+      $payment = order_payments::where('order_id',$orderCode)->get();
       return response()->json([
          "success"  => true,
          "status"   => 200,
