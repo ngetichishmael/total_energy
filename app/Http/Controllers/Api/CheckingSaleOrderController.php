@@ -48,7 +48,7 @@ class CheckingSaleOrderController extends Controller
       $request = $request->all();
       // array_pop($request);
       foreach ($request as $value) {
-         $product = product_information::where('id', $value["productID"])->first();
+         $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
          $random = Str::random(8);
          Cart::updateOrCreate(
             [
@@ -56,10 +56,11 @@ class CheckingSaleOrderController extends Controller
                'productID' => $value["productID"]
             ],
             [
+               "product_name" => $product->product_name,
                "qty" => $value["qty"],
-               "price" => $product->selling_price,
-               "amount" => $value["qty"] * $product->selling_price,
-               "total_amount" => $value["qty"] * $product->selling_price,
+               "price" => $product->ProductPrice->selling_price,
+               "amount" => $value["qty"] * $product->ProductPrice->selling_price,
+               "total_amount" => $value["qty"] * $product->ProductPrice->selling_price,
                "userID" => $user_code,
             ]
          );
