@@ -45,7 +45,7 @@ class CheckingSaleOrderController extends Controller
       $amountRequest = $request;
       $checkin = checkin::where('code', $checkinCode)->first();
       $user_code = $request->user()->user_code;
-      $request = $request->all();
+      $request = $request->collect();
       // array_pop($request);
       foreach ($request as $value) {
          $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
@@ -66,7 +66,7 @@ class CheckingSaleOrderController extends Controller
          );
          DB::table('inventory_allocated_items')
             ->where('product_code', $value["productID"])
-            ->increment(
+            ->decrement(
                'allocated_qty',
                $value["qty"],
                [
