@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\customer\checkin;
 use App\Models\customer\customers;
 use App\Models\Delivery;
 use App\Models\Delivery_items;
 use App\Models\Order_items;
+use App\Models\order_payments;
 use App\Models\Orders;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -232,28 +234,8 @@ class customersController extends Controller
    public function order_details($orderCode)
    {
       $order = Orders::where('order_code', $orderCode)->first();
-      $user = DB::table('orders')->where('order_code', $orderCode)->first();
-      $orders = DB::select('SELECT
-                  *
-                  FROM
-            `order_cart`
-          WHERE `checkin_code`=?', [$user->checkin_code]);
-      $payment = DB::select('SELECT
-               `amount`,
-               `balance`,
-               `bank_charges`,
-               `payment_date`,
-               `payment_method`,
-               `reference_number`,
-               `order_id`,
-               `user_id`,
-               `created_at`,
-               `updated_at`
-            FROM
-               `order_payments`
-            WHERE
-            `order_id`=?', [$orderCode]);
-
+      $orders =  Cart::where('order_code', $orderCode)->get();
+      $payment = order_payments::where('order_id',$orderCode)->get();
       return response()->json([
          "success"  => true,
          "status"   => 200,
