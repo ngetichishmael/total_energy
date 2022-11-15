@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order_items extends Model
 {
-    Protected $table = 'order_items';
+    protected $table = 'order_items';
+    protected $guarded =[];
 
     /**
      * Get the Order that owns the Order_items
