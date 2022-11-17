@@ -96,7 +96,7 @@ class usersController extends Controller
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
                "number" :  "'.$request->phone_number.'",
-               "sms" : User this code' . $code . ' to login with your email address,
+               "sms" : ' . $code . ',
                "callBack" : "https://....",
                "senderName" : "PASANDA"
          }
