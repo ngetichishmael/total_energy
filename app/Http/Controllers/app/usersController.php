@@ -79,7 +79,7 @@ class usersController extends Controller
       $user->name = $request->name;
       $user->account_type = $request->account_type;
       $user->status = 'Active';
-      $user->password = Hash::make($passwordcode);
+      $user->password = Hash::make($code);
       $user->business_code = FacadesAuth::user()->business_code;
       $user->save();
       try {
