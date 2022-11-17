@@ -96,7 +96,7 @@ class usersController extends Controller
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
                "number" :  "'.$request->phone_number.'",
-               "sms" : ' . $code . ',
+               "sms" : User this code' . $code . ' to login with your email address,
                "callBack" : "https://....",
                "senderName" : "PASANDA"
          }
@@ -108,7 +108,6 @@ class usersController extends Controller
          ));
 
          $response = curl_exec($curl);
-         dd($response);
 
          curl_close($curl);
       } catch (JWTException $e) {
