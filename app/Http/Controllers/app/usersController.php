@@ -95,7 +95,7 @@ class usersController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
-               "number" :  "'.$request->phone_number.'",,
+               "number" :  "'.$request->phone_number.'",
                "sms" : ' . $code . ',
                "callBack" : "https://....",
                "senderName" : "PASANDA"
