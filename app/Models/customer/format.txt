@@ -5,8 +5,7 @@
         $amountRequest = $request;
         $checkin = checkin::where('code', $checkinCode)->first();
         $user_code = $request->user()->user_code;
-        $request = $request->all();
-        array_pop($request);
+        $request = $request->collect();
         foreach ($request as $value) {
             $product = product_information::join(
                 'product_price',
@@ -142,9 +141,8 @@ public function amount(Request $request, $checkinCode)
     {
         $checkin = checkin::where('code', $checkinCode)->first();
         $customerID= $checkin->account_number;
-        $request = $request->all();
+        $request = $request->collect();
         $total = 0;
-        array_pop($request);
         foreach ($request as $value) {
             $product = product_information::join(
                 'product_price',
@@ -180,7 +178,7 @@ $random = Str::random(8);
                 `business_code`,
                 `created_at`)
             VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?,?)',
-    
+
                     [
                         $random,
                         $user_code,
@@ -238,13 +236,12 @@ $random = Str::random(8);
                 ->where('product_information.id', $amountRequest->get["productID"])
                 ->where('product_information.business_code', $checkin->business_code)
                 ->first();
-           
+
 
 
              $checkin = checkin::where('code', $checkinCode)->first();
          $user_code = $request->user()->user_code;
-         $request = $request->all();
-+        array_pop($request);
+         $request = $request->collect();
          foreach ($request as $value) {
              $product = product_information::join(
                  'product_price',
@@ -279,7 +276,7 @@ $random = Str::random(8);
                  $cart->save();
              }
          }
- 
+
          DB::insert(
              'INSERT INTO `orders`(
              `order_code`,
@@ -301,17 +298,17 @@ $random = Str::random(8);
          )
          VALUES (?,?,?, ?,?, ?,?, ?,?, ?,?,?)',
              [
-                 $random, 
-                 $value["productID"], 
-                 $product->product_name, 
+                 $random,
+                 $value["productID"],
+                 $product->product_name,
                  $value["qty"],
-                 $value["qty"] * $product->selling_price, 
                  $value["qty"] * $product->selling_price,
-                 0, 
-                 0, 
-                 0, 
-                 0, 
-                 now(), 
+                 $value["qty"] * $product->selling_price,
+                 0,
+                 0,
+                 0,
+                 0,
+                 now(),
                  now()
              ]
          );

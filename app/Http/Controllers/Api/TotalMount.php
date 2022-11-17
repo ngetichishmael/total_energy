@@ -5,13 +5,12 @@ use App\Models\customer\checkin;
 use App\Models\products\product_information;
 
 
-class TotalAmount  
+class TotalAmount
 {
 public function amount(Request $request,$checkinCode){
     $checkin = checkin::where('code', $checkinCode)->first();
-    $request = $request->all();
+    $request = $request->collect();
     $total=0;
-    array_pop($request);
     foreach ($request as $value){
         $product = product_information::join('product_price',
         'product_price.productID', '=', 'product_information.id')

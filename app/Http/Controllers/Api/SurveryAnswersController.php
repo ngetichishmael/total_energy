@@ -10,11 +10,8 @@ class SurveryAnswersController extends Controller
 {
     public function index(Request $request)
     {
-        info($request);
-        $data = $request->all();
+        $data = $request->collect();
         $response = new Response();
-        array_pop($data);
-        info($data);
         foreach ($data as $data) {
             $response->survey_code = $data["survey_code"];
             $response->question_code = $data["question_code"];

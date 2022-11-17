@@ -14,9 +14,7 @@ class StockLiftController extends Controller
         $user_code = $request->user()->user_code;
         $business_code = $request->user()->business_code;
         $random = Str::random(20);
-        $request = $request->all();
-        info($request);
-        array_pop($request);
+        $request = $request->collect();
         foreach ($request as $value) {
             $stock = DB::select('SELECT `product_code`  FROM `inventory_allocated_items` WHERE `product_code` =? AND `created_by`= ?', [$value["productID"], $user_code]);
             $check = $stock == null  ? $stock:"Hello World" ;

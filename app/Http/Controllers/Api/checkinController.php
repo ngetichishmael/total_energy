@@ -197,8 +197,7 @@ class checkinController extends Controller
       $user_code = $request->user()->user_code;
       $user = $request->user()->id;
 
-      $request = $request->all();
-      array_pop($request);
+      $request = $request->collect();
       foreach ($request as $value) {
          $product = product_information::join('product_price', 'product_price.productID', '=', 'product_information.id')
             ->where('product_information.id', $value["productID"])

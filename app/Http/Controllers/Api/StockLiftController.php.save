@@ -16,10 +16,6 @@ class StockLiftController extends Controller
         $business_code = $request->user()->business_code;
         $random = Str::random(20);
 
-        ///    $request = $request->collect();
-        //array_pop($request);
-        $request = $request->all();
-        array_pop($request);
         foreach ($request as $value) {
             $checkInCart = items::where('product_code', $value["productID"])->count();
             if ($checkInCart > 0) {
@@ -95,8 +91,8 @@ class StockLiftController extends Controller
                 VALUES(
                     ?,?,?,
                     (SELECT `current_stock` FROM `product_inventory` WHERE `productID` = ?),
-                    ?,?,?,?,?,?);', 
-                    [$business_code, 
+                    ?,?,?,?,?,?);',
+                    [$business_code,
                      $random,
                      $value["productID"],
                      $value["productID"],
@@ -119,7 +115,7 @@ class StockLiftController extends Controller
 
 
 
-                
+
   public function data()
   {
     $arrayQuestion = array();
@@ -179,7 +175,7 @@ $surveyOnline=DB::select('SELECT `id`,
                               `type`,
                               `visibility` FROM `survey` where type=?', [$typeOnline]);
 
-  
+
     public function data()
   {
     $arrayQuestion =["question(s)"];
