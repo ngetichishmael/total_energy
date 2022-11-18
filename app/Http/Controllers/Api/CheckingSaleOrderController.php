@@ -67,8 +67,11 @@ class CheckingSaleOrderController extends Controller
                   'updated_at' => now()
                ]
             );
-         Order::create([
-            'order_code' => $random,
+         Order::updateOrCreate(
+            [
+
+               'order_code' => $random,
+            ],[
             'user_code' => $user_code,
             'customerID' => $checkin->customer_id,
             'price_total' => $this->amount($amountRequest, $checkinCode),
@@ -132,8 +135,12 @@ class CheckingSaleOrderController extends Controller
                "userID" => $user_code,
             ]
          );
-         Orders::create([
-            'order_code' => $random,
+         Orders::updateOrCreate(
+            [
+
+               'order_code' => $random,
+            ],
+            [
             'user_code' => $user_code,
             'customerID' => $checkin->customer_id,
             'price_total' => $this->amount($amountRequest, $checkinCode),
