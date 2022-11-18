@@ -35,13 +35,14 @@ class CheckingSaleOrderController extends Controller
    }
 
    //Start Vansales
-   public function VanSales(Request $request, $checkinCode,$random)
+   public function VanSales(Request $request, $checkinCode)
    {
       $amountRequest = $request;
       $checkin = checkin::where('code', $checkinCode)->first();
       $user_code = $request->user()->user_code;
       $request = $request->collect();
       foreach ($request as $value) {
+         $random=Str::random(20);
          $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
          Cart::updateOrCreate(
             [
@@ -116,6 +117,7 @@ class CheckingSaleOrderController extends Controller
       $user_code = $request->user()->user_code;
       $request = $request->collect();
       foreach ($request as $value) {
+         $random=Str::random(20);
          $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
          Cart::updateOrCreate(
             [

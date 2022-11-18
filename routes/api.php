@@ -56,11 +56,11 @@ Route::group(['namespace' => 'Api'], function () {
   //Route::post('checkin/{checkinCode}/add-to-cart','checkinController@add_to_cart')->middleware('auth:sanctum');
 
   // Van Sales
-  Route::post('checkin/vansales/{checkinCode}/{random}/add-to-cart','CheckingSaleOrderController@VanSales')->middleware('auth:sanctum');
+  Route::post('checkin/vansales/{checkinCode}/add-to-cart','CheckingSaleOrderController@VanSales')->middleware('auth:sanctum');
 
   //New Sales Order
 
-  Route::post('checkin/newsales/{checkinCode}/{random}/add-to-cart','CheckingSaleOrderController@NewSales')->middleware('auth:sanctum');
+  Route::post('checkin/newsales/{checkinCode}/add-to-cart','CheckingSaleOrderController@NewSales')->middleware('auth:sanctum');
 
 
 
