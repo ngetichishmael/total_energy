@@ -44,9 +44,8 @@ class productController extends Controller{
    {
       $categories = category::where('business_code',Auth::user()->business_code)->pluck('name', 'id');
       $suppliers = suppliers::where('business_code',Auth::user()->business_code)
-               ->pluck('name','id')
-               ->prepend('choose supplier','');
-      $brands = brand::where('business_code',Auth::user()->business_code)->pluck('name','id')->prepend('Choose brand','');
+               ->pluck('name','id');
+      $brands = brand::where('business_code',Auth::user()->business_code)->pluck('name','id');
 
       return view('app.products.create', compact('categories','suppliers','brands'));
    }
