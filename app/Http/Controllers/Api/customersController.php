@@ -83,18 +83,20 @@ class customersController extends Controller
    {
    //   $user_code = $request->user()->user_code;
       $validator           =  Validator::make($request->all(), [
-         "customer_name"   => "required",
+         "customer_name"   => "required|unique:customers",
          "contact_person"  => "required",
          "business_code"   => "required",
          "created_by"      => "required",
-         "phone_number"    => "required",
+         "phone_number"    => "required|unique:customers",
          "latitude"        => "required",
-         "longitude"       => "required"
+         "longitude"       => "required",
+         "image" => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:10240',
       ]);
 
       if ($validator->fails()) {
          return response()->json(["status" => 401, "message" => "validation_error", "errors" => $validator->errors()]);
       }
+      $image_path = $request->file('image')->store('image', 'public');
       $emailData = $request->email == null ? null : $request->email;
 
       $customer = new customers;
@@ -107,6 +109,7 @@ class customersController extends Controller
       $customer->longitude = $request->longitude;
       $customer->business_code = $request->business_code;
       $customer->created_by = $request->user()->user_code;
+      $customer->image = $image_path;
       $customer->save();
 
       DB::table('leads_targets')

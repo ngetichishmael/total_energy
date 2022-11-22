@@ -24,6 +24,7 @@
                    <th>Email</th>
                    <th>Phonenumber</th>
                    <th>Address</th>
+                   <th>Image</th>
                    <th width="15%">Action</th>
                </thead>
                <tbody>
@@ -36,7 +37,10 @@
                                <td>{!! $contact->email !!}</td>
                                <td>{!! $contact->phone_number !!}</td>
                                <td>
-                                   {!! $contact->address !!}
+                                   {{ $contact->address }}
+                               </td>
+                               <td>
+                                   <img src="{{ Storage::url('public/'.$contact->image) }}" alt="customer image" srcset="" style="height: 50px; width:100px;">
                                </td>
                                <td>
                                    {{-- <a href="#" class="btn btn-sm btn-warning">View</a> --}}
