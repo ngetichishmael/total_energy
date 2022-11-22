@@ -3,11 +3,10 @@
 namespace App\Http\Livewire\Territory;
 
 use Livewire\Component;
-use App\Models\customer\checkin;
-use Livewire\WithPagination;
 use App\Models\Territory;
-use Auth;
-use Helper;
+use Illuminate\Support\Str;
+use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class Index extends Component
 {
@@ -29,18 +28,18 @@ class Index extends Component
       'name' => 'required',
       'status' => 'required',
    ];
- 
+
    //add territory
    public function add_territory(){
       $this->validate();
 
       $territory = new Territory;
-      $territory->business_code = Auth::user()->business_code;
-      $territory->code = Helper::generateRandomString(20);
+      $territory->business_code = FacadesAuth::user()->business_code;
+      $territory->code = Str::random(20);
       $territory->name = $this->name;
       $territory->parent_code = $this->parent_territory;
       $territory->status = $this->status;
-      $territory->created_by = Auth::user()->user_code;
+      $territory->created_by =FacadesAuth::user()->user_code;
       $territory->save();
 
       // Set Flash Message

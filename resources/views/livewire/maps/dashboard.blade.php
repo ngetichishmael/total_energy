@@ -75,16 +75,8 @@
                        <p><b>Location: </b>${markerData.position.lat}, ${markerData.position.lng}
                        <p><b>Customer Name: </b>${markerData.customer_name}
                         <p><b>Approval: </b>${markerData.approval}
-                       <p><b>Account: </b>${markerData.account}
-                       <p><b>Address: </b>${markerData.address}
-                       <p><b>Contact: </b>${markerData.contact_person}
-                       <p><b>Customer Group: </b>${markerData.customer_group}
-                       <p><b>Price Group: </b>${markerData.price_group}
-                       <p><b>Route: </b>${markerData.route}
                        <p><b>Status: </b>${markerData.status}
-                       <p><b>Email: </b>${markerData.email}
-                       <p><b>Phone Number: </b>${markerData.phone_number}
-                     <p><b>More info: </b><a href="{{ URL('/customer/${markerData.account}/edit') }}">${markerData.customer_name}</a>
+                     <p><b>More info: </b><a href="{{ URL('/customer/${markerData.id}/edit') }}">${markerData.customer_name}</a>
 
 
                    </div>

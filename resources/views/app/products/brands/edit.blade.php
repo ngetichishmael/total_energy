@@ -12,7 +12,6 @@
                <div class="breadcrumb-wrapper">
                   <ol class="breadcrumb">
                      <li class="breadcrumb-item"><a href="#">Home</a></li>
-                     <li class="breadcrumb-item"><a href="#">Products</a></li>
                      <li class="breadcrumb-item"><a href="#">Brands</a></li>
                      <li class="breadcrumb-item active"><a href="#">Edit</a></li>
                   </ol>
@@ -22,35 +21,7 @@
       </div>
    </div>
    <div class="row">
-      <div class="col-md-6">
-         <div class="card card-inverse">
-            <div class="card-body">
-               <table id="data-table-default" class="table table-striped table-bordered">
-                  <thead>
-                     <tr>
-                        <th width="1%">#</th>
-                        <th>Name</th>
-                        {{-- <th>Products</th> --}}
-                        <th width="20%">Actions</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     @foreach($brands as $br)
-                        <tr>
-                           <td>{!! $count++ !!}</td>
-                           <td>{!! $br->name !!}</td>
-                           {{-- <td>{!! Finance::products_by_brand_count($br->id) !!}</td> --}}
-                           <td>
-                              <a href="{{ route('product.brand.edit', $br->id) }}" class="btn btn-sm btn-primary"><i class="far fa-edit"></i></a>
-                              <a href="{!! route('product.brand.destroy', $br->id) !!}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                           </td>
-                        </tr>
-                     @endforeach
-                  </tbody>
-               </table>
-            </div>
-         </div>
-      </div>
+   @livewire('brands.edit')
       <div class="col-md-6">
          <div class="card card-default">
             <div class="card-body">

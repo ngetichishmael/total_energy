@@ -1,11 +1,11 @@
 <?php
 namespace App\Helpers;
 
-use App\Models\inventory\allocations;
 use App\Models\inventory\items;
 use App\Models\Territory;
 use App\Models\User;
 use Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class Sales{
 
@@ -22,7 +22,7 @@ class Sales{
 	//=============================================================================================
    //total allocated items
    public static function total_allocated_items($code){
-      $total = items::where('allocation_code',$code)->where('business_code',Auth::user()->business_code)->get();
+      $total = items::where('allocation_code',$code)->where('business_code',FacadesAuth::user()->business_code)->get();
       return $total;
    }
 

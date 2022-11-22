@@ -25,42 +25,7 @@
 </div>
 <!-- begin card -->
 <div class="row">
-   <div class="col-md-6">
-      <div class="card card-inverse">
-         <div class="card-body">
-            <div class="card-body">
-               <table id="data-table-default" class="table table-striped table-bordered">
-                  <thead>
-                     <tr>
-                        <th width="1%">#</th>
-                        <th>Name</th>
-                        {{-- <th>Products</th> --}}
-                        <th width="14%">Actions</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     @foreach($brands as $all)
-                        <tr>
-                           <td>{!! $count++ !!}</td>
-                           <td>{!! $all->name !!}</td>
-                           <td>
-                              <div class="d-flex" style="gap: 20px;">
-                                 <a href="{{ route('product.brand.edit', $all->id) }}" class="btn btn-sm btn-primary">
-                                    Edit
-                                    </a>
-                                 <a href="{!! route('product.brand.destroy', $all->id) !!}" class="btn btn-sm delete btn-danger">
-                                    DELETE
-                                 </a>
-                              </div>
-                           </td>
-                        </tr>
-                     @endforeach
-                  </tbody>
-               </table>
-            </div>
-         </div>
-      </div>
-   </div>
+   @livewire('brands.index')
    <div class="col-md-6">
       <div class="card card-default">
          <div class="card-body">

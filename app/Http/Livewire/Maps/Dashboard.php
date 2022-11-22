@@ -22,6 +22,7 @@ class Dashboard extends Component
                   'lat' => (float)$data['latitude'],
                   'lng' => (float)$data['longitude'],
                ],
+               'id' => $data['id'],
                'customer_name' => $data['customer_name'],
                'account' => $data['account'],
                'approval' => $data['approval'],

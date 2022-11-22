@@ -4,7 +4,7 @@
 {{-- page styles --}}
 
 @section('stylesheets')
-   <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/css/extensions/jstree.min.css') !!}">
+   <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/extensions/jstree.min.css') }}">
 @endsection
 
 {{-- content section --}}
@@ -30,8 +30,8 @@
 @endsection
 {{-- page scripts --}}
 @section('scripts')
-   <script src="{!! asset('app-assets/vendors/js/extensions/jstree.min.js') !!}"></script>
+   <script src="{{asset('app-assets/vendors/js/extensions/jstree.min.js')  }}"></script>
    <!-- BEGIN: Page JS-->
-   <script src="{!! asset('app-assets/js/scripts/extensions/ext-component-tree.min.js') !!}"></script>
+   <script src="{{asset('app-assets/js/scripts/extensions/ext-component-tree.min.js')  }}"></script>
    <!-- END: Page JS-->
 @endsection

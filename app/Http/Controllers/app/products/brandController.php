@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\app\products;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\products\brand;
-use Session;
-use Helper;
-use Input;
-use File;
-use Auth;
-use Wingu;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class brandController extends Controller
 {
@@ -25,9 +21,8 @@ class brandController extends Controller
     */
    public function index()
    {
-      $brands = brand::where('business_code',Auth::user()->business_code)->orderBy('id','desc')->get();
-      $count = 1;
-      return view('app.products.brands.index', compact('brands','count'));
+
+      return view('app.products.brands.index');
    }
 
    /**
@@ -42,21 +37,21 @@ class brandController extends Controller
          'name'=>'required',
       ));
 
-      $check = brand::where('business_code',Auth::user()->business_code)->where('name',$request->name)->count();
+      $check = brand::where('business_code', FacadesAuth::user()->business_code)->where('name',$request->name)->count();
       if($check == 0){
-         $url = Helper::seoUrl($request->name);
+         $url = Str::slug($request->name);
       }else{
-         $url = Helper::seoUrl($request->name).Helper::generateRandomString(3);
+         $url = Str::slug($request->name).Str::random(3);
       }
 
       $brand = new brand;
       $brand->name = $request->name;
       $brand->url = $url;
-      $brand->business_code = Auth::user()->business_code;
+      $brand->business_code = FacadesAuth::user()->business_code;
       // $brand->created_by = Auth::user()->user_code;
       $brand->save();
 
-      session::flash('success','You have successfully created a new brand.');
+      session()->flash('success','You have successfully created a new brand.');
 
       return redirect()->route('product.brand');
    }
@@ -81,7 +76,7 @@ class brandController extends Controller
    public function edit($id)
    {
       $brand = brand::find($id);
-      $brands = brand::where('business_code',Auth::user()->business_code)->orderBy('id','desc')->get();
+      $brands = brand::where('business_code',FacadesAuth::user()->business_code)->orderBy('id','desc')->get();
       $count = 1;
       return view('app.products.brands.edit', compact('brand','count','brands'));
    }
@@ -104,7 +99,7 @@ class brandController extends Controller
       // $brand->updated_by = Auth::user()->user_code;
       $brand->save();
 
-      session::flash('success','Brand successfully updated!');
+      session()->flash('success','Brand successfully updated!');
 
       return redirect()->route('product.brand.edit',$brand->id);
    }
@@ -120,7 +115,7 @@ class brandController extends Controller
       $brand = brand::find($id);
       $brand->delete();
 
-      Session::flash('success', 'The brand was successfully deleted !');
+      session()->flash('success', 'The brand was successfully deleted !');
 
       return redirect()->route('product.brand');
    }

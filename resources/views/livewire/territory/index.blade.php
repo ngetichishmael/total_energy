@@ -9,11 +9,11 @@
                <div id="jstree-basicd">
                   <ul>
                      @foreach($territories as $territory)
-                        <li data-jstree='{"icon" : "far fa-folder"}'>
-                           {!! $territory->name !!}
+                     <li data-jstree='{"icon" : "fa fa-dot-folder"}'>
+                           {{  $territory->name  }}
                            <ul>
                               @foreach(Sales::child_territory($territory->code) as $child)
-                                 <li data-jstree='{"icon" : "fa fa-dot-circle"}'>{!! $child->name !!}</li>
+                                 <li data-jstree='{"icon" : "fa fa-dot-circle"}'>{{ $child->name }}</li>
                                  <ul>
                                     @foreach(Sales::child_territory($child->code) as $chil2)
                                        <li data-jstree='{"icon" : "fa fa-dot-circle"}'>{!! $chil2->name !!}</li>
