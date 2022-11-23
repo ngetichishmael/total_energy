@@ -17,7 +17,7 @@ class CreateTerritoriesTable extends Migration
          $table->id();
          $table->char('code');
          $table->char('name');
-         $table->char('parent_code')->nullable();
+         $table->char('parent_code')->default(1);
          $table->char('status');
          $table->char('business_code');
          $table->char('created_by');
