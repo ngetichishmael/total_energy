@@ -1,24 +1,25 @@
 <?php
 namespace App\Http\Controllers\app\products;
-use App\Http\Controllers\Controller;
+use Hr;
+use File;
+use Input;
+use Wingu;
+use Helper;
+use Session;
+use App\Models\tax;
+use App\Models\Branches;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\products\product_information;
+use App\Models\products\brand;
+use App\Models\products\category;
 use App\Models\suppliers\suppliers;
+use App\Http\Controllers\Controller;
+use App\Models\file_manager as ModelsFile_manager;
+use Illuminate\Support\Facades\Auth;
 use App\Models\products\product_price;
 use App\Models\products\product_inventory;
-use App\Models\products\category;
-use App\Models\wingu\file_manager;
+use App\Models\products\product_information;
 use App\Models\products\product_category_product_information;
-use App\Models\products\brand;
-use App\Models\Branches;
-use App\Models\tax;
-use Session;
-use Helper;
-use Input;
-use File;
-use Auth;
-use Wingu;
-use Hr;
 
 class productController extends Controller{
    public function __construct(){
@@ -90,7 +91,7 @@ class productController extends Controller{
       $product_inventory->created_by = Auth::user()->user_code;
       $product_inventory->save();
 
-      Session::flash('success','Product successfully added.');
+      session()->flash('success','Product successfully added.');
 
       return redirect()->route('product.price', $product->id);
    }
@@ -164,9 +165,9 @@ class productController extends Controller{
       if($product->product_name != $request->product_name || $product->url == ""){
          $check = product_information::where('product_name',$request->product_name)->count();
          if ($check > 1) {
-               $product->url = Helper::seoUrl($request->product_name).'-'.Helper::generateRandomString(4);
+               $product->url = Str::slug($request->product_name).'-'.Str::random(4);
          }else{
-               $product->url = Helper::seoUrl($request->product_name);
+               $product->url = Str::slug($request->product_name);
          }
       }
       $product->product_name = $request->product_name;
@@ -179,7 +180,7 @@ class productController extends Controller{
       $product->updated_by = Auth::user()->user_code;
       $product->save();
 
-      Session::flash('success','Product successfully updated !');
+      session()->flash('success','Product successfully updated !');
 
       return redirect()->back();
    }
@@ -215,7 +216,7 @@ class productController extends Controller{
       $product->updated_by = Auth::user()->user_code;
       $product->save();
 
-      Session::flash('success','Item description updated successfully');
+      session()->flash('success','Item description updated successfully');
 
       return redirect()->back();
    }
@@ -266,7 +267,7 @@ class productController extends Controller{
 
       $price->save();
 
-      session::flash('success','You have successfully edited item price!');
+      session()->flash('success','You have successfully edited item price!');
 
       return redirect()->back();
    }
@@ -285,12 +286,12 @@ class productController extends Controller{
 
       if($invoice == 0){
          //delete image from folder/directory
-         $check_image = file_manager::where('fileID',$id)->where('business_code', Auth::user()->business_code)->where('folder','products')->count();
+         $check_image = ModelsFile_manager::where('fileID',$id)->where('business_code', Auth::user()->business_code)->where('folder','products')->count();
 
          if($check_image > 0){
                //directory
                $directory = base_path().'/storage/files/business/'.Wingu::business(Auth::user()->business_code)->primary_email.'/finance/products/';
-               $images = file_manager::where('fileID',$id)->where('business_code', Auth::user()->business_code)->where('folder','products')->get();
+               $images = ModelsFile_manager::where('fileID',$id)->where('business_code', Auth::user()->business_code)->where('folder','products')->get();
                foreach($images as $image){
                if (File::exists($directory)) {
                   unlink($directory.$image->file_name);
@@ -316,12 +317,12 @@ class productController extends Controller{
          //delete price
          product_price::where('productID', $id)->where('business_code', Auth::user()->business_code)->delete();
 
-         Session::flash('success', 'The Item was successfully deleted !');
+         session()->flash('success', 'The Item was successfully deleted !');
 
          return redirect()->back();
 
       }else{
-         Session::flash('error','You have recorded transactions for this product. Hence, this product cannot be deleted.');
+         session()->flash('error','You have recorded transactions for this product. Hence, this product cannot be deleted.');
          return redirect()->back();
       }
    }

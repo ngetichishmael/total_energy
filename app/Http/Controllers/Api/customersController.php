@@ -94,7 +94,7 @@ class customersController extends Controller
       ]);
 
       if ($validator->fails()) {
-         return response()->json(["status" => 401, "message" => "validation_error", "errors" => $validator->errors()]);
+         return response()->json(["status" => 401, "message" => "validation_error", "errors" => $validator->errors()],403);
       }
       $image_path = $request->file('image')->store('image', 'public');
       $emailData = $request->email == null ? null : $request->email;
