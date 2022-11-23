@@ -81,7 +81,7 @@ class customersController extends Controller
     **/
    public function add_customer(Request $request)
    {
-   //   $user_code = $request->user()->user_code;
+      //   $user_code = $request->user()->user_code;
       $validator           =  Validator::make($request->all(), [
          "customer_name"   => "required|unique:customers",
          "contact_person"  => "required",
@@ -90,11 +90,19 @@ class customersController extends Controller
          "phone_number"    => "required|unique:customers",
          "latitude"        => "required",
          "longitude"       => "required",
-         "image" => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:10240',
+         "image" => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:1024*1024*10',
       ]);
 
       if ($validator->fails()) {
-         return response()->json(["status" => 401, "message" => "validation_error", "errors" => $validator->errors()],403);
+         return response()->json(
+            [
+               "status" => 401,
+               "message" =>
+               "validation_error",
+               "errors" => $validator->errors()
+            ],
+            403
+         );
       }
       $image_path = $request->file('image')->store('image', 'public');
       $emailData = $request->email == null ? null : $request->email;
@@ -113,7 +121,7 @@ class customersController extends Controller
       $customer->save();
 
       DB::table('leads_targets')
-         ->where('user_code',$request->user()->user_code)
+         ->where('user_code', $request->user()->user_code)
          ->increment('AchievedLeadsTarget');
 
       return response()->json([
@@ -238,7 +246,7 @@ class customersController extends Controller
    {
       $order = Orders::where('order_code', $orderCode)->first();
       $orders =  Order_items::where('order_code', $orderCode)->get();
-      $payment = order_payments::where('order_id',$orderCode)->get();
+      $payment = order_payments::where('order_id', $orderCode)->get();
       return response()->json([
          "success"  => true,
          "status"   => 200,
