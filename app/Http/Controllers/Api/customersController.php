@@ -90,7 +90,7 @@ class customersController extends Controller
          "phone_number"    => "required|unique:customers",
          "latitude"        => "required",
          "longitude"       => "required",
-         "image" => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:1024*1024*10',
+         "image" => 'required|image|mimes:jpg,png,jpeg,gif,svg',
       ]);
 
       if ($validator->fails()) {
