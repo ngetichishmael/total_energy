@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class allocations extends Model
 {
-   Protected $table = 'inventory_allocations';
+   protected $table = 'inventory_allocations';
+   protected $guarded = [""];
 }

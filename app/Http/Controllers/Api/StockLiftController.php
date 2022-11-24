@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\inventory\allocations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -17,8 +18,6 @@ class StockLiftController extends Controller
         $request = $request->collect();
         foreach ($request as $value) {
             $stock = DB::select('SELECT `product_code`  FROM `inventory_allocated_items` WHERE `product_code` =? AND `created_by`= ?', [$value["productID"], $user_code]);
-            $check = $stock == null  ? $stock:"Hello World" ;
-            info($check);
             if ($stock == null) {
                 DB::insert(
                     'INSERT INTO `inventory_allocated_items`(
@@ -63,30 +62,15 @@ class StockLiftController extends Controller
 
 
         }
-        DB::insert(
-            'INSERT INTO `inventory_allocations`(
-                            `business_code`,
-                            `allocation_code`,
-                            `sales_person`,
-                            `status`,
-                            `created_by`,
-                            `updated_by`,
-                            `created_at`,
-                            `updated_at`
-                        )
-                        VALUES(?,?,?,?,?,?,?,?)',
-            [
-                $business_code,
-                $random,
-                $user_code,
-                'Waiting acceptance',
-                $user_code,
-                $user_code,
-                now(),
-                now()
-            ]
-        );
+        allocations::created([
+         "business_code"=>$business_code,
+         "allocation_code"=>$random,
+         "sales_person"=>$user_code,
+         "status"=>"Waiting acceptance",
+         "created_by"=>$user_code,
+         "created_by"=>$user_code,
 
+        ]);
         return response()->json([
             "success" => true,
             "message" => "All Available Product Information",
