@@ -121,7 +121,6 @@ class CheckingSaleOrderController extends Controller
       $request = $request->collect();
       foreach ($request as $value) {
          $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
-         $pricing=product_price::where('ProductID', $value["ProductID"])->first();
          Cart::updateOrCreate(
             [
                'checkin_code' => $checkinCode,
@@ -161,10 +160,10 @@ class CheckingSaleOrderController extends Controller
             'productID' => $value["productID"],
             'product_name' => $product->product_name,
             'quantity' => $value["qty"],
-            'sub_total' => $value["qty"] * $pricing->selling_price,
-            'total_amount' => $value["qty"] * $pricing->selling_price,
-            'selling_price' =>$pricing->selling_price ,
-            'buying_price' =>$pricing->buying_price,
+            'sub_total' => $value["qty"] * $product->selling_price,
+            'total_amount' => $value["qty"] * $product->selling_price,
+            'selling_price' =>$value["qty"] * $product->ProductPrice->selling_price ,
+            'buying_price' =>$value["qty"] * $product->ProductPrice->buying_price,
             'discount' => 0,
             'taxrate' => 0,
             'taxvalue' => 0,
