@@ -245,13 +245,15 @@ class customersController extends Controller
    public function order_details($orderCode)
    {
       $order = Orders::where('order_code', $orderCode)->first();
-      $orders =  Order_items::where('order_code', $orderCode)->get();
+      $items =  Order_items::where('order_code', $orderCode)->get();
+      $orders =  Cart::where('order_code', $orderCode)->get();
       $payment = order_payments::where('order_id', $orderCode)->get();
       return response()->json([
          "success"  => true,
          "status"   => 200,
          "message"  => "Customer orders",
          "order_items" => $orders,
+         "items" => $items,
          "Data" => $order,
          "Payment" => $payment
       ]);
