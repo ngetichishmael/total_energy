@@ -1,20 +1,19 @@
 <?php
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
+use App\Mail\systemMail;
+use App\Models\business;
+use App\Models\warehousing;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\laratrust\Role_user;
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use App\Models\business;
-use App\Models\User;
-use App\Models\warehousing;
-use App\Models\laratrust\Role_user;
-use App\Mail\systemMail;
-use Session;
-use Helper;
-use Mail;
+use Illuminate\Support\Facades\Mail as FacadesMail;
 
 class RegisterController extends Controller
 {
@@ -101,11 +100,11 @@ class RegisterController extends Controller
       ]);
 
       //token
-      $token = Helper::generateRandomString(18);
+      $token = Str::random(18);
 
       $checkEmail = User::where('email',$request->email)->count();
       if($checkEmail != 0){
-         Session::flash('warning','The email your entered is already in use');
+         Session()->flash('warning','The email your entered is already in use');
 
          return redirect()->back();
       }
@@ -120,7 +119,7 @@ class RegisterController extends Controller
 
 
       //add the business
-      $code = Helper::generateRandomString(16);
+      $code = Str::random(16);
       $business = new business;
       $business->name = $request->full_names;
       $business->primary_email = $request->email;
@@ -159,9 +158,9 @@ class RegisterController extends Controller
       $subject = 'Welcome to sokoflow';
       $userContent = '<h4>Hello, '.$user->name.'</h4><p>Thank you for creating your account with us. Managing your business has never gotten easier.We have a powerful product suite to help you manage your business with ease. <p>';
       $to = $request->email;
-      Mail::to($to)->send(new systemMail($userContent,$subject));
+      FacadesMail::to($to)->send(new systemMail($userContent,$subject));
 
-      Session::flash('success','Your account has been created you can now login');
+      Session()->flash('success','Your account has been created you can now login');
 
       return redirect()->route('login');
    }

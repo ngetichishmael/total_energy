@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CustomerAuthController;
 use App\Http\Controllers\Api\CustomerVisitsOrders;
 use App\Http\Controllers\Api\DeliveriesController;
 use App\Http\Controllers\Api\surveyController;
@@ -165,5 +166,14 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('/AddNewRoute','AddNewRouteController@store')->middleware('auth:sanctum');
     Route::get('route/schedule/{id}',['uses' => 'routeScheduleController@show','as' => 'route.schedule']);
 
+    /**
+     * Customer registration
+     */
+    Route::post('customer/registration',[CustomerAuthController::class,'registerCustomer']);
+
+    /**
+     * Customer Login
+     */
+    Route::post('/customer/login',[CustomerAuthController::class,'customerLogin']);
 
 });
