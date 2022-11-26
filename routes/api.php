@@ -46,49 +46,49 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('delivery/{code}/{businessCode}/details', 'deliveryController@details');
 
    //customer checking
-   Route::post('customer/checkin/session',['uses' => 'checkinController@create_checkin_session']);
-   Route::get('customer/{CustomerCode}/checkin',['uses' => 'checkinController@checkin','as' => 'customer.checkin']);
-   Route::get('checkin/{checkinCode}/stock',['uses' => 'checkinController@stock','as' => 'checkin.stock']);
-   Route::get('checkin/{checkinCode}/out',['uses' => 'checkinController@checkout','as' => 'check.out']);
+   Route::post('customer/checkin/session', ['uses' => 'checkinController@create_checkin_session']);
+   Route::get('customer/{CustomerCode}/checkin', ['uses' => 'checkinController@checkin', 'as' => 'customer.checkin']);
+   Route::get('checkin/{checkinCode}/stock', ['uses' => 'checkinController@stock', 'as' => 'checkin.stock']);
+   Route::get('checkin/{checkinCode}/out', ['uses' => 'checkinController@checkout', 'as' => 'check.out']);
 
 
 
    // Route::post('checkin/{checkinCode}/add-to-cart',['uses' => 'checkinController@add_to_cart','as' => 'add.to.cart']);
-  //Route::post('checkin/{checkinCode}/add-to-cart','checkinController@add_to_cart')->middleware('auth:sanctum');
+   //Route::post('checkin/{checkinCode}/add-to-cart','checkinController@add_to_cart')->middleware('auth:sanctum');
 
-  // Van Sales
-  Route::post('checkin/vansales/{checkinCode}/{random}/add-to-cart','CheckingSaleOrderController@VanSales')->middleware('auth:sanctum');
+   // Van Sales
+   Route::post('checkin/vansales/{checkinCode}/{random}/add-to-cart', 'CheckingSaleOrderController@VanSales')->middleware('auth:sanctum');
 
-  //New Sales Order
+   //New Sales Order
 
-  Route::post('checkin/newsales/{checkinCode}/{random}/add-to-cart','CheckingSaleOrderController@NewSales')->middleware('auth:sanctum');
-
-
+   Route::post('checkin/newsales/{checkinCode}/{random}/add-to-cart', 'CheckingSaleOrderController@NewSales')->middleware('auth:sanctum');
 
 
-   Route::get('checkin/{checkinCode}/cart',['uses' => 'checkinController@cart','as' => 'checkin.cart']);
-   Route::post('checkin/{checkinCode}/order-save',['uses' => 'checkinController@save_order','as' => 'checkin.order.save']);
-   Route::get('checkin/{checkinCode}/cart/{id}/delete',['uses' => 'checkinController@cart_delete','as' => 'checkin.cart.delete']);
-
-   Route::get('checkin/{checkinCode}/orders',['uses' => 'checkinController@orders','as' => 'checkin.orders']);
-
-   Route::post('checkin/{checkinCode}/order/edit/reason',['uses' => 'checkinController@order_edit_reason','as' => 'checkin.order.edit.reason']);
-   Route::get('checkin/{checkinCode}/order/{orderID}/edit',['uses' => 'checkinController@order_edit','as' => 'checkin.order.edit']);
-   Route::post('checkin/{checkinCode}/order/{itemID}/update',['uses' => 'checkinController@order_update','as' => 'checkin.order.update']);
-   Route::get('checkin/{checkinCode}/order/{itemID}/delete/item',['uses' => 'checkinController@order_delete_item','as' => 'checkin.order.delete.item']);
-   Route::post('checkin/checkinCode/cancel',['uses' => 'checkinController@order_cancellation','as' => 'checkin.order.cancellation']);
 
 
-   Route::get('checkin/{checkinCode}/visits',['uses' => 'checkinController@visits','as' => 'checkin.visits']);
-   Route::post('checkin/{checkinCode}/visit/add',['uses' => 'checkinController@visit_add','as' => 'checkin.visit.add']);
+   Route::get('checkin/{checkinCode}/cart', ['uses' => 'checkinController@cart', 'as' => 'checkin.cart']);
+   Route::post('checkin/{checkinCode}/order-save', ['uses' => 'checkinController@save_order', 'as' => 'checkin.order.save']);
+   Route::get('checkin/{checkinCode}/cart/{id}/delete', ['uses' => 'checkinController@cart_delete', 'as' => 'checkin.cart.delete']);
+
+   Route::get('checkin/{checkinCode}/orders', ['uses' => 'checkinController@orders', 'as' => 'checkin.orders']);
+
+   Route::post('checkin/{checkinCode}/order/edit/reason', ['uses' => 'checkinController@order_edit_reason', 'as' => 'checkin.order.edit.reason']);
+   Route::get('checkin/{checkinCode}/order/{orderID}/edit', ['uses' => 'checkinController@order_edit', 'as' => 'checkin.order.edit']);
+   Route::post('checkin/{checkinCode}/order/{itemID}/update', ['uses' => 'checkinController@order_update', 'as' => 'checkin.order.update']);
+   Route::get('checkin/{checkinCode}/order/{itemID}/delete/item', ['uses' => 'checkinController@order_delete_item', 'as' => 'checkin.order.delete.item']);
+   Route::post('checkin/checkinCode/cancel', ['uses' => 'checkinController@order_cancellation', 'as' => 'checkin.order.cancellation']);
+
+
+   Route::get('checkin/{checkinCode}/visits', ['uses' => 'checkinController@visits', 'as' => 'checkin.visits']);
+   Route::post('checkin/{checkinCode}/visit/add', ['uses' => 'checkinController@visit_add', 'as' => 'checkin.visit.add']);
 
    //checkin visits *History *
-   Route::get('checkin/{checkinCode}/order/{orderID}/details',['uses' => 'checkinController@order_details','as' => 'checkin.order.details']);
+   Route::get('checkin/{checkinCode}/order/{orderID}/details', ['uses' => 'checkinController@order_details', 'as' => 'checkin.order.details']);
 
-   Route::get('checkin/{checkinCode}/order/{orderID}/print',['uses' => 'checkinController@order_print','as' => 'checkin.order.print']);
+   Route::get('checkin/{checkinCode}/order/{orderID}/print', ['uses' => 'checkinController@order_print', 'as' => 'checkin.order.print']);
 
-   Route::get('latest/allocation/{user_code}',['uses' => 'checkinController@latest_allocation','as' => 'checkin.latest.allocation']);
-   Route::get('allocation/history/{user_code}',['uses' => 'checkinController@allocation_history','as' => 'checkin.allocation.history']);
+   Route::get('latest/allocation/{user_code}', ['uses' => 'checkinController@latest_allocation', 'as' => 'checkin.latest.allocation']);
+   Route::get('allocation/history/{user_code}', ['uses' => 'checkinController@allocation_history', 'as' => 'checkin.allocation.history']);
 
    /*
    |--------------------------------------------------------------------------
@@ -100,80 +100,86 @@ Route::group(['namespace' => 'Api'], function () {
    // Route::get('user/{phonenumber}/details', 'AuthController@user_details');
 
    // send otp
-   Route::post('send/otp/{number}','AuthController@sendOTP');
-   Route::post('verify/otp/{number}/{otp}','AuthController@verifyOTP');
+   Route::post('send/otp/{number}', 'AuthController@sendOTP');
+   Route::post('verify/otp/{number}/{otp}', 'AuthController@verifyOTP');
 
    Route::post('/reset-password', 'AuthController@updatePassword');
 
-   Route::get('/countOrders','OrdersCountController@index')->middleware('auth:sanctum');
-   Route::get('/countVisits','VisitsCountController@index')->middleware('auth:sanctum');
-   Route::get('/SalesMade','SalesMadeController@index')->middleware('auth:sanctum');
-   Route::get('/NewLeads','NewLeadsController@index')->middleware('auth:sanctum');
-   Route::get('/NewLeads','NewLeadsController@index')->middleware('auth:sanctum');
+   Route::get('/countOrders', 'OrdersCountController@index')->middleware('auth:sanctum');
+   Route::get('/countVisits', 'VisitsCountController@index')->middleware('auth:sanctum');
+   Route::get('/SalesMade', 'SalesMadeController@index')->middleware('auth:sanctum');
+   Route::get('/NewLeads', 'NewLeadsController@index')->middleware('auth:sanctum');
+   Route::get('/NewLeads', 'NewLeadsController@index')->middleware('auth:sanctum');
 
 
    //Sales History
    //Start
-   Route::get('/SalesHistory/{shopID}','SalesHistoryController@index')->middleware('auth:sanctum');
-   Route::get('/SalesHistory/vansale/{shopID}','SalesHistoryController@vansales')->middleware('auth:sanctum');
-   Route::get('/SalesHistory/newsale/{shopID}','SalesHistoryController@preorder')->middleware('auth:sanctum');
+   Route::get('/SalesHistory/{shopID}', 'SalesHistoryController@index')->middleware('auth:sanctum');
+   Route::get('/SalesHistory/vansale/{shopID}', 'SalesHistoryController@vansales')->middleware('auth:sanctum');
+   Route::get('/SalesHistory/newsale/{shopID}', 'SalesHistoryController@preorder')->middleware('auth:sanctum');
 
    //End
 
-   Route::post('/scheduleVisit/{CustomerAccountNumber}','VisitScheduleController@NewVisit')->middleware('auth:sanctum');
-   Route::get('/scheduleVisit/checkAll','AddNewRouteController@index')->middleware('auth:sanctum');
-   Route::post('/payment','PaymentController@index')->middleware('auth:sanctum');
+   Route::post('/scheduleVisit/{CustomerAccountNumber}', 'VisitScheduleController@NewVisit')->middleware('auth:sanctum');
+   Route::get('/scheduleVisit/checkAll', 'AddNewRouteController@index')->middleware('auth:sanctum');
+   Route::post('/payment', 'PaymentController@index')->middleware('auth:sanctum');
 
 
    //Stock Lift
 
-   Route::post('/stocklift','StockLiftController@index')->middleware('auth:sanctum');
+   Route::post('/stocklift', 'StockLiftController@index')->middleware('auth:sanctum');
 
    // Select all Items
-   Route::get('/distributors','StockDistributer@index')->middleware('auth:sanctum');
-   Route::get('/stocklift/show','StockLiftController@show')->middleware('auth:sanctum');
-   Route::get('/stocklift/receive','StockLiftController@receive')->middleware('auth:sanctum');
+   Route::get('/distributors', 'StockDistributer@index')->middleware('auth:sanctum');
+   Route::get('/stocklift/show', 'StockLiftController@show')->middleware('auth:sanctum');
+   Route::get('/stocklift/receive', 'StockLiftController@receive')->middleware('auth:sanctum');
 
    // Surveying
-   Route::get('/survey',[surveyController::class,'getAllSurvey']);
-   Route::get('/survey/questions/{surveyCode}',[surveyController::class,'getAllQuestions']);
-   Route::post('/survey/responses',[SurveryAnswersController::class,'index']);
+   Route::get('/survey', [surveyController::class, 'getAllSurvey']);
+   Route::get('/survey/questions/{surveyCode}', [surveyController::class, 'getAllQuestions']);
+   Route::post('/survey/responses', [SurveryAnswersController::class, 'index']);
 
    // Reconcillations
-   Route::get('/reconcile/payment',[ReconcilationController::class,'index'])->middleware('auth:sanctum');
-   Route::post('/reconcile/products',[ReconciledProductsController::class,'index'])->middleware('auth:sanctum');
+   Route::get('/reconcile/payment', [ReconcilationController::class, 'index'])->middleware('auth:sanctum');
+   Route::post('/reconcile/products', [ReconciledProductsController::class, 'index'])->middleware('auth:sanctum');
    Route::get('/get/targets', [TargetsController::class, 'getSalespersonTarget'])->middleware('auth:sanctum');
 
 
    /**
     * Reports
     */
-    Route::get('/get/reports', [ReportsController::class, 'getReports'])->middleware('auth:sanctum');
+   Route::get('/get/reports', [ReportsController::class, 'getReports'])->middleware('auth:sanctum');
 
-    /**
-     * Deliveries
-     */
-    Route::get('/get/deliveries', [DeliveriesController::class, 'getDeliveries'])->middleware('auth:sanctum');
+   /**
+    * Deliveries
+    */
+   Route::get('/get/deliveries', [DeliveriesController::class, 'getDeliveries'])->middleware('auth:sanctum');
 
-    /**
-     * Visits and Order Count
-     */
-    Route::get('/get/count/{customerID}', [CustomerVisitsOrders::class, 'getCounts'])->middleware('auth:sanctum');
+   /**
+    * Visits and Order Count
+    */
+   Route::get('/get/count/{customerID}', [CustomerVisitsOrders::class, 'getCounts'])->middleware('auth:sanctum');
 
-    /**
-     * Routess schedules
-     */
-    Route::post('/AddNewRoute','AddNewRouteController@store')->middleware('auth:sanctum');
-    Route::get('route/schedule/{id}',['uses' => 'routeScheduleController@show','as' => 'route.schedule']);
+   /**
+    * Routess schedules
+    */
+   Route::post('/AddNewRoute', 'AddNewRouteController@store')->middleware('auth:sanctum');
+   Route::get('route/schedule/{id}', ['uses' => 'routeScheduleController@show', 'as' => 'route.schedule']);
 
-    /**
-     * Customer registration
-     */
-    Route::post('customer/registration',[CustomerAuthController::class,'registerCustomer']);
+   /**
+    * Customer registration
+    */
+   Route::post('customer/registration', [CustomerAuthController::class, 'registerCustomer']);
 
-    /**
-     * Customer Login
-     */
-    Route::post('/customer/login',[CustomerAuthController::class,'customerLogin']);
+   /**
+    * Customer Login
+    */
+   Route::post('/customer/login', [CustomerAuthController::class, 'customerLogin']);
 
+   /**
+    * Customer reset password
+    */
+   Route::post('customer/send/otp/{number}',  [CustomerAuthController::class, 'sendOTP']);
+   Route::post('/customer/verify/otp/{number}/{otp}',  [CustomerAuthController::class, 'verifyOTP']);
+   Route::post('/customer/reset-password',  [CustomerAuthController::class, 'updatePassword']);
 });
