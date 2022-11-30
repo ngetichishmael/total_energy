@@ -26,6 +26,9 @@ class CustomerAuthController extends Controller
       }
 
       $user = User::where('phone_number', $request['phone_number'])->firstOrFail();
+      User::where('password', $request['password'])->update([
+         "fcm_token" => $request->fcm_token
+      ]);
 
       $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -158,10 +161,20 @@ class CustomerAuthController extends Controller
 
             return response()->json(['data' => $user, 'otp' => $code]);
          } catch (ExceptionHandler $e) {
-            return response()->json(['message' => 'Error occured while trying to send OTP code']);
+            return response()->json(
+               [
+                  'message' => 'Error occured while trying to send OTP code'
+               ],
+               403
+            );
          }
       } else {
-         return response()->json(['message' => 'User is not registered!']);
+         return response()->json(
+            [
+               'message' => 'User is not registered!'
+            ],
+            403
+         );
       }
    }
 
@@ -186,13 +199,15 @@ class CustomerAuthController extends Controller
             [
                'message' =>
                'Valid OTP entered'
-            ]
+            ],
+            402
          );
       }
       return response()->json(
          [
             'message' => 'Invalid OTP entered'
-         ]
+         ],
+         403
       );
    }
 
@@ -212,10 +227,10 @@ class CustomerAuthController extends Controller
 
       return response()->json(
          [
-            'message' =>
-            'Password has been changed sucessfully',
+            'message' => 'Password has been changed sucessfully',
             "User" => $user
-         ]
+         ],
+         402
       );
       // DB::table('password_resets')->where(['email'=> $request->email])->delete();
 

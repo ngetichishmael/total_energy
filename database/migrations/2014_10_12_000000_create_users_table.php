@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
          $table->char('location')->nullable();
          $table->char('gender')->nullable();
          $table->char('status')->nullable();
+         $table->string('fcm_token')->nullable();
          $table->text('block_reason')->nullable();
          $table->text('admin_id')->nullable();
          $table->timestamps();
