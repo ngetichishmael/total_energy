@@ -57,3 +57,12 @@
       </div>
    </div>
 </div>
+ @if (count($allocatedItems)==0)
+ <td>
+   <img src="{{ asset("app-assets/images/logo2.jpeg")}}" alt="Invoice Image" srcset="" style="height: 200px; width:500px;">
+</td> 
+ @else
+ <td>
+   <img src="{{ Storage::url('public/'.$allocatedItems[0]->image) }}" alt="Invoice Image" srcset="">
+</td> 
+ @endif

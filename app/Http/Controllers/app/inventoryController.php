@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\app;
 
-use App\Http\Controllers\Controller;
-use App\Models\inventory\allocations;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Helper;
-use Session;
-use Auth;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Models\inventory\allocations;
 
 class inventoryController extends Controller
 {
@@ -18,7 +17,7 @@ class inventoryController extends Controller
 
    //allocate user
    public function allocate_user(Request $request){
-      $code = Helper::generateRandomString(20);
+      $code = Str::random(20);
       $item = new allocations;
       $item->business_code = Auth::user()->business_code;
       $item->allocation_code = $code;
@@ -28,7 +27,7 @@ class inventoryController extends Controller
       $item->created_by = Auth::user()->user_code;
       $item->save();
 
-      Session::flash('success','Allocate products to sales person');
+      Session()->flash('success','Allocate products to sales person');
 
       return redirect()->route('inventory.allocate.items',$code);
    }

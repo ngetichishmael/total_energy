@@ -1,7 +1,6 @@
 <div>
    <div class="row">
       <div class="col-md-12 mb-1">
-         <button class="btn btn-success btn-sm pull-right" data-bs-toggle="modal" data-bs-target="#allocation">Add Allocation</button>
 
       </div>
       <div class="col-md-12">

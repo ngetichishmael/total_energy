@@ -57,6 +57,97 @@
          </div>
       </div>
    </div>
+   <section class="app-user-edit">
+      <div class="card">
+          <div class="card-body">
+              <div class="tab-content">
+                  <!-- Account Tab starts -->
+                  <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
+                      <form class="form-validate">
+                          <div class="row">
+                              <div class="col-12">
+                                  <div class="table-responsive border rounded mt-1">
+                                      <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                                          <i data-feather="lock" class="font-medium-3 mr-25"></i>
+                                          <span class="align-middle">Permission</span>
+                                      </h6>
+                                      <table class="table table-striped table-borderless">
+                                          <thead class="thead-light">
+                                              <tr>
+                                                  <th>Module</th>
+                                                  <th>Permission</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              <tr>
+                                                  <td>Van Sales</td>
+                                                  <td>
+                                                      <div class="custom-control custom-checkbox">
+                                                          <input type="checkbox" class="custom-control-input"
+                                                              id="admin-read" />
+                                                          <label class="custom-control-label" for="admin-read"></label>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td>New Sales</td>
+                                                  <td>
+                                                      <div class="custom-control custom-checkbox">
+                                                          <input type="checkbox" class="custom-control-input"
+                                                              id="staff-read" />
+                                                          <label class="custom-control-label" for="staff-read"></label>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td>Deliveries</td>
+                                                  <td>
+                                                      <div class="custom-control custom-checkbox">
+                                                          <input type="checkbox" class="custom-control-input"
+                                                              id="author-read" />
+                                                          <label class="custom-control-label" for="author-read"></label>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td>Schedule Visits</td>
+                                                  <td>
+                                                      <div class="custom-control custom-checkbox">
+                                                          <input type="checkbox" class="custom-control-input"
+                                                              id="contributor-read" />
+                                                          <label class="custom-control-label"
+                                                              for="contributor-read"></label>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td>Merchanizing</td>
+                                                  <td>
+                                                      <div class="custom-control custom-checkbox">
+                                                          <input type="checkbox" class="custom-control-input"
+                                                              id="user-read" />
+                                                          <label class="custom-control-label" for="user-read"></label>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                              <div class="col-12 d-flex flex-sm-row flex-column mt-2" style="gap: 20px;">
+                                  <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Save
+                                      Changes</button>
+                                  <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                              </div>
+                          </div>
+                      </form>
+                      <!-- users edit account form ends -->
+                  </div>
+                  <!-- Account Tab ends -->
+              </div>
+          </div>
+      </div>
+  </section>
 @endsection
 {{-- page scripts --}}
 @section('script')

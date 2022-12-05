@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CustomerAuthController;
 use App\Http\Controllers\Api\CustomerVisitsOrders;
 use App\Http\Controllers\Api\DeliveriesController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\surveyController;
 use App\Http\Controllers\Api\SurveryAnswersController;
 use App\Http\Controllers\Api\ReconcilationController;
@@ -90,6 +91,8 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('latest/allocation/{user_code}', ['uses' => 'checkinController@latest_allocation', 'as' => 'checkin.latest.allocation']);
    Route::get('allocation/history/{user_code}', ['uses' => 'checkinController@allocation_history', 'as' => 'checkin.allocation.history']);
 
+   Route::post('/test/notifications',[NotificationController::class,'sendFirebaseNotification']);
+   Route::get('/customer/notifications',[NotificationController::class,'getCustomerNotification'])->middleware('auth:sanctum');;
    /*
    |--------------------------------------------------------------------------
    | Authentication

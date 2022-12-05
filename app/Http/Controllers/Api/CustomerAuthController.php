@@ -54,7 +54,8 @@ class CustomerAuthController extends Controller
          "customer_name"   => "required|unique:customers",
          "phone_number"    => "required|unique:customers",
          "Latitude"        => "required",
-         "Longitude"       => "required"
+         "Longitude"       => "required",
+         "image"=>"required"
       ]);
 
       if ($validator->fails()) {

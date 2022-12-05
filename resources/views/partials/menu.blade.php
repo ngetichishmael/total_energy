@@ -38,6 +38,20 @@
                                 data-feather="circle"></i><span class="menu-item text-truncate">Brands</span></a></li>
                 </ul>
             </li>
+            <li class="nav-item {!! Nav::isResource('notification') !!}">
+                <a class="d-flex align-items-center" href="#"><i data-feather="bell"></i><span
+                        class="menu-title text-truncate" data-i18n="Invoice">Notification</span></a>
+                <ul class="menu-content">
+                    <li><a class="d-flex align-items-center" href="{{ route('CustomerNotification') }}"><i
+                                data-feather="users"></i><span class="menu-item text-truncate">Customers</span></a></li>
+                    <li><a class="d-flex align-items-center" href="{{ route('UserNotification') }}"><i
+                                data-feather="user-check"></i><span class="menu-item text-truncate">Users</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center" href="{{ route('AllNotification') }}"><i
+                                data-feather="user-check"></i><span class="menu-item text-truncate">All Notifications</span></a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item {!! Nav::isResource('inventory') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather='package'></i><span
                         class="menu-title text-truncate" data-i18n="Invoice"> Inventory</span></a>
