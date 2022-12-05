@@ -53,6 +53,7 @@ class Index extends Component
          $fcm=User::where('user_code',$value)->pluck("fcm_token")->implode('');
          $this->sendFirebaseNotification($fcm);
       }
+      Session()->flash("message","Updnotification");
     }
     public function MassiveNotify(){
       dd($this->selectedData);

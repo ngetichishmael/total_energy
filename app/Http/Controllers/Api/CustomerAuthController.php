@@ -65,7 +65,7 @@ class CustomerAuthController extends Controller
          "Longitude"       => "required",
          "image" =>  "required|image|mimes:jpg,png,jpeg,gif,svg"
       ]);
-
+      info($request);
       if ($validator->fails()) {
          return response()->json(
             [
