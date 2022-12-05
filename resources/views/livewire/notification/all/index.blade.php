@@ -41,6 +41,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th></th>
+                        <th>ID</th>
                         <th>Name</th>
                         <th>Title</th>
                         <th>Body</th>
@@ -57,16 +58,15 @@
                             <td>{{ $notification->title }}</td>
                             <td>{{ $notification->body }}</td>
                             <td>{{ $notification->date }}</td>
-                            <td>{{ $notification->date }}</td>
                             <td>
                                 @if ($notification->status === '1')
                                     <div class="d-flex" style="gap:2px;">
-                                        <a href="#" class="btn btn-success btn-sm">Active</a>
-                                    </div>
+                                       <a href="#" class="btn btn-danger btn-sm">Close</a>
+                                   </div>
                                 @else
-                                    <div class="d-flex" style="gap:2px;">
-                                        <a href="#" class="btn btn-danger btn-sm">Close</a>
-                                    </div>
+                                <div class="d-flex" style="gap:2px;">
+                                 <a href="#" class="btn btn-success btn-sm">Active</a>
+                             </div>
                                 @endif
                             </td>
 
