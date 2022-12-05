@@ -69,7 +69,7 @@ class CustomerAuthController extends Controller
       if ($validator->fails()) {
          return response()->json(
             [
-               "status" => 401,
+               "status" => 403,
                "message" => "validation_error",
                "errors" => $validator->errors()
             ],
