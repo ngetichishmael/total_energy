@@ -207,7 +207,7 @@ class CustomerAuthController extends Controller
                'message' =>
                'Valid OTP entered'
             ],
-            402
+            200
          );
       }
       return response()->json(
