@@ -69,7 +69,7 @@ class Index extends Component
       $tokenzined = [
        $fcm_token
       ];
-      info(" Token _  ".$tokenzined);
+      info($tokenzined);
       $token = $fcm_token == null ? $token_default : $tokenzined;
       $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
 
