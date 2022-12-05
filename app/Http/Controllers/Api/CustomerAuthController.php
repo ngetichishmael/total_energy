@@ -62,9 +62,11 @@ class CustomerAuthController extends Controller
          "customer_name"   => "required|unique:customers",
          "phone_number"    => "required|unique:customers",
          "Latitude"        => "required",
-         "Longitude"       => "required"
+         "Longitude"       => "required",
       ]);
       info($request);
+      $validatedData = $request->validated();
+      $validatedData['image'] =$request->file('image')->store('image', 'public');
       if ($validator->fails()) {
          return response()->json(
             [
