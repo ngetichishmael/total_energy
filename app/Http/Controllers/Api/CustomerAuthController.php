@@ -19,8 +19,14 @@ class CustomerAuthController extends Controller
    public function customerLogin(Request $request)
    {
 
-      //(!Auth::attempt(['email' => $request->email, 'password' => $request->password], true))
-      if (!Auth::attempt(['phone_number' => $request->phone_number, 'password' => $request->password], true)) {
+      if (!Auth::attempt(
+         [
+            'phone_number' => $request->phone_number,
+            'password' => $request->password,
+            'account_type' => 'Customer'
+         ],
+         true
+      )) {
          return response()
             ->json(['message' => 'Unauthorized'], 401);
       }
@@ -57,15 +63,14 @@ class CustomerAuthController extends Controller
          "phone_number"    => "required|unique:customers",
          "Latitude"        => "required",
          "Longitude"       => "required",
-         "image" => "required"
+         "image" =>  "required|image|mimes:jpg,png,jpeg,gif,svg"
       ]);
 
       if ($validator->fails()) {
          return response()->json(
             [
                "status" => 401,
-               "message" =>
-               "validation_error",
+               "message" => "validation_error",
                "errors" => $validator->errors()
             ],
             403
