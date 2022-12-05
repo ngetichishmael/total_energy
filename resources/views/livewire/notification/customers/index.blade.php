@@ -67,13 +67,13 @@
                                     <td>{!! $key + 1 !!}</td>
                                     <td>
                                         <div class="custom-control custom-control-success custom-checkbox">
-                                            <input wire:model="selectedData" value="{{ $user->id }}" type="checkbox"
+                                            <input wire:model="selectedData" value="{{ $user->user_code }}" type="checkbox"
                                                 class="custom-control-input" id="colorCheck3{{ $user->id }}" />
                                             <label class="custom-control-label"
                                                 for="colorCheck3{{ $user->id }}"></label>
                                         </div>
                                     </td>
-                                    <td>{{ $user->customer_name }}</td>
+                                    <td>{{ $user->name }}</td>
                                     <td>{{ $user->phone_number }}</td>
                                     <td>{{ $user->status ?? "Active"}}</td>
                                     <td>{{ $user->approval ?? "Approved"}}</td>

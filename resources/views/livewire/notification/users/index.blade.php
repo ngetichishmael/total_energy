@@ -93,7 +93,7 @@
            </div>
        </div>
        <!-- Modal to add new user starts-->
-       @include('livewire.notification.customers.modal')
+       @include('livewire.notification.users.modal')
        <!-- Modal to add new user Ends-->
    </div>
    <!-- list section end -->

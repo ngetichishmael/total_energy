@@ -26,9 +26,11 @@ class CustomerAuthController extends Controller
       }
 
       $user = User::where('phone_number', $request['phone_number'])->firstOrFail();
-      User::where('password', $request['password'])->update([
-         "fcm_token" => $request->fcm_token
-      ]);
+      User::where('phone_number', $request['phone_number'])
+         ->where('account_type', "Customer")
+         ->update([
+            "fcm_token" => $request->fcm_token
+         ]);
 
       $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -55,7 +57,7 @@ class CustomerAuthController extends Controller
          "phone_number"    => "required|unique:customers",
          "Latitude"        => "required",
          "Longitude"       => "required",
-         "image"=>"required"
+         "image" => "required"
       ]);
 
       if ($validator->fails()) {
