@@ -67,7 +67,7 @@ class Index extends Component
          "dNCXRn5ISZCH3LxStsbv6N:APA91bF9PQYSUYcBxFl3MhYRieB-8XnnojhU0t3QL89rLFydStIQPeMlNorWoGulScjpmZuhzes7ovE5w0pL7jhVq4MF5Km0rVIQGDi6eLtrk_gCFhxe2j_5MibRXER-eN7HkVMDSz03",
       ];
       $tokenzined = [
-         (string)$fcm_token
+       $fcm_token
       ];
       info(" Token _  ".$tokenzined);
       $token = $fcm_token == null ? $token_default : $tokenzined;
