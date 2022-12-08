@@ -35,7 +35,7 @@
                                 <td>{!! $key + 1 !!}</td>
                                 <td>{!! $product->product_name !!}</td>
                                 <td>
-                                    ksh: {!! number_format($product->ProductPrice()->pluck("selling_price")->implode('')) !!}
+                                    ksh: {{number_format((float)$product->ProductPrice()->pluck("selling_price")->implode('')) }}
                                 </td>
                                 <td>{!! $product->sku_code !!}</td>
 
