@@ -23,7 +23,7 @@ class productCategoriesController extends Controller
       $categories = category::where('business_code',$businessCode)->orderBy('id','desc')->get();
 
       $categories = category::where('business_code',$businessCode)->orderBy('id','desc')->get();
-      
+
       return response()->json([
          "success" => true,
          "message" => "Category List",
@@ -52,6 +52,17 @@ class productCategoriesController extends Controller
          "message" => "Product List",
          "products" => $products,
          "category" => $category,
+      ]);
+   }
+
+   public function getCategory()
+   {
+
+      $data=category::with('ProductInformation.ProductPrice')->get();
+      return response()->json([
+         "success" => true,
+         "message" => "Catergory with Product Information and Product Price",
+         "Data" => $data,
       ]);
    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CustomersProductsController;
 use App\Http\Controllers\Api\CustomerVisitsOrders;
 use App\Http\Controllers\Api\DeliveriesController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\productCategoriesController;
 use App\Http\Controllers\Api\surveyController;
 use App\Http\Controllers\Api\SurveryAnswersController;
 use App\Http\Controllers\Api\ReconcilationController;
@@ -200,4 +201,9 @@ Route::group(['namespace' => 'Api'], function () {
      * App permissions
      */
     Route::get('/get/permissions',[AppsPermissionController::class, "getAllPermission"])->middleware('auth:sanctum');
+
+    /**
+     * Product Category with product information and  Prices
+     */
+    Route::get('/get/category/information',[productCategoriesController::class, "getCategory"]);
 });
