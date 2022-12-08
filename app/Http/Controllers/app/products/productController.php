@@ -86,10 +86,9 @@ class productController extends Controller
       $product->created_by = Auth::user()->user_code;
       $product->save();
 
-
       product_price::updateOrCreate(
          [
-            'productId' => $product->id,
+            'productID' => $product->id,
          ],
          [
             'product_code' => $product_code,
@@ -169,7 +168,7 @@ class productController extends Controller
          ->pluck('name', 'id');
       $product_information = product_information::whereId($id)->first();
       $product_price = product_price::where('productID',$id)->first();
-      $product_inventory = product_inventory::whereId($id)->first();
+      $product_inventory = product_inventory::where('productID',$id)->first();
 
 
       return view('app.products.edit', [
@@ -220,7 +219,7 @@ class productController extends Controller
 
       product_price::updateOrCreate(
          [
-            'productId' => $id,
+            'productID' => $id,
          ],
          [
             'buying_price' => $request->buying_price,
