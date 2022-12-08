@@ -1,5 +1,5 @@
 <div>
-   <div class="row mb-2">
+   <div class="mb-2 row">
       <div class="col-md-9">
          <label for="">Search</label>
          <input wire:model.debounce.300ms="search" type="text" class="form-control" placeholder="Enter name, email or phone number">
@@ -43,7 +43,7 @@
                         <td>{!! $user->status !!}</td>
                         <td>
                            <div class="d-flex" style="gap:2px;">
-                              <a href="{{ route('user.edit', $user->id) }}"
+                              <a href="{{ route('user.edit', $user->user_code) }}"
                                   class="btn btn-primary btn-sm">Edit</a>
                               <a href="{!! route('user.destroy', $user->id) !!}"
                                   class="btn btn-danger btn-sm">Delete</a>

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\AppsPermissionController;
 use App\Http\Controllers\Api\CustomerAuthController;
+use App\Http\Controllers\Api\CustomersProductsController;
 use App\Http\Controllers\Api\CustomerVisitsOrders;
 use App\Http\Controllers\Api\DeliveriesController;
 use App\Http\Controllers\Api\NotificationController;
@@ -185,4 +187,17 @@ Route::group(['namespace' => 'Api'], function () {
    Route::post('customer/send/otp/{number}',  [CustomerAuthController::class, 'sendOTP']);
    Route::post('/customer/verify/otp/{number}/{otp}',  [CustomerAuthController::class, 'verifyOTP']);
    Route::post('/customer/reset-password',  [CustomerAuthController::class, 'updatePassword']);
+
+   /**
+    * API send image data to customer
+    */
+    Route::get('/all/products',[CustomersProductsController::class, "getAllProducts"])->middleware('auth:sanctum');
+    Route::post('/update/default/image',[CustomersProductsController::class, "sendDefaultImage"])->middleware('auth:sanctum');
+
+
+
+    /**
+     * App permissions
+     */
+    Route::get('/get/permissions',[AppsPermissionController::class, "getAllPermission"])->middleware('auth:sanctum');
 });

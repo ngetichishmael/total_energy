@@ -10,6 +10,8 @@ use Session;
 
 use Illuminate\Support\Str;
 use App\Http\Controllers\Api\JWTException;
+use App\Models\AppPermission;
+use Exception;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -57,7 +59,7 @@ class usersController extends Controller
          $response = curl_exec($curl);
 
          curl_close($curl);
-      } catch (JWTException $e) {
+      } catch (Exception $e) {
       }
    }
 
@@ -70,18 +72,43 @@ class usersController extends Controller
          'phone_number' => 'required',
          'account_type' => 'required',
       ]);
+      $user_code = Str::random(20);
       //save user
       $code = rand(100000, 999999);
-      $user = new User;
-      $user->user_code = Str::random(20);
-      $user->email = $request->email;
-      $user->phone_number = $request->phone_number;
-      $user->name = $request->name;
-      $user->account_type = $request->account_type;
-      $user->status = 'Active';
-      $user->password = Hash::make($code);
-      $user->business_code = FacadesAuth::user()->business_code;
-      $user->save();
+      User::updateOrCreate(
+         [
+            "user_code" => $user_code,
+
+         ],
+         [
+            "email" => $request->email,
+            "phone_number" => $request->phone_number,
+            "name" => $request->name,
+            "account_type" => $request->account_type,
+            "status" => 'Active',
+            "password" => Hash::make($code),
+            "business_code" => FacadesAuth::user()->business_code,
+
+         ]
+      );
+      $van_sales = $request->van_sales == null ? "NO" : "YES";
+      $new_sales = $request->new_sales == null ? "NO" : "YES";
+      $deliveries = $request->deliveries == null ? "NO" : "YES";
+      $schedule_visits = $request->schedule_visits == null ? "NO" : "YES";
+      $merchanizing = $request->merchanizing == null ? "NO" : "YES";
+      AppPermission::updateOrCreate(
+         [
+            "user_code" => $user_code,
+
+         ],
+         [
+            "van_sales" => $van_sales,
+            "new_sales" => $new_sales,
+            "schedule_visits" => $schedule_visits,
+            "deliveries" => $deliveries,
+            "merchanizing" => $merchanizing,
+         ]
+      );
       try {
          $curl = curl_init();
 
@@ -95,7 +122,7 @@ class usersController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
-               "number" :  "'.$request->phone_number.'",
+               "number" :  "' . $request->phone_number . '",
                "sms" : ' . $code . ',
                "callBack" : "https://....",
                "senderName" : "PASANDA"
@@ -110,24 +137,31 @@ class usersController extends Controller
          $response = curl_exec($curl);
 
          curl_close($curl);
-      } catch (JWTException $e) {
+      } catch (Exception $e) {
       }
-      Session::flash('success', 'User Created Successfully');
+      Session()->flash('success', 'User Created Successfully');
       // Redirect::back()->with('message', 'User Created Successfully');
 
       return redirect()->route('users.index');
    }
 
    //edit
-   public function edit($id)
+   public function edit($user_code)
    {
-      $edit = User::where('id', $id)->where('business_code', FacadesAuth::user()->business_code)->first();
+      $edit = User::where('user_code', $user_code)
+         ->where('business_code', FacadesAuth::user()->business_code)
+         ->first();
+      $permissions = AppPermission::where('user_code', $user_code)->firstOrFail();
 
-      return view('app.users.edit', compact('edit'));
+      return view('app.users.edit', [
+         'edit' => $edit,
+         'user_code' => $user_code,
+         'permissions' => $permissions
+      ]);
    }
 
    //update
-   public function update(Request $request, $id)
+   public function update(Request $request, $user_code)
    {
       $this->validate($request, [
          'email' => 'required',
@@ -136,25 +170,46 @@ class usersController extends Controller
          'account_type' => 'required',
       ]);
 
-      //save user
-      $edit = User::where('id', $id)->where('business_code', FacadesAuth::user()->business_code)->first();
-      $edit->email = $request->email;
-      $edit->phone_number = $request->phone_number;
-      $edit->name = $request->name;
-      $edit->account_type = $request->account_type;
-      $edit->status = $request->status;
-      $edit->password = Hash::make($request->phone_number);
-      $edit->admin_id = FacadesAuth::user()->id;
-      $edit->save();
+      User::updateOrCreate(
+         [
+            "user_code" => $user_code,
+            "business_code" => FacadesAuth::user()->business_code,
+         ],
+         [
+            "email" => $request->email,
+            "phone_number" => $request->phone_number,
+            "name" => $request->name,
+            "account_type" => $request->account_type,
+            "status" => 'Active',
 
-      Session::flash('success', 'User updated Successfully');
+         ]
+      );
+      $van_sales = $request->van_sales == null ? "NO" : "YES";
+      $new_sales = $request->new_sales == null ? "NO" : "YES";
+      $deliveries = $request->deliveries == null ? "NO" : "YES";
+      $schedule_visits = $request->schedule_visits == null ? "NO" : "YES";
+      $merchanizing = $request->merchanizing == null ? "NO" : "YES";
+      AppPermission::updateOrCreate(
+         [
+            "user_code" => $user_code,
+         ],
+         [
+            "van_sales" => $van_sales,
+            "new_sales" => $new_sales,
+            "schedule_visits" => $schedule_visits,
+            "deliveries" => $deliveries,
+            "merchanizing" => $merchanizing,
+         ]
+      );
+
+      Session()->flash('success', 'User updated Successfully');
 
       return redirect()->back();
    }
    public function destroy($id)
    {
       User::where('id', $id)->delete();
-      Session::flash('success', 'User deleted Successfully');
+      Session()->flash('success', 'User deleted Successfully');
       return redirect()->route('users.index');
    }
 }

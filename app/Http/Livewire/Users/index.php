@@ -4,8 +4,7 @@ namespace App\Http\Livewire\Users;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Auth;
-
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class Index extends Component
 {
@@ -19,7 +18,7 @@ class Index extends Component
    public function render()
    {
 
-      $users =  User::where('business_code', Auth::user()->business_code)
+      $users =  User::where('business_code', FacadesAuth::user()->business_code)
                      ->orderBy($this->orderBy,$this->orderAsc ? 'desc' : 'asc')
                      ->paginate($this->perPage);
 

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\app\products;
+
 use Hr;
 use File;
 use Input;
@@ -20,245 +22,319 @@ use App\Models\products\product_price;
 use App\Models\products\product_inventory;
 use App\Models\products\product_information;
 use App\Models\products\product_category_product_information;
+use Illuminate\Support\Facades\Storage;
 
-class productController extends Controller{
-   public function __construct(){
+class productController extends Controller
+{
+   public function __construct()
+   {
       $this->middleware('auth');
    }
 
    /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
    public function index()
    {
       return view('app.products.index');
    }
 
    /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
    public function create()
    {
-      $categories = category::where('business_code',Auth::user()->business_code)->pluck('name', 'id');
-      $suppliers = suppliers::where('business_code',Auth::user()->business_code)
-               ->pluck('name','id');
-      $brands = brand::where('business_code',Auth::user()->business_code)->pluck('name','id');
+      $categories = category::where('business_code', Auth::user()->business_code)->pluck('name', 'id');
+      $suppliers = suppliers::where('business_code', Auth::user()->business_code)
+         ->pluck('name', 'id');
+      $brands = brand::where('business_code', Auth::user()->business_code)->pluck('name', 'id');
 
-      return view('app.products.create', compact('categories','suppliers','brands'));
+      return view('app.products.create', compact('categories', 'suppliers', 'brands'));
    }
 
    /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
+    * Store a newly created resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
    public function store(Request $request)
    {
       $this->validate($request, [
          'product_name' => 'required',
+         'buying_price' => 'required',
+         'selling_price' => 'required',
+         'image' => 'required|mimes:png,jpg,bmp,gif,jpeg|max:5048',
       ]);
-
+      $image_path = $request->file('image')->store('image', 'public');
+      $product_code = Str::random(20);
       $product = new product_information;
       $product->product_name = $request->product_name;
       $product->sku_code = $request->sku_code;
+      $product->url = Str::slug($request->product_name);
       $product->brand = $request->brandID;
       $product->supplierID = $request->supplierID;
       $product->category = $request->category;
+      $product->image = $image_path;
       $product->active = $request->status;
       $product->track_inventory = 'Yes';
       $product->business_code = Auth::user()->business_code;
       $product->created_by = Auth::user()->user_code;
       $product->save();
 
-      //product price
-      $product_price = new product_price;
-      $product_price->productID = $product->id;
-      $product_price->default_price = 'Yes';
-      $product_price->business_code = Auth::user()->business_code;
-      $product_price->created_by = Auth::user()->user_code;
-      $product_price->save();
 
-      //product inventory
-      $product_inventory = new product_inventory;
-      $product_inventory->productID = $product->id;
-      $product_inventory->default_inventory = 'Yes';
-      $product_inventory->business_code = Auth::user()->business_code;
-      $product_inventory->created_by = Auth::user()->user_code;
-      $product_inventory->save();
+      product_price::updateOrCreate(
+         [
+            'productId' => $product->id,
+         ],
+         [
+            'product_code' => $product_code,
+            'buying_price' => $request->buying_price,
+            'selling_price' => $request->selling_price,
+            'offer_price' => $request->buying_price,
+            'setup_fee' => $request->selling_price,
+            'taxID' => "1",
+            'tax_rate' => "0",
+            'default_price' => $request->selling_price,
+            'business_code' => Auth::user()->business_code,
+            'created_by' => Auth::user()->user_code,
+         ]
+      );
 
-      session()->flash('success','Product successfully added.');
+      product_inventory::updateOrCreate(
+         [
 
-      return redirect()->route('product.price', $product->id);
+            'productID' => $product->id,
+         ],
+         [
+            'product_code' => $product_code,
+            'current_stock' => $request->current_stock,
+            'reorder_point' => $request->reorder_point,
+            'reorder_qty' => $request->reorder_qty,
+            'expiration_date' => "None",
+            'default_inventory' => "None",
+            'notification' => 0,
+            'created_by' => Auth::user()->user_code,
+            'updated_by' => Auth::user()->user_code,
+            'business_code' => Auth::user()->business_code,
+         ]
+
+      );
+      session()->flash('success', 'Product successfully added.');
+
+      return redirect()->route('product.index');
    }
 
    /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
+    * Display the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
    public function details($id)
    {
-      $details = product_information::join('business','business.id','=','product_information.business_code')
-                     ->join('currency','currency.id','=','business.base_currency')
-                     ->join('product_inventory','product_inventory.productID','=','product_information.id')
-                     ->join('product_price','product_price.productID','=','product_information.id')
-                     ->whereNull('parentID')
-                     ->where('product_information.id',$id)
-                     ->where('product_information.business_code', Auth::user()->business_code)
-                     ->select('*','product_information.id as proID','product_information.created_by as creator')
-                     ->orderBy('product_information.id','desc')
-                     ->first();
+      $details = product_information::join('business', 'business.id', '=', 'product_information.business_code')
+         ->join('currency', 'currency.id', '=', 'business.base_currency')
+         ->join('product_inventory', 'product_inventory.productID', '=', 'product_information.id')
+         ->join('product_price', 'product_price.productID', '=', 'product_information.id')
+         ->whereNull('parentID')
+         ->where('product_information.id', $id)
+         ->where('product_information.business_code', Auth::user()->business_code)
+         ->select('*', 'product_information.id as proID', 'product_information.created_by as creator')
+         ->orderBy('product_information.id', 'desc')
+         ->first();
 
-                     return $details;
+      return $details;
 
       return view('app.products.details.show', compact('details'));
    }
 
    /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
+    * Show the form for editing the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
    public function edit($id)
    {
-      $product = product_information::where('product_information.id',$id)
-                     ->where('product_information.business_code',Auth::user()->business_code)
-                     ->select('*','product_information.id as productID', 'product_information.product_name as productName')
-                     ->first();
+      $categories = category::where('business_code', Auth::user()->business_code)
+         ->pluck('name', 'id');
+      $suppliers = suppliers::where('business_code', Auth::user()->business_code)
+         ->pluck('name', 'id');
+      $brands = brand::where('business_code', Auth::user()->business_code)
+         ->pluck('name', 'id');
+      $product_information = product_information::whereId($id)->first();
+      $product_price = product_price::where('productID',$id)->first();
+      $product_inventory = product_inventory::whereId($id)->first();
 
-      $productID = $id;
 
-      //category
-      $category = category::where('business_code',Auth::user()->business_code)->pluck('name','name')->prepend('--Please choose an option--','');
-
-      $suppliers = suppliers::where('business_code',Auth::user()->business_code)
-                           ->pluck('name','id')
-                           ->prepend('choose supplier','');
-
-      $brands = brand::where('business_code',Auth::user()->business_code)->pluck('name','name')->prepend('--Please choose an option--','');
-
-      return view('app.products.edit', compact('product','productID','suppliers','brands','category'));
+      return view('app.products.edit', [
+         'id' => $id,
+         'brands' => $brands,
+         'categories' => $categories,
+         'brands' => $brands,
+         'suppliers' => $suppliers,
+         'product_information' => $product_information,
+         'product_inventory' => $product_inventory,
+         'product_price' => $product_price,
+      ]);
    }
 
    /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
    public function update(Request $request, $id)
    {
       $this->validate($request, [
          'product_name' => 'required',
+         'buying_price' => 'required',
+         'selling_price' => 'required',
+         'image' => 'required|mimes:png,jpg,bmp,gif,jpeg|max:5048',
+      ]);
+      $image_path = $request->file('image')->store('image', 'public');
+      product_information::updateOrCreate([
+         'id' =>$id,
+         "business_code" => Auth::user()->business_code,
+      ],[
+         "product_name" => $request->product_name,
+         "sku_code" => $request->sku_code,
+         "url" => Str::slug($request->product_name),
+         "brand" => $request->brandID,
+         "supplierID" => $request->supplierID,
+         "category" => $request->category,
+         "image" => $image_path,
+         "active" => $request->status,
+         "track_inventory" => 'Yes',
+         "business_code" => Auth::user()->business_code,
+         "created_by" => Auth::user()->user_code,
       ]);
 
-      $product = product_information::where('id',$id)->where('business_code',Auth::user()->business_code)->first();
 
-      if($product->product_name != $request->product_name || $product->url == ""){
-         $check = product_information::where('product_name',$request->product_name)->count();
-         if ($check > 1) {
-               $product->url = Str::slug($request->product_name).'-'.Str::random(4);
-         }else{
-               $product->url = Str::slug($request->product_name);
-         }
-      }
-      $product->product_name = $request->product_name;
-      $product->sku_code = $request->sku_code;
-      $product->brand = $request->brandID;
-      $product->supplierID = $request->supplierID;
-      $product->category = $request->category;
-      $product->status = $request->status;
-      $product->business_code = Auth::user()->business_code;
-      $product->updated_by = Auth::user()->user_code;
-      $product->save();
+      product_price::updateOrCreate(
+         [
+            'productId' => $id,
+         ],
+         [
+            'buying_price' => $request->buying_price,
+            'selling_price' => $request->selling_price,
+            'offer_price' => $request->buying_price,
+            'setup_fee' => $request->selling_price,
+            'taxID' => "1",
+            'tax_rate' => "0",
+            'default_price' => $request->selling_price,
+            'business_code' => Auth::user()->business_code,
+            'created_by' => Auth::user()->user_code,
+         ]
+      );
 
-      session()->flash('success','Product successfully updated !');
+      product_inventory::updateOrCreate(
+         [
 
-      return redirect()->back();
+            'productID' => $id,
+         ],
+         [
+            'current_stock' => $request->current_stock,
+            'reorder_point' => $request->reorder_point,
+            'reorder_qty' => $request->reorder_qty,
+            'expiration_date' => "None",
+            'default_inventory' => "None",
+            'notification' => 0,
+            'created_by' => Auth::user()->user_code,
+            'updated_by' => Auth::user()->user_code,
+            'business_code' => Auth::user()->business_code,
+         ]
+
+      );
+
+      session()->flash('success', 'Product successfully updated !');
+
+      return redirect()->route('product.index');
    }
 
 
    /**
     * product description
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-   public function description($id){
-      $product = product_information::where('id',$id)->where('business_code',Auth::user()->business_code)->first();
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+   public function description($id)
+   {
+      $product = product_information::where('id', $id)->where('business_code', Auth::user()->business_code)->first();
       $productID = $id;
-      return view('app.products.description', compact('product','productID'));
+      return view('app.products.description', compact('product', 'productID'));
    }
 
 
    /**
-   * update product description
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-   public function description_update(Request $request,$id){
+    * update product description
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+   public function description_update(Request $request, $id)
+   {
 
-      $product = product_information::where('id',$id)->where('business_code',Auth::user()->business_code)->first();
+      $product = product_information::where('id', $id)->where('business_code', Auth::user()->business_code)->first();
       $product->short_description = $request->short_description;
       $product->description = $request->description;
       $product->business_code = Auth::user()->business_code;
       $product->updated_by = Auth::user()->user_code;
       $product->save();
 
-      session()->flash('success','Item description updated successfully');
+      session()->flash('success', 'Item description updated successfully');
 
       return redirect()->back();
    }
 
 
    /**
- * product price
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
+    * product price
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
    public function price($id)
    {
-      $mainBranch = branches::where('businessID',Auth::user()->business_code)->first();
-      $product = product_information::where('id',$id)->where('business_code',Auth::user()->business_code)->first();
-      $defaultPrice = product_price::where('productID', $id)->where('business_code', Auth::user()->business_code)->where('default_price','Yes')->first();
+      $mainBranch = branches::where('businessID', Auth::user()->business_code)->first();
+      $product = product_information::where('id', $id)->where('business_code', Auth::user()->business_code)->first();
+      $defaultPrice = product_price::where('productID', $id)->where('business_code', Auth::user()->business_code)->where('default_price', 'Yes')->first();
       $prices = product_price::where('productID', $id)->where('business_code', Auth::user()->business_code)->get();
-      $taxes = tax::where('businessID',Auth::user()->business_code)->get();
-      $outlets = branches::where('businessID',Auth::user()->business_code)->get();
+      $taxes = tax::where('businessID', Auth::user()->business_code)->get();
+      $outlets = branches::where('businessID', Auth::user()->business_code)->get();
       $productID = $id;
 
-      return view('app.products.price', compact('prices','taxes','productID','product','outlets','defaultPrice','mainBranch'));
+      return view('app.products.price', compact('prices', 'taxes', 'productID', 'product', 'outlets', 'defaultPrice', 'mainBranch'));
    }
 
 
    /**
-   * Update product price
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
+    * Update product price
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
    public function price_update(Request $request, $id)
    {
       $this->validate($request, array(
-         'buying_price'=>'required',
-         'selling_price'=>'required'
+         'buying_price' => 'required',
+         'selling_price' => 'required'
       ));
 
 
-      $price = product_price::where('id',$id)->where('business_code',Auth::user()->business_code)->first();
+      $price = product_price::where('id', $id)->where('business_code', Auth::user()->business_code)->first();
 
       $price->buying_price = $request->input('buying_price');
       $price->taxID = $request->input('taxID');
@@ -267,50 +343,50 @@ class productController extends Controller{
 
       $price->save();
 
-      session()->flash('success','You have successfully edited item price!');
+      session()->flash('success', 'You have successfully edited item price!');
 
       return redirect()->back();
    }
 
 
    /**
- * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
+    * Remove the specified resource from storage.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
    public function destroy($id)
    {
       //check product in invoice
-      $invoice = invoice_products::where('productID',$id)->count();
+      $invoice = invoice_products::where('productID', $id)->count();
 
-      if($invoice == 0){
+      if ($invoice == 0) {
          //delete image from folder/directory
-         $check_image = ModelsFile_manager::where('fileID',$id)->where('business_code', Auth::user()->business_code)->where('folder','products')->count();
+         $check_image = ModelsFile_manager::where('fileID', $id)->where('business_code', Auth::user()->business_code)->where('folder', 'products')->count();
 
-         if($check_image > 0){
-               //directory
-               $directory = base_path().'/storage/files/business/'.Wingu::business(Auth::user()->business_code)->primary_email.'/finance/products/';
-               $images = ModelsFile_manager::where('fileID',$id)->where('business_code', Auth::user()->business_code)->where('folder','products')->get();
-               foreach($images as $image){
+         if ($check_image > 0) {
+            //directory
+            $directory = base_path() . '/storage/files/business/' . Wingu::business(Auth::user()->business_code)->primary_email . '/finance/products/';
+            $images = ModelsFile_manager::where('fileID', $id)->where('business_code', Auth::user()->business_code)->where('folder', 'products')->get();
+            foreach ($images as $image) {
                if (File::exists($directory)) {
-                  unlink($directory.$image->file_name);
+                  unlink($directory . $image->file_name);
                }
                $image->delete();
-               }
+            }
          }
 
          product_information::where('id', $id)->where('business_code', Auth::user()->business_code)->delete();
          product_inventory::where('productID', $id)->where('business_code', Auth::user()->business_code)->delete();
          //delete categories
-         $categories = product_category_product_information::where('productID',$id)->get();
-         foreach($categories as $category){
+         $categories = product_category_product_information::where('productID', $id)->get();
+         foreach ($categories as $category) {
             product_category_product_information::find($category->id)->delete();
          }
 
          //delete tags
-         $tags = product_tag::where('product_id',$id)->get();
-         foreach($tags as $tag){
+         $tags = product_tag::where('product_id', $id)->get();
+         foreach ($tags as $tag) {
             product_tag::find($tag->id)->delete();
          }
 
@@ -320,39 +396,39 @@ class productController extends Controller{
          session()->flash('success', 'The Item was successfully deleted !');
 
          return redirect()->back();
-
-      }else{
-         session()->flash('error','You have recorded transactions for this product. Hence, this product cannot be deleted.');
+      } else {
+         session()->flash('error', 'You have recorded transactions for this product. Hence, this product cannot be deleted.');
          return redirect()->back();
       }
    }
 
    /**
-   * get product price via ajax
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-   public function productPrice(Request $request){
-		return json_encode(product_price::where('productID', $request->product)->first());
+    * get product price via ajax
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+   public function productPrice(Request $request)
+   {
+      return json_encode(product_price::where('productID', $request->product)->first());
    }
 
-   public function express_store(Request $request){
+   public function express_store(Request $request)
+   {
       $primary = new customers;
-		$primary->customer_name = $request->customer_name;
+      $primary->customer_name = $request->customer_name;
       $primary->business_code = Auth::user()->business_code;
       $primary->created_by = Auth::user()->user_code;
-		$primary->save();
+      $primary->save();
 
-		$address = new address;
-		$address->customerID = $primary->id;
-		$address->save();
-
+      $address = new address;
+      $address->customerID = $primary->id;
+      $address->save();
    }
 
    public function express_list(Request $request)
    {
-      $accounts = product_information::where('business_code',Auth::user()->business_code)->orderby('id','desc')->get(['id', 'product_name as text']);
+      $accounts = product_information::where('business_code', Auth::user()->business_code)->orderby('id', 'desc')->get(['id', 'product_name as text']);
       return ['results' => $accounts];
    }
 }

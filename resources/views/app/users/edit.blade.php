@@ -9,10 +9,10 @@
     <!-- begin breadcrumb -->
 
     <div class="content-header row">
-        <div class="content-header-left col-md-12 col-12 mb-2">
+        <div class="mb-2 content-header-left col-md-12 col-12">
             <div class="row breadcrumbs-top">
                 <div class="col-12">
-                    <h2 class="content-header-title float-start mb-0">Users </h2>
+                    <h2 class="mb-0 content-header-title float-start">Users </h2>
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -25,139 +25,170 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-body">
-                    {!! Form::model($edit, [
-                        'route' => ['user.update', $edit->id],
-                        'method' => 'post',
-                        'class' => 'row',
-                        'enctype' => 'multipart/form-data',
-                    ]) !!}
-                    @csrf
-                    <div class="form-group mb-1 col-md-6">
-                        <label for="">Name <span class="text-danger">*</span></label>
-                        {!! Form::text('name', null, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group mb-1 col-md-6">
-                        <label for="">Email <span class="text-danger">*</span></label>
-                        {!! Form::email('email', null, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group mb-1 col-md-6">
-                        <label for="">Phone Number <span class="text-danger">*</span></label>
-                        {!! Form::number('phone_number', null, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group mb-1 col-md-6">
-                        <label for="">User Type <span class="text-danger">*</span></label>
-                        {!! Form::select('account_type', ['' => 'Choose', 'Sales' => 'Sales', 'Admin' => 'Admin'], null, [
-                            'class' => 'form-control',
-                        ]) !!}
-                    </div>
-                    <div class="form-group mb-1 col-md-6">
-                        <label for="">Status <span class="text-danger">*</span></label>
-                        {!! Form::select('status', ['Active' => 'Active', 'Suspended' => 'Suspended'], null, [
-                            'class' => 'form-control',
-                        ]) !!}
-                    </div>
-                    <div class="form-group mb-1 col-md-12">
-                        <center><button class="btn btn-success" type="submit">Save information</button></center>
-                    </div>
-                    {!! Form::close() !!}
+                    <form method="POST" action="{{ route('user.update',[
+                     'id' =>$user_code
+                    ]) }}" style="gap: 20px;">
+                        @csrf
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="mb-2 col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="first-name-column">User Name</label>
+                                                    <input type="text" id="first-name-column" class="form-control"
+                                                        placeholder="User Name" value="{{ $edit->name }}" name="name"
+                                                        required />
+                                                </div>
+                                            </div>
+                                            <div class="mb-2 col-md-6 col-12 ">
+                                                <div class="form-group">
+                                                    <label for="last-name-column">Last Name</label>
+                                                    <input type="email" id="last-name-column" class="form-control"
+                                                        value="{{ $edit->email }}" placeholder="Email" name="email"
+                                                        required />
+                                                </div>
+                                            </div>
+                                            <div class="mb-2 col-md-6 col-12 ">
+                                                <div class="form-group">
+                                                    <label for="city-column">Phone Number</label>
+                                                    <input type="tel" id="city-column" class="form-control"
+                                                        pattern="[0789][0-9]{9}" value="{{ $edit->phone_number }}"
+                                                        name="phone_number" required />
+                                                </div>
+                                            </div>
+                                            <div class="mb-2 col-md-6 col-12 ">
+                                                <div class="form-group">
+                                                    <label for="select-country">Current Type:
+                                                        {{ $edit->account_type }}</label>
+                                                    <select class="form-control select2" id="select-country"
+                                                        name="account_type" required>
+                                                        <option value="">Select Type</option>
+                                                        <option value="Sales">Sales Agent</option>
+                                                        <option value="Admin">Administrator</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="mb-2 col-md-6 col-12 ">
+                                                <div class="form-group">
+                                                    <label for="select-country">Current Status:
+                                                        {{ $edit->status }}</label>
+                                                    <select class="form-control select2" id="select-action"
+                                                        name="status" required>
+                                                        <option value="">Select Action</option>
+                                                        <option value="Active">Active</option>
+                                                        <option value="Suspend">Suspend</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-content">
+                            <!-- Account Tab starts -->
+                            <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
+                                <form class="form-validate">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mt-1 border rounded table-responsive">
+                                                <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                                                    <i data-feather="lock" class="font-medium-3 mr-25"></i>
+                                                    <span class="align-middle">Permission Out Side Customer Shop</span>
+                                                </h6>
+                                                <table class="table table-striped table-borderless">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th>Module</th>
+                                                            <th>Permission</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Van Sales</td>
+                                                            <td>
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input"
+                                                                        id="admin-read" name="van_sales"
+                                                                        @if ($permissions->van_sales === 'YES') checked @endif />
+                                                                    <label class="custom-control-label"
+                                                                        for="admin-read"></label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>New Sales</td>
+                                                            <td>
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input"
+                                                                        id="staff-read" name="new_sales"
+                                                                        @if ($permissions->new_sales === 'YES') checked @endif />
+                                                                    <label class="custom-control-label"
+                                                                        for="staff-read"></label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Deliveries</td>
+                                                            <td>
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input"
+                                                                        id="author-read" name="deliveries"  @if ($permissions->deliveries === 'YES') checked @endif />
+                                                                    <label class="custom-control-label"
+                                                                        for="author-read"></label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Schedule Visits </td>
+                                                            <td>
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input"
+                                                                        id="contributor-read" name="schedule_visits"
+                                                                        @if ($permissions->schedule_visits === 'YES') checked @endif />
+                                                                    <label class="custom-control-label"
+                                                                        for="contributor-read"></label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Merchanizing</td>
+                                                            <td>
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input"
+                                                                        id="user-read" name="merchanizing"
+                                                                         @if ($permissions->merchanizing === 'YES') checked @endif />
+                                                                    <label class="custom-control-label"
+                                                                        for="user-read"></label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 col-12 d-flex flex-sm-row flex-column" style="gap: 20px;">
+                                            <button type="submit" class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Update</button>
+                                            <a href="{{ route('users.index') }}" type="reset"
+                                                class="btn btn-outline-secondary">Cancel</a>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- users edit account form ends -->
+                            </div>
+                            <!-- Account Tab ends -->
+                        </div>
+                        <!-- Basic Floating Label Form section end -->
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <section class="app-user-edit">
-        <div class="card">
-            <div class="card-body">
-                <div class="tab-content">
-                    <!-- Account Tab starts -->
-                    <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
-                        <form class="form-validate">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="table-responsive border rounded mt-1">
-                                        <h6 class="py-1 mx-1 mb-0 font-medium-2">
-                                            <i data-feather="lock" class="font-medium-3 mr-25"></i>
-                                            <span class="align-middle">Permission</span>
-                                        </h6>
-                                        <table class="table table-striped table-borderless">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th>Module</th>
-                                                    <th>Permission</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Van Sales</td>
-                                                    <td>
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="admin-read" />
-                                                            <label class="custom-control-label" for="admin-read"></label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>New Sales</td>
-                                                    <td>
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="staff-read" />
-                                                            <label class="custom-control-label" for="staff-read"></label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Deliveries</td>
-                                                    <td>
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="author-read" />
-                                                            <label class="custom-control-label" for="author-read"></label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Schedule Visits</td>
-                                                    <td>
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="contributor-read" />
-                                                            <label class="custom-control-label"
-                                                                for="contributor-read"></label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Merchanizing</td>
-                                                    <td>
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="user-read" />
-                                                            <label class="custom-control-label" for="user-read"></label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="col-12 d-flex flex-sm-row flex-column mt-2" style="gap: 20px;">
-                                    <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Save
-                                        Changes</button>
-                                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- users edit account form ends -->
-                    </div>
-                    <!-- Account Tab ends -->
-                </div>
-            </div>
-        </div>
-    </section>
 @endsection
 {{-- page scripts --}}
 @section('script')

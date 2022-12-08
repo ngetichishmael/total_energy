@@ -1,19 +1,12 @@
 @extends('layouts.app')
 {{-- page header --}}
 @section('title', 'Add New Product')
-@section('stylesheet')
-    <style>
-        ul.product li {
-            width: 100%;
-        }
-    </style>
-@endsection
 @section('content')
     <div class="content-header row">
-        <div class="content-header-left col-md-12 col-12 mb-2">
+        <div class="mb-2 content-header-left col-md-12 col-12">
             <div class="row breadcrumbs-top">
                 <div class="col-12">
-                    <h2 class="content-header-title float-start mb-0">Products</h2>
+                    <h2 class="mb-0 content-header-title float-start">Products</h2>
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -25,108 +18,157 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <!-- shop menu -->
-        <div class="col-md-3">
-            <div class="card card-white">
-                <div class="card-body">
-                    <div class="nav flex-column nav-pills">
-                        <a class="nav-link active" href="#">Information</a>
-                        <a class="nav-link" href="#">Price</a>
-                        <a class="nav-link" href="#">Inventory</a>
+    <form class="needs-validation" action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="container">
+            <section class="bs-validation card">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Product Information</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-2 form-group">
+                                    <label class="form-label" for="basic-addon-name">Product Name</label>
+                                    <input type="text" id="basic-addon-name" class="form-control"
+                                        placeholder="Enter Product Name" aria-label="Name" name="product_name"
+                                        aria-describedby="basic-addon-name" required />
+                                </div>
+                                <div class="mb-2 form-group">
+                                    <label class="form-label" for="basic-default-email1">SKU CODE</label>
+                                    <input type="text" id="basic-default-email1" class="form-control"
+                                        placeholder="SKU CODE" name="sku_code" required />
+                                </div>
+                                <div class="mb-2 form-group">
+                                    <label for="select-country1">Is currently Available?</label>
+                                    <select class="form-control select" id="select-country1" name="status" required>
+                                        <option value="">Status</option>
+                                        <option value="Active">Active</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-9">
-            <!-- end of shop menu -->
-            {!! Form::open([
-                'route' => 'products.store',
-                'enctype' => 'multipart/form-data',
-                'method' => 'post',
-                'autocomplete' => 'off',
-            ]) !!}
-            {!! csrf_field() !!}
-            <div class="card card-default">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group mb-1 form-group-default required">
-                                {!! Form::label('title', 'Name', ['class' => 'control-label  text-danger']) !!}
-                                {!! Form::text('product_name', null, [
-                                    'class' => 'form-control',
-                                    'placeholder' => 'Enter Product Name',
-                                    'required' => '',
-                                ]) !!}
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Additional Information</h4>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-1 form-group-default required ">
-                                {!! Form::label('title', 'Status', ['class' => 'control-label']) !!}
-                                {{ Form::select('status', ['Active' => 'Active', 'No' => 'No'], null, ['class' => 'form-control', 'required' => '']) }}
+                            <div class="card-body">
+                                <div class="mb-2 form-group">
+                                    <label for="select-country1">Brands </label>
+                                    <select class="select2 form-control"name="brandID" id="brandID" required>
+                                        <option value="">-- Please choose the brand--</option>
+                                        @foreach ($brands as $brand)
+                                            <option value='{{ $brand }}'>{{ $brand }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-2 form-group">
+                                    <label for="select-country1">Suppliers </label>
+                                    <select name="supplierID" id="brandID" class="form-control select2" required>
+                                        <option value="">-- Please choose the supplier--</option>
+                                        @foreach ($suppliers as $key=>$supplier)
+                                            <option value='{{ $key+1 }}'>{{ $supplier }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-2 form-group">
+                                    <label for="select-country1">Product Catergory</label>
+                                    <select name="category" id="category" class="form-control select2">
+                                        <option value="">--Please choose the catergory--</option>
+                                        @foreach ($categories as $category)
+                                            <option value='{{ $category }}'>{{ $category }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-1 form-group-default">
-                                {!! Form::label('title', 'SKU code', ['class' => 'control-label']) !!}
-                                {!! Form::text('sku_code', null, ['class' => 'form-control', 'placeholder' => 'SKU code']) !!}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-1 form-group-default">
-                                {!! Form::label('title', 'Brand', ['class' => 'control-label']) !!}
-                                <select name="brandID" id="brandID" class="form-control">
-                                    <option value="">-- Please choose an option--</option>
-                                    @foreach ($brands as $brand)
-                                        <option value='{{ $brand }}'>{{ $brand }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-1 form-group-default">
-                                {!! Form::label('title', 'Supplier', ['class' => 'control-label']) !!}
-                                {!! Form::select('supplierID', $suppliers, null, ['class' => 'form-control multiselect']) !!}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-1 form-group-default">
-                                {!! Form::label('title', 'Product category', ['class' => 'control-label']) !!}
-
-                                <select name="category" id="category" class="form-control">
-                                    <option value="">--Please choose an option--</option>
-                                    @foreach ($categories as $category)
-                                        <option value='{{ $category }}'>{{ $category }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mt-2">
-                            <center>
-                                <button type="submit" class="btn btn-success submit"><i class="fas fa-save"></i> Add
-                                    Product</button>
-                                <img src="{!! asset('assets/img/btn-loader.gif') !!}" class="submit-load none" alt="" width="25%">
-                            </center>
                         </div>
                     </div>
                 </div>
-            </div>
-            {!! Form::close() !!}
+            </section>
+            <section id="card-demo-example">
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Product Price</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="form-label" for="basic-default-name">Buying Price Per Unit</label>
+                                    <input type="number" min="10" max="1000000" class="form-control"
+                                        id="basic-default-name" name="buying_price" placeholder="Buying Price" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="basic-default-email">Selling Price Per Unit</label>
+                                    <input type="number" min="10" max="1000000" id="basic-default-email"
+                                        name="selling_price" class="form-control" placeholder="Selling Price" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Inventory</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="form-label" for="basic-default-name">Available Stock</label>
+                                    <input type="number" min="10" max="100000" class="form-control"
+                                        id="basic-default-name" name="current_stock" placeholder="Available Quantity" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="basic-default-email">Reorder Point</label>
+                                    <input type="number" min="10" max="100000" id="basic-default-email"
+                                        name="reorder_point" class="form-control" placeholder="Reorder Point" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="basic-default-email">Reorder Quantity</label>
+                                    <input type="number" min="10" max="100000" id="basic-default-email"
+                                        name="reorder_qty" class="form-control" placeholder="Reorder Quantity" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card match-height">
+                            <img id="output" class="card-img-top"
+                                src="{{ asset('/app-assets/images/slider/04.jpg') }}" alt="Card image cap" />
+                            <div class="card-body">
+                                <h4 class="card-title">Upload Product Image</h4>
+                                <label class="mb-0 btn btn-primary mr-75" for="change-picture">
+                                    <span class="d-none d-sm-block">Upload</span>
+                                    <input class="form-control" type="file" id="change-picture" name ="image" hidden
+                                        accept="image/png, image/jpeg, image/jpg" onchange="loadImage(event)" />
+                                    <span class="d-block d-sm-none">
+                                        <i class="mr-0" data-feather="edit"></i>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-2 col-12 d-flex flex-sm-row flex-column" style="gap: 20px;">
+                    <button type="submit" class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Save</button>
+                    <a href="{{ URL('/products') }}" type="reset" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </section>
         </div>
-    </div>
+    </form>
+    <!-- Examples -->
+    <!-- /Validation -->
 @endsection
 {{-- page scripts --}}
 @section('scripts')
     <script>
-        $(document).ready(function() {
-            $('#sku').on('change', function() {
-                if (this.value == 'Custom') {
-                    $('#custom-sku').show();
-                }
-                if (this.value == 'Auto') {
-                    $('#custom-sku').hide();
-                }
-            });
-        });
+        var loadImage = function(event) {
+
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+        }
     </script>
 @endsection

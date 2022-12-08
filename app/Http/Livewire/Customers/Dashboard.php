@@ -27,7 +27,6 @@ class Dashboard extends Component
          ],
          $searchTerm)
          ->where('business_code', Auth::user()->business_code)
-         ->whereNotNull('email')
          ->paginate($this->perPage);
       return view('livewire.customers.dashboard', [
          'contacts' => $contacts
