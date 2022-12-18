@@ -67,6 +67,7 @@
                                                         name="account_type" required>
                                                         <option value="">Select Type</option>
                                                         <option value="Sales">Sales Agent</option>
+                                                        <option value="Manager">Manager</option>
                                                         <option value="Admin">Administrator</option>
                                                     </select>
                                                 </div>

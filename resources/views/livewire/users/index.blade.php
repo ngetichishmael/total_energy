@@ -26,6 +26,7 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Phone</th>
+                  <th>Account Type</th>
                   <th>Status</th>
                   <th width="12%">Actions</th>
                </tr>
@@ -40,6 +41,7 @@
                            {!! $user->email !!}
                         </td>
                         <td>{!! $user->phone_number !!}</td>
+                        <td>{!! $user->account_type !!}</td>
                         <td>{!! $user->status !!}</td>
                         <td>
                            <div class="d-flex" style="gap:2px;">
