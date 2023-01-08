@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\Manager\AuthenticationController;
+use App\Http\Controllers\api\manager\CustomerController;
+use App\Http\Controllers\api\manager\UsersController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +22,10 @@ Route::group(['namespace' => 'Api'], function () {
    | Authentication
    |--------------------------------------------------------------------------
    */
-   Route::post('/manager/login',  [AuthenticationController::class,'login']);
+   Route::post('/manager/login',  [AuthenticationController::class, 'login']);
    Route::post('signup', 'AuthController@userSignUp');
-
+   Route::middleware(['auth:sanctum'])->group(function () {
+      Route::get('/manager/customers', [CustomerController::class, 'getCustomers']);
+      Route::get('/manager/users', [UsersController::class, 'getUsers']);
+   });
 });
