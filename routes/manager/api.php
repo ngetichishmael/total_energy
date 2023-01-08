@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\Manager\AuthenticationController;
-use App\Http\Controllers\api\manager\CustomerController;
-use App\Http\Controllers\api\manager\UsersController;
+use App\Http\Controllers\Api\manager\CustomerController;
+use App\Http\Controllers\Api\manager\UsersController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
