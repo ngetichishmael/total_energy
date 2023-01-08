@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Manager\AuthenticationController;
 use App\Http\Controllers\Api\Manager\CustomerController;
+use App\Http\Controllers\Api\Manager\UsersController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
