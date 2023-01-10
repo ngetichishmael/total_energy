@@ -27,12 +27,20 @@ class Items extends Component
    //validation
    protected $rules = [
       'product' => 'required',
-      'quantity' => 'required',
+      'quantity' => 'required|numeric',
    ];
-
+   protected $messages = [
+      'product.required' => 'Select a product',
+      'quantity.required' => 'Enter Quantity',
+   ];
+   public function updated($propertyName)
+   {
+      $this->validateOnly($propertyName);
+   }
    //allocate
    public function allocate_item()
    {
+      $this->validate();
       $allocate = new InventoryItems;
       $allocate->business_code = Auth::user()->business_code;
       $allocate->allocation_code = $this->code;
