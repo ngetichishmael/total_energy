@@ -100,13 +100,14 @@
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-name">Buying Price Per Unit</label>
                                     <input type="number" min="10" max="1000000" class="form-control"
-                                        id="basic-default-name" name="buying_price" placeholder="Buying Price" />
+                                        id="buying_price" name="buying_price" placeholder="Buying Price" />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-email">Selling Price Per Unit</label>
-                                    <input type="number" min="10" max="1000000" id="basic-default-email"
-                                        name="selling_price" class="form-control" placeholder="Selling Price" />
+                                    <input type="number" min="10" max="1000000" id="selling_price"
+                                        name="selling_price" class="form-control" placeholder="Selling Price" required onchange="check()" />
                                 </div>
+                               <span style="color:#ff9398; visibility: hidden" id="msg">Notice!! Your selling price is less than buying price</span>
                             </div>
                         </div>
                     </div>
@@ -169,6 +170,14 @@
 
             var output = document.getElementById('output');
             output.src = URL.createObjectURL(event.target.files[0]);
+        }
+        function check() {
+           var sp = document.getElementById("selling_price").value;
+           var bp = document.getElementById("buying_price").value;
+            document.getElementById("msg").style.visibility = "hidden";
+           if (bp>=sp) {
+              document.getElementById("msg").style.visibility = "visible";
+           }
         }
     </script>
 @endsection
