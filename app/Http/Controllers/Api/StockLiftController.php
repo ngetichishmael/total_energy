@@ -19,6 +19,8 @@ class StockLiftController extends Controller
       $business_code = $request->user()->business_code;
       $random = Str::random(20);
       $requests = $request->collect();
+      info("Stock Lift");
+      info($request);
       info($requests);
       info($requests->products);
       // "image"=>"required"
