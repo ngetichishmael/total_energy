@@ -18,8 +18,8 @@ class StockLiftController extends Controller
       $user_code = $request->user()->user_code;
       $business_code = $request->user()->business_code;
       $random = Str::random(20);
-      $request = $request->collect();
-      info($request);
+      $requests = $request->collect();
+      info($requests);
       // "image"=>"required"
       $validator           =  Validator::make($request->all(), [
          "productID"=>"required"
@@ -38,18 +38,18 @@ class StockLiftController extends Controller
 
 
       // $image_path = $request->file('image')->store('image', 'public');
-         $stock = items::where('product_code', $request->productID)
+         $stock = items::where('product_code', $requests->productID)
             ->where('created_by', $user_code)
             ->pluck('product_code')
             ->implode('');
          if ($stock == null) {
-            $stocked = product_inventory::where('productID', $request->productID)->first();
+            $stocked = product_inventory::where('productID', $requests->productID)->first();
             items::create([
                'business_code' => $business_code,
                'allocation_code' => $random,
-               'product_code' => $request->productID,
+               'product_code' => $requests->productID,
                'current_qty' => $stocked->current_stock,
-               'allocated_qty' => $request->qty,
+               'allocated_qty' => $requests->qty,
                'image' => "image_path",
                'returned_qty' => 0,
                'created_by' => $user_code,
@@ -58,13 +58,13 @@ class StockLiftController extends Controller
          } else {
 
             DB::table('inventory_allocated_items')
-               ->where('product_code', $request->productID)
-               ->increment('allocated_qty', $request->qty);
+               ->where('product_code', $requests->productID)
+               ->increment('allocated_qty', $requests->qty);
          }
          $stock = null;
          DB::table('product_inventory')
-            ->where('productID', $request->productID)
-            ->decrement('current_stock', $request->qty);
+            ->where('productID', $requests->productID)
+            ->decrement('current_stock', $requests->qty);
       allocations::created([
          "business_code" => $business_code,
          "allocation_code" => $random,
