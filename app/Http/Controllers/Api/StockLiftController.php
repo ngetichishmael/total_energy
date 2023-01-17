@@ -41,46 +41,45 @@ class StockLiftController extends Controller
       }
 
       $image_path = $request->file('image')->store('image', 'public');
-      foreach ($data as $key => $value) {
-         info($key);
+      foreach ($data as $value) {
          info($value);
+         info("checking");
+         // $stock = items::where('product_code', $key)
+         //    ->where('created_by', $user_code)
+         //    ->pluck('product_code')
+         //    ->implode('');
+         // if ($stock == null) {
+         //    $stocked = product_inventory::where('productID', $key)->first();
+         //    info($stocked);
+         //    items::create([
+         //       'business_code' => $business_code,
+         //       'allocation_code' => $random,
+         //       'product_code' => $key,
+         //       'current_qty' => $stocked["current_qty"],
+         //       'allocated_qty' => $value,
+         //       'image' => $image_path,
+         //       'returned_qty' => 0,
+         //       'created_by' => $user_code,
+         //       'updated_by' => $user_code,
+         //    ]);
+         // } else {
 
-         $stock = items::where('product_code', $key)
-            ->where('created_by', $user_code)
-            ->pluck('product_code')
-            ->implode('');
-         if ($stock == null) {
-            $stocked = product_inventory::where('productID', $key)->first();
-            info($stocked);
-            items::create([
-               'business_code' => $business_code,
-               'allocation_code' => $random,
-               'product_code' => $key,
-               'current_qty' => $stocked["current_qty"],
-               'allocated_qty' => $value,
-               'image' => $image_path,
-               'returned_qty' => 0,
-               'created_by' => $user_code,
-               'updated_by' => $user_code,
-            ]);
-         } else {
+         //    DB::table('inventory_allocated_items')
+         //       ->where('product_code', $key)
+         //       ->increment('allocated_qty', $value);
+         // }
+         // DB::table('product_inventory')
+         //    ->where('productID', $key)
+         //    ->decrement('current_stock', $value);
+         // allocations::created([
+         //    "business_code" => $business_code,
+         //    "allocation_code" => $random,
+         //    "sales_person" => $user_code,
+         //    "status" => "Waiting acceptance",
+         //    "created_by" => $user_code,
+         //    "created_by" => $user_code,
 
-            DB::table('inventory_allocated_items')
-               ->where('product_code', $key)
-               ->increment('allocated_qty', $value);
-         }
-         DB::table('product_inventory')
-            ->where('productID', $key)
-            ->decrement('current_stock', $value);
-         allocations::created([
-            "business_code" => $business_code,
-            "allocation_code" => $random,
-            "sales_person" => $user_code,
-            "status" => "Waiting acceptance",
-            "created_by" => $user_code,
-            "created_by" => $user_code,
-
-         ]);
+         // ]);
       }
       return response()->json([
          "success" => true,
