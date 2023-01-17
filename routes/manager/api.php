@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\Manager\AuthenticationController;
 use App\Http\Controllers\Api\Manager\CustomerController;
+use App\Http\Controllers\Api\Manager\SendNotificationController;
+use App\Http\Controllers\Api\Manager\TerritoryInformationsController;
 use App\Http\Controllers\Api\Manager\UsersController;
 use Illuminate\Support\Facades\Route;
 /*
@@ -27,5 +29,7 @@ Route::group(['namespace' => 'Api'], function () {
    Route::middleware(['auth:sanctum'])->group(function () {
       Route::get('/manager/customers', [CustomerController::class, 'getCustomers']);
       Route::get('/manager/users', [UsersController::class, 'getUsers']);
+      Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
+      Route::get('/manager/get/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
    });
 });

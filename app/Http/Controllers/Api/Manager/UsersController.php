@@ -13,7 +13,8 @@ class UsersController extends Controller
       return response()->json([
          "success" => true,
          "status" => 200,
-         "data" => User::where('account_type', 'Sales')->get(),
+         "data" => User::with("TargetSales", "TargetLeads", "TargetsOrder", "TargetsVisit")
+            ->where('account_type', 'Sales')->get(),
       ]);
    }
 }
