@@ -12,10 +12,10 @@
     <!-- begin breadcrumb -->
 
     <div class="content-header row">
-        <div class="content-header-left col-md-12 col-12 mb-2">
+        <div class="mb-2 content-header-left col-md-12 col-12">
             <div class="row breadcrumbs-top">
                 <div class="col-12">
-                    <h2 class="content-header-title float-start mb-0">Users </h2>
+                    <h2 class="mb-0 content-header-title float-start">Users </h2>
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -38,7 +38,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-6 col-12 mb-2" >
+                                            <div class="mb-2 col-md-6 col-12" >
                                                 <div class="form-group">
                                                     <label for="first-name-column">User Name</label>
                                                     <input type="text" id="first-name-column" class="form-control"
@@ -72,6 +72,19 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="select-country">Route</label>
+                                                    <select class="form-control select2" id="select-country"
+                                                        name="account_type" required>
+                                                        <option value="">Select Route</option>
+                                                        @foreach ( $routes as $route )
+                                                           
+                                                        <option value="{{ $route->route_code }}">{{ $route->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +96,7 @@
                                 <form class="form-validate">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="table-responsive border rounded mt-1">
+                                            <div class="mt-1 border rounded table-responsive">
                                                 <h6 class="py-1 mx-1 mb-0 font-medium-2">
                                                     <i data-feather="lock" class="font-medium-3 mr-25"></i>
                                                     <span class="align-middle">Permission Out Side Customer Shop</span>
@@ -155,8 +168,8 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="col-12 d-flex flex-sm-row flex-column mt-2" style="gap: 20px;">
-                                            <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Save
+                                        <div class="mt-2 col-12 d-flex flex-sm-row flex-column" style="gap: 20px;">
+                                            <button type="submit" class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Save
                                                 Changes</button>
                                             <a href="{{ route('users.index') }}" type="reset" class="btn btn-outline-secondary">Cancel</a>
                                         </div>

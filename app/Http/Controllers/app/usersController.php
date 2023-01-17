@@ -11,9 +11,11 @@ use Session;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Api\JWTException;
 use App\Models\AppPermission;
+use App\Models\Routes;
 use Exception;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Redirect;
+use Tymon\JWTAuth\Contracts\Providers\Auth;
 
 class usersController extends Controller
 {
@@ -26,7 +28,9 @@ class usersController extends Controller
    //create
    public function create()
    {
-      return view('app.users.create');
+      return view('app.users.create',[
+         "routes"=>Routes::where("business_code", FacadesAuth::user()->business_code)->get()
+      ]);
    }
    public function sendOTP($number, $code)
    {
