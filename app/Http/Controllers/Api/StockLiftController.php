@@ -19,6 +19,7 @@ class StockLiftController extends Controller
       $business_code = $request->user()->business_code;
       $random = Str::random(20);
       $request = $request->collect();
+      info($request);
       // "image"=>"required"
       $validator           =  Validator::make($request->all(), [
          "productID"=>"required"
