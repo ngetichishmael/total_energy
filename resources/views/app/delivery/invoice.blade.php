@@ -238,18 +238,7 @@
 
             <hr class="invoice-spacing" />
 
-            <!-- Invoice Note starts -->
-            <div class="pt-0 card-body invoice-padding">
-                <div class="row">
-                    <div class="col-12">
-                        <span class="font-weight-bold">Note:</span>
-                        <span>It was a pleasure working with you and your team. We hope you will keep us in mind for future
-                            freelance
-                            projects. Thank You!</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Invoice Note ends -->
+            
         </div>
     </div>
     <!-- /Invoice -->
