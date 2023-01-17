@@ -43,6 +43,8 @@ class StockLiftController extends Controller
       $image_path = $request->file('image')->store('image', 'public');
       foreach ($data as $value) {
          info($value);
+         info($value["productID"]);
+         info($value["qty"]);
          info("checking");
          // $stock = items::where('product_code', $key)
          //    ->where('created_by', $user_code)
