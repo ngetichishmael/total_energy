@@ -22,7 +22,9 @@ class StockLiftController extends Controller
       info($request);
       info($request->image);
       info($request->products);
-      foreach ($request->products as $key => $value) {
+      $json=$request->products;
+      $data = json_decode($json, true);
+      foreach ($data as $key => $value) {
          info($key. "  ".$value);
       }
       // "image"=>"required"
