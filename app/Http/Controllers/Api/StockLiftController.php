@@ -18,65 +18,64 @@ class StockLiftController extends Controller
       $user_code = $request->user()->user_code;
       $business_code = $request->user()->business_code;
       $random = Str::random(20);
-      $requests = $request->collect();
       info("Stock Lift");
       info($request);
-      info($requests);
-      info($requests->products);
+      info($request->image);
+      info($request->product);
       // "image"=>"required"
-      $validator           =  Validator::make($request->all(), [
-         "productID"=>"required"
-      ]);
+      // $validator           =  Validator::make($request->all(), [
+      //    "productID"=>"required"
+      // ]);
 
-      if ($validator->fails()) {
-         return response()->json(
-            [
-               "status" => 401,
-               "message" =>"validation_error",
-               "errors" => $validator->errors()
-            ],
-            403
-         );
-      }
+      // if ($validator->fails()) {
+      //    return response()->json(
+      //       [
+      //          "status" => 401,
+      //          "message" =>"validation_error",
+      //          "errors" => $validator->errors()
+      //       ],
+      //       403
+      //    );
+      // }
 
 
       // $image_path = $request->file('image')->store('image', 'public');
-         $stock = items::where('product_code', $requests->productID)
-            ->where('created_by', $user_code)
-            ->pluck('product_code')
-            ->implode('');
-         if ($stock == null) {
-            $stocked = product_inventory::where('productID', $requests->productID)->first();
-            items::create([
-               'business_code' => $business_code,
-               'allocation_code' => $random,
-               'product_code' => $requests->productID,
-               'current_qty' => $stocked->current_stock,
-               'allocated_qty' => $requests->qty,
-               'image' => "image_path",
-               'returned_qty' => 0,
-               'created_by' => $user_code,
-               'updated_by' => $user_code,
-            ]);
-         } else {
+      //    $stock = items::where('product_code', $requests->productID)
+      //       ->where('created_by', $user_code)
+      //       ->pluck('product_code')
+      //       ->implode('');
+      //    if ($stock == null) {
+      //       $stocked = product_inventory::where('productID', $requests->productID)->first();
+      //       items::create([
+      //          'business_code' => $business_code,
+      //          'allocation_code' => $random,
+      //          'product_code' => $requests->productID,
+      //          'current_qty' => $stocked->current_stock,
+      //          'allocated_qty' => $requests->qty,
+      //          'image' => "image_path",
+      //          'returned_qty' => 0,
+      //          'created_by' => $user_code,
+      //          'updated_by' => $user_code,
+      //       ]);
+      //    } else {
 
-            DB::table('inventory_allocated_items')
-               ->where('product_code', $requests->productID)
-               ->increment('allocated_qty', $requests->qty);
-         }
-         $stock = null;
-         DB::table('product_inventory')
-            ->where('productID', $requests->productID)
-            ->decrement('current_stock', $requests->qty);
-      allocations::created([
-         "business_code" => $business_code,
-         "allocation_code" => $random,
-         "sales_person" => $user_code,
-         "status" => "Waiting acceptance",
-         "created_by" => $user_code,
-         "created_by" => $user_code,
+      //       DB::table('inventory_allocated_items')
+      //          ->where('product_code', $requests->productID)
+      //          ->increment('allocated_qty', $requests->qty);
+      //    }
+      //    $stock = null;
+      //    DB::table('product_inventory')
+      //       ->where('productID', $requests->productID)
+      //       ->decrement('current_stock', $requests->qty);
+      // allocations::created([
+      //    "business_code" => $business_code,
+      //    "allocation_code" => $random,
+      //    "sales_person" => $user_code,
+      //    "status" => "Waiting acceptance",
+      //    "created_by" => $user_code,
+      //    "created_by" => $user_code,
 
-      ]);
+      // ]);
       return response()->json([
          "success" => true,
          "message" => "All Available Product Information",
