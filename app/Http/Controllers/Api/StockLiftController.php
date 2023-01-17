@@ -69,7 +69,6 @@ class StockLiftController extends Controller
                ->where('product_code', $key)
                ->increment('allocated_qty', $value);
          }
-         $stock = null;
          DB::table('product_inventory')
             ->where('productID', $key)
             ->decrement('current_stock', $value);
