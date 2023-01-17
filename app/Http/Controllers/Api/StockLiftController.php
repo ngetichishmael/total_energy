@@ -21,7 +21,10 @@ class StockLiftController extends Controller
       info("Stock Lift");
       info($request);
       info($request->image);
-      info($request->product);
+      info($request->products);
+      foreach ($request->products as $key => $value) {
+         info($key. "  ".$value);
+      }
       // "image"=>"required"
       // $validator           =  Validator::make($request->all(), [
       //    "productID"=>"required"
