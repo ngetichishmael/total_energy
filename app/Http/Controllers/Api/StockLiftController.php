@@ -51,12 +51,12 @@ class StockLiftController extends Controller
             ->implode('');
          if ($stock == null) {
             $stocked = product_inventory::where('productID', $key)->first();
-            info($stock);
+            info($stocked);
             items::create([
                'business_code' => $business_code,
                'allocation_code' => $random,
                'product_code' => $key,
-               'current_qty' => 2,
+               'current_qty' => $stocked["current_qty"],
                'allocated_qty' => $value,
                'image' => $image_path,
                'returned_qty' => 0,
