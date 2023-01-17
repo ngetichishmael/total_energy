@@ -25,7 +25,8 @@ class StockLiftController extends Controller
       $json=$request->products;
       $data = json_decode($json, true);
       foreach ($data as $key => $value) {
-         info($key. "  ".$value);
+         info($key);
+         info($value);
       }
       // "image"=>"required"
       // $validator           =  Validator::make($request->all(), [
