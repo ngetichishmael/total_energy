@@ -19,21 +19,21 @@ class StockLiftController extends Controller
       $business_code = $request->user()->business_code;
       $random = Str::random(20);
       $request = $request->collect();
-      // $validator           =  Validator::make($request->all(), [
-      //    "image"=>"required"
-      // ]);
+      // "image"=>"required"
+      $validator           =  Validator::make($request->all(), [
+         "productID"=>"required"
+      ]);
 
-      // if ($validator->fails()) {
-      //    return response()->json(
-      //       [
-      //          "status" => 401,
-      //          "message" =>
-      //          "validation_error",
-      //          "errors" => $validator->errors()
-      //       ],
-      //       403
-      //    );
-      // }
+      if ($validator->fails()) {
+         return response()->json(
+            [
+               "status" => 401,
+               "message" =>"validation_error",
+               "errors" => $validator->errors()
+            ],
+            403
+         );
+      }
 
 
       // $image_path = $request->file('image')->store('image', 'public');
