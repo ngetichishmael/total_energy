@@ -50,7 +50,7 @@ class StockLiftController extends Controller
                'business_code' => $business_code,
                'allocation_code' => $random,
                'product_code' => $value["productID"],
-               'current_qty' => $stocked["current_qty"],
+               'current_qty' => $stocked["current_stock"],
                'allocated_qty' => $value["qty"],
                'image' => $image_path,
                'returned_qty' => 0,
