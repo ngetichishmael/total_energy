@@ -21,6 +21,8 @@ class CreateAppPermissionsTable extends Migration
          $table->string('deliveries')->default("YES");
          $table->string('schedule_visits')->default("YES");
          $table->string('merchanizing')->default("YES");
+         $table->string('sales_history')->default("YES");
+         $table->string('order_history')->default("YES");
          $table->timestamps();
       });
    }

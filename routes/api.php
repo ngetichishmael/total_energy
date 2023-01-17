@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\Api\AppsPermissionController;
+use App\Http\Controllers\Api\CurrentDeviceInformationController;
 use App\Http\Controllers\Api\CustomerAuthController;
 use App\Http\Controllers\Api\CustomersProductsController;
 use App\Http\Controllers\Api\CustomerVisitsOrders;
 use App\Http\Controllers\Api\DeliveriesController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\OutletTypesController;
 use App\Http\Controllers\Api\productCategoriesController;
 use App\Http\Controllers\Api\surveyController;
 use App\Http\Controllers\Api\SurveryAnswersController;
@@ -206,4 +208,17 @@ Route::group(['namespace' => 'Api'], function () {
      * Product Category with product information and  Prices
      */
     Route::get('/get/category/information',[productCategoriesController::class, "getCategory"]);
+
+
+    /**
+     * Post Device data
+     */
+    Route::post('/current/device/information',[CurrentDeviceInformationController::class, "postCurrentDeviceInformation"])->middleware('auth:sanctum');
+
+    /**
+     * Get Outlet Types
+     */
+    Route::get('/get/outlet/types',[OutletTypesController::class, "getOutletTypes"])->middleware('auth:sanctum');
+
+
 });
