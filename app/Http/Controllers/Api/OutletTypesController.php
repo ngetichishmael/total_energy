@@ -13,7 +13,7 @@ class OutletTypesController extends Controller
 
       return response()->json([
          "success" => true,
-         "message" => "Data posted successfully",
+         "message" => "List of Outlet Types",
          "outlets" => OutletType::where('business_code', $request->user()->business_code)->get()
       ]);
    }

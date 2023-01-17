@@ -20,6 +20,7 @@ class StockLiftController extends Controller
       $random = Str::random(20);
       $requests = $request->collect();
       info($requests);
+      info($requests->products);
       // "image"=>"required"
       $validator           =  Validator::make($request->all(), [
          "productID"=>"required"
