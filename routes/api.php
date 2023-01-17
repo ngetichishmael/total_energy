@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AppsPermissionController;
+use App\Http\Controllers\Api\CompanyRouteController;
 use App\Http\Controllers\Api\CurrentDeviceInformationController;
 use App\Http\Controllers\Api\CustomerAuthController;
 use App\Http\Controllers\Api\CustomersProductsController;
@@ -219,6 +220,11 @@ Route::group(['namespace' => 'Api'], function () {
      * Get Outlet Types
      */
     Route::get('/get/outlet/types',[OutletTypesController::class, "getOutletTypes"])->middleware('auth:sanctum');
+
+    /**
+     * Get Company Routes
+     */
+    Route::get('/get/company/routes',[CompanyRouteController::class, "getCompanyRoutes"])->middleware('auth:sanctum');
 
 
 });

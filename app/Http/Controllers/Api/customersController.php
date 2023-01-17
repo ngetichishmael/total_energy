@@ -117,6 +117,7 @@ class customersController extends Controller
       $customer->longitude = $request->longitude;
       $customer->business_code = $request->business_code;
       $customer->created_by = $request->user()->user_code;
+      $customer->route_code = $request->route_code;
       $customer->image = $image_path;
       $customer->save();
 
