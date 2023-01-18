@@ -546,7 +546,12 @@ class checkinController extends Controller
     **/
    public function latest_allocation($user_code)
    {
-      $allocation = allocations::join('inventory_allocated_items', 'inventory_allocated_items.allocation_code', '=', 'inventory_allocations.allocation_code')->join('product_information', 'product_information.id', '=', 'inventory_allocated_items.product_code')->join('product_price', 'product_price.productID', '=', 'inventory_allocated_items.product_code')->select(
+      $allocation = allocations::join('inventory_allocated_items',
+                     'inventory_allocated_items.allocation_code', '=', 'inventory_allocations.allocation_code')
+      ->join('product_information',
+                     'product_information.id', '=', 'inventory_allocated_items.product_code')
+      ->join('product_price',
+                     'product_price.productID', '=', 'inventory_allocated_items.product_code')->select(
             'product_information.id',
             'product_information.product_name',
             'product_information.category',

@@ -66,16 +66,16 @@ class StockLiftController extends Controller
          DB::table('product_inventory')
             ->where('productID', $value["productID"])
             ->decrement('current_stock', $value["qty"]);
-         allocations::created([
-            "business_code" => $business_code,
-            "allocation_code" => $random,
-            "sales_person" => $user_code,
-            "status" => "Waiting acceptance",
-            "created_by" => $user_code,
-            "created_by" => $user_code,
-
-         ]);
       }
+      allocations::create([
+         "business_code" => $business_code,
+         "allocation_code" => $random,
+         "sales_person" => $user_code,
+         "status" => "Waiting acceptance",
+         "created_by" => $user_code,
+         "created_by" => $user_code,
+
+      ]);
       return response()->json([
          "success" => true,
          "message" => "All Available Product Information",
