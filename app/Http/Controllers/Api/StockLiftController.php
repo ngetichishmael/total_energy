@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
+
 class StockLiftController extends Controller
 {
    public function index(Request $request)
@@ -46,7 +47,7 @@ class StockLiftController extends Controller
          if ($stock == null) {
             $stocked = product_inventory::where('productID', $value["productID"])->first();
             info($stocked);
-            items::create([
+            $itemchecker = items::create([
                'business_code' => $business_code,
                'allocation_code' => $random,
                'product_code' => $value["productID"],
@@ -57,17 +58,25 @@ class StockLiftController extends Controller
                'created_by' => $user_code,
                'updated_by' => $user_code,
             ]);
+            info("itemchecker");
+            info($itemchecker);
          } else {
 
-            DB::table('inventory_allocated_items')
+            $inventoryallocation = DB::table('inventory_allocated_items')
                ->where('product_code', $value["productID"])
                ->increment('allocated_qty', $value["qty"]);
+
+            info("inventory_allocated_items");
+            info($inventoryallocation);
          }
-         DB::table('product_inventory')
+         $producting = DB::table('product_inventory')
             ->where('productID', $value["productID"])
             ->decrement('current_stock', $value["qty"]);
+
+         info("Product inventory");
+         info($producting);
       }
-      allocations::create([
+      $checkeddd = allocations::create([
          "business_code" => $business_code,
          "allocation_code" => $random,
          "sales_person" => $user_code,
@@ -76,6 +85,8 @@ class StockLiftController extends Controller
          "created_by" => $user_code,
 
       ]);
+      info("checkeddd");
+      info($checkeddd);
       return response()->json([
          "success" => true,
          "message" => "All Available Product Information",
