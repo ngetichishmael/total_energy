@@ -34,6 +34,7 @@ class CreateCustomersTable extends Migration
          $table->text("customer_secondary_group");
          $table->string("price_group");
          $table->string("route");
+         $table->string("route_code");
          $table->string("branch");
          $table->string("status");
          $table->string("email");
