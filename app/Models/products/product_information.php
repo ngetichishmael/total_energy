@@ -18,6 +18,6 @@ class product_information extends Model
     */
    public function ProductPrice(): HasOne
    {
-       return $this->hasOne(product_price::class, 'productID', 'id');
+      return $this->hasOne(product_price::class, 'productID', 'id');
    }
 }

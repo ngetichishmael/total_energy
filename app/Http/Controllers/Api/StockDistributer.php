@@ -1,12 +1,15 @@
 <?php
+
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 class StockDistributer extends Controller
 {
- public function index(){
-    $query=DB::select('SELECT
+   public function index()
+   {
+      $query = DB::select('SELECT
             `id`,
             `name`,
             `email`,
@@ -15,11 +18,10 @@ class StockDistributer extends Controller
             `business_code`
         FROM
             `suppliers`');
-        return response()->json([
-                "success" => true,
-                "message" => "All Suppliers",
-                "Data" => $query
-            ]);
-
- }
+      return response()->json([
+         "success" => true,
+         "message" => "All Suppliers",
+         "Data" => $query
+      ]);
+   }
 }

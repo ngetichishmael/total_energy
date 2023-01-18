@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\AppsPermissionController;
 use App\Http\Controllers\Api\CompanyRouteController;
 use App\Http\Controllers\Api\CurrentDeviceInformationController;
-use App\Http\Controllers\Api\CustomerAuthController;
 use App\Http\Controllers\Api\CustomersProductsController;
 use App\Http\Controllers\Api\CustomerVisitsOrders;
 use App\Http\Controllers\Api\DeliveriesController;
@@ -27,7 +26,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-require __DIR__.'/manager/api.php';
+
+require __DIR__ . '/manager/api.php';
+require __DIR__ . '/customer/api.php';
 Route::group(['namespace' => 'Api'], function () {
 
    //customers
@@ -97,8 +98,8 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('latest/allocation/{user_code}', ['uses' => 'checkinController@latest_allocation', 'as' => 'checkin.latest.allocation']);
    Route::get('allocation/history/{user_code}', ['uses' => 'checkinController@allocation_history', 'as' => 'checkin.allocation.history']);
 
-   Route::post('/test/notifications',[NotificationController::class,'sendFirebaseNotification']);
-   Route::get('/customer/notifications',[NotificationController::class,'getCustomerNotification'])->middleware('auth:sanctum');;
+   Route::post('/test/notifications', [NotificationController::class, 'sendFirebaseNotification']);
+   Route::get('/customer/notifications', [NotificationController::class, 'getCustomerNotification'])->middleware('auth:sanctum');;
    /*
    |--------------------------------------------------------------------------
    | Authentication
@@ -175,56 +176,39 @@ Route::group(['namespace' => 'Api'], function () {
    Route::post('/AddNewRoute', 'AddNewRouteController@store')->middleware('auth:sanctum');
    Route::get('route/schedule/{id}', ['uses' => 'routeScheduleController@show', 'as' => 'route.schedule']);
 
-   /**
-    * Customer registration
-    */
-   Route::post('customer/registration', [CustomerAuthController::class, 'registerCustomer']);
 
-   /**
-    * Customer Login
-    */
-   Route::post('/customer/login', [CustomerAuthController::class, 'customerLogin']);
-
-   /**
-    * Customer reset password
-    */
-   Route::post('customer/send/otp/{number}',  [CustomerAuthController::class, 'sendOTP']);
-   Route::post('/customer/verify/otp/{number}/{otp}',  [CustomerAuthController::class, 'verifyOTP']);
-   Route::post('/customer/reset-password',  [CustomerAuthController::class, 'updatePassword']);
 
    /**
     * API send image data to customer
     */
-    Route::get('/all/products',[CustomersProductsController::class, "getAllProducts"])->middleware('auth:sanctum');
-    Route::post('/update/default/image',[CustomersProductsController::class, "sendDefaultImage"])->middleware('auth:sanctum');
+   Route::get('/all/products', [CustomersProductsController::class, "getAllProducts"])->middleware('auth:sanctum');
+   Route::post('/update/default/image', [CustomersProductsController::class, "sendDefaultImage"])->middleware('auth:sanctum');
 
 
 
-    /**
-     * App permissions
-     */
-    Route::get('/get/permissions',[AppsPermissionController::class, "getAllPermission"])->middleware('auth:sanctum');
+   /**
+    * App permissions
+    */
+   Route::get('/get/permissions', [AppsPermissionController::class, "getAllPermission"])->middleware('auth:sanctum');
 
-    /**
-     * Product Category with product information and  Prices
-     */
-    Route::get('/get/category/information',[productCategoriesController::class, "getCategory"]);
-
-
-    /**
-     * Post Device data
-     */
-    Route::post('/current/device/information',[CurrentDeviceInformationController::class, "postCurrentDeviceInformation"])->middleware('auth:sanctum');
-
-    /**
-     * Get Outlet Types
-     */
-    Route::get('/get/outlet/types',[OutletTypesController::class, "getOutletTypes"])->middleware('auth:sanctum');
-
-    /**
-     * Get Company Routes
-     */
-    Route::get('/get/company/routes',[CompanyRouteController::class, "getCompanyRoutes"])->middleware('auth:sanctum');
+   /**
+    * Product Category with product information and  Prices
+    */
+   Route::get('/get/category/information', [productCategoriesController::class, "getCategory"]);
 
 
+   /**
+    * Post Device data
+    */
+   Route::post('/current/device/information', [CurrentDeviceInformationController::class, "postCurrentDeviceInformation"])->middleware('auth:sanctum');
+
+   /**
+    * Get Outlet Types
+    */
+   Route::get('/get/outlet/types', [OutletTypesController::class, "getOutletTypes"])->middleware('auth:sanctum');
+
+   /**
+    * Get Company Routes
+    */
+   Route::get('/get/company/routes', [CompanyRouteController::class, "getCompanyRoutes"])->middleware('auth:sanctum');
 });
