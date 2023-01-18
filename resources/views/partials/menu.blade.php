@@ -1,13 +1,13 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header mb-1">
-       <ul class="nav navbar-nav flex-row">
-          <li class="nav-item me-auto">
-             <a class="" href="#">
-                <center><img src="{!! asset('app-assets/images/logo.png') !!}" alt="soko flow" class="img" width="80%"></center>
-             </a>
-          </li>
-          {{-- <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li> --}}
-       </ul>
+        <ul class="nav navbar-nav flex-row">
+            <li class="nav-item me-auto">
+                <a class="" href="#">
+                    <center><img src="{!! asset('app-assets/images/logo.png') !!}" alt="soko flow" class="img" width="80%"></center>
+                </a>
+            </li>
+            {{-- <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li> --}}
+        </ul>
     </div>
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
@@ -19,12 +19,12 @@
                 </a>
             </li>
             <li class="nav-item {!! Nav::isResource('maps') !!}">
-               <a class="d-flex align-items-center" href="{!! route('maps') !!}">
-                   <i data-feather='globe'></i>
-                   <span class="menu-title text-truncate" data-i18n="Todo">
-                       Maps</span>
-               </a>
-           </li>
+                <a class="d-flex align-items-center" href="{!! route('maps') !!}">
+                    <i data-feather='globe'></i>
+                    <span class="menu-title text-truncate" data-i18n="Todo">
+                        Maps</span>
+                </a>
+            </li>
             <li class="nav-item {!! Nav::isResource('product') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Products</span></a>
@@ -36,6 +36,8 @@
                     </li>
                     <li><a class="d-flex align-items-center" href="{!! route('product.brand') !!}"><i
                                 data-feather="circle"></i><span class="menu-item text-truncate">Brands</span></a></li>
+                    <li><a class="d-flex align-items-center" href="{!! route('product.brand') !!}"><i
+                                data-feather="circle"></i><span class="menu-item text-truncate">Outlets</span></a></li>
                 </ul>
             </li>
             <li class="nav-item {!! Nav::isResource('notification') !!}">
@@ -48,7 +50,8 @@
                                 data-feather="user-check"></i><span class="menu-item text-truncate">Users</span></a>
                     </li>
                     <li><a class="d-flex align-items-center" href="{{ route('AllNotification') }}"><i
-                                data-feather="user-check"></i><span class="menu-item text-truncate">All Notifications</span></a>
+                                data-feather="user-check"></i><span class="menu-item text-truncate">All
+                                Notifications</span></a>
                     </li>
                 </ul>
             </li>
@@ -86,22 +89,24 @@
                 </ul>
             </li>
             <li class="nav-item {!! Nav::isResource('target') !!}">
-               <a class="d-flex align-items-center" href="#"><i data-feather="target"></i><span
-                       class="menu-title text-truncate" data-i18n="Invoice">Target</span></a>
-               <ul class="menu-content">
-                   <li><a class="d-flex align-items-center" href=" {{ route('sales.target') }}"><i
-                               data-feather="credit-card"></i><span class="menu-item text-truncate">Sales</span></a></li>
-                   <li><a class="d-flex align-items-center" href="{{ route('visit.target') }}"><i
-                               data-feather="truck"></i><span class="menu-item text-truncate">Visits</span></a>
-                   </li>
-                   <li><a class="d-flex align-items-center" href="{{ route('leads.target') }}"><i
-                               data-feather="compass"></i><span class="menu-item text-truncate">Leads</span></a>
-                   </li>
-                   <li><a class="d-flex align-items-center" href="{{ route('order.target') }}"><i
-                               data-feather="shopping-cart"></i><span class="menu-item text-truncate">Orders</span></a>
-                   </li>
-               </ul>
-           </li>
+                <a class="d-flex align-items-center" href="#"><i data-feather="target"></i><span
+                        class="menu-title text-truncate" data-i18n="Invoice">Target</span></a>
+                <ul class="menu-content">
+                    <li><a class="d-flex align-items-center" href=" {{ route('sales.target') }}"><i
+                                data-feather="credit-card"></i><span class="menu-item text-truncate">Sales</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center" href="{{ route('visit.target') }}"><i
+                                data-feather="truck"></i><span class="menu-item text-truncate">Visits</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center" href="{{ route('leads.target') }}"><i
+                                data-feather="compass"></i><span class="menu-item text-truncate">Leads</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center" href="{{ route('order.target') }}"><i
+                                data-feather="shopping-cart"></i><span
+                                class="menu-item text-truncate">Orders</span></a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item {!! Nav::isResource('orders') !!}">
                 <a class="d-flex align-items-center" href="{!! route('orders.index') !!}">
                     <i data-feather='shopping-cart'></i><span class="menu-title text-truncate" data-i18n="Todo">
@@ -174,6 +179,4 @@
             </li>
         </ul>
     </div>
- </div>
-
-
+</div>
