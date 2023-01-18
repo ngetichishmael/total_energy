@@ -575,13 +575,11 @@ class checkinController extends Controller
             'inventory_allocated_items.current_qty',
             'inventory_allocated_items.allocated_qty',
             'inventory_allocations.created_at'
-         )->where('inventory_allocations.sales_person', $user_code)->get();
+         )->where('inventory_allocations.sales_person', $user_code)->groupBy("product_information.id")->get();
       info($allocation);
 
-      // $allocated_items
       return response()->json([
          "success" => true,
-         // "latest_allocation" => $allocation,
          "latest_allocated_item" => $allocation,
          "message" => "Reason saved",
       ]);
