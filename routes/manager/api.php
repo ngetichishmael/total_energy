@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Manager\AuthenticationController;
 use App\Http\Controllers\Api\Manager\CustomerController;
+use App\Http\Controllers\Api\Manager\DashboardAppController;
 use App\Http\Controllers\Api\Manager\OrdersController;
 use App\Http\Controllers\Api\Manager\SendNotificationController;
 use App\Http\Controllers\Api\Manager\TerritoryInformationsController;
@@ -33,5 +34,6 @@ Route::group(['namespace' => 'Api'], function () {
       Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
       Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
       Route::get('/manager/all/orders', [OrdersController::class, 'allOrders']);
+      Route::get('/manager/dashboard/data', [DashboardAppController::class, 'dashboard']);
    });
 });
