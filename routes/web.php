@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\app\customer\importController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -44,15 +43,23 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('customer/checkins', ['uses' => 'app\customer\checkinController@index', 'as' => 'customer.checkin.index']);
 
    //import customer
-   Route::resource('user-import', importController::class)->names([
-      'index' => 'user-import',
-      'show' => 'user-import.show',
-      'edit' => 'user-import.edit',
-      'update' => 'user-import.update',
-      'destroy' => 'user-import.destroy',
-      'create' => 'user-import.create',
-      'store' => 'user-import.store',
-   ]);
+
+   Route::get('user-import', ['uses' => 'app\customer\importController@index', 'as' => 'user-import.index']);
+   Route::post('user-import/store', ['uses' => 'app\customer\importController@store', 'as' => 'user-import.store']);
+   Route::get('user-import/{id}/edit', ['uses' => 'app\customer\importController@edit', 'as' => 'user-import.edit']);
+   Route::post('user-import/{id}/update', ['uses' => 'app\customer\importController@update', 'as' => 'user-import.update']);
+   Route::get('user-import/{id}/delete', ['uses' => 'app\customer\importController@delete', 'as' => 'user-import.delete']);
+   // Route::resource('user-import', importController::class)->names([
+   //    'index' => 'user-import',
+   //    'show' => 'user-import.show',
+   //    'edit' => 'user-import.edit',
+   //    'update' => 'user-import.update',
+   //    'destroy' => 'user-import.destroy',
+   //    'create' => 'user-import.create',
+   //    'store' => 'user-import.store',
+   // ]);
+   Route::get('supplier/import', ['uses' => 'app\supplier\ImportController@index', 'as' => 'supplier.import.index']);
+   Route::post('supplier/post/import', ['uses' => 'app\supplier\ImportController@import', 'as' => 'supplier.import']);
    //customer category
    Route::resource('customer/catergory', app\customer\groupsController::class)->names([
       'index' => 'CustomerCategory',
