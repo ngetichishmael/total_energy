@@ -1,0 +1,10 @@
+{
+    "menu": [
+        {
+            "url": "/error",
+            "name": "error",
+            "icon": "warning",
+            "slug": "error"
+        }
+    ]
+}

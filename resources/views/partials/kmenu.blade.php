@@ -64,8 +64,8 @@
                                 Stock</span></a></li>
                 </ul>
             </li>
-            <li class="nav-item {!! Nav::isRoute('customer') !!}">
-                <a class="d-flex align-items-center" href="{{ route('customer') }}">
+            <li class="nav-item {!! Nav::isRoute('customer.index') !!}">
+                <a class="d-flex align-items-center" href="{!! route('customer.index') !!}">
                     <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Todo">
                         Customers</span>
                 </a>
@@ -80,7 +80,7 @@
                 <a class="d-flex align-items-center" href="#"><i data-feather='refresh-ccw'></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Suppliers</span></a>
                 <ul class="menu-content">
-                    <li><a class="d-flex align-items-center" href="{!! route('supplier') !!}"><i
+                    <li><a class="d-flex align-items-center" href="{!! route('supplier.index') !!}"><i
                                 data-feather="circle"></i><span class="menu-item text-truncate">Suppliers</span></a>
                     </li>
                     <li><a class="d-flex align-items-center" href="{!! route('supplier.category.index') !!}"><i

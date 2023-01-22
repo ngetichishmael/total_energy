@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\app\supplier;
 
 use Illuminate\Http\Request;
@@ -20,75 +21,86 @@ use Session;
 use Wingu;
 use Auth;
 
-class supplierController extends Controller{
+class supplierController extends Controller
+{
 
-	public function __construct(){
-		$this->middleware('auth');
-	}
+   public function __construct()
+   {
+      $this->middleware('auth');
+   }
 
-	public function index(){
-		return view('app.suppliers.index');
-	}
+   public function index()
+   {
+      return view('app.suppliers.index');
+   }
+   public function show()
+   {
+      return view('app.suppliers.index');
+   }
 
-	public function create(){
-		$country = country::OrderBy('id','DESC')->pluck('name','id')->prepend('Choose Country','');
-		$groups = category::where('business_code',Auth::user()->business_code)->OrderBy('id','DESC')->pluck('name','id');
-		return view('app.suppliers.create', compact('country','groups'));
-	}
+   public function create()
+   {
+      $country = country::OrderBy('id', 'DESC')->pluck('name', 'id')->prepend('Choose Country', '');
+      $groups = category::where('business_code', Auth::user()->business_code)->OrderBy('id', 'DESC')->pluck('name', 'id');
+      return view('app.suppliers.create', compact('country', 'groups'));
+   }
 
-	public function store(Request $request){
-		$this->validate($request, [
-			'email' => 'required',
-			'phone_number' => 'required',
-		]);
-
-		$primary = new suppliers;
-		$primary->email = $request->email;
-		$primary->name = $request->name;
-		$primary->phone_number = $request->phone_number;
-		$primary->telephone = $request->telephone;
-		$primary->status = $request->status;
-		$primary->business_code = Auth::user()->business_code;
-		$primary->save();
-
-		Session::flash('success','Supplier has been successfully Added');
-
-		return redirect()->route('supplier.index');
-	}
-
-	public function edit($id){
-		$country = country::OrderBy('id','DESC')->pluck('name','id')->prepend('Choose Country','');
-		$suppliers = suppliers::where('business_code',Auth::user()->business_code)
-						->where('suppliers.id',$id)
-                  ->first();
-		//category
-      $category = category::where('business_code',Auth::user()->business_code)->get();
-
-		return view('app.suppliers.edit', compact('category','suppliers','country'));
-	}
-
-	public function update(Request $request, $id){
+   public function store(Request $request)
+   {
       $this->validate($request, [
-			'email' => 'required',
-			'phone_number' => 'required',
-		]);
+         'email' => 'required',
+         'phone_number' => 'required',
+      ]);
 
-		$edit = suppliers::where('id',$id)->where('business_code',Auth::user()->business_code)->first();
-		$edit->email = $request->email;
-		$edit->name = $request->name;
-		$edit->phone_number = $request->phone_number;
-		$edit->telephone = $request->telephone;
-		$edit->status = $request->status;
-		$edit->business_code = Auth::user()->business_code;
-		$edit->save();
+      $primary = new suppliers;
+      $primary->email = $request->email;
+      $primary->name = $request->name;
+      $primary->phone_number = $request->phone_number;
+      $primary->telephone = $request->telephone;
+      $primary->status = $request->status;
+      $primary->business_code = Auth::user()->business_code;
+      $primary->save();
 
-		Session::flash('success','Supplier has been successfully updated');
+      Session::flash('success', 'Supplier has been successfully Added');
 
-		return redirect()->back();
-	}
+      return redirect()->route('supplier.index');
+   }
 
-	//delete permanently
-	public function delete($id){
+   public function edit($id)
+   {
+      $country = country::OrderBy('id', 'DESC')->pluck('name', 'id')->prepend('Choose Country', '');
+      $suppliers = suppliers::where('business_code', Auth::user()->business_code)
+         ->where('suppliers.id', $id)
+         ->first();
+      //category
+      $category = category::where('business_code', Auth::user()->business_code)->get();
 
-	}
+      return view('app.suppliers.edit', compact('category', 'suppliers', 'country'));
+   }
+
+   public function update(Request $request, $id)
+   {
+      $this->validate($request, [
+         'email' => 'required',
+         'phone_number' => 'required',
+      ]);
+
+      $edit = suppliers::where('id', $id)->where('business_code', Auth::user()->business_code)->first();
+      $edit->email = $request->email;
+      $edit->name = $request->name;
+      $edit->phone_number = $request->phone_number;
+      $edit->telephone = $request->telephone;
+      $edit->status = $request->status;
+      $edit->business_code = Auth::user()->business_code;
+      $edit->save();
+
+      Session::flash('success', 'Supplier has been successfully updated');
+
+      return redirect()->back();
+   }
+
+   //delete permanently
+   public function delete($id)
+   {
+   }
 }

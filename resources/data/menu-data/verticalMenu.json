@@ -1,0 +1,278 @@
+{
+   "menu": [
+      {
+         "url": "/dashboard",
+         "name": "Dashboard",
+         "icon": "home",
+         "slug": "dashboard"
+      },
+      {
+         "navheader": "Users",
+         "slug": ""
+      },
+      {
+         "name": "User",
+         "icon": "users",
+         "slug": "users",
+         "submenu": [
+            {
+               "url": "users",
+               "name": "Users",
+               "icon": "users",
+               "slug": "users"
+            },
+            {
+               "url": "salesperson",
+               "name": "Sales Associates",
+               "icon": "location_away",
+               "slug": "salesperson"
+            }
+         ]
+      },
+      {
+         "navheader": "Maps",
+         "slug": ""
+      },
+      {
+         "url": "/maps",
+         "name": "FLTs",
+         "icon": "view_in_ar_new",
+         "slug": "maps"
+      },
+      {
+         "url": "live-tracking",
+         "name": "Sales Associates",
+         "icon": "group",
+         "slug": "live-tracking"
+      },
+      {
+         "navheader": "Regions",
+         "slug": ""
+      },
+      {
+         "name": "Regions",
+         "icon": "public",
+         "slug": "",
+         "submenu": [
+            {
+               "url": "region",
+               "name": "Region",
+               "icon": "map",
+               "slug": "region"
+            },
+            {
+               "url": "area",
+               "name": "Area",
+               "icon": "my_location",
+               "slug": "area"
+            },
+            {
+               "url": "subarea",
+               "name": "Subarea",
+               "icon": "location_on",
+               "slug": "subarea"
+            }
+         ]
+      },
+      {
+         "navheader": "Pipeline",
+         "slug": ""
+      },
+      {
+         "url": "plot-schedule",
+         "name": "Plot Schedules",
+         "icon": "today",
+         "slug": "plot-schedule"
+      },
+      {
+         "url": "plots",
+         "name": "Plots",
+         "icon": "location_city",
+         "slug": "plots"
+      },
+      {
+         "url": "leads",
+         "name": "Leads",
+         "icon": "arrow_forward",
+         "slug": "leads"
+      },
+      {
+         "url": "prospects",
+         "name": "Prospects",
+         "icon": "insights",
+         "slug": "prospects"
+      },
+      {
+         "url": "qualified-prospects",
+         "name": "Q Prospects",
+         "icon": "check_circle",
+         "slug": "qualified-prospects"
+      },
+      {
+         "url": "orders",
+         "name": "Orders",
+         "icon": "production_quantity_limits",
+         "slug": "orders"
+      },
+      {
+         "navheader": "Post Deposit",
+         "slug": ""
+      },
+      {
+         "url": "deposits",
+         "name": "Deposit",
+         "icon": "credit_score",
+         "slug": "ProductDeposit"
+      },
+      {
+         "navheader": "Stage Tracker",
+         "slug": ""
+      },
+      {
+         "name": "Stages",
+         "icon": "approval",
+         "slug": "",
+         "submenu": [
+            {
+               "url": "customer_vetting",
+               "name": "Customer Vetting",
+               "icon": "person",
+               "slug": "CustomerVetting"
+            },
+            {
+               "url": "government_review",
+               "name": "Government Review",
+               "icon": "assured_workload",
+               "slug": "GovernmentReview"
+            },
+            {
+               "url": "pending_transport",
+               "name": "Pending Transport",
+               "icon": "directions_car",
+               "slug": "PendingTransport"
+            },
+            {
+               "url": "flt_transport",
+               "name": "FLT Transported",
+               "icon": "local_shipping",
+               "slug": "FLTTransport"
+            },
+            {
+               "url": "installation",
+               "name": "Installation",
+               "icon": "download_done",
+               "slug": "Installation"
+            },
+            {
+               "url": "pending_launch",
+               "name": "Pending Launch",
+               "icon": "pending",
+               "slug": "PendingLaunch"
+            },
+            {
+               "url": "launch",
+               "name": "Launch",
+               "icon": "rocket_launch",
+               "slug": "Launch"
+            }
+         ]
+      },
+      {
+         "navheader": "Reports",
+         "slug": ""
+      },
+      {
+         "name": "Reports",
+         "icon": "bar_chart",
+         "slug": "",
+         "submenu": [
+            {
+               "url": "manager-report",
+               "name": "Manager",
+               "icon": "supervisor_account",
+               "slug": "manager-report"
+            },
+            {
+               "url": "supervisor-report",
+               "name": "Supervisor",
+               "icon": "person_outline",
+               "slug": "supervisor-report"
+            },
+            {
+               "url": "reports",
+               "name": "Sales Associates",
+               "icon": "location_away",
+               "slug": "reports"
+            }
+         ]
+      },
+      {
+         "navheader": "Form",
+         "slug": ""
+      },
+      {
+         "url": "forms",
+         "name": "Forms",
+         "icon": "description",
+         "slug": "forms"
+      },
+      {
+         "navheader": "Others",
+         "slug": ""
+      },
+      {
+         "name": "Others",
+         "icon": "dynamic_feed",
+         "slug": "",
+         "submenu": [
+            {
+               "url": "lead_source",
+               "name": "Lead Source",
+               "icon": "alt_route",
+               "slug": "LeadSource"
+            },
+            {
+               "url": "payment_type",
+               "name": "Payment Type",
+               "icon": "request_quote",
+               "slug": "paymentType"
+            },
+            {
+               "url": "franchise_catergory",
+               "name": "Franchise Catergory",
+               "icon": "checklist",
+               "slug": "franchiseCategory"
+            },
+            {
+               "url": "franchise_type",
+               "name": "Franchise Types",
+               "icon": "checklist_rtl",
+               "slug": "FranchiseType"
+            },
+            {
+               "url": "product_type",
+               "name": "Product Type",
+               "icon": "inventory",
+               "slug": "productType"
+            },
+            {
+               "url": "complete_installation",
+               "name": "Installation",
+               "icon": "done_outline",
+               "slug": "CompleteInstallation"
+            }
+         ]
+      },
+      {
+         "navheader": "Help",
+         "icon": "contact_support",
+         "slug": ""
+      },
+      {
+         "url": "helps",
+         "name": "Help",
+         "icon": "contact_support",
+         "slug": "help"
+      }
+   ]
+}
