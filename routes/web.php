@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\app\customer\importController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,7 +44,7 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('customer/checkins', ['uses' => 'app\customer\checkinController@index', 'as' => 'customer.checkin.index']);
 
    //import customer
-   Route::resource('user-import', app\customer\importController::class)->names([
+   Route::resource('user-import', importController::class)->names([
       'index' => 'user-import',
       'show' => 'user-import.show',
       'edit' => 'user-import.edit',

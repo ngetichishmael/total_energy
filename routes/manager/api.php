@@ -30,6 +30,6 @@ Route::group(['namespace' => 'Api'], function () {
       Route::get('/manager/customers', [CustomerController::class, 'getCustomers']);
       Route::get('/manager/users', [UsersController::class, 'getUsers']);
       Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
-      Route::get('/manager/get/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
+      Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
    });
 });
