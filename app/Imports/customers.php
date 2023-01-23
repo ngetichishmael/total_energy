@@ -3,26 +3,26 @@
 namespace App\Imports;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToCollection;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use App\Models\customer\customers as customer;
-use Helper;
-use Auth;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class customers implements ToCollection,WithHeadingRow
+class customers implements ToCollection, WithHeadingRow
 {
    /**
-   * @param Collection $collection
-   */
-   public function collection(Collection $rows){
-      foreach ($rows as $row){
+    * @param Collection $collection
+    */
+   public function collection(Collection $rows)
+   {
+      foreach ($rows as $row) {
          $customer = new customer;
          $customer->customer_name = $row['customer_name'];
          $customer->account = $row['account'];
          $customer->address = $row['address'];
          $customer->latitude = $row['latitude'];
          $customer->longitude = $row['longitude'];
-         $customer->contact_person = $row['contact_person'].$row['contact_person_2'];
+         $customer->contact_person = $row['contact_person'] . $row['contact_person_2'];
          $customer->customer_group = $row['customer_group'];
          $customer->price_group = $row['price_group'];
          $customer->route = $row['route'];
@@ -40,7 +40,7 @@ class customers implements ToCollection,WithHeadingRow
          // $customer->branch = $row['branch'];
          // $customer->email = $row['email'];
          // $customer->phone_number = $row['phone_number'];
-         $customer->businessID = Auth::user()->businessID;
+         $customer->businessID = Auth::user()->business_code;
          $customer->created_by = Auth::user()->id;
          $customer->save();
       }
