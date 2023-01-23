@@ -24,12 +24,16 @@ class usersController extends Controller
    {
       return view('app.users.index');
    }
+   public function indexUser()
+   {
+      return view('app.users.import');
+   }
 
    //create
    public function create()
    {
-      return view('app.users.create',[
-         "routes"=>Routes::where("business_code", FacadesAuth::user()->business_code)->get()
+      return view('app.users.create', [
+         "routes" => Routes::where("business_code", FacadesAuth::user()->business_code)->get()
       ]);
    }
    public function sendOTP($number, $code)
@@ -215,5 +219,9 @@ class usersController extends Controller
       User::where('id', $id)->delete();
       Session()->flash('success', 'User deleted Successfully');
       return redirect()->route('users.index');
+   }
+   public function import()
+   {
+      abort(403, "This action is Limited to Admin Only");
    }
 }

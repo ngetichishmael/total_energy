@@ -1,5 +1,5 @@
 <div>
-    <div class="row mb-2">
+    <div class="mb-2 row">
         <div class="col-md-9">
             <label for="">Search</label>
             <input wire:model.debounce.300ms="search" type="text" class="form-control" placeholder="Enter Product name">
@@ -25,37 +25,37 @@
                         <th width="10%">Price</th>
                         <th width="13%">SKU</th>
                         <th width="13%">Brand</th>
-                        <th width="16%">Created at</th>
+                        {{-- <th width="16%">Created at</th>    --}}
                         <th width="12%">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($products as $key => $product)
-                            <tr>
-                                <td>{!! $key + 1 !!}</td>
-                                <td>{!! $product->product_name !!}</td>
-                                <td>
-                                    ksh: {{number_format((float)$product->ProductPrice()->pluck("selling_price")->implode('')) }}
-                                </td>
-                                <td>{!! $product->sku_code !!}</td>
+                        <tr>
+                            <td>{!! $key + 1 !!}</td>
+                            <td>{!! $product->product_name !!}</td>
+                            <td>
+                                ksh:
+                                {{ number_format((float) $product->ProductPrice()->pluck('selling_price')->implode('')) }}
+                            </td>
+                            <td>{!! $product->sku_code !!}</td>
 
-                                <td>
-                                    {!! $product->brand !!}
-                                </td>
-                                <td>{!! date('F d, Y', strtotime($product->date)) !!}</td>
-                                <td>
-                                    {{-- <a href="{{ route('products.details', $product->proID) }}" class="btn btn-warning btn-sm"><i class="fas fa-eye"></i></a> --}}
-                                    <div class="d-flex" style="gap: 20px">
-                                        <a href="{{ route('products.edit', $product->id) }}"
-                                            class="btn btn-primary btn-sm">
-                                            <span>Edit</span>
-                                        </a>
-                                        <a href="{!! route('products.destroy', $product->id) !!}" class="btn btn-danger delete btn-sm">
-                                            <span>DELETE</span>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
+                            <td>
+                                {!! $product->brand !!}
+                            </td>
+                            {{-- <td>{!! date('F d, Y', strtotime($product->date)) !!}</td> --}}
+                            <td>
+                                {{-- <a href="{{ route('products.details', $product->proID) }}" class="btn btn-warning btn-sm"><i class="fas fa-eye"></i></a> --}}
+                                <div class="d-flex" style="gap: 20px">
+                                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">
+                                        <span>Edit</span>
+                                    </a>
+                                    <a href="{!! route('products.destroy', $product->id) !!}" class="btn btn-danger delete btn-sm">
+                                        <span>DELETE</span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

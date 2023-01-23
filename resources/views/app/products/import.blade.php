@@ -1,19 +1,19 @@
 @extends('layouts.app')
 {{-- page header --}}
-@section('title','Import Products')
+@section('title', 'Import Products')
 {{-- dashboad menu --}}
 
 {{-- content section --}}
 @section('content')
-	<!-- begin breadcrumb -->
-   {{-- <div class="pull-right">
+    <!-- begin breadcrumb -->
+    {{-- <div class="pull-right">
       <a href="{!! route('products.sample.download') !!}" class="btn btn-pink"><i class="fas fa-file-download"></i> Download Sample</a>
    </div> --}}
-   <!-- end breadcrumb -->
-   <!-- begin page-header -->
-   <h3 class="page-header">Import Products</h3>
-   @include('partials._messages')
-   {{-- <div class="card card-default">
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h3 class="page-header">Import Products</h3>
+    @include('partials._messages')
+    {{-- <div class="card card-default">
       <div class="card-heading">
          <h4 class="card-title">Upload Details</h4>
       </div>
@@ -55,33 +55,31 @@
          </div>
       </div>
    </div> --}}
-   <div class="card card-default">
-      <div class="card-body">
-         <h4 class="card-title">Upload Items</h4>
-         <div class="row">
-            <div class="col-md-4 mtop15">
-               <form action="{!! route('products.post.import') !!}" id="import_form" enctype="multipart/form-data" method="post" accept-charset="utf-8">
-                  @csrf
-                  <input type="hidden" name="clients_import" value="true">
-                  <div class="form-group mb-2 form-group-default">
-                     <label for="file_csv" class="control-label  text-danger">
-                        <small class="req text-danger">* </small>Choose CSV File
-                     </label>
-                     <input type="file" name="upload_import" required/>
-                  </div>
-                  {{-- <div class="form-group form-group-default">
-                     <label for="" class="control-label">Item Type</label>
-                     {!! Form::select('type',['' => 'Choose item','product' => 'product','service' => 'Service'],null, ['class' => 'form-control multiselect']) !!}
-                  </div> --}}
-                  <div class="form-group">
-                     <button type="submit" class="btn btn-success submit btn-sm">Import</button>
-                     <img src="{!! asset('assets/img/btn-loader.gif') !!}" class="submit-load none" alt="" width="25%">
-                  </div>
-               </form>
+    <div class="card card-default">
+        <div class="card-body">
+            <h4 class="card-title">Upload Items</h4>
+            <div class="row">
+                <div class="col-md-4 mtop15">
+                    <form action="{!! route('products.post.import') !!}" id="import_form" enctype="multipart/form-data" method="post"
+                        accept-charset="utf-8">
+                        @csrf
+                        <input type="hidden" name="clients_import" value="true">
+                        <div class="mb-2 form-group form-group-default">
+                            <label for="file_csv" class="control-label text-danger">
+                                <small class="req text-danger">* </small>Choose CSV File
+                            </label>
+                            <input type="file" name="upload_import"
+                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success submit btn-sm">Import</button>
+                            <img src="{!! asset('assets/img/btn-loader.gif') !!}" class="submit-load none" alt="" width="25%">
+                        </div>
+                    </form>
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 @endsection
 {{-- page scripts --}}
 @section('script')

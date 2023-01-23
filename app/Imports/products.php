@@ -23,19 +23,10 @@ class products implements ToCollection, WithHeadingRow
          $product->sku_code = $row['sku'];
          $product->product_name = $row['product_name'];
          $product->description = $row['description'];
-         $product->manufacture_code = $row['manufacture'];
          $product->brand = $row['brand'];
          $product->category = $row['category'];
          $product->units = $row['units'];
          $product->measure = $row['measure'];
-         $product->weight = $row['weight'];
-         $product->orderable = $row['orderable'];
-         $product->returnable = $row['returnable'];
-         $product->returnable_on_pre_sale_delivery = $row['returnable_on_pre_sale_delivery'];
-         $product->exclude_on_van_sale = $row['van_sale'];
-         $product->status = $row['status'];
-         $product->batch_code = $row['batch'];
-         $product->barcode = $row['barcode'];
          $product->business_code = Auth::user()->business_code;
          $product->created_by = Auth::user()->id;
          $product->save();
@@ -45,8 +36,7 @@ class products implements ToCollection, WithHeadingRow
          $product_price->productID = $product->id;
          $product_price->selling_price = $row['price'] ?? "0";
          $product_price->buying_price = $row['cost'] ?? "0";
-         $product_price->tax_rate = $row['vat'];
-         $product_price->default_price = 'Yes';
+         $product_price->branch_id = $row['region'] ?? "2";
          $product_price->business_code = Auth::user()->business_code;
          $product_price->created_by = Auth::user()->id;
          $product_price->save();
@@ -56,7 +46,6 @@ class products implements ToCollection, WithHeadingRow
          $product_inventory->current_stock = 0;
          $product_inventory->productID = $product->id;
          $product_inventory->default_inventory = 'Yes';
-         $product_inventory->expiration_date = $row['expiration'] ?? today();
          $product_inventory->business_code = Auth::user()->business_code;
          $product_inventory->created_by = Auth::user()->id;
          $product_inventory->save();

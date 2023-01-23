@@ -1,6 +1,6 @@
 @extends('layouts.app')
 {{-- page header --}}
-@section('title', 'Import Customer')
+@section('title', 'Import Users')
 
 
 {{-- content section --}}
@@ -10,9 +10,9 @@
             <div class="card card-default">
                 <div class="card-body">
                     <div class="row">
-                        <h4>Upload Customer</h4>
+                        <h4>Upload Users</h4>
                         <div class="col-md-4 mtop15">
-                            <form action="{{ route('user-import.store') }}" id="import_form" enctype="multipart/form-data"
+                            <form action="{{ route('users.post.import') }}" id="import_form" enctype="multipart/form-data"
                                 method="post" accept-charset="utf-8">
                                 @csrf
                                 <input type="hidden" name="clients_import" value="true">

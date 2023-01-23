@@ -11,12 +11,12 @@ class Index extends Component
 {
    use WithPagination;
    protected $paginationTheme = 'bootstrap';
-    public function render()
-    {
+   public function render()
+   {
 
-      $brands = brand::where('business_code',Auth::user()->business_code)->orderBy('id','desc')->paginate(10);
-        return view('livewire.brands.index',[
-         'brands'=>$brands,
-        ]);
-    }
+      $brands = brand::where('business_code', Auth::user()->business_code)->orderBy('id', 'desc')->paginate(10);
+      return view('livewire.brands.index', [
+         'brands' => $brands,
+      ]);
+   }
 }

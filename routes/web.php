@@ -30,6 +30,15 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('dashboard/users-summary', 'app\sokoflowController@user_summary')->name('app.dashboard.user.summary');
 
 
+   Route::resource('regions', Territory\RegionController::class)->names([
+      'index' => 'regions',
+      'show' => 'regions.show',
+      'edit' => 'regions.edit',
+      'update' => 'regions.update',
+      'destroy' => 'regions.destroy',
+      'create' => 'regions.create',
+      'store' => 'regions.store',
+   ]);
    Route::resource('customer', app\customer\customerController::class)->names([
       'index' => 'customer',
       'show' => 'customer.show',
@@ -125,6 +134,10 @@ Route::group(['middleware' => ['verified']], function () {
    //import product
    Route::get('products/import', ['uses' => 'app\products\ImportController@index', 'as' => 'products.import']);
    Route::post('products/post/import', ['uses' => 'app\products\ImportController@import', 'as' => 'products.post.import']);
+
+   //import users
+   Route::get('users/all/import', ['uses' => 'app\usersController@indexUser', 'as' => 'users.all.import']);
+   Route::post('users/post/import', ['uses' => 'app\usersController@import', 'as' => 'users.post.import']);
 
    //export products
    Route::get('products/export/{type}', ['uses' => 'app\products\ImportController@export', 'as' => 'products.export']);

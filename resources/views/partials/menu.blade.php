@@ -1,12 +1,12 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
-    <div class="navbar-header mb-1">
-        <ul class="nav navbar-nav flex-row">
+    <div class="mb-1 navbar-header">
+        <ul class="flex-row nav navbar-nav">
             <li class="nav-item me-auto">
                 <a class="" href="#">
                     <center><img src="{!! asset('app-assets/images/logo.png') !!}" alt="soko flow" class="img" width="80%"></center>
                 </a>
             </li>
-            {{-- <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li> --}}
+            {{-- <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4 text-primary" data-feather="disc" data-ticon="disc"></i></a></li> --}}
         </ul>
     </div>
     <div class="shadow-bottom"></div>
@@ -55,6 +55,21 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item {!! Nav::isResource('regions') !!}">
+                <a class="d-flex align-items-center" href="#"><i data-feather="map-pin"></i><span
+                        class="menu-title text-truncate" data-i18n="Invoice">Regions</span></a>
+                <ul class="menu-content">
+                    <li><a class="d-flex align-items-center "nav-item {!! Nav::isResource('regions') !!}"
+                            href="{{ route('regions') }}"><i data-feather="map-pin"></i><span
+                                class="menu-item text-truncate">Region</span></a></li>
+                    <li><a class="d-flex align-items-center" href="#"><i data-feather="map-pin"></i><span
+                                class="menu-item text-truncate">Sub Regions</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center" href="#"><i data-feather="map-pin"></i><span
+                                class="menu-item text-truncate"> Territory</span></a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item {!! Nav::isResource('inventory') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather='package'></i><span
                         class="menu-title text-truncate" data-i18n="Invoice"> Inventory</span></a>
@@ -72,7 +87,8 @@
             </li>
             <li class="nav-item {!! Nav::isResource('checkin') !!}">
                 <a class="d-flex align-items-center {!! Nav::isRoute('customer.checkin.index') !!}" href="{!! route('customer.checkin.index') !!}">
-                    <i data-feather='log-in'></i><span class="menu-title text-truncate" data-i18n="Todo">Customer Visits
+                    <i data-feather='log-in'></i><span class="menu-title text-truncate" data-i18n="Todo">Customer
+                        Visits
                     </span>
                 </a>
             </li>
