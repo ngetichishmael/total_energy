@@ -18,6 +18,7 @@ class CreateSubregionsTable extends Migration
          $table->id();
          $table->foreignIdFor(Region::class);
          $table->string('name');
+         $table->string('primary_key');
          $table->timestamps();
       });
    }

@@ -62,11 +62,11 @@
                     <li><a class="d-flex align-items-center "nav-item {!! Nav::isResource('regions') !!}"
                             href="{{ route('regions') }}"><i data-feather="map-pin"></i><span
                                 class="menu-item text-truncate">Region</span></a></li>
-                    <li><a class="d-flex align-items-center" href="#"><i data-feather="map-pin"></i><span
-                                class="menu-item text-truncate">Sub Regions</span></a>
+                    <li><a class="d-flex align-items-center" href="{{ route('subregions') }}"><i
+                                data-feather="map-pin"></i><span class="menu-item text-truncate">Sub Regions</span></a>
                     </li>
-                    <li><a class="d-flex align-items-center" href="#"><i data-feather="map-pin"></i><span
-                                class="menu-item text-truncate"> Territory</span></a>
+                    <li><a class="d-flex align-items-center" href="{{ route('zones') }}"><i
+                                data-feather="map-pin"></i><span class="menu-item text-truncate">Zone</span></a>
                     </li>
                 </ul>
             </li>

@@ -39,6 +39,24 @@ Route::group(['middleware' => ['verified']], function () {
       'create' => 'regions.create',
       'store' => 'regions.store',
    ]);
+   Route::resource('subregions', Territory\SubRegionController::class)->names([
+      'index' => 'subregions',
+      'show' => 'subregions.show',
+      'edit' => 'subregions.edit',
+      'update' => 'subregions.update',
+      'destroy' => 'subregions.destroy',
+      'create' => 'subregions.create',
+      'store' => 'subregions.store',
+   ]);
+   Route::resource('zones', Territory\ZoneController::class)->names([
+      'index' => 'zones',
+      'show' => 'zones.show',
+      'edit' => 'zones.edit',
+      'update' => 'zones.update',
+      'destroy' => 'zones.destroy',
+      'create' => 'zones.create',
+      'store' => 'zones.store',
+   ]);
    Route::resource('customer', app\customer\customerController::class)->names([
       'index' => 'customer',
       'show' => 'customer.show',

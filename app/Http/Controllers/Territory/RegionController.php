@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Territory;
 
-use App\Http\Controllers\Controller;
+use App\Models\Region;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class RegionController extends Controller
 {
@@ -35,7 +37,16 @@ class RegionController extends Controller
     */
    public function store(Request $request)
    {
-      //
+      $this->validate($request, [
+         'name' => 'required',
+      ]);
+      Region::create([
+         'name' => $request->name,
+         'primary_key' => Str::random(20)
+      ]);
+
+      Session()->flash('success', "Region successfully added");
+      return redirect()->back();
    }
 
    /**

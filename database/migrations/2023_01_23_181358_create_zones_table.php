@@ -18,6 +18,7 @@ class CreateZonesTable extends Migration
          $table->id();
          $table->foreignIdFor(Subregion::class);
          $table->string('name');
+         $table->string('primary_key');
          $table->timestamps();
       });
    }

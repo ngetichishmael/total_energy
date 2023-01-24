@@ -13,17 +13,9 @@ class Dashboard extends Component
    public $perPage = 40;
    public $sortField = 'id';
    public $sortAsc = true;
-   public ?string $search = null;
    public function render()
    {
-      $searchTerm = '%' . $this->search . '%';
-      $regions = Region::whereLike(
-         [
-            'name'
-         ],
-         $searchTerm
-      )
-         ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+      $regions = Region::orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
          ->paginate($this->perPage);
       return view('livewire.territory.region.dashboard', [
          'regions' => $regions

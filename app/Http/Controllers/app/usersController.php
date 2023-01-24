@@ -11,7 +11,10 @@ use Session;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Api\JWTException;
 use App\Models\AppPermission;
+use App\Models\Region;
 use App\Models\Routes;
+use App\Models\Subregion;
+use App\Models\zone;
 use Exception;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Redirect;
@@ -32,8 +35,12 @@ class usersController extends Controller
    //create
    public function create()
    {
+      $regions = Region::pluck('primary_key', 'name')->toArray();
+      $subregions = Subregion::pluck('primary_key', 'name')->toArray();
+      $zones = zone::pluck('primary_key', 'name')->toArray();
+      $routes = array_merge($regions, $subregions, $zones);
       return view('app.users.create', [
-         "routes" => Routes::where("business_code", FacadesAuth::user()->business_code)->get()
+         "routes" => $routes
       ]);
    }
    public function sendOTP($number, $code)
@@ -79,8 +86,10 @@ class usersController extends Controller
          'name' => 'required',
          'phone_number' => 'required',
          'account_type' => 'required',
+         'employee_code' => 'required',
+         'route' => 'required',
       ]);
-      $user_code = Str::random(20);
+      $user_code = $request->employee_code;
       //save user
       $code = rand(100000, 999999);
       User::updateOrCreate(
@@ -93,6 +102,7 @@ class usersController extends Controller
             "phone_number" => $request->phone_number,
             "name" => $request->name,
             "account_type" => $request->account_type,
+            "route_code" => $request->route,
             "status" => 'Active',
             "password" => Hash::make($code),
             "business_code" => FacadesAuth::user()->business_code,

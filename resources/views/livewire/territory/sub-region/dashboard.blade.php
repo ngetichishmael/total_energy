@@ -7,13 +7,15 @@
                         <tr>
                             <th width="1%">#</th>
                             <th>Name</th>
+                            <th>Region</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($subregions as $key => $region)
+                        @foreach ($subregions as $key => $subregion)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $region->name }}</td>
+                                <td>{{ $subregion->name }}</td>
+                                <td>{{ $subregion->Region->name }}</td>
                             </tr>
                         @endforeach
                     </tbody>

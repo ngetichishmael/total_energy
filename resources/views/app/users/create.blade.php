@@ -38,7 +38,14 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="mb-2 col-md-6 col-12" >
+                                            <div class="mb-2 col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="first-name-column">Employee Code</label>
+                                                    <input type="text" id="first-name-column" class="form-control"
+                                                        placeholder="Employee Code" name="employee_code" required />
+                                                </div>
+                                            </div>
+                                            <div class="mb-2 col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="first-name-column">User Name</label>
                                                     <input type="text" id="first-name-column" class="form-control"
@@ -62,30 +69,30 @@
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="select-country">Type</label>
+                                                    <label for="select-country">Sales Team Category</label>
                                                     <select class="form-control select2" id="select-country"
                                                         name="account_type" required>
-                                                        <option value="">Select Type</option>
-                                                        <option value="Sales">Sales Agent</option>
-                                                        <option value="Manager">Manager</option>
-                                                        <option value="Admin">Administrator</option>
+                                                        <option value="">Select Category</option>
+                                                        <option value="Lube Sales Executive">Lube Sales Executive</option>
+                                                        <option value="Lube Merchandizers">Lube Merchandizers</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="select-country">Route</label>
-                                                    <select class="form-control select2" id="select-country"
-                                                        name="account_type" required>
+                                                    <select class="form-control select2" id="select-country" name="route"
+                                                        required>
                                                         <option value="">Select Route</option>
-                                                        @foreach ( $routes as $route )
-                                                           
-                                                        <option value="{{ $route->route_code }}">{{ $route->name }}</option>
+                                                        @foreach ($routes as $key => $value)
+                                                            <option value="{{ $value }}">{{ $key }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +154,8 @@
                                                             <td>
                                                                 <div class="custom-control custom-checkbox">
                                                                     <input type="checkbox" class="custom-control-input"
-                                                                        id="contributor-read" name="schedule_visits" checked />
+                                                                        id="contributor-read" name="schedule_visits"
+                                                                        checked />
                                                                     <label class="custom-control-label"
                                                                         for="contributor-read"></label>
                                                                 </div>
@@ -171,7 +179,8 @@
                                         <div class="mt-2 col-12 d-flex flex-sm-row flex-column" style="gap: 20px;">
                                             <button type="submit" class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Save
                                                 Changes</button>
-                                            <a href="{{ route('users.index') }}" type="reset" class="btn btn-outline-secondary">Cancel</a>
+                                            <a href="{{ route('users.index') }}" type="reset"
+                                                class="btn btn-outline-secondary">Cancel</a>
                                         </div>
                                     </div>
                                 </form>
