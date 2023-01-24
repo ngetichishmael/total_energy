@@ -12,7 +12,10 @@ use App\Models\Delivery_items;
 use App\Models\Order_items;
 use App\Models\order_payments;
 use App\Models\Orders;
+use App\Models\OutletType;
+use App\Models\Region;
 use App\Models\Subregion;
+use App\Models\zone;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,19 +38,33 @@ class customersController extends Controller
    {
       $user = $request->user();
 
-      $query = customers::where('business_code', $businessCode);
+      $route_code = $request->user()->route_code;
+      $query = null;
+      $regions = Region::where('primary_key',  $route_code)->first();
+      $subregion = Subregion::where('primary_key',  $route_code)->first();
+      $zone = zone::where('primary_key',  $route_code)->first();
+
+      if ($regions) {
+         $query = customers::where('region_id', $regions->id);
+      } else if ($subregion) {
+         $query = customers::where('region_id', $subregion->Region->id);
+      } else if ($zone) {
+         $query = customers::where('region_id', $zone->Subregion->Region->id);
+      }
+      // $query = customers::where('business_code', $businessCode);
       if ($request->page_size) {
          $query->paginate($request->page_size);
       } else {
          $query->paginate(20);
       }
-      $customers = $query->OrderBy('id', 'DESC')->get();
+      $customers = $query->OrderBy('id', 'DESC');
 
       return response()->json([
          "user" => $user,
          "success" => true,
          "message" => "Customer List",
-         "data" => $customers
+         "data" => $customers,
+         'outlet' => OutletType::all()
       ]);
    }
 
