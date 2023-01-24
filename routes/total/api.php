@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Manager\OrdersController;
 use App\Http\Controllers\Api\Manager\SendNotificationController;
 use App\Http\Controllers\Api\Manager\TerritoryInformationsController;
 use App\Http\Controllers\Api\Manager\UsersController;
+use App\Http\Controllers\Api\Total\TerritoryController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -34,5 +35,10 @@ Route::group(['namespace' => 'Api'], function () {
       Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
       Route::get('/manager/all/orders', [OrdersController::class, 'allOrders']);
       Route::get('/manager/dashboard/data', [DashboardAppController::class, 'dashboard']);
+
+      /**
+       * Regions
+       */
+      Route::get('/total/regions/data', [TerritoryController::class, 'terriory']);
    });
 });

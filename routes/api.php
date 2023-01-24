@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/manager/api.php';
 require __DIR__ . '/customer/api.php';
+require __DIR__ . '/total/api.php';
 Route::group(['namespace' => 'Api'], function () {
 
    //customers
