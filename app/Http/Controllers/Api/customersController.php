@@ -12,6 +12,7 @@ use App\Models\Delivery_items;
 use App\Models\Order_items;
 use App\Models\order_payments;
 use App\Models\Orders;
+use App\Models\Subregion;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -107,6 +108,8 @@ class customersController extends Controller
       $image_path = $request->file('image')->store('image', 'public');
       $emailData = $request->email == null ? null : $request->email;
 
+      $subregion_id = Subregion::whereId($request->route_code)->pluck('id')->implode('');
+      $region_id = Subregion::whereId($subregion_id)->pluck('id')->implode('');
       $customer = new customers;
       $customer->customer_name = $request->customer_name;
       $customer->contact_person = $request->contact_person;
@@ -118,6 +121,10 @@ class customersController extends Controller
       $customer->business_code = $request->business_code;
       $customer->created_by = $request->user()->user_code;
       $customer->route_code = $request->route_code;
+      $customer->region_id = $region_id;
+      $customer->subregion_id = $subregion_id;
+      $customer->zone_id = $request->route_code;
+      $customer->unit_id = $request->route_code;
       $customer->image = $image_path;
       $customer->save();
 

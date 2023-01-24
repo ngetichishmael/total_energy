@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Manager\OrdersController;
 use App\Http\Controllers\Api\Manager\SendNotificationController;
 use App\Http\Controllers\Api\Manager\TerritoryInformationsController;
 use App\Http\Controllers\Api\Manager\UsersController;
+use App\Http\Controllers\Api\total\RegionalFilter;
 use App\Http\Controllers\Api\Total\TerritoryController;
 use Illuminate\Support\Facades\Route;
 /*
@@ -40,5 +41,10 @@ Route::group(['namespace' => 'Api'], function () {
        * Regions
        */
       Route::get('/total/regions/data', [TerritoryController::class, 'terriory']);
+      /**
+       *
+       * Customer filtered by region
+       */
+      Route::get('/total/customer/data', [RegionalFilter::class, 'filterRegionalCustomers']);
    });
 });
