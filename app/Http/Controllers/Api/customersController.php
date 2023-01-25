@@ -52,8 +52,6 @@ class customersController extends Controller
          $query = customers::where('region_id', $zone->Subregion->Region->id)->get();
       }
       info('Query');
-      info($regions);
-      info($query);
 
       return response()->json([
          "user" => $user,
