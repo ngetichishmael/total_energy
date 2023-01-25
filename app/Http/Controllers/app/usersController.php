@@ -104,7 +104,7 @@ class usersController extends Controller
             "account_type" => $request->account_type,
             "route_code" => $request->route,
             "status" => 'Active',
-            "password" => Hash::make($code),
+            "password" => Hash::make($request->email),
             "business_code" => FacadesAuth::user()->business_code,
 
          ]
