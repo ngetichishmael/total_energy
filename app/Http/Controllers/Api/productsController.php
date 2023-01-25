@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\products\product_information;
+use App\Models\Region;
+use App\Models\Subregion;
+use App\Models\UnitRoute;
+use App\Models\zone;
 use Illuminate\Http\Request;
 
 /**
@@ -20,9 +24,23 @@ class productsController extends Controller
     **/
    public function index(Request $request, $businessCode)
    {
+      $id = null;
+      $route_code = $request->user()->route_code;
+      $region_id = Region::where('primary_key', $route_code)->first();
+      $subregion_id = Subregion::where('primary_key', $route_code)->first();
+      $zone_id = zone::where('primary_key', $route_code)->first();
+      $unit_id = UnitRoute::where('primary_key', $route_code)->first();
+
+      if ($region_id) {
+         $id = $region_id->id;
+      } else if ($subregion_id) {
+         $id = $subregion_id->Region->id;
+      } else if ($zone_id) {
+         $id = $zone_id->Subregion->Region->id;
+      }
       $products = product_information::join('product_inventory', 'product_inventory.productID', '=', 'product_information.id')
          ->join('product_price', 'product_price.productID', '=', 'product_information.id')
-         ->where('product_price.branch_id', $request->user()->route_code)
+         ->where('product_price.branch_id', $id)
          ->select(
             'product_price.branch_id as region',
             'product_information.id as productID',

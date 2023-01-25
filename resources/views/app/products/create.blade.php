@@ -70,8 +70,8 @@
                                     <label for="select-country1">Suppliers </label>
                                     <select name="supplierID" id="brandID" class="form-control select2" required>
                                         <option value="">-- Please choose the supplier--</option>
-                                        @foreach ($suppliers as $key=>$supplier)
-                                            <option value='{{ $key+1 }}'>{{ $supplier }}</option>
+                                        @foreach ($suppliers as $key => $supplier)
+                                            <option value='{{ $key + 1 }}'>{{ $supplier }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -98,16 +98,18 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label class="form-label" for="basic-default-name">Buying Price Per Unit</label>
+                                    <label class="form-label" for="basic-default-name">Whole Sale</label>
                                     <input type="number" min="10" max="1000000" class="form-control"
-                                        id="buying_price" name="buying_price" placeholder="Buying Price" />
+                                        id="buying_price" name="buying_price" placeholder="Whole Sale" />
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label" for="basic-default-email">Selling Price Per Unit</label>
+                                    <label class="form-label" for="basic-default-email">Retail Price</label>
                                     <input type="number" min="10" max="1000000" id="selling_price"
-                                        name="selling_price" class="form-control" placeholder="Selling Price" required onchange="check()" />
+                                        name="selling_price" class="form-control" placeholder="Retail Price" required
+                                        onchange="check()" />
                                 </div>
-                               <span style="color:#ff9398; visibility: hidden" id="msg">Notice!! Your selling price is less than buying price</span>
+                                <span style="color:#ff9398; visibility: hidden" id="msg">Notice!! Your selling price
+                                    is less than buying price</span>
                             </div>
                         </div>
                     </div>
@@ -143,7 +145,7 @@
                                 <h4 class="card-title">Upload Product Image</h4>
                                 <label class="mb-0 btn btn-primary mr-75" for="change-picture">
                                     <span class="d-none d-sm-block">Upload</span>
-                                    <input class="form-control" type="file" id="change-picture" name ="image" hidden
+                                    <input class="form-control" type="file" id="change-picture" name="image" hidden
                                         accept="image/png, image/jpeg, image/jpg" onchange="loadImage(event)" />
                                     <span class="d-block d-sm-none">
                                         <i class="mr-0" data-feather="edit"></i>
@@ -171,13 +173,14 @@
             var output = document.getElementById('output');
             output.src = URL.createObjectURL(event.target.files[0]);
         }
+
         function check() {
-           var sp = document.getElementById("selling_price").value;
-           var bp = document.getElementById("buying_price").value;
+            var sp = document.getElementById("selling_price").value;
+            var bp = document.getElementById("buying_price").value;
             document.getElementById("msg").style.visibility = "hidden";
-           if (bp>=sp) {
-              document.getElementById("msg").style.visibility = "visible";
-           }
+            if (bp >= sp) {
+                document.getElementById("msg").style.visibility = "visible";
+            }
         }
     </script>
 @endsection

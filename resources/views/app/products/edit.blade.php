@@ -103,13 +103,13 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label class="form-label" for="basic-default-name">Buying Price Per Unit</label>
+                                    <label class="form-label" for="basic-default-name">Whole Sale</label>
                                     <input type="number" min="10" max="100000" class="form-control"
                                         value={{ $product_price->buying_price }} id="basic-default-name"
-                                        name="buying_price" placeholder="Buying Price" />
+                                        name="buying_price" placeholder="Whole Sale" />
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label" for="basic-default-email">Selling Price Per Unit</label>
+                                    <label class="form-label" for="basic-default-email">Retail Price</label>
                                     <input type="number" min="10" max="100000" id="basic-default-email"
                                         value={{ $product_price->selling_price }} name="selling_price" class="form-control"
                                         placeholder="Selling Price" />
