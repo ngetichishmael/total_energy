@@ -58,7 +58,6 @@ class customersController extends Controller
          "success" => true,
          "message" => "Customer List",
          "data" => $query,
-         'outlet' => OutletType::all()
       ]);
    }
 
@@ -132,6 +131,7 @@ class customersController extends Controller
       $customer->business_code = $request->business_code;
       $customer->created_by = $request->user()->user_code;
       $customer->route_code = $request->route_code;
+      $customer->customer_group = $request->outlet;
       $customer->region_id = $region_id;
       $customer->subregion_id = $subregion_id;
       $customer->zone_id = $request->route_code;
