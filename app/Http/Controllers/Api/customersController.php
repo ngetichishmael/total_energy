@@ -51,6 +51,8 @@ class customersController extends Controller
       } else if ($zone) {
          $query = customers::where('region_id', $zone->Subregion->Region->id);
       }
+      info('Query');
+      info($regions);
       // $query = customers::where('business_code', $businessCode);
       if ($request->page_size) {
          $query->paginate($request->page_size);
