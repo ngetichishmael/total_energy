@@ -35,12 +35,10 @@ Agri Consumer
    {
       foreach ($this->data as $key => $value) {
          $random = Str::random(20);
-         OutletType::updateOrcreate(
+         OutletType::create(
             [
 
                "outlet_code" => $random,
-            ],
-            [
                "business_code" => $key,
                "outlet_name" => $value
             ]
