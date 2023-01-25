@@ -45,27 +45,21 @@ class customersController extends Controller
       $zone = zone::where('primary_key',  $route_code)->first();
 
       if ($regions) {
-         $query = customers::where('region_id', $regions->id);
+         $query = customers::where('region_id', $regions->id)->get();
       } else if ($subregion) {
-         $query = customers::where('region_id', $subregion->Region->id);
+         $query = customers::where('region_id', $subregion->Region->id)->get();
       } else if ($zone) {
-         $query = customers::where('region_id', $zone->Subregion->Region->id);
+         $query = customers::where('region_id', $zone->Subregion->Region->id)->get();
       }
       info('Query');
       info($regions);
-      // $query = customers::where('business_code', $businessCode);
-      if ($request->page_size) {
-         $query->paginate($request->page_size);
-      } else {
-         $query->paginate(20);
-      }
-      $customers = $query->OrderBy('id', 'DESC');
+      info($query);
 
       return response()->json([
          "user" => $user,
          "success" => true,
          "message" => "Customer List",
-         "data" => $customers,
+         "data" => $query,
          'outlet' => OutletType::all()
       ]);
    }
