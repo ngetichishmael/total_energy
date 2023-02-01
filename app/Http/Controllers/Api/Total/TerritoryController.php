@@ -19,11 +19,11 @@ class TerritoryController extends Controller
       $zone = zone::where('primary_key',  $route_code)->first();
 
       if ($regions) {
-         $data = Region::with('Subregion.Zones')->where('region_id', $regions->id)->get();
+         $data = Region::with('Subregion.Zones')->whereId($regions->id)->get();
       } else if ($subregion) {
-         $data = Region::with('Subregion.Zones')->where('region_id', $subregion->Region->id)->get();
+         $data = Region::with('Subregion.Zones')->whereId($subregion->Region->id)->get();
       } else if ($zone) {
-         $data = Region::with('Subregion.Zones')->where('region_id', $zone->Subregion->Region->id)->get();
+         $data = Region::with('Subregion.Zones')->whereId($zone->Subregion->Region->id)->get();
       }
       return response()->json(
          [
