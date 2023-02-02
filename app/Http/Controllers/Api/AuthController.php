@@ -40,7 +40,7 @@ class AuthController extends Controller
             ->json(['message' => 'Unauthorized'], 401);
       }
 
-      $user = User::where('email', $request['email'])->firstOrFail();
+      $user = User::where('phone_number', $request['email'])->firstOrFail();
 
       $token = $user->createToken('auth_token')->plainTextToken;
 
