@@ -46,6 +46,7 @@ class CheckingSaleOrderController extends Controller
          info($value);
          info("data");
          info(gettype($value));
+         info($value["cartItem"]);
          $product = product_information::with('ProductPrice')->where('id', (int)$value["productID"])->first();
          Cart::updateOrCreate(
             [
