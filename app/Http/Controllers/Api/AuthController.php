@@ -35,7 +35,7 @@ class AuthController extends Controller
 
       //(!Auth::attempt(['email' => $request->email, 'password' => $request->password], true))
       info($request);
-      $test = User::where('email', $request->email)->where('password', $request->password)->first();
+      $test = User::where('email', $request->email)->where('password', Hash::make($request->password))->first();
 
       if (!$test) {
          return response()
