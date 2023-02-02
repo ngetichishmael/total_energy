@@ -9,8 +9,7 @@ use App\Models\User;
 use App\Models\UserCode;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth as FacadesAuth;
-use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @group Authentication Api's
@@ -36,7 +35,9 @@ class AuthController extends Controller
 
       //(!Auth::attempt(['email' => $request->email, 'password' => $request->password], true))
       info($request);
-      if (!FacadesAuth::attempt(['phone_number' => $request->email, 'password' => $request->password], true)) {
+      $test = User::where('email', $request->email)->where('password', $request->password)->first();
+
+      if (!$test) {
          return response()
             ->json(['message' => 'Unauthorized'], 401);
       }
@@ -103,7 +104,7 @@ class AuthController extends Controller
    {
 
 
-      $user = FacadesDB::table('users')->where('phone_number', $number)->get();
+      $user = DB::table('users')->where('phone_number', $number)->get();
 
       if ($user) {
          try {
