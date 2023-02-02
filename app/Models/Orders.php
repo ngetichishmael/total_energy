@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Orders extends Model
@@ -27,6 +28,16 @@ class Orders extends Model
    public function OrderItem(): HasOne
    {
       return $this->hasOne(Order_items::class, 'order_code', 'order_code');
+   }
+
+   /**
+    * Get all of the OrderItems for the Orders
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+   public function OrderItems(): HasMany
+   {
+      return $this->hasMany(Order_items::class, 'order_code', 'order_code');
    }
    /**
     * Get the User that owns the Orders

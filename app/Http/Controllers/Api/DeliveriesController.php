@@ -11,14 +11,14 @@ class DeliveriesController extends Controller
    public function getDeliveries(Request $request)
    {
       $user_code = $request->user()->user_code;
-      $data = Orders::with('OrderItem', 'Customer')
+      $data = Orders::with('OrderItems', 'Customer')
          ->where('user_code', $user_code)
          ->get();
-         return response()->json([
-            "success" => true,
-            "status" => 200,
-            "Message" => "All Deliveries with their orders",
-            "Data" => $data
-         ]);
+      return response()->json([
+         "success" => true,
+         "status" => 200,
+         "Message" => "All Deliveries with their orders",
+         "Data" => $data
+      ]);
    }
 }

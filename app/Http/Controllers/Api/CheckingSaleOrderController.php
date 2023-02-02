@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\customer\checkin;
 use App\Models\products\product_information;
 use App\Models\Cart;
-use App\Models\inventory\items;
 use App\Models\Order_items;
 use App\Models\Orders as Order;
 use App\Models\Orders;
-use App\Models\products\product_price;
 use Illuminate\Support\Facades\DB;
 
 
