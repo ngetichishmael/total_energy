@@ -34,7 +34,8 @@ class AuthController extends Controller
    public function userLogin(Request $request)
    {
 
-      $data = User::where('phone_number', $request["email"])->get();
+      $phone = $request->email;
+      $data = User::where('phone_number', $phone)->pluck('email')->implode('');
       info($request->email);
       return response()->json([
          "success" => true,
