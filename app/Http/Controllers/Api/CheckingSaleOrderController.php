@@ -39,6 +39,84 @@ class CheckingSaleOrderController extends Controller
       $checkin = checkin::where('code', $checkinCode)->first();
       $user_code = $request->user()->user_code;
       $requests = $request->collect();
+      foreach ($requests as $value) {
+         $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
+         Cart::updateOrCreate(
+            [
+               'checkin_code' => $checkinCode,
+               "order_code" => $random,
+            ],
+            [
+               'productID' => $value["productID"],
+               "product_name" => $product->product_name,
+               "qty" => $value["qty"],
+               "price" => $value["price"],
+               "amount" => $value["qty"] * $value["price"],
+               "total_amount" => $value["qty"] * $value["price"],
+               "userID" => $user_code,
+            ]
+         );
+         DB::table('inventory_allocated_items')
+            ->where('product_code', $value["productID"])
+            ->decrement(
+               'allocated_qty',
+               $value["qty"],
+               [
+                  'updated_at' => now()
+               ]
+            );
+         Order::updateOrCreate(
+            [
+
+               'order_code' => $random,
+            ],
+            [
+               'user_code' => $user_code,
+               'customerID' => $checkin->customer_id,
+               'price_total' => $value["qty"] * $value["price"],
+               'balance' => $value["qty"] * $value["price"],
+               'order_status' => 'Pending Delivery',
+               'payment_status' => 'Pending Payment',
+               'qty' => $value["qty"],
+               'discount' => $items["discount"] ?? "0",
+               'checkin_code' => $checkinCode,
+               'order_type' => 'Van sales',
+               'delivery_date' => now(),
+               'business_code' => $checkin->business_code,
+               'updated_at' => now(),
+            ]
+         );
+         Order_items::create([
+            'order_code' => $random,
+            'productID' => $value["productID"],
+            'product_name' => $product->product_name,
+            'quantity' => $value["qty"],
+            'sub_total' => $value["qty"] * $value["price"],
+            'total_amount' => $value["qty"] * $value["price"],
+            'selling_price' => $value["price"],
+            'discount' => $items["discount"]  ?? "0",
+            'taxrate' => 0,
+            'taxvalue' => 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+         ]);
+      }
+      return response()->json([
+         "success" => true,
+         "message" => "Product added to order",
+         "order_code" => $random,
+         "data"    => $checkin
+      ]);
+   }
+
+   //End of Vansales
+   //Start Vansales
+   public function VanSales12(Request $request, $checkinCode, $random)
+   {
+      $amountRequest = $request;
+      $checkin = checkin::where('code', $checkinCode)->first();
+      $user_code = $request->user()->user_code;
+      $requests = $request->collect();
       foreach ($requests as $items) {
          info("Van sales Cart Items");
          info($items);
