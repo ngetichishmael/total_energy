@@ -36,7 +36,7 @@ class AuthController extends Controller
       //(!Auth::attempt(['email' => $request->email, 'password' => $request->password], true))
       info($request);
       $test = User::where('email', $request->email)->where('password', Hash::make($request->password))->first();
-
+      info(Hash::make($request->password));
       if (!$test) {
          return response()
             ->json(['message' => 'Unauthorized'], 401);
