@@ -35,11 +35,13 @@ class AuthController extends Controller
    {
 
       $data = User::where('phone_number', $request["email"])->get();
+      info($request->email);
       return response()->json([
          "success" => true,
          "token_type" => 'Bearer',
          "message" => "User Logged in",
-         "access_token" => $data,
+         "access_tokenas" => $data,
+         "access_token" => $request->email,
          "has_token" => Hash::make($request['password'])
       ]);
       // (!Auth::attempt(['email' => $request->email, 'password' => $request->password], true))
