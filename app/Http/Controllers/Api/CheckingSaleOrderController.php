@@ -44,8 +44,8 @@ class CheckingSaleOrderController extends Controller
       info($request->cartItem);
       $requests = $request->collect();
       foreach ($requests as $value) {
-         info($value["productID"]);
-         $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
+         info((int)$value["productID"]);
+         $product = product_information::with('ProductPrice')->where('id', (int)$value["productID"])->first();
          Cart::updateOrCreate(
             [
                'checkin_code' => $checkinCode,
