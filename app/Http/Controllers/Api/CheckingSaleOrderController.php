@@ -41,7 +41,10 @@ class CheckingSaleOrderController extends Controller
       $requests = $request->collect();
       foreach ($requests as $items) {
          info("Van sales Cart Items");
+         info($items);
          foreach ($items["cartItem"] as $value) {
+            info("Van sales Cart Items");
+            info($value);
             $product = product_information::with('ProductPrice')->where('id', (int)$value["productID"])->first();
             Cart::updateOrCreate(
                [
