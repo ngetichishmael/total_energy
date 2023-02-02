@@ -42,6 +42,7 @@ class CheckingSaleOrderController extends Controller
       $checkin = checkin::where('code', $checkinCode)->first();
       $user_code = $request->user()->user_code;
       $requests = $request->collect();
+      info($request["dataItem"]);
       foreach ($requests as $key => $value) {
          info($value[$key]);
          $product = product_information::with('ProductPrice')->where('id', (int)$value["productID"])->first();
