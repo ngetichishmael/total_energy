@@ -34,19 +34,8 @@ class AuthController extends Controller
    public function userLogin(Request $request)
    {
 
-      $phone = $request->email;
-      $data = User::where('phone_number', $phone)->pluck('email')->implode('');
-      info($data);
-      return response()->json([
-         "success" => true,
-         "token_type" => 'Bearer',
-         "message" => "User Logged in",
-         "access_tokenas" => $data,
-         "access_token" => $request->email,
-         "has_token" => Hash::make($request['password'])
-      ]);
-      // (!Auth::attempt(['email' => $request->email, 'password' => $request->password], true))
-      if (!FacadesAuth::attempt(['phone_number' => $request->email, 'password' => $request->password], true)) {
+      //(!Auth::attempt(['email' => $request->email, 'password' => $request->password], true))
+      if (!FacadesAuth::attempt(['phone_phone' => $request->email, 'password' => $request->password], true)) {
          return response()
             ->json(['message' => 'Unauthorized'], 401);
       }
