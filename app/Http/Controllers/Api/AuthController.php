@@ -36,7 +36,7 @@ class AuthController extends Controller
 
       $phone = $request->email;
       $data = User::where('phone_number', $phone)->pluck('email')->implode('');
-      info($request->email);
+      info($data);
       return response()->json([
          "success" => true,
          "token_type" => 'Bearer',
