@@ -43,69 +43,69 @@ class CheckingSaleOrderController extends Controller
       $user_code = $request->user()->user_code;
       info($request->cartItem);
       $requests = $request->collect();
-      foreach ($requests as $value) {
-         info($value);
-         info((int)$value["productID"]);
-         $product = product_information::with('ProductPrice')->where('id', (int)$value["productID"])->first();
-         Cart::updateOrCreate(
-            [
-               'checkin_code' => $checkinCode,
-               "order_code" => $random,
-            ],
-            [
-               'productID' => $value["productID"],
-               "product_name" => $product->product_name,
-               "qty" => $value["qty"],
-               "price" => $value["price"],
-               "amount" => $value["qty"] * $value["price"],
-               "total_amount" => $value["qty"] * $value["price"],
-               "userID" => $user_code,
-            ]
-         );
-         DB::table('inventory_allocated_items')
-            ->where('product_code', $value["productID"])
-            ->decrement(
-               'allocated_qty',
-               $value["qty"],
+      foreach ($requests as $total) {
+         foreach ($total as $value) {
+            $product = product_information::with('ProductPrice')->where('id', (int)$value["productID"])->first();
+            Cart::updateOrCreate(
                [
-                  'updated_at' => now()
+                  'checkin_code' => $checkinCode,
+                  "order_code" => $random,
+               ],
+               [
+                  'productID' => $value["productID"],
+                  "product_name" => $product->product_name,
+                  "qty" => $value["qty"],
+                  "price" => $value["price"],
+                  "amount" => $value["qty"] * $value["price"],
+                  "total_amount" => $value["qty"] * $value["price"],
+                  "userID" => $user_code,
                ]
             );
-         Order::updateOrCreate(
-            [
+            DB::table('inventory_allocated_items')
+               ->where('product_code', $value["productID"])
+               ->decrement(
+                  'allocated_qty',
+                  $value["qty"],
+                  [
+                     'updated_at' => now()
+                  ]
+               );
+            Order::updateOrCreate(
+               [
 
+                  'order_code' => $random,
+               ],
+               [
+                  'user_code' => $user_code,
+                  'customerID' => $checkin->customer_id,
+                  'price_total' => $this->amount($amountRequest, $checkinCode),
+                  'balance' => $this->amount($amountRequest, $checkinCode),
+                  'order_status' => 'Pending Delivery',
+                  'payment_status' => 'Pending Payment',
+                  'qty' => $value["qty"],
+                  'discount' => $request->discount ?? "0",
+                  'checkin_code' => $checkinCode,
+                  'order_type' => 'Van sales',
+                  'delivery_date' => now(),
+                  'business_code' => $checkin->business_code,
+                  'updated_at' => now(),
+               ]
+            );
+            Order_items::create([
                'order_code' => $random,
-            ],
-            [
-               'user_code' => $user_code,
-               'customerID' => $checkin->customer_id,
-               'price_total' => $this->amount($amountRequest, $checkinCode),
-               'balance' => $this->amount($amountRequest, $checkinCode),
-               'order_status' => 'Pending Delivery',
-               'payment_status' => 'Pending Payment',
-               'qty' => $value["qty"],
-               'discount' => $request->discount ?? "0",
-               'checkin_code' => $checkinCode,
-               'order_type' => 'Van sales',
-               'delivery_date' => now(),
-               'business_code' => $checkin->business_code,
+               'productID' => $value["productID"],
+               'product_name' => $product->product_name,
+               'quantity' => $value["qty"],
+               'sub_total' => $value["qty"] * $value["price"],
+               'total_amount' => $value["qty"] * $value["price"],
+               'selling_price' => $value["price"],
+               'discount' => $$request->discount  ?? "0",
+               'taxrate' => 0,
+               'taxvalue' => 0,
+               'created_at' => now(),
                'updated_at' => now(),
-            ]
-         );
-         Order_items::create([
-            'order_code' => $random,
-            'productID' => $value["productID"],
-            'product_name' => $product->product_name,
-            'quantity' => $value["qty"],
-            'sub_total' => $value["qty"] * $value["price"],
-            'total_amount' => $value["qty"] * $value["price"],
-            'selling_price' => $value["price"],
-            'discount' => $$request->discount  ?? "0",
-            'taxrate' => 0,
-            'taxvalue' => 0,
-            'created_at' => now(),
-            'updated_at' => now(),
-         ]);
+            ]);
+         }
       }
       return response()->json([
          "success" => true,
