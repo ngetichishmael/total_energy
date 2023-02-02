@@ -9,7 +9,8 @@ use App\Models\User;
 use App\Models\UserCode;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 /**
  * @group Authentication Api's
@@ -33,16 +34,21 @@ class AuthController extends Controller
    public function userLogin(Request $request)
    {
 
-      //(!Auth::attempt(['email' => $request->email, 'password' => $request->password], true))
-      info($request);
-      $test = User::where('email', $request->email)->where('password', Hash::make($request->password))->first();
-      info(Hash::make($request->password));
-      if (!$test) {
+      $data = User::where('phone_number', $request->email)->get();
+      return response()->json([
+         "success" => true,
+         "token_type" => 'Bearer',
+         "message" => "User Logged in",
+         "access_token" => $data,
+         "has_token" => Hash::make($request['password'])
+      ]);
+      // (!Auth::attempt(['email' => $request->email, 'password' => $request->password], true))
+      if (!FacadesAuth::attempt(['phone_number' => $request->email, 'password' => $request->password], true)) {
          return response()
             ->json(['message' => 'Unauthorized'], 401);
       }
 
-      $user = User::where('phone_number', $request['email'])->firstOrFail();
+      $user = User::where('email', $request['email'])->firstOrFail();
 
       $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -104,7 +110,7 @@ class AuthController extends Controller
    {
 
 
-      $user = DB::table('users')->where('phone_number', $number)->get();
+      $user = FacadesDB::table('users')->where('phone_number', $number)->get();
 
       if ($user) {
          try {
