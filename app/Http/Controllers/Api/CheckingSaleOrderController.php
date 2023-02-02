@@ -150,8 +150,8 @@ class CheckingSaleOrderController extends Controller
             [
                'user_code' => $user_code,
                'customerID' => $checkin->customer_id,
-               'price_total' => $this->amount($amountRequest, $checkinCode),
-               'balance' => $this->amount($amountRequest, $checkinCode),
+               'price_total' => $value["qty"] *  $value["price"],
+               'balance' => $value["qty"] *  $value["price"],
                'order_status' => 'Pending Delivery',
                'payment_status' => 'Pending Payment',
                'qty' => $value["qty"],
