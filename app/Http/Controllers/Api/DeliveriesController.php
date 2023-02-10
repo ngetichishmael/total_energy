@@ -22,8 +22,8 @@ class DeliveriesController extends Controller
          "success" => true,
          "status" => 200,
          "Message" => "All Deliveries with their orders",
+         "deliveries" => $deliveries,
          "Data" => $data,
-         "deliveries" => $deliveries
       ]);
    }
 }
