@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Manager\OrdersController;
 use App\Http\Controllers\Api\Manager\SendNotificationController;
 use App\Http\Controllers\Api\Manager\TerritoryInformationsController;
 use App\Http\Controllers\Api\Manager\UsersController;
+use App\Http\Controllers\Api\Total\DeliveryController;
 use App\Http\Controllers\Api\total\RegionalFilter;
 use App\Http\Controllers\Api\Total\TerritoryController;
 use Illuminate\Support\Facades\Route;
@@ -46,5 +47,12 @@ Route::group(['namespace' => 'Api'], function () {
        * Customer filtered by region
        */
       Route::get('/total/customer/data', [RegionalFilter::class, 'filterRegionalCustomers']);
+      /**
+       * Delivery
+       */
+      Route::post('/partial/delivery/{delivery_code}', [DeliveryController::class, 'partialDelivery']);
+      Route::post('/full/delivery/{delivery_code}', [DeliveryController::class, 'fullDelivery']);
+      Route::post('/edit/delivery/{delivery_code}', [DeliveryController::class, 'editDelivery']);
+      Route::post('/cancel/delivery/{delivery_code}', [DeliveryController::class, 'cancel']);
    });
 });

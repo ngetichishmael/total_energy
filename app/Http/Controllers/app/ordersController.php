@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\app;
 
-use App\Helpers\Helper;
-use App\Http\Controllers\Controller;
-use App\Models\customers;
-use Illuminate\Http\Request;
+use App\Models\User;
 use App\Models\Orders;
+use App\Helpers\Helper;
+use App\Models\Delivery;
+use App\Models\customers;
 use App\Models\Order_items;
 use App\Models\warehousing;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Models\Delivery_items;
-use App\Models\Delivery;
 use App\Models\order_payments;
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\products\product_information;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -58,44 +60,46 @@ class ordersController extends Controller
       $this->validate($request, [
          'user' => 'required',
          'warehouse' => 'required',
+
       ]);
 
-      //check allocation
-      $checkAllocation = count(collect($request->allocate));
-      if ($checkAllocation > 0) {
+      $delivery = Delivery::updateOrCreate(
+         [
+            "business_code" => Auth::user()->business_code,
+            "customer" => $request->customer,
+            "order_code" => $request->order_code
+         ],
+         [
+            "delivery_code" => Str::random(20),
+            "allocated" => $request->user,
+            "delivery_note" => $request->note,
+            "delivery_status" => "Waiting acceptance",
+            "created_by" => Auth::user()->user_code
+         ]
+      );
 
-         //create delivery
-         $delivery = new Delivery;
-         $delivery->business_code = Auth::user()->business_code;
-         $delivery->delivery_code = Helper::generateRandomString(20);
-         $delivery->order_code = $request->order_code;
-         $delivery->allocated = $request->user;
-         $delivery->delivery_note = $request->note;
-         $delivery->delivery_status = 'Waiting acceptance';
-         $delivery->customer = $request->customer;
-         $delivery->created_by = Auth::user()->user_code;
-         $delivery->save();
+      for ($i = 0; $i < count($request->allocate); $i++) {
 
 
-         //upload new category
-         for ($i = 0; $i < count($request->allocate); $i++) {
-            $items = new Delivery_items;
-            $items->business_code = Auth::user()->business_code;
-            $items->delivery_code = $delivery->delivery_code;
-            $items->delivery_item_code = Helper::generateRandomString(20);
-            // $items->item_code =  $request->item_code[$i];
-            $items->allocated_quantity = $request->allocate[$i];
-            $items->created_by = Auth::user()->user_code;
-            $items->save();
-         }
+         Delivery_items::updateOrCreate(
+            [
+               "business_code" => Auth::user()->business_code,
+               "delivery_code" => $delivery->delivery_code,
+               "productID" => $request->item_code[$i],
 
-         Session::flash('success', 'Delivery created and orders allocated');
-
-         return redirect()->route('delivery.index');
-      } else {
-         Session::flash('success', 'Please allocate items');
-
-         return redirect()->back();
+            ],
+            [
+               "allocated_quantity" => $request->allocate[$i],
+               "delivery_item_code" => Str::random(20),
+               "created_by" => Auth::user()->user_code,
+               "requested_quantity" => $request->requested[$i],
+               "created_by" => Auth::user()->user_code
+            ]
+         );
       }
+
+      Session::flash('success', 'Delivery created and orders allocated');
+
+      return redirect()->route('delivery.index');
    }
 }

@@ -55,8 +55,8 @@
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                                <label for="noteText">Note</label>
-                                <textarea  name ="note" class="form-control" id="noteTxt" rows="3" placeholder="Provide a description"></textarea>
+                            <label for="noteText">Note</label>
+                            <textarea name="note" class="form-control" id="noteTxt" rows="3" placeholder="Provide a description"></textarea>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                 <div class="card-body">
                     <h4>Assign Items</h4>
                     <hr>
-                    @foreach ($items as $item)
+                    @foreach ($items as $key => $item)
                         <input type="hidden" name="item_code[]" value="{!! $item->productID !!}">
                         <div class="mb-1 row">
                             <div class="col-md-4">
@@ -77,14 +77,15 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Quantity</label>
-                                    <input type="text" value="{!! $item->quantity !!}" class="form-control" readonly>
+                                    <input type="text" name="requested[]" value="{!! $item->quantity !!}"
+                                        class="form-control" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Allocate</label>
                                     <input type="text" name="allocate[]" class="form-control"
-                                        placeholder="max {!! $item->quantity !!}" max="{!! $item->quantity !!}">
+                                        placeholder="max {!! $item->quantity !!}" max="{!! $item->quantity !!}" required>
                                 </div>
                             </div>
                         </div>

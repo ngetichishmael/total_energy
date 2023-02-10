@@ -128,7 +128,7 @@
                     <h2 class="mb-0 content-header-title float-start">Delivery Details</h2>
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/sokoflowadmin">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('app.dashboard') }}">Home</a></li>
                             <li class="breadcrumb-item"><a href="{!! route('orders.index') !!}">Delivery</a></li>
                             <li class="breadcrumb-item active">{!! $code !!}</li>
                             <li class="breadcrumb-item active">Details</li>
@@ -156,15 +156,15 @@
                     </div>
                     <div class="mt-2 mt-md-0">
 
-                       @foreach ($deliveries as $count => $deliver)
-                        <h4 class="invoice-title">
-                            <strong>Delivery Code: </strong>
-                            <span class="invoice-number">{{ $deliver->delivery_code }}</span>
-                        </h4>
-                        <div class="invoice-date-wrapper">
-                            <strong>Delivery Date:</strong>
-                            <span class="invoice-date">{{ $deliver->delivered_time ?? 'Not Set' }}</span>
-                        </div>
+                        @foreach ($deliveries as $count => $deliver)
+                            <h4 class="invoice-title">
+                                <strong>Delivery Code: </strong>
+                                <span class="invoice-number">{{ $deliver->delivery_code }}</span>
+                            </h4>
+                            <div class="invoice-date-wrapper">
+                                <strong>Delivery Date:</strong>
+                                <span class="invoice-date">{{ $deliver->delivered_time ?? 'Not Set' }}</span>
+                            </div>
                     </div>
                 </div>
                 <!-- Header ends -->
@@ -172,67 +172,68 @@
 
             <hr class="invoice-spacing" />
 
-                <!-- Invoice Description starts -->
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
+            <!-- Invoice Description starts -->
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="py-1">Product </th>
+                            <th class="py-1"></th>
+                            <th class="py-1">Quantity</th>
+                            <th class="py-1">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($deliver->OrderItems as $key => $value)
                             <tr>
-                                <th class="py-1">Product </th>
-                                <th class="py-1"></th>
-                                <th class="py-1">Quantity</th>
-                                <th class="py-1">Total</th>
+                                <td class="py-1">
+                                    <p class="card-text font-weight-bold mb-25">{{ $value->product_name }}</p>
+                                </td>
+                                <td class="py-1">
+                                    <span class="font-weight-bold"></span>
+                                </td>
+                                @php
+                                    $subtotal = $subtotal + $value->sub_total;
+                                @endphp
+                                <td class="py-1">
+                                    <span class="font-weight-bold">{{ $value->quantity }}</span>
+                                </td>
+                                @php
+                                    $total = $total + $value->total_amount;
+                                @endphp
+                                <td class="py-1">
+                                    <span class="font-weight-bold">{{ number_format($value->total_amount) }}</span>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($deliver->OrderItems as $key => $value)
-                                <tr>
-                                    <td class="py-1">
-                                        <p class="card-text font-weight-bold mb-25">{{ $value->product_name }}</p>
-                                    </td>
-                                    <td class="py-1">
-                                        <span class="font-weight-bold"></span>
-                                    </td>
-                                    @php
-                                       $subtotal=$subtotal+$value->sub_total;
-                                    @endphp
-                                    <td class="py-1">
-                                        <span class="font-weight-bold">{{ $value->quantity }}</span>
-                                    </td>
-                                    @php
-                                       $total=$total+$value->total_amount;
-                                    @endphp
-                                    <td class="py-1">
-                                        <span class="font-weight-bold">{{ number_format($value->total_amount) }}</span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                {{-- {{ dd($total) }} --}}
-                <hr class="invoice-spacing" />
-                <div class="pb-0 card-body invoice-padding">
-                    <div class="row invoice-sales-total-wrapper">
-                        <div class="order-2 mt-3 col-md-6 order-md-1 mt-md-0">
-                            <p class="mb-0 card-text">
-                                <span class="font-weight-bold"><strong>Salesperson:</strong></span> <span class="ml-75"> {{ $deliver->User->name }}</span>
-                            </p>
-                        </div>
-                        <div class="order-2 col-md-6 d-flex justify-content-end col-md-2">
-                            <div class="col-6">
-                                <div class="invoice-total-item">
-                                    <p class="invoice-total-title"><strong>Subtotal:</strong></p>
-                                    <p class="invoice-total-amount">KSH {{ number_format($subtotal) }}</p>
-                                </div>
-                                <hr class="my-50" />
-                                <div class="invoice-total-item">
-                                    <p class="invoice-total-title"><strong>Total:</strong></p>
-                                    <p class="invoice-total-amount">KSH: {{ number_format($total )}}</p>
-                                </div>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            {{-- {{ dd($total) }} --}}
+            <hr class="invoice-spacing" />
+            <div class="pb-0 card-body invoice-padding">
+                <div class="row invoice-sales-total-wrapper">
+                    <div class="order-2 mt-3 col-md-6 order-md-1 mt-md-0">
+                        <p class="mb-0 card-text">
+                            <span class="font-weight-bold"><strong>Salesperson:</strong></span> <span class="ml-75">
+                                {{ $deliver->User->name }}</span>
+                        </p>
+                    </div>
+                    <div class="order-2 col-md-6 d-flex justify-content-end col-md-2">
+                        <div class="col-6">
+                            <div class="invoice-total-item">
+                                <p class="invoice-total-title"><strong>Subtotal:</strong></p>
+                                <p class="invoice-total-amount">KSH {{ number_format($subtotal) }}</p>
+                            </div>
+                            <hr class="my-50" />
+                            <div class="invoice-total-item">
+                                <p class="invoice-total-title"><strong>Total:</strong></p>
+                                <p class="invoice-total-amount">KSH: {{ number_format($total) }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             @endforeach
             <!-- Invoice Description ends -->
 

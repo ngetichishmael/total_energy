@@ -35,7 +35,6 @@ class CheckingSaleOrderController extends Controller
    //Start Vansales
    public function VanSales(Request $request, $checkinCode, $random)
    {
-      $amountRequest = $request;
       $checkin = checkin::where('code', $checkinCode)->first();
       $user_code = $request->user()->user_code;
       $requests = $request->collect();
