@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api\Total;
 use App\Http\Controllers\Controller;
 use App\Models\Delivery;
 use App\Models\Delivery_items;
+use App\Models\products\product_information;
+use App\Models\products\product_price;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class DeliveryController extends Controller
 {
@@ -18,24 +19,30 @@ class DeliveryController extends Controller
       Delivery::where('delivery_code', $delivery_code)->update([
          'delivery_status' => "Partial delivery"
       ]);
+      $total = 0;
       foreach ($requests as $value) {
+
          Delivery_items::updateOrCreate(
             [
-               "business_code" => Auth::user()->business_code,
+               "business_code" => $request->user()->business_code,
                "delivery_code" => $delivery_code,
                "productID" => $value["productID"],
 
             ],
             [
                "delivered_quantity" => $value["qty"],
+               "item_condition" => $value["item_condition"],
+               "note" => $value["note"],
                "created_by" => $user_code,
                "updated_by" => $user_code
             ]
          );
+         $total += product_price::whereId($value["productID"])->pluck('buying_price')->implode(" ") * $value["qty"];
       }
       return response()->json([
          "success" => true,
-         "message" => "Product added to order",
+         "message" => "Partial delivery was successful",
+         "total" => $total
       ]);
    }
    public function fullDelivery(Request $request, $delivery_code)
@@ -46,10 +53,11 @@ class DeliveryController extends Controller
       Delivery::where('delivery_code', $delivery_code)->update([
          'delivery_status' => "DELIVERED",
       ]);
+      $total = 0;
       foreach ($requests as $value) {
          Delivery_items::updateOrCreate(
             [
-               "business_code" => Auth::user()->business_code,
+               "business_code" => $request->user()->business_code,
                "delivery_code" => $delivery_code,
                "productID" => $value["productID"],
 
@@ -60,10 +68,13 @@ class DeliveryController extends Controller
                "updated_by" => $user_code
             ]
          );
+
+         $total += product_price::whereId($value["productID"])->pluck('buying_price')->implode(" ") * $value["qty"];
       }
       return response()->json([
          "success" => true,
-         "message" => "Product added to order",
+         "message" => "Delivery Successful",
+         "total" => $total
       ]);
    }
 
@@ -78,7 +89,7 @@ class DeliveryController extends Controller
       foreach ($requests as $value) {
          Delivery_items::updateOrCreate(
             [
-               "business_code" => Auth::user()->business_code,
+               "business_code" => $request->user()->business_code,
                "delivery_code" => $delivery_code,
                "productID" => $value["productID"],
 
@@ -92,16 +103,22 @@ class DeliveryController extends Controller
       }
       return response()->json([
          "success" => true,
-         "message" => "Product added to order",
+         "message" => "Edit product successfully",
       ]);
    }
-   public function cancel(Request $request)
+   public function cancel(Request $request, $delivery_code)
    {
-      Delivery::where('order_code', $request->order_code)->update(
-         [
-            "delivery_status" => "cancelled"
-         ]
-      );
+      $order_code = Delivery::where('delivery_code', $delivery_code)->pluck('order_code');
+      foreach ($order_code as $value) {
+         Delivery::where('order_code', $value->order_code)->update(
+            [
+               "delivery_status" => "cancelled",
+               'updated_by' => $request->user()->user_code,
+            ]
+         );
+      }
+
+
       return response()->json([
          "success" => true,
          "message" => "Delivery Cancelled Successfully",

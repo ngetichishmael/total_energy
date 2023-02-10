@@ -256,7 +256,7 @@ class CheckingSaleOrderController extends Controller
 
          DB::table('orders_targets')
             ->where('user_code', $user_code)
-            ->increment('AchievedOrdersTarget', $value["qty"] *  $value["price"]);
+            ->increment('AchievedOrdersTarget', $value["qty"]);
       }
       return response()->json([
          "success" => true,

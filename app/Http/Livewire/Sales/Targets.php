@@ -10,6 +10,7 @@ use Livewire\Component;
 class Targets extends Component
 {
    public $Targets;
+   public $QPTargets;
    public $users;
    public $countTargets = true;
    public function mount()
@@ -21,7 +22,7 @@ class Targets extends Component
       $this->QPTargets = SalesTarget::all();
       $this->fill([
          'Targets' => collect([
-            ['primarykey' => '','deadline' => $lastDayofMonth]
+            ['primarykey' => '', 'deadline' => $lastDayofMonth]
          ]),
       ]);
    }
@@ -48,7 +49,7 @@ class Targets extends Component
          'Targets.*.primarykey' => 'required',
          'Targets.*.deadline' => 'required',
          'Targets.*.Target' => 'required',
-     ]);
+      ]);
       foreach ($this->Targets as $value) {
          if ($value["primarykey"] === 'ALL') {
             $users = User::where('account_type', 'Sales')->get();
@@ -77,8 +78,8 @@ class Targets extends Component
       }
       return redirect()->to('/target/sales');
    }
-    public function render()
-    {
-        return view('livewire.sales.targets');
-    }
+   public function render()
+   {
+      return view('livewire.sales.targets');
+   }
 }
