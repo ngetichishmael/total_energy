@@ -30,6 +30,15 @@ class Delivery extends Model
       return $this->hasMany(Order_items::class, 'order_code', 'order_code');
    }
    /**
+    * Get all of the DeliveryItems for the Delivery
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+   public function DeliveryItems(): HasMany
+   {
+      return $this->hasMany(Delivery_items::class, 'delivery_code', 'delivery_code');
+   }
+   /**
     * Get the Customer that owns the Delivery
     *
     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
