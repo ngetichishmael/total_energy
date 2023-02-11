@@ -15,7 +15,7 @@ class DeliveriesController extends Controller
       $data = Orders::with('OrderItems', 'Customer')
          ->where('user_code', $user_code)
          ->get();
-      $deliveries = Delivery::with(['DeliveryItems', 'OrderItems', 'Customer'])
+      $deliveries = Delivery::with(['DeliveryItems', 'Customer'])
          ->where('allocated', $user_code)
          ->get();
       return response()->json([
@@ -23,7 +23,6 @@ class DeliveriesController extends Controller
          "status" => 200,
          "Message" => "All Deliveries with their orders",
          "deliveries" => $deliveries,
-         "Data" => $data,
       ]);
    }
 }

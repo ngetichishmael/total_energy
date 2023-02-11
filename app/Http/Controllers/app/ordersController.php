@@ -15,6 +15,7 @@ use App\Models\Delivery_items;
 use App\Models\order_payments;
 use App\Http\Controllers\Controller;
 use App\Models\products\product_information;
+use App\Models\products\product_price;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -80,7 +81,7 @@ class ordersController extends Controller
 
       for ($i = 0; $i < count($request->allocate); $i++) {
 
-
+         $pricing = product_price::whereId($request->item_code[$i])->first();
          Delivery_items::updateOrCreate(
             [
                "business_code" => Auth::user()->business_code,
@@ -89,6 +90,10 @@ class ordersController extends Controller
 
             ],
             [
+               "selling_price" => $pricing->selling_price,
+               "sub_total" => $pricing->selling_price * $request->allocate[$i],
+               "total_amount" => $pricing->selling_price * $request->allocate[$i],
+               "product_name" => $request->product[$i],
                "allocated_quantity" => $request->allocate[$i],
                "delivery_item_code" => Str::random(20),
                "created_by" => Auth::user()->user_code,

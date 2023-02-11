@@ -31,6 +31,7 @@ class index extends Component
          ->search(trim($this->search))
          ->where('delivery.business_code', Auth::user()->business_code)
          ->select(
+            'delivery.updated_at as date',
             'customer_name',
             'name',
             'users.name as agent',
@@ -38,7 +39,7 @@ class index extends Component
             'delivery_status',
             'order_code'
          )
-         ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc')
+         ->orderBy('date', 'desc')
          ->paginate($this->perPage);
 
       return view('livewire.delivery.index', compact('deliveries'));

@@ -71,7 +71,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Product</label>
-                                    <input type="text" value="{!! $item->product_name !!}" class="form-control" readonly>
+                                    <input type="text" name="product[]"value="{!! $item->product_name !!}"
+                                        class="form-control" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
