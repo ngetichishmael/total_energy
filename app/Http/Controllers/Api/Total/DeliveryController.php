@@ -108,15 +108,12 @@ class DeliveryController extends Controller
    }
    public function cancel(Request $request, $delivery_code)
    {
-      $order_code = Delivery::where('delivery_code', $delivery_code)->pluck('order_code');
-      foreach ($order_code as $value) {
-         Delivery::where('order_code', $value->order_code)->update(
-            [
-               "delivery_status" => "cancelled",
-               'updated_by' => $request->user()->user_code,
-            ]
-         );
-      }
+      Delivery::where('delivery_code', $delivery_code)->update(
+         [
+            "delivery_status" => "cancelled",
+            'updated_by' => $request->user()->user_code,
+         ]
+      );
 
 
       return response()->json([
