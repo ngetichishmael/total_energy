@@ -30,7 +30,7 @@ class DeliveryController extends Controller
 
             ],
             [
-               "delivered_quantity" => $value["qty"],
+               "delivery_quantity" => $value["qty"],
                "item_condition" => $value["item_condition"],
                "note" => $value["note"],
                "created_by" => $user_code,
@@ -64,6 +64,8 @@ class DeliveryController extends Controller
             ],
             [
                "delivery_quantity" => $value["qty"],
+               "item_condition" => $value["item_condition"],
+               "note" => $value["note"],
                "created_by" => $user_code,
                "updated_by" => $user_code
             ]
