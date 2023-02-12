@@ -63,7 +63,7 @@ class DeliveryController extends Controller
 
             ],
             [
-               "delivered_quantity" => $value["qty"],
+               "delivery_quantity" => $value["qty"],
                "created_by" => $user_code,
                "updated_by" => $user_code
             ]
