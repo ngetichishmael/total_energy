@@ -101,6 +101,11 @@ class ordersController extends Controller
                "created_by" => Auth::user()->user_code
             ]
          );
+         Order_items::where('productID', $request->item_code[$i])
+            ->where('order_code', $request->order_code)
+            ->update([
+               "requested_quantity" => $request->product[$i]
+            ]);
       }
 
       Session::flash('success', 'Delivery created and orders allocated');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Total;
 use App\Http\Controllers\Controller;
 use App\Models\Delivery;
 use App\Models\Delivery_items;
+use App\Models\Order_items;
 use App\Models\products\product_information;
 use App\Models\products\product_price;
 use Illuminate\Http\Request;
@@ -17,9 +18,14 @@ class DeliveryController extends Controller
       $requests = $request->collect();
 
       Delivery::where('delivery_code', $delivery_code)->update([
-         'delivery_status' => "Partial delivery"
+         'delivery_status' => "Partial delivery",
+         "delivered_time" => now(),
+         "customer_confirmation" => "partially delivered",
+         "accept_allocation" => "partially delivered",
+         "updated_by" => $user_code,
       ]);
       $total = 0;
+      $order_code = Delivery::where('delivery_code', $delivery_code)->first();
       foreach ($requests as $value) {
 
          Delivery_items::updateOrCreate(
@@ -37,6 +43,11 @@ class DeliveryController extends Controller
                "updated_by" => $user_code
             ]
          );
+         Order_items::where('productID', $value["productID"])
+            ->where('order_code', $order_code->order_code)
+            ->update([
+               "delivery_quantity" => $value["qty"]
+            ]);
          $total += product_price::whereId($value["productID"])->pluck('buying_price')->implode(" ") * $value["qty"];
       }
       return response()->json([
@@ -52,8 +63,13 @@ class DeliveryController extends Controller
 
       Delivery::where('delivery_code', $delivery_code)->update([
          'delivery_status' => "DELIVERED",
+         "delivered_time" => now(),
+         "customer_confirmation" => "confirmed",
+         "accept_allocation" => "accepted",
+         "updated_by" => $user_code,
       ]);
       $total = 0;
+      $order_code = Delivery::where('delivery_code', $delivery_code)->first();
       foreach ($requests as $value) {
          Delivery_items::updateOrCreate(
             [
@@ -71,6 +87,11 @@ class DeliveryController extends Controller
             ]
          );
 
+         Order_items::where('productID', $value["productID"])
+            ->where('order_code', $order_code->order_code)
+            ->update([
+               "delivery_quantity" => $value["qty"]
+            ]);
          $total += product_price::whereId($value["productID"])->pluck('buying_price')->implode(" ") * $value["qty"];
       }
       return response()->json([
@@ -86,9 +107,11 @@ class DeliveryController extends Controller
       $requests = $request->collect();
 
       Delivery::where('delivery_code', $delivery_code)->update([
-         'delivery_status' => "Partial delivery"
+         'delivery_status' => "Partial delivery",
+         "delivered_time" => now(),
       ]);
       $total = 0;
+      $order_code = Delivery::where('delivery_code', $delivery_code)->first();
       foreach ($requests as $value) {
          Delivery_items::updateOrCreate(
             [
@@ -103,7 +126,11 @@ class DeliveryController extends Controller
                "updated_by" => $user_code
             ]
          );
-
+         Order_items::where('productID', $value["productID"])
+            ->where('order_code', $order_code->order_code)
+            ->update([
+               "delivery_quantity" => $value["qty"]
+            ]);
          $total += product_price::whereId($value["productID"])->pluck('buying_price')->implode(" ") * $value["qty"];
       }
       return response()->json([
@@ -117,11 +144,16 @@ class DeliveryController extends Controller
       Delivery::where('delivery_code', $delivery_code)->update(
          [
             "delivery_status" => "cancelled",
+            "delivered_time" => now(),
+            "customer_confirmation" => "cancelled",
+            "accept_allocation" => "cancelled",
             'updated_by' => $request->user()->user_code,
          ]
       );
 
-
+      $order_code = Delivery::where('delivery_code', $delivery_code)->first();
+      Order_items::where('order_code', $order_code->order_code)
+         ->update(["delivery_quantity" => "0"]);
       return response()->json([
          "success" => true,
          "message" => "Delivery Cancelled Successfully",
