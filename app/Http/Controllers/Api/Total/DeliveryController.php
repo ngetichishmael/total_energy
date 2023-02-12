@@ -86,6 +86,7 @@ class DeliveryController extends Controller
       Delivery::where('delivery_code', $delivery_code)->update([
          'delivery_status' => "Partial delivery"
       ]);
+      $total = 0;
       foreach ($requests as $value) {
          Delivery_items::updateOrCreate(
             [
@@ -100,10 +101,13 @@ class DeliveryController extends Controller
                "updated_by" => $user_code
             ]
          );
+
+         $total += product_price::whereId($value["productID"])->pluck('buying_price')->implode(" ") * $value["qty"];
       }
       return response()->json([
          "success" => true,
          "message" => "Edit product successfully",
+         "total" => $total,
       ]);
    }
    public function cancel(Request $request, $delivery_code)
