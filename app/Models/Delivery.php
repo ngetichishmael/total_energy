@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Delivery extends Model
 {
@@ -55,5 +56,14 @@ class Delivery extends Model
    public function User(): BelongsTo
    {
       return $this->belongsTo(User::class, 'allocated', 'user_code');
+   }
+   /**
+    * Get the Order associated with the Delivery
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
+   public function Order(): HasOne
+   {
+      return $this->hasOne(Orders::class, 'order_code', 'order_code');
    }
 }
