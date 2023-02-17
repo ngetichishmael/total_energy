@@ -12,6 +12,7 @@ class DeliveriesController extends Controller
    public function getDeliveries(Request $request)
    {
       $user_code = $request->user()->user_code;
+      info('user_code: ' . $user_code);
       $deliveries = Delivery::with(['DeliveryItems', 'Customer', 'Order'])
          ->get();
       return response()->json([
