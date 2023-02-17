@@ -2,26 +2,28 @@
 
 namespace App\Http\Livewire\Orders;
 
-use App\Models\OrdersTarget;
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\User;
 use Livewire\Component;
+use App\Models\OrdersTarget;
+use Illuminate\Support\Facades\Auth;
 
 class Targets extends Component
 {
    public $Targets;
    public $users;
+   public $QPTargets;
    public $countTargets = true;
    public function mount()
    {
 
       $today = Carbon::now();
       $lastDayofMonth =  Carbon::parse($today)->endOfMonth()->toDateString();
-      $this->users = User::where('account_type', 'Sales')->get();
-      $this->QPTargets = OrdersTarget::all();
+      $this->users = User::where('account_type', 'Sales')->where('business_code', Auth::user()->business_code)->get();
+      $this->QPTargets = OrdersTarget::where('bussiness_code', Auth::user()->business_code)->get();
       $this->fill([
          'Targets' => collect([
-            ['primarykey' => '','deadline' => $lastDayofMonth]
+            ['primarykey' => '', 'deadline' => $lastDayofMonth]
          ]),
       ]);
    }
@@ -48,7 +50,7 @@ class Targets extends Component
          'Targets.*.primarykey' => 'required',
          'Targets.*.deadline' => 'required',
          'Targets.*.Target' => 'required',
-     ]);
+      ]);
       foreach ($this->Targets as $value) {
          if ($value["primarykey"] === 'ALL') {
             $users = User::where('account_type', 'Sales')->get();
@@ -56,10 +58,12 @@ class Targets extends Component
                OrdersTarget::updateOrCreate(
                   [
                      'user_code' => $user->user_code,
-                     'Deadline' => $value['deadline'] ?? $lastDayofMonth
+                     'Deadline' => $value['deadline'] ?? $lastDayofMonth,
+
                   ],
                   [
-                     'OrdersTarget' => $value['Target']
+                     'OrdersTarget' => $value['Target'],
+                     'bussiness_code' => Auth::user()->business_code,
                   ]
                );
             }
@@ -67,18 +71,19 @@ class Targets extends Component
             OrdersTarget::updateOrCreate(
                [
                   'user_code' => $value["primarykey"],
+                  'Deadline' => $value['deadline'] ?? $lastDayofMonth,
                ],
                [
-                  'Deadline' => $value['deadline'] ?? $lastDayofMonth,
-                  'OrdersTarget' => $value['Target']
+                  'OrdersTarget' => $value['Target'],
+                  'bussiness_code' => Auth::user()->business_code,
                ]
             );
          }
       }
       return redirect()->to('/target/order');
    }
-    public function render()
-    {
-        return view('livewire.orders.targets');
-    }
+   public function render()
+   {
+      return view('livewire.orders.targets');
+   }
 }

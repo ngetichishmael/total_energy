@@ -2,12 +2,6 @@
 
 namespace App\Http\Controllers\app\products;
 
-use Hr;
-use File;
-use Input;
-use Wingu;
-use Helper;
-use Session;
 use App\Models\tax;
 use App\Models\Branches;
 use Illuminate\Support\Str;
@@ -16,13 +10,12 @@ use App\Models\products\brand;
 use App\Models\products\category;
 use App\Models\suppliers\suppliers;
 use App\Http\Controllers\Controller;
-use App\Models\file_manager as ModelsFile_manager;
+use App\Models\customers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\products\product_price;
 use App\Models\products\product_inventory;
 use App\Models\products\product_information;
-use App\Models\products\product_category_product_information;
-use Illuminate\Support\Facades\Storage;
+use App\Models\suppliers\supplier_address;
 
 class productController extends Controller
 {
@@ -167,8 +160,8 @@ class productController extends Controller
       $brands = brand::where('business_code', Auth::user()->business_code)
          ->pluck('name', 'id');
       $product_information = product_information::whereId($id)->first();
-      $product_price = product_price::where('productID',$id)->first();
-      $product_inventory = product_inventory::where('productID',$id)->first();
+      $product_price = product_price::where('productID', $id)->first();
+      $product_inventory = product_inventory::where('productID', $id)->first();
 
 
       return view('app.products.edit', [
@@ -200,9 +193,9 @@ class productController extends Controller
       ]);
       $image_path = $request->file('image')->store('image', 'public');
       product_information::updateOrCreate([
-         'id' =>$id,
+         'id' => $id,
          "business_code" => Auth::user()->business_code,
-      ],[
+      ], [
          "product_name" => $request->product_name,
          "sku_code" => $request->sku_code,
          "url" => Str::slug($request->product_name),
@@ -356,49 +349,49 @@ class productController extends Controller
     */
    public function destroy($id)
    {
-      //check product in invoice
-      $invoice = invoice_products::where('productID', $id)->count();
+      // //check product in invoice
+      // $invoice = invoice_products::where('productID', $id)->count();
 
-      if ($invoice == 0) {
-         //delete image from folder/directory
-         $check_image = ModelsFile_manager::where('fileID', $id)->where('business_code', Auth::user()->business_code)->where('folder', 'products')->count();
+      // if ($invoice == 0) {
+      //    //delete image from folder/directory
+      //    $check_image = ModelsFile_manager::where('fileID', $id)->where('business_code', Auth::user()->business_code)->where('folder', 'products')->count();
 
-         if ($check_image > 0) {
-            //directory
-            $directory = base_path() . '/storage/files/business/' . Wingu::business(Auth::user()->business_code)->primary_email . '/finance/products/';
-            $images = ModelsFile_manager::where('fileID', $id)->where('business_code', Auth::user()->business_code)->where('folder', 'products')->get();
-            foreach ($images as $image) {
-               if (File::exists($directory)) {
-                  unlink($directory . $image->file_name);
-               }
-               $image->delete();
-            }
-         }
+      //    if ($check_image > 0) {
+      //       //directory
+      //       $directory = base_path() . '/storage/files/business/' . Wingu::business(Auth::user()->business_code)->primary_email . '/finance/products/';
+      //       $images = ModelsFile_manager::where('fileID', $id)->where('business_code', Auth::user()->business_code)->where('folder', 'products')->get();
+      //       foreach ($images as $image) {
+      //          if (File::exists($directory)) {
+      //             unlink($directory . $image->file_name);
+      //          }
+      //          $image->delete();
+      //       }
+      //    }
 
-         product_information::where('id', $id)->where('business_code', Auth::user()->business_code)->delete();
-         product_inventory::where('productID', $id)->where('business_code', Auth::user()->business_code)->delete();
-         //delete categories
-         $categories = product_category_product_information::where('productID', $id)->get();
-         foreach ($categories as $category) {
-            product_category_product_information::find($category->id)->delete();
-         }
+      //    product_information::where('id', $id)->where('business_code', Auth::user()->business_code)->delete();
+      //    product_inventory::where('productID', $id)->where('business_code', Auth::user()->business_code)->delete();
+      //    //delete categories
+      //    $categories = product_category_product_information::where('productID', $id)->get();
+      //    foreach ($categories as $category) {
+      //       product_category_product_information::find($category->id)->delete();
+      //    }
 
-         //delete tags
-         $tags = product_tag::where('product_id', $id)->get();
-         foreach ($tags as $tag) {
-            product_tag::find($tag->id)->delete();
-         }
+      //    //delete tags
+      //    $tags = product_tag::where('product_id', $id)->get();
+      //    foreach ($tags as $tag) {
+      //       product_tag::find($tag->id)->delete();
+      //    }
 
-         //delete price
-         product_price::where('productID', $id)->where('business_code', Auth::user()->business_code)->delete();
+      //delete price
+      product_price::where('productID', $id)->where('business_code', Auth::user()->business_code)->delete();
 
-         session()->flash('success', 'The Item was successfully deleted !');
+      session()->flash('success', 'The Item was successfully deleted !');
 
-         return redirect()->back();
-      } else {
-         session()->flash('error', 'You have recorded transactions for this product. Hence, this product cannot be deleted.');
-         return redirect()->back();
-      }
+      return redirect()->back();
+      // } else {
+      //    session()->flash('error', 'You have recorded transactions for this product. Hence, this product cannot be deleted.');
+      //    return redirect()->back();
+      // }
    }
 
    /**
@@ -414,13 +407,13 @@ class productController extends Controller
 
    public function express_store(Request $request)
    {
-      $primary = new customers;
+      $primary = new customers();
       $primary->customer_name = $request->customer_name;
       $primary->business_code = Auth::user()->business_code;
       $primary->created_by = Auth::user()->user_code;
       $primary->save();
 
-      $address = new address;
+      $address = new supplier_address();
       $address->customerID = $primary->id;
       $address->save();
    }

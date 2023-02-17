@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\TestingController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +23,7 @@ Route::get('sokoflowadmin', 'Auth\LoginController@showLoginForm');
 Route::get('signup', 'Auth\RegisterController@signup_form')->name('signup.page');
 Route::post('signup/account', 'Auth\RegisterController@signup')->name('signup');
 Route::get('logout', 'Auth\LoginController@logout');
-
+Route::get('api/tests', [TestingController::class, 'test']);
 Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => ['verified']], function () {

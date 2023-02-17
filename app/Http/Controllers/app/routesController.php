@@ -8,9 +8,11 @@ use App\Models\customer\customers;
 use App\Models\Routes;
 use App\Models\Route_customer;
 use App\Models\Route_sales;
+use App\Models\UnitRoute;
 use App\Models\User;
-use Auth;
+use App\Models\zone;
 use Helper;
+use Illuminate\Support\Facades\Auth;
 use Session;
 
 class routesController extends Controller
@@ -32,10 +34,11 @@ class routesController extends Controller
     */
    public function create()
    {
-      $customers = customers::where('business_code',Auth::user()->business_code)->pluck('customer_name','id')->prepend('Choose customer','');
-      $salesPeople = User::where('business_code',Auth::user()->business_code)->pluck('name','id')->prepend('Choose sales person','');
+      $customers = customers::where('business_code', Auth::user()->business_code)->pluck('customer_name', 'id');
+      $salesPeople = User::where('business_code', Auth::user()->business_code)->pluck('name', 'id');
+      $zones = zone::pluck('name', 'name');
 
-      return view('app.routes.create', compact('customers','salesPeople'));
+      return view('app.routes.create', compact('customers', 'salesPeople', 'zones'));
    }
 
    /**
@@ -46,7 +49,7 @@ class routesController extends Controller
     */
    public function store(Request $request)
    {
-      $this->validate($request,[
+      $this->validate($request, [
          'name' => 'required',
          'status' => 'required',
          'end_date' => 'required',
@@ -58,7 +61,7 @@ class routesController extends Controller
       $route->route_code = $code;
       $route->name = $request->name;
       $route->status = $request->status;
-      $route->Type= "Assigned";
+      $route->Type = "Assigned";
       $route->start_date = $request->start_date;
       $route->end_date = $request->end_date;
       $route->created_by = Auth::user()->user_code;
@@ -67,8 +70,8 @@ class routesController extends Controller
 
       //save customers
       $customersCount = count(collect($request->customers));
-      if($customersCount > 0){
-         for($i=0; $i < count($request->customers); $i++ ) {
+      if ($customersCount > 0) {
+         for ($i = 0; $i < count($request->customers); $i++) {
             $customers = new Route_customer;
             $customers->business_code  = Auth::user()->business_code;
             $customers->routeID = $code;
@@ -80,8 +83,8 @@ class routesController extends Controller
 
       //save sales person
       $salescount = count(collect($request->sales_persons));
-      if($salescount > 0){
-         for($i=0; $i < count($request->sales_persons); $i++ ) {
+      if ($salescount > 0) {
+         for ($i = 0; $i < count($request->sales_persons); $i++) {
             $sales = new Route_sales;
             $sales->business_code  = Auth::user()->business_code;
             $sales->routeID = $code;
@@ -91,7 +94,7 @@ class routesController extends Controller
          }
       }
 
-      Session::flash('success','Route successfully added');
+      Session::flash('success', 'Route successfully added');
 
 
       return redirect()->route('routes.index');
