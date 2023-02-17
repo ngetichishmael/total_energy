@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\app;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\customer\customers;
-use App\Models\Routes;
-use App\Models\Route_customer;
-use App\Models\Route_sales;
-use App\Models\UnitRoute;
+use Helper;
+use Session;
 use App\Models\User;
 use App\Models\zone;
-use Helper;
+use App\Models\Routes;
+use App\Models\UnitRoute;
+use App\Models\Route_sales;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\Route_customer;
+use App\Models\customer\customers;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Session;
 
 class routesController extends Controller
 {
@@ -55,7 +56,7 @@ class routesController extends Controller
          'end_date' => 'required',
       ]);
 
-      $code =  Helper::generateRandomString(20);
+      $code =  Str::random(20);
       $route = new Routes;
       $route->business_code = Auth::user()->business_code;
       $route->route_code = $code;
@@ -94,7 +95,7 @@ class routesController extends Controller
          }
       }
 
-      Session::flash('success', 'Route successfully added');
+      Session()->flash('success', 'Route successfully added');
 
 
       return redirect()->route('routes.index');

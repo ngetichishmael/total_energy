@@ -13,7 +13,6 @@ class DeliveriesController extends Controller
    {
       $user_code = $request->user()->user_code;
       $deliveries = Delivery::with(['DeliveryItems', 'Customer', 'Order'])
-         ->where('allocated', $user_code)
          ->get();
       return response()->json([
          "success" => true,
