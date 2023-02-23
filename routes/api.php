@@ -100,7 +100,8 @@ Route::group(['namespace' => 'Api'], function () {
    Route::get('allocation/history/{user_code}', ['uses' => 'checkinController@allocation_history', 'as' => 'checkin.allocation.history']);
 
    Route::post('/test/notifications', [NotificationController::class, 'sendFirebaseNotification']);
-   Route::get('/customer/notifications', [NotificationController::class, 'getCustomerNotification'])->middleware('auth:sanctum');;
+   Route::get('/customer/notifications', [NotificationController::class, 'getCustomerNotification'])->middleware('auth:sanctum');
+   Route::post('/accept/delivery', 'deliveryController@acceptDelivery')->middleware('auth:sanctum');
    /*
    |--------------------------------------------------------------------------
    | Authentication

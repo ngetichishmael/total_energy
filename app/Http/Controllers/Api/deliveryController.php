@@ -64,4 +64,22 @@ class deliveryController extends Controller
          "customer" => $customer,
       ]);
    }
+   public function acceptDelivery(Request $request)
+   {
+      $data = $request->collect();
+
+      foreach ($data as $value) {
+         Delivery::where('delivery_code', $value->delivery_code)->update([
+            'delivery_status' => 'pending'
+         ]);
+      }
+      return response()->json(
+         [
+            "status" => 200,
+            "success" => true,
+            "message" => "Accepting deliveries...",
+         ],
+         200
+      );
+   }
 }
