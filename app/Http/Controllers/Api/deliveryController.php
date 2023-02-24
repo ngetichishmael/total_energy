@@ -68,7 +68,7 @@ class deliveryController extends Controller
    }
    public function acceptDelivery(Request $request)
    {
-      $data = $request->collect();
+      $data = $request->all();
 
       foreach ($data as $value) {
 
@@ -90,15 +90,10 @@ class deliveryController extends Controller
    public function rejectDelivery(Request $request)
    {
       $data = $request->all();
-      info($data);
-      info("Rejecting delivery");
       foreach ($data as $value) {
-
-         info("Each value");
-         info($value);
          Delivery::where('delivery_code', $value["delivery_code"])->update([
             'delivery_status' => 'rejected',
-            'note' => $value["note"]
+            'delivery_note' => $value["note"]
          ]);
       }
       return response()->json(
