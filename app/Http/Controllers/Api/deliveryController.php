@@ -89,7 +89,7 @@ class deliveryController extends Controller
       $data = $request->collect();
       info($data);
       foreach ($data as $value) {
-         Delivery::where('delivery_code', $value->delivery_code)->update([
+         Delivery::where('delivery_code', $value["delivery_code"])->update([
             'delivery_status' => 'rejected',
             'note' => $value->note
          ]);
