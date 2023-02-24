@@ -71,13 +71,10 @@ class deliveryController extends Controller
       $data = $request->all();
 
       foreach ($data as $value) {
-
-         foreach ($value as $key) {
-            Delivery::where('delivery_code', $key->delivery_code)->update([
-               'delivery_status' => 'pending',
-               'updated_by' => $request->user()->user_code,
-            ]);
-         }
+         Delivery::where('delivery_code', $value->delivery_code)->update([
+            'delivery_status' => 'pending',
+            'updated_by' => $request->user()->user_code,
+         ]);
       }
       return response()->json(
          [
