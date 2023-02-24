@@ -87,7 +87,7 @@ class deliveryController extends Controller
    public function rejectDelivery(Request $request)
    {
       $data = $request->collect();
-
+      info($data);
       foreach ($data as $value) {
          Delivery::where('delivery_code', $value->delivery_code)->update([
             'delivery_status' => 'rejected',
