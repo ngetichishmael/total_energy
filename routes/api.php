@@ -53,6 +53,8 @@ Route::group(['namespace' => 'Api'], function () {
    //deliveries
    Route::get('deliveries/{businessCode}/{userCode}', 'deliveryController@index');
    Route::get('delivery/{code}/{businessCode}/details', 'deliveryController@details');
+   Route::post('/accept/delivery', 'deliveryController@acceptDelivery')->middleware('auth:sanctum');
+   Route::post('/reject/delivery', 'deliveryController@rejectDelivery')->middleware('auth:sanctum');
 
    //customer checking
    Route::post('customer/checkin/session', ['uses' => 'checkinController@create_checkin_session']);
@@ -101,7 +103,6 @@ Route::group(['namespace' => 'Api'], function () {
 
    Route::post('/test/notifications', [NotificationController::class, 'sendFirebaseNotification']);
    Route::get('/customer/notifications', [NotificationController::class, 'getCustomerNotification'])->middleware('auth:sanctum');
-   Route::post('/accept/delivery', 'deliveryController@acceptDelivery')->middleware('auth:sanctum');
    /*
    |--------------------------------------------------------------------------
    | Authentication
