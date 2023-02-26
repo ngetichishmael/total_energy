@@ -8,18 +8,18 @@ use Livewire\Component;
 
 class BrandChart extends Component
 {
-    public function render()
-    {
+   public function render()
+   {
       $brands = DB::table('order_items')->select('product_name', DB::raw('SUM(total_amount) as total'))
          ->groupBy('product_name')
          ->orderBy('total', 'desc')
          ->limit(7)
          ->get();
       $catergories = DB::table('order_items')->select('product_name', DB::raw('SUM(total_amount) as total'))
-      ->groupBy('product_name')
-      ->orderBy('total', 'asc')
-      ->limit(7)
-      ->get();
+         ->groupBy('product_name')
+         ->orderBy('total', 'asc')
+         ->limit(7)
+         ->get();
       $arrayLabel = [];
       $arrayData = [];
       $arrayCLabel = [];
@@ -37,7 +37,7 @@ class BrandChart extends Component
       $brandsales->dataset('Best Performing Brand', 'bar', $arrayData)->options([
          "responsive" => true,
          'color' => "#94DB9D",
-         'backgroundColor' => '#35827b',
+         'backgroundColor' => '#009dde',
          "borderWidth" => 2,
          "borderRadius" => 5,
          "borderSkipped" => true,
@@ -50,8 +50,8 @@ class BrandChart extends Component
          "borderWidth" => 2,
          "borderSkipped" => true,
       ]);
-        return view('livewire.dashboard.brand-chart',[
+      return view('livewire.dashboard.brand-chart', [
          'brandsales' => $brandsales,
-        ]);
-    }
+      ]);
+   }
 }

@@ -1,14 +1,4 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
-    <div class="mb-1 navbar-header">
-        <ul class="flex-row nav navbar-nav">
-            <li class="nav-item me-auto">
-                <a class="" href="#">
-                    <center><img src="{!! asset('app-assets/images/logo.png') !!}" alt="soko flow" class="img" width="80%"></center>
-                </a>
-            </li>
-            {{-- <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4 text-primary" data-feather="disc" data-ticon="disc"></i></a></li> --}}
-        </ul>
-    </div>
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
@@ -18,7 +8,7 @@
                         Dashboards</span>
                 </a>
             </li>
-        <li class="nav-item {!! Nav::isResource('maps') !!}">
+            <li class="nav-item {!! Nav::isResource('maps') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather="globe"></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Maps</span></a>
                 <ul class="menu-content">

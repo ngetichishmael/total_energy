@@ -10,17 +10,17 @@
     <div class="dashboard-landing">
         <div class="left-side">
             <nav>
-                <img src={{ asset('app-assets/images/bglogo.png') }} class="logo" alt="Soko Flow" />
+                <img src={{ asset('app-assets/images/logo.jpg') }} class="logo" alt="Total Energies" />
             </nav>
             <img src="{{ asset('app-assets/images/loginpage.svg') }}" alt="" class="img-fluid">
-            <h1 class="title">Soko Flow</h1>
+            <h1 class="title">Total Energies</h1>
         </div>
         <div class="right-side">
             <div class="login-fields">
                 <!-- Login v1 -->
                 <div>
                     <div class="card-body">
-                        <h4 class="mb-1 card-title">Welcome to sokoflow! 👋</h4>
+                        <h4 class="mb-1 card-title">Welcome to Total Energies! 👋</h4>
                         <p class="mb-2 card-text">Please sign-in to your account</p>
                         <form class="mt-2 auth-login-form" action="{{ route('login') }}" method="POST">
                             @csrf

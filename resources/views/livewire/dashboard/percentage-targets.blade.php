@@ -1,15 +1,15 @@
 <div class="col-12">
-   <div class="col-md-12">
-       <div class="row">
-           <div class="col-md-12">
-               <div class="col-md-12">
-                  <div style="height: 400px; width:400px;">
-                     <canvas id="myChart" width="200" height="200"></canvas>
-                 </div>
-               </div>
-           </div>
-       </div>
-   </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div style="height: 400px; width:400px;">
+                        <canvas id="myChart" width="200" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -23,10 +23,10 @@
             labels: `${labels}`.split(','),
             datasets: [{
                 label: 'Ranges',
-                data: [`${Targets}`,`${TargetAchieved}`],
+                data: [`${Targets}`, `${TargetAchieved}`],
                 backgroundColor: [
-                   '#f07f21',
-                   '#35827b'
+                    '#f07f21',
+                    '#009dde'
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
@@ -40,11 +40,11 @@
         },
         options: {
             plugins: {
-            title: {
-                display: true,
-                text: 'Sales Per Month'
+                title: {
+                    display: true,
+                    text: 'Sales Per Month'
+                }
             }
-        }
         }
     });
 </script>
