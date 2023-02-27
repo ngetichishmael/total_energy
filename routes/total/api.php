@@ -42,6 +42,7 @@ Route::group(['namespace' => 'Api'], function () {
        * Regions
        */
       Route::get('/total/regions/data', [TerritoryController::class, 'terriory']);
+      Route::get('/total/routes', [TerritoryController::class, 'routes']);
       /**
        *
        * Customer filtered by region

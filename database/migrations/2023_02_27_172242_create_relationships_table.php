@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\Subarea;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateZonesTable extends Migration
+class CreateRelationshipsTable extends Migration
 {
    /**
     * Run the migrations.
@@ -14,11 +13,13 @@ class CreateZonesTable extends Migration
     */
    public function up()
    {
-      Schema::create('zones', function (Blueprint $table) {
+      Schema::create('relationships', function (Blueprint $table) {
          $table->id();
-         $table->foreignIdFor(Subarea::class);
          $table->string('name');
-         $table->string('primary_key');
+         $table->string('has_children')->default(0);
+         $table->string('region_id')->nullable();
+         $table->string('parent_id')->nullable();
+         $table->string('level_id')->default(0);
          $table->timestamps();
       });
    }
@@ -30,6 +31,6 @@ class CreateZonesTable extends Migration
     */
    public function down()
    {
-      Schema::dropIfExists('zones');
+      Schema::dropIfExists('relationships');
    }
 }

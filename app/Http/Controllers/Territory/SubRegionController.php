@@ -7,6 +7,8 @@ use App\Models\Subregion;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\RegionalBreakdown;
+use App\Models\Relationship;
 
 class SubRegionController extends Controller
 {
@@ -44,12 +46,22 @@ class SubRegionController extends Controller
          'name' => 'required',
          'region' => 'required',
       ]);
-      Subregion::create([
+      $subregion = Subregion::create([
          'region_id' => $request->region,
          'name' => $request->name,
          'primary_key' => Str::random(20)
       ]);
-
+      $region = Region::whereId($request->region)->first();
+      Relationship::create([
+         'name' => $request->name,
+         'has_children' => false,
+         'region_id' => $subregion->region_id,
+         'parent_id' => $request->region,
+         'level_id' => 1,
+      ]);
+      Relationship::where('name', $region->name)->update([
+         'has_children' => true,
+      ]);
       Session()->flash('success', "Sub region successfully added");
       return redirect()->back();
    }

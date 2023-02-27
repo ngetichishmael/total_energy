@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Total;
 
 use App\Http\Controllers\Controller;
 use App\Models\Region;
+use App\Models\Relationship;
 use App\Models\Subregion;
 use App\Models\zone;
 use Illuminate\Http\Request;
@@ -29,6 +30,19 @@ class TerritoryController extends Controller
          [
             'status' => 200,
             'message' => 'Nested Territory ',
+            'data' => $data,
+         ],
+         200
+      );
+   }
+
+   public function routes()
+   {
+      $data = Relationship::where('has_children', '0')->get();
+      return response()->json(
+         [
+            'status' => 200,
+            'message' => 'Regional Data',
             'data' => $data,
          ],
          200

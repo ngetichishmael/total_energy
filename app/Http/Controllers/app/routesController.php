@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Models\Route_customer;
 use App\Models\customer\customers;
 use App\Http\Controllers\Controller;
+use App\Models\Relationship;
 use Illuminate\Support\Facades\Auth;
 
 class routesController extends Controller
@@ -37,7 +38,7 @@ class routesController extends Controller
    {
       $customers = customers::where('business_code', Auth::user()->business_code)->pluck('customer_name', 'id');
       $salesPeople = User::where('business_code', Auth::user()->business_code)->pluck('name', 'id');
-      $zones = zone::pluck('name', 'name');
+      $zones = Relationship::where('has_children', '0')->pluck('name', 'name');
 
       return view('app.routes.create', compact('customers', 'salesPeople', 'zones'));
    }

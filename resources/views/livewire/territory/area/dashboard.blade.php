@@ -7,23 +7,23 @@
                         <tr>
                             <th width="1%">#</th>
                             <th>Name</th>
-                            <th>Sub Area</th>
-                            <th>Area</th>
+                            <th>Sub Region</th>
+                            <th>Region</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($zones as $key => $zone)
+                        @foreach ($areas as $key => $area)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $zone->name }}</td>
-                                <td>{{ $zone->Subarea->name }}</td>
-                                <td>{{ $zone->Subarea->Area->name }}</td>
+                                <td>{{ $area->name }}</td>
+                                <td>{{ $area->Subregion->name }}</td>
+                                <td>{{ $area->Subregion->Region->name }}</td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-            {{ $zones->links() }}
+            {{ $areas->links() }}
         </div>
     </div>
 </div>

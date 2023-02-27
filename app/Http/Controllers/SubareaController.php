@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Territory;
+namespace App\Http\Controllers;
 
-use App\Models\Region;
+use App\Models\Area;
+use App\Models\Relationship;
+use App\Models\Subarea;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\RegionalBreakdown;
-use App\Models\Relationship;
 
-class RegionController extends Controller
+class SubareaController extends Controller
 {
    /**
     * Display a listing of the resource.
@@ -18,7 +17,9 @@ class RegionController extends Controller
     */
    public function index()
    {
-      return view('livewire.territory.region.index');
+      return view('livewire.territory.subarea.index', [
+         'areas' => Area::all()
+      ]);
    }
 
    /**
@@ -41,19 +42,25 @@ class RegionController extends Controller
    {
       $this->validate($request, [
          'name' => 'required',
+         'area' => 'required',
       ]);
-      $region = Region::create([
+      Subarea::create([
+         'area_id' => $request->area,
          'name' => $request->name,
          'primary_key' => Str::random(20)
       ]);
+      $area = Area::whereId($request->area)->first();
       Relationship::create([
          'name' => $request->name,
          'has_children' => false,
-         'region_id' => $region->id,
-         'parent_id' => null,
-         'level_id' => 0,
+         'region_id' => $area->Subregion->Region->id,
+         'parent_id' => $request->area,
+         'level_id' => 3,
       ]);
-      Session()->flash('success', "Region successfully added");
+      Relationship::where('name', $area->name)->update([
+         'has_children' => true,
+      ]);
+      Session()->flash('success', "Area successfully added");
       return redirect()->back();
    }
 

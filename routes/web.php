@@ -49,6 +49,24 @@ Route::group(['middleware' => ['verified']], function () {
       'create' => 'subregions.create',
       'store' => 'subregions.store',
    ]);
+   Route::resource('areas', AreaController::class)->names([
+      'index' => 'areas',
+      'show' => 'areas.show',
+      'edit' => 'areas.edit',
+      'update' => 'areas.update',
+      'destroy' => 'areas.destroy',
+      'create' => 'areas.create',
+      'store' => 'areas.store',
+   ]);
+   Route::resource('subareas', SubareaController::class)->names([
+      'index' => 'subareas',
+      'show' => 'subareas.show',
+      'edit' => 'subareas.edit',
+      'update' => 'subareas.update',
+      'destroy' => 'subareas.destroy',
+      'create' => 'subareas.create',
+      'store' => 'subareas.store',
+   ]);
    Route::resource('zones', Territory\ZoneController::class)->names([
       'index' => 'zones',
       'show' => 'zones.show',
@@ -57,6 +75,15 @@ Route::group(['middleware' => ['verified']], function () {
       'destroy' => 'zones.destroy',
       'create' => 'zones.create',
       'store' => 'zones.store',
+   ]);
+   Route::resource('units', UnitController::class)->names([
+      'index' => 'units',
+      'show' => 'units.show',
+      'edit' => 'units.edit',
+      'update' => 'units.update',
+      'destroy' => 'units.destroy',
+      'create' => 'units.create',
+      'store' => 'units.store',
    ]);
    Route::resource('customer', app\customer\customerController::class)->names([
       'index' => 'customer',

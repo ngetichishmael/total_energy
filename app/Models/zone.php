@@ -18,9 +18,9 @@ class zone extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
     */
-   public function Subregion(): BelongsTo
+   public function Subarea(): BelongsTo
    {
-      return $this->belongsTo(Subregion::class);
+      return $this->belongsTo(Subarea::class);
    }
    /**
     * Get all of the UnitRoutes for the zone

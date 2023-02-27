@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Territory;
 
 use App\Models\zone;
-use App\Models\Subregion;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Relationship;
+use App\Models\Subarea;
 
 class ZoneController extends Controller
 {
@@ -18,7 +19,7 @@ class ZoneController extends Controller
    public function index()
    {
       return view('livewire.territory.zone.index', [
-         'subregions' => Subregion::all()
+         'subareas' => Subarea::all()
       ]);
    }
 
@@ -42,14 +43,24 @@ class ZoneController extends Controller
    {
       $this->validate($request, [
          'name' => 'required',
-         'subregion' => 'required',
+         'subarea' => 'required',
       ]);
       zone::create([
-         'subregion_id' => $request->subregion,
+         'subarea_id' => $request->subarea,
          'name' => $request->name,
          'primary_key' => Str::random(20)
       ]);
-
+      $subarea = Subarea::whereId($request->subarea)->first();
+      Relationship::create([
+         'name' => $request->name,
+         'has_children' => false,
+         'region_id' => $subarea->Area->Subregion->Region->id,
+         'parent_id' => $request->subarea,
+         'level_id' => 3,
+      ]);
+      Relationship::where('name', $subarea->name)->update([
+         'has_children' => true,
+      ]);
       Session()->flash('success', "Sub region successfully added");
       return redirect()->back();
    }

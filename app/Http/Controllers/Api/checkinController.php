@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\Helper as HelpersHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\customer\customers;
 use App\Models\customer\checkin;
 use App\Models\inventory\allocations;
-use App\Models\inventory\items;
 use App\Models\products\product_information;
 use App\Models\Order_edit_reason;
 use App\Models\Orders;
 use App\Models\Order_items;
 use App\Models\Cart;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Session;
 use App\Helpers\Helper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session as FacadesSession;

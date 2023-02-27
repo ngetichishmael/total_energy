@@ -7,28 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Subregion extends Model
+class Area extends Model
 {
    use HasFactory;
-   protected $table = 'subregions';
-   protected $guarded = [];
+   protected $guarded = [""];
 
    /**
-    * Get the Region that owns the Subregion
+    * Get the Subregion that owns the Area
     *
     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
     */
-   public function Region(): BelongsTo
+   public function Subregion(): BelongsTo
    {
-      return $this->belongsTo(Region::class);
+      return $this->belongsTo(Subregion::class);
    }
    /**
-    * Get all of the Zones for the Subregion
+    * Get all of the Subarea for the Area
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-   public function Area(): HasMany
+   public function Subarea(): HasMany
    {
-      return $this->hasMany(Area::class);
+      return $this->hasMany(Subarea::class);
    }
 }

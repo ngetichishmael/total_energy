@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Subarea;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Kalnoy\Nestedset\NestedSet;
 
-class CreateZonesTable extends Migration
+class CreateRegionalBreakdownsTable extends Migration
 {
    /**
     * Run the migrations.
@@ -14,11 +14,9 @@ class CreateZonesTable extends Migration
     */
    public function up()
    {
-      Schema::create('zones', function (Blueprint $table) {
+      Schema::create('regional_breakdowns', function (Blueprint $table) {
          $table->id();
-         $table->foreignIdFor(Subarea::class);
-         $table->string('name');
-         $table->string('primary_key');
+         NestedSet::columns($table);
          $table->timestamps();
       });
    }
@@ -30,6 +28,6 @@ class CreateZonesTable extends Migration
     */
    public function down()
    {
-      Schema::dropIfExists('zones');
+      Schema::dropIfExists('regional_breakdowns');
    }
 }

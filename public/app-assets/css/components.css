@@ -560,7 +560,7 @@ footer.footer span svg {
    width: 1.51rem;
    font-size: 1.51rem;
    margin-left: 0.5rem;
-   color: #ea5455;
+   color: #007ec4;
 }
 
 footer.footer .scroll-top {
@@ -623,11 +623,11 @@ footer.footer-border {
 
 .main-menu.menu-light {
    color: #6e6b7b;
-   background: #ee1b22;
+   background: #007ec4;
 }
 
 .main-menu.menu-light .navigation {
-   background: #ee1b22;
+   background: #007ec4;
 }
 
 .main-menu.menu-light .navigation .navigation-header {
@@ -722,7 +722,8 @@ footer.footer-border {
 }
 
 .main-menu.menu-light .navigation>li.active>a {
-   background: linear-gradient(118deg, #007ec4, #007ec4);
+   /* background: linear-gradient(118deg, #007ec4, #007ec4); */
+   background: linear-gradient(118deg, #ee1b22, #ee1b22);
    box-shadow: 0 0 10px 1px rgb(241 132 33);
    color: #fff;
    font-weight: 400;
@@ -734,7 +735,7 @@ footer.footer-border {
 }
 
 .main-menu.menu-light .navigation>li .active>a {
-   color: #ea5455;
+   color: #007ec4;
    margin-bottom: 0;
 }
 
@@ -1215,7 +1216,7 @@ footer.footer-border {
 }
 
 .avatar .avatar-status-busy {
-   background-color: #ea5455;
+   background-color: #007ec4;
 }
 
 .avatar .avatar-status-away {
@@ -3004,7 +3005,7 @@ footer.footer-border {
 }
 
 .buy-now .btn {
-   box-shadow: 0 1px 20px 1px #ea5455 !important;
+   box-shadow: 0 1px 20px 1px #007ec4 !important;
 }
 
 .buy-now .btn:hover {

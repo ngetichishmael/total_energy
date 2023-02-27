@@ -62,13 +62,20 @@
                 <a class="d-flex align-items-center" href="#"><i data-feather="map-pin"></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Regions</span></a>
                 <ul class="menu-content">
-                    <li><a class="d-flex align-items-center "nav-item {!! Nav::isResource('regions') !!}"
+                    <li><a class="d-flex align-items-center nav-item {!! Nav::isResource('regions') !!}"
                             href="{{ route('regions') }}"><i data-feather="map-pin"></i><span
                                 class="menu-item text-truncate">Region</span></a></li>
-                    <li><a class="d-flex align-items-center" href="{{ route('subregions') }}"><i
-                                data-feather="map-pin"></i><span class="menu-item text-truncate">Sub Regions</span></a>
+                    <li><a class="d-flex align-items-center {!! Nav::isResource('subregions') !!}"
+                            href="{{ route('subregions') }}"><i data-feather="map-pin"></i><span
+                                class="menu-item text-truncate">Sub Regions</span></a>
                     </li>
-                    <li><a class="d-flex align-items-center" href="{{ route('zones') }}"><i
+                    <li><a class="d-flex align-items-center{!! Nav::isResource('areas') !!}" href="{{ route('areas') }}"><i
+                                data-feather="map-pin"></i><span class="menu-item text-truncate">Areas</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center{!! Nav::isResource('subareas') !!}" href="{{ route('subareas') }}"><i
+                                data-feather="map-pin"></i><span class="menu-item text-truncate">Subareas</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center{!! Nav::isResource('zones') !!}" href="{{ route('zones') }}"><i
                                 data-feather="map-pin"></i><span class="menu-item text-truncate">Zone</span></a>
                     </li>
                 </ul>
