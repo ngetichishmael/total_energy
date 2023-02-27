@@ -118,9 +118,7 @@ class customersController extends Controller
       $image_path = $request->file('image')->store('image', 'public');
       $emailData = $request->email == null ? null : $request->email;
 
-      $zone_id = zone::where('primary_key', $request->route_code)->pluck('id')->implode('');
-      $subregion_id = Subregion::whereId($zone_id)->pluck('id')->implode('');
-      $region_id = Subregion::whereId($subregion_id)->pluck('id')->implode('');
+
       $customer = new customers;
       $customer->customer_name = $request->customer_name;
       $customer->contact_person = $request->contact_person;
@@ -133,9 +131,7 @@ class customersController extends Controller
       $customer->created_by = $request->user()->user_code;
       $customer->route_code = $request->route_code;
       $customer->customer_group = $request->outlet;
-      $customer->region_id = $region_id;
-      $customer->subregion_id = $subregion_id;
-      $customer->zone_id = $zone_id;
+      $customer->region_id = $request->region_id;
       $customer->unit_id = $request->route_code;
       $customer->image = $image_path;
       $customer->save();
