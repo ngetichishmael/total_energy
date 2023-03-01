@@ -1,137 +1,145 @@
 @extends('layouts.app')
 {{-- page header --}}
-@section('title','Edit Customer')
+@section('title', 'Edit Customer')
 {{-- page styles --}}
 
 {{-- content section --}}
 @section('content')
-   <div class="content-header row">
-      <div class="content-header-left col-md-12 col-12 mb-2">
-         <div class="row breadcrumbs-top">
-            <div class="col-12">
-               <h2 class="content-header-title float-start mb-0">Customer | Edit</h2>
-               <div class="breadcrumb-wrapper">
-                  <ol class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                     <li class="breadcrumb-item"><a href="#">Customer</a></li>
-                     <li class="breadcrumb-item active">Edit</li>
-                  </ol>
-               </div>
+    <div class="content-header row">
+        <div class="mb-2 content-header-left col-md-12 col-12">
+            <div class="row breadcrumbs-top">
+                <div class="col-12">
+                    <h2 class="mb-0 content-header-title float-start">Customer | Edit</h2>
+                    <div class="breadcrumb-wrapper">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Customer</a></li>
+                            <li class="breadcrumb-item active">Edit</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
-   <!-- end breadcrumb -->
-   {!! Form::model($customer, ['route' => ['customer.update',$customer->id], 'method'=>'post','enctype'=>'multipart/form-data']) !!}
-   {!! csrf_field() !!}
-      <div class="col-md-8">
-         <div class="card card-default">
+        </div>
+    </div>
+    <!-- Basic multiple Column Form section start -->
+    <!-- Basic Floating Label Form section end -->
+    <!-- end breadcrumb -->
+    {!! Form::model($customer, [
+        'route' => ['customer.update', $customer->id],
+        'method' => 'post',
+        'enctype' => 'multipart/form-data',
+    ]) !!}
+    @method('PUT')
+    {!! csrf_field() !!}
+    <div class="col-md-8">
+        <div class="card card-default">
             <div class="card-body">
-               <div class="row">
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('customer_name', 'Customer names', array('class'=>'control-label')) !!}
-                     {!! Form::text('customer_name', null, array('class' => 'form-control', 'placeholder' => 'Enter customer name')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('caccount', 'Account Number', array('class'=>'control-label')) !!}
-                     {!! Form::text('account', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('manufacturer_number', 'Manufacturer number', array('class'=>'control-label')) !!}
-                     {!! Form::text('manufacturer_number', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('vat_number', 'VAT number', array('class'=>'control-label')) !!}
-                     {!! Form::text('vat_number', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('delivery_time', 'Delivery time', array('class'=>'control-label')) !!}
-                     <input type="time" class="form-control" value="{!! $customer->delivery_time !!}" name="delivery_time">
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('address', 'Address', array('class'=>'control-label')) !!}
-                     {!! Form::text('address', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('city', 'City', array('class'=>'control-label')) !!}
-                     {!! Form::text('city', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('province', 'Province', array('class'=>'control-label')) !!}
-                     {!! Form::text('province', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('postal_code', 'Postal code', array('class'=>'control-label')) !!}
-                     {!! Form::text('postal_code', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('country', 'Country', array('class'=>'control-label')) !!}
-                     {!! Form::text('country', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('latitude', 'Latitude', array('class'=>'control-label')) !!}
-                     {!! Form::text('latitude', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('longitude', 'Longitude', array('class'=>'control-label')) !!}
-                     {!! Form::text('longitude', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('contact_person', 'Contact person	', array('class'=>'control-label')) !!}
-                     {!! Form::text('contact_person', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('telephone', 'Telephone', array('class'=>'control-label')) !!}
-                     {!! Form::text('telephone', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('customer_group', 'Customer group', array('class'=>'control-label')) !!}
-                     {!! Form::text('customer_group', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('customer_secondary_group', 'Customer secondary group', array('class'=>'control-label')) !!}
-                     {!! Form::text('customer_secondary_group', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('price_group', 'Price group', array('class'=>'control-label')) !!}
-                     {!! Form::text('price_group', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('route', 'Route', array('class'=>'control-label')) !!}
-                     {!! Form::text('route', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('branch', 'Branch', array('class'=>'control-label')) !!}
-                     {!! Form::text('branch', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('email', 'Email', array('class'=>'control-label')) !!}
-                     {!! Form::text('email', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('phone_number', 'Phone number', array('class'=>'control-label')) !!}
-                     {!! Form::text('phone_number', null, array('class' => 'form-control', 'placeholder' => 'Enter value')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('zone', 'Zone', array('class'=>'control-label')) !!}
-                     {!! Form::select('zone',[],null, array('class' => 'form-control')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('Region', 'Region', array('class'=>'control-label')) !!}
-                     {!! Form::select('region',[], null, array('class' => 'form-control')) !!}
-                  </div>
-                  <div class="form-group mb-1 col-md-6">
-                     {!! Form::label('Territory', 'Territory', array('class'=>'control-label')) !!}
-                     {!! Form::select('territory',[],null, array('class' => 'form-control')) !!}
-                  </div>
-                  <div class="mb-1 col-md-12">
-                     <center><button type="submit" class="btn btn-success">Update Information</button></center>
-                  </div>
-               </div>
+                <div class="row">
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('customer_name', 'Customer names', ['class' => 'control-label']) !!}
+                        {!! Form::text('customer_name', null, ['class' => 'form-control', 'placeholder' => 'Enter customer name']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('caccount', 'Account Number', ['class' => 'control-label']) !!}
+                        {!! Form::text('account', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('manufacturer_number', 'Manufacturer number', ['class' => 'control-label']) !!}
+                        {!! Form::text('manufacturer_number', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('vat_number', 'VAT number', ['class' => 'control-label']) !!}
+                        {!! Form::text('vat_number', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('delivery_time', 'Delivery time', ['class' => 'control-label']) !!}
+                        <input type="time" class="form-control" value="{!! $customer->delivery_time !!}" name="delivery_time">
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('address', 'Address', ['class' => 'control-label']) !!}
+                        {!! Form::text('address', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('city', 'City', ['class' => 'control-label']) !!}
+                        {!! Form::text('city', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('province', 'Province', ['class' => 'control-label']) !!}
+                        {!! Form::text('province', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('postal_code', 'Postal code', ['class' => 'control-label']) !!}
+                        {!! Form::text('postal_code', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('country', 'Country', ['class' => 'control-label']) !!}
+                        {!! Form::text('country', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('latitude', 'Latitude', ['class' => 'control-label']) !!}
+                        {!! Form::text('latitude', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('longitude', 'Longitude', ['class' => 'control-label']) !!}
+                        {!! Form::text('longitude', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('contact_person', 'Contact person	', ['class' => 'control-label']) !!}
+                        {!! Form::text('contact_person', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('telephone', 'Telephone', ['class' => 'control-label']) !!}
+                        {!! Form::text('telephone', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('customer_group', 'Customer group', ['class' => 'control-label']) !!}
+                        {!! Form::text('customer_group', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('customer_secondary_group', 'Customer secondary group', ['class' => 'control-label']) !!}
+                        {!! Form::text('customer_secondary_group', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('price_group', 'Price group', ['class' => 'control-label']) !!}
+                        {!! Form::text('price_group', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('route', 'Route', ['class' => 'control-label']) !!}
+                        {!! Form::text('route', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('branch', 'Branch', ['class' => 'control-label']) !!}
+                        {!! Form::text('branch', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
+                        {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('phone_number', 'Phone number', ['class' => 'control-label']) !!}
+                        {!! Form::text('phone_number', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('zone', 'Zone', ['class' => 'control-label']) !!}
+                        {!! Form::select('zone', [], null, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('Region', 'Region', ['class' => 'control-label']) !!}
+                        {!! Form::select('region', [], null, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="mb-1 form-group col-md-6">
+                        {!! Form::label('Territory', 'Territory', ['class' => 'control-label']) !!}
+                        {!! Form::select('territory', [], null, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="mb-1 col-md-12">
+                        <center><button type="submit" class="btn btn-success">Update Information</button></center>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-	{!! Form::close() !!}
+        </div>
+    </div>
+    {!! Form::close() !!}
+
 @endsection
 {{-- page scripts --}}
 @section('scripts')

@@ -34,7 +34,7 @@ class customerController extends Controller
 
    public function create()
    {
-      $country = country::OrderBy('id', 'DESC')->pluck('name', 'id')->prepend('Choose Country', '');
+      $country = country::OrderBy('id', 'DESC')->pluck('name', 'id');
       $groups = groups::where('businessID', FacadesAuth::user()->business_code)->OrderBy('id', 'DESC')->pluck('name', 'id');
       return view('app.customers.create', compact('country', 'groups'));
    }
@@ -79,7 +79,7 @@ class customerController extends Controller
 
    public function edit($id)
    {
-      $country = country::OrderBy('id', 'DESC')->pluck('name', 'id')->prepend('Choose Country', '');
+      $country = country::OrderBy('id', 'DESC')->pluck('name', 'id');
       $customer = customers::where('customers.id', $id)
          ->select('*', 'customers.id as customerID')
          ->first();
