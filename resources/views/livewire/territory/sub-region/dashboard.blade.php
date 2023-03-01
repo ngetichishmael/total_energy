@@ -7,7 +7,7 @@
                         <tr>
                             <th width="1%">#</th>
                             <th>Name</th>
-                            <th>Region</th>
+                            <th>Zone</th>
                         </tr>
                     </thead>
                     <tbody>

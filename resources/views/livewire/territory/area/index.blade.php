@@ -10,11 +10,11 @@
         <div class="mb-2 content-header-left col-md-12 col-12">
             <div class="row breadcrumbs-top">
                 <div class="col-12">
-                    <h2 class="mb-0 content-header-title float-start">Areas</h2>
+                    <h2 class="mb-0 content-header-title float-start">Routes</h2>
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Areas</a></li>
+                            <li class="breadcrumb-item"><a href="#">Route</a></li>
                             <li class="breadcrumb-item active"><a href="#">All</a></li>
                         </ol>
                     </div>
@@ -29,7 +29,7 @@
             <div class="card card-default">
                 <div class="card-body">
                     <div class="card-body">
-                        <h4 class="card-title">Add Area </h4>
+                        <h4 class="card-title">Add Route </h4>
                         <form method="POST" action="{{ route('areas.store') }}" style="gap: 20px;">
                             @csrf
                             <div class="row">
@@ -39,17 +39,17 @@
                                             <div class="row">
                                                 <div class="mb-2 col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="first-name-column">Area</label>
+                                                        <label for="first-name-column">Route</label>
                                                         <input type="text" id="first-name-column" class="form-control"
-                                                            placeholder="Area" name="name" required />
+                                                            placeholder="Route" name="name" required />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        <label for="select-country">Sub Region</label>
+                                                        <label for="select-country">Region</label>
                                                         <select class="form-control select2" id="select-country"
                                                             name="subregion" required>
-                                                            <option value="">Select Subregion</option>
+                                                            <option value="">Select Regions</option>
                                                             @foreach ($subregions as $subregion)
                                                                 <option value="{{ $subregion->id }}">{{ $subregion->name }}
                                                                 </option>
@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                             <div class="mt-2 col-12 d-flex flex-sm-row flex-column" style="gap: 20px;">
-                                <button type="submit" class="mb-1 mr-0 btn btn-success mb-sm-0 mr-sm-1"> Add Area</button>
+                                <button type="submit" class="mb-1 mr-0 btn btn-success mb-sm-0 mr-sm-1"> Add Route</button>
                             </div>
                         </form>
                     </div>

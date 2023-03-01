@@ -14,7 +14,7 @@
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Regions</a></li>
+                            <li class="breadcrumb-item"><a href="#">Zones</a></li>
                             <li class="breadcrumb-item active"><a href="#">All</a></li>
                         </ol>
                     </div>
@@ -29,21 +29,21 @@
             <div class="card card-default">
                 <div class="card-body">
                     <div class="card-body">
-                        <h4 class="card-title">Add Region</h4>
+                        <h4 class="card-title">Add Zone</h4>
                         {!! Form::open(['route' => 'regions.store']) !!}
                         @csrf
                         <div class="form-group form-group-default required">
                             {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
                             {!! Form::text('name', null, [
                                 'class' => 'form-control',
-                                'placeholder' => 'Enter Region Name',
+                                'placeholder' => 'Enter Zone Name',
                                 'required' => '',
                             ]) !!}
                         </div>
                         <div class="mt-4 form-group">
                             <center>
                                 <button type="submit" class="btn btn-success submit"><i class="fas fa-save"></i> Add
-                                    Region</button>
+                                    Zone</button>
                             </center>
                         </div>
                         {!! Form::close() !!}
