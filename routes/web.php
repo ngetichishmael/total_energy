@@ -19,6 +19,7 @@ require __DIR__ . '/admin.php';
 require __DIR__ . '/others.php';
 
 Route::get('/', 'Auth\LoginController@showLoginForm')->name('home.page');
+Route::get('/privacy-policy', 'PrivacyController@index');
 Route::get('sokoflowadmin', 'Auth\LoginController@showLoginForm');
 Route::get('signup', 'Auth\RegisterController@signup_form')->name('signup.page');
 Route::post('signup/account', 'Auth\RegisterController@signup')->name('signup');

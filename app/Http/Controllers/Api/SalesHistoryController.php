@@ -36,19 +36,8 @@ class SalesHistoryController extends Controller
    }
    public function vansales(Request $request, $shopID)
    {
-      //$checking = checkin::where('customer_id', $shopID)->first();
       $user_code = $request->user()->user_code;
-      //$customerID = $request->customer_id;
 
-      // `customerID`,
-      // `user_code`,
-      // `order_code`,
-      // `price_total`,
-      // `order_status`,
-      // `payment_status`,
-      // `checkin_code`,
-      // `order_type`,
-      // `created_at`
       $vansales = 'Van sales';
       $query = DB::select(
          'SELECT

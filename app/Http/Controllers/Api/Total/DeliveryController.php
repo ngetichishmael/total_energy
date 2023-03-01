@@ -48,7 +48,7 @@ class DeliveryController extends Controller
             ->update([
                "delivery_quantity" => $value["qty"]
             ]);
-         $total += product_price::whereId($value["productID"])->pluck('buying_price')->implode(" ") * $value["qty"];
+         $total += product_price::whereId($value["productID"])->pluck('buying_price')->implode("") * $value["qty"];
       }
       return response()->json([
          "success" => true,
