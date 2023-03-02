@@ -27,4 +27,13 @@ class customers extends Model
    {
       return $this->belongsTo(User::class, 'foreign_key', 'other_key');
    }
+   /**
+    * Get the Area that owns the customers
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    */
+   public function Area(): BelongsTo
+   {
+      return $this->belongsTo(Area::class, 'route_code', 'id');
+   }
 }
