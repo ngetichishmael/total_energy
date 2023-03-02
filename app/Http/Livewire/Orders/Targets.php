@@ -19,8 +19,8 @@ class Targets extends Component
 
       $today = Carbon::now();
       $lastDayofMonth =  Carbon::parse($today)->endOfMonth()->toDateString();
-      $this->users = User::where('account_type', 'Sales')->where('business_code', Auth::user()->business_code)->get();
-      $this->QPTargets = OrdersTarget::where('business_code', Auth::user()->business_code)->get();
+      $this->users = User::where('account_type', 'Sales')->get();
+      $this->QPTargets = OrdersTarget::get();
       $this->fill([
          'Targets' => collect([
             ['primarykey' => '', 'deadline' => $lastDayofMonth]
