@@ -63,7 +63,7 @@ class Targets extends Component
                   ],
                   [
                      'OrdersTarget' => $value['Target'],
-                     'bussiness_code' => Auth::user()->business_code,
+                     'business_code' => Auth::user()->business_code,
                   ]
                );
             }
@@ -75,7 +75,7 @@ class Targets extends Component
                ],
                [
                   'OrdersTarget' => $value['Target'],
-                  'bussiness_code' => Auth::user()->business_code,
+                  'business_code' => Auth::user()->business_code,
                ]
             );
          }
