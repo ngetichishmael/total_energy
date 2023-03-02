@@ -18,15 +18,15 @@ class Dashboard extends Component
    public function render()
    {
       $searchTerm = '%' . $this->search . '%';
-      $contacts = customers::whereLike(
+      $contacts = customers::with(['Area.Subregion.Region'])->whereLike(
          [
             'customer_name',
             'phone_number',
             'address',
 
          ],
-         $searchTerm)
-         ->where('business_code', Auth::user()->business_code)
+         $searchTerm
+      )
          ->paginate($this->perPage);
       return view('livewire.customers.dashboard', [
          'contacts' => $contacts

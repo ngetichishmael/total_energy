@@ -21,124 +21,199 @@
             </div>
         </div>
     </div>
+
     <!-- Basic multiple Column Form section start -->
-    <!-- Basic Floating Label Form section end -->
-    <!-- end breadcrumb -->
-    {!! Form::model($customer, [
-        'route' => ['customer.update', $customer->id],
-        'method' => 'post',
-        'enctype' => 'multipart/form-data',
-    ]) !!}
-    @method('PUT')
-    {!! csrf_field() !!}
-    <div class="col-md-8">
-        <div class="card card-default">
-            <div class="card-body">
-                <div class="row">
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('customer_name', 'Customer names', ['class' => 'control-label']) !!}
-                        {!! Form::text('customer_name', null, ['class' => 'form-control', 'placeholder' => 'Enter customer name']) !!}
+    <section id="multiple-column-form">
+        <div class="row">
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Customers</h4>
                     </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('caccount', 'Account Number', ['class' => 'control-label']) !!}
-                        {!! Form::text('account', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('manufacturer_number', 'Manufacturer number', ['class' => 'control-label']) !!}
-                        {!! Form::text('manufacturer_number', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('vat_number', 'VAT number', ['class' => 'control-label']) !!}
-                        {!! Form::text('vat_number', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('delivery_time', 'Delivery time', ['class' => 'control-label']) !!}
-                        <input type="time" class="form-control" value="{!! $customer->delivery_time !!}" name="delivery_time">
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('address', 'Address', ['class' => 'control-label']) !!}
-                        {!! Form::text('address', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('city', 'City', ['class' => 'control-label']) !!}
-                        {!! Form::text('city', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('province', 'Province', ['class' => 'control-label']) !!}
-                        {!! Form::text('province', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('postal_code', 'Postal code', ['class' => 'control-label']) !!}
-                        {!! Form::text('postal_code', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('country', 'Country', ['class' => 'control-label']) !!}
-                        {!! Form::text('country', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('latitude', 'Latitude', ['class' => 'control-label']) !!}
-                        {!! Form::text('latitude', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('longitude', 'Longitude', ['class' => 'control-label']) !!}
-                        {!! Form::text('longitude', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('contact_person', 'Contact person	', ['class' => 'control-label']) !!}
-                        {!! Form::text('contact_person', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('telephone', 'Telephone', ['class' => 'control-label']) !!}
-                        {!! Form::text('telephone', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('customer_group', 'Customer group', ['class' => 'control-label']) !!}
-                        {!! Form::text('customer_group', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('customer_secondary_group', 'Customer secondary group', ['class' => 'control-label']) !!}
-                        {!! Form::text('customer_secondary_group', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('price_group', 'Price group', ['class' => 'control-label']) !!}
-                        {!! Form::text('price_group', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('route', 'Route', ['class' => 'control-label']) !!}
-                        {!! Form::text('route', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('branch', 'Branch', ['class' => 'control-label']) !!}
-                        {!! Form::text('branch', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
-                        {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('phone_number', 'Phone number', ['class' => 'control-label']) !!}
-                        {!! Form::text('phone_number', null, ['class' => 'form-control', 'placeholder' => 'Enter value']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('zone', 'Zone', ['class' => 'control-label']) !!}
-                        {!! Form::select('zone', [], null, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('Region', 'Region', ['class' => 'control-label']) !!}
-                        {!! Form::select('region', [], null, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="mb-1 form-group col-md-6">
-                        {!! Form::label('Territory', 'Territory', ['class' => 'control-label']) !!}
-                        {!! Form::select('territory', [], null, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="mb-1 col-md-12">
-                        <center><button type="submit" class="btn btn-success">Update Information</button></center>
+                    <div class="card-body">
+                        <form class="form" method="POST"
+                            action="{{ route('customer.update', ['customer' => $customer]) }}">
+
+                            @method('PUT')
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="first-name-column">Customer Names</label>
+                                        <input type="text" id="first-name-column" class="form-control"
+                                            placeholder="Customer Name" name="customer_name"
+                                            value="{{ $customer->customer_name }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="last-name-column">Account</label>
+                                        <input type="text" id="last-name-column" class="form-control"
+                                            placeholder="Account" name="account" value="{{ $customer->account }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="city-column">Manufacturer Number</label>
+                                        <input type="text" id="city-column" class="form-control" placeholder="City"
+                                            name="manufacturer_number" value="{{ $customer->manufacturer_number }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="country-floating">VAT number</label>
+                                        <input type="text" id="country-floating" class="form-control" name="vat_number"
+                                            placeholder="VAT number" value="{{ $customer->vat_number }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="company-column">Delivery Time</label>
+                                        <input type="text" id="company-column" class="form-control" name="delivery_time"
+                                            placeholder="Delivery Time" value="{{ $customer->delivery_time }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="email-id-column">Address</label>
+                                        <input type="text" id="email-id-column" class="form-control" name="address"
+                                            placeholder="address" value="{{ $customer->address }}" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="first-name-column">City</label>
+                                        <input type="text" id="first-name-column" class="form-control" placeholder="City"
+                                            name="city" value="{{ $customer->city }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="last-name-column">Province</label>
+                                        <input type="text" id="last-name-column" class="form-control"
+                                            placeholder="Province" name="province" value="{{ $customer->province }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="city-column">Postal Code</label>
+                                        <input type="text" id="city-column" class="form-control"
+                                            placeholder="Postal Code" name="postal_code"
+                                            value="{{ $customer->postal_code }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="country-floating">Country</label>
+                                        <input type="text" id="country-floating" class="form-control" name="country"
+                                            placeholder="Country" value="{{ $customer->country }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="company-column">Latitude</label>
+                                        <input type="text" id="company-column" class="form-control" name="latitude"
+                                            placeholder="Latitude" value="{{ $customer->latitude }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="email-id-column">Longitude</label>
+                                        <input type="email" id="email-id-column" class="form-control" name="longitude"
+                                            placeholder="Longitude" value="{{ $customer->longitude }}" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="first-name-column">Contact Person</label>
+                                        <input type="text" id="first-name-column" class="form-control"
+                                            placeholder="Contact Person" name="contact_person"
+                                            value="{{ $customer->contact_person }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="last-name-column">Telephone</label>
+                                        <input type="text" id="last-name-column" class="form-control"
+                                            placeholder="Telephone" name="telephone"
+                                            value="{{ $customer->telephone }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="city-column">Customer Group</label>
+                                        <input type="text" id="city-column" class="form-control"
+                                            placeholder="Customer Group" name="customer_group"
+                                            value="{{ $customer->customer_group }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="country-floating">Customer Secondary Group</label>
+                                        <input type="text" id="country-floating" class="form-control"
+                                            name="customer_secondary_group" placeholder="Customer Secondary Group"
+                                            value="{{ $customer->customer_secondary_group }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="company-column">Price Group</label>
+                                        <input type="text" id="company-column" class="form-control"
+                                            name="price_group" placeholder="Price Group"
+                                            value="{{ $customer->price_group }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="email-id-column">Route</label>
+                                        <input type="text" id="email-id-column" class="form-control" name="route"
+                                            placeholder="Route" value="{{ $customer->route }}" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="first-name-column">Branch</label>
+                                        <input type="text" id="first-name-column" class="form-control"
+                                            placeholder="Branch" name="branch" value="{{ $customer->branch }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="last-name-column">Email</label>
+                                        <input type="email" id="last-name-column" class="form-control"
+                                            placeholder="Email" name="email" value="{{ $customer->email }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="city-column">Phone Number</label>
+                                        <input type="text" id="city-column" class="form-control"
+                                            placeholder="Phone Number" name="phone_number"
+                                            value="{{ $customer->phone_number }}" />
+                                    </div>
+                                </div>
+                                @livewire('customers.region')
+                            </div>
+                            <div class="my-1 col-sm-9 offset-sm-3">
+                                <button type="submit" class="mr-1 btn btn-primary">Update</button>
+                                <a href="{{ route('customer') }}" class="btn btn-outline-secondary">Cancel</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    {!! Form::close() !!}
+    </section>
+    <!-- Basic Floating Label Form section end -->
 
 @endsection
 {{-- page scripts --}}

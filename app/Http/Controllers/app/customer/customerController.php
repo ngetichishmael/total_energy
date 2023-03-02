@@ -6,13 +6,11 @@ use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\customer\customers;
-use App\Models\customer\contact_persons as contact;
 use App\Models\country;
 use App\Models\customer\groups;
-use App\Models\customer\customer_group;
+use App\Models\suppliers\supplier_address;
 use File;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class customerController extends Controller
@@ -65,6 +63,7 @@ class customerController extends Controller
       $customer->customer_secondary_group = $request->customer_secondary_group;
       $customer->price_group = $request->price_group;
       $customer->route = $request->route;
+      $customer->route_code = $request->territory;
       $customer->branch = $request->branch;
       $customer->email = $request->email;
       $customer->phone_number = $request->phone_number;
@@ -74,7 +73,7 @@ class customerController extends Controller
 
       Session::flash('success', 'Customer successfully Added');
 
-      return redirect()->route('customer.index');
+      return redirect()->route('customer');
    }
 
    public function edit($id)
@@ -118,18 +117,10 @@ class customerController extends Controller
       $customer->updated_by = FacadesAuth::user()->id;
       $customer->save();
 
-      //recorord activity
-      $activities = '<b>' . FacadesAuth::user()->name . '</b> Has <b>updated</b><i> ' . $request->customer_name . '</i> details';
-      $section = 'Customer';
-      $action = 'Update';
-      $businessID = FacadesAuth::user()->business_code;
-      $activityID = $customer->id;
-
-      Helper::activity($activities, $section, $action, $activityID, $businessID);
 
       Session::flash('success', 'Customer updated successfully');
 
-      return redirect()->back();
+      return redirect()->route('customer');
    }
 
 
@@ -140,63 +131,63 @@ class customerController extends Controller
 
       //check if user is linked to any module
       //invoice
-      $invoice = invoices::where('businessID', FacadesAuth::user()->business_code)->where('customerID', $id)->count();
+      // $invoice = invoices::where('businessID', FacadesAuth::user()->business_code)->where('customerID', $id)->count();
 
-      //credit note
-      $creditnote = creditnote::where('businessID', Auth::user()->business_code)->where('customerID', $id)->count();
+      // //credit note
+      // $creditnote = creditnote::where('businessID', Auth::user()->business_code)->where('customerID', $id)->count();
 
-      //quotes
-      $quotes = quotes::where('businessID', Auth::user()->business_code)->where('customerID', $id)->count();
+      // //quotes
+      // $quotes = quotes::where('businessID', Auth::user()->business_code)->where('customerID', $id)->count();
 
-      //project
-      $project = project::where('businessID', Auth::user()->business_code)->where('customerID', $id)->count();
+      // //project
+      // $project = project::where('businessID', Auth::user()->business_code)->where('customerID', $id)->count();
 
-      if ($invoice == 0 && $creditnote == 0 && $quotes == 0 && $project == 0) {
+      // if ($invoice == 0 && $creditnote == 0 && $quotes == 0 && $project == 0) {
 
-         //client info
-         $check = customers::where('id', '=', $id)->where('image', '!=', "")->count();
-         if ($check > 0) {
-            $deleteinfo = customers::where('id', '=', $id)->select('image', 'customer_code')->first();
+      //    //client info
+      //    $check = customers::where('id', '=', $id)->where('image', '!=', "")->count();
+      //    if ($check > 0) {
+      //       $deleteinfo = customers::where('id', '=', $id)->select('image', 'customer_code')->first();
 
-            $path = base_path() . '/public/businesses/' . Wingu::business(FacadesAuth::user()->business_code)->businessID . '/customer/' . $deleteinfo->customer_code . '/images/';
+      //       $path = base_path() . '/public/businesses/' . Wingu::business(FacadesAuth::user()->business_code)->businessID . '/customer/' . $deleteinfo->customer_code . '/images/';
 
 
-            $delete = $path . $deleteinfo->image;
-            if (File::exists($delete)) {
-               unlink($delete);
-            }
-         }
+      //       $delete = $path . $deleteinfo->image;
+      //       if (File::exists($delete)) {
+      //          unlink($delete);
+      //       }
+      //    }
 
-         //delete contact person
-         $persons = contact::where('customerID', $id)->get();
-         foreach ($persons as $person) {
-            $person->delete();
-         }
+      //    //delete contact person
+      //    $persons = contact::where('customerID', $id)->get();
+      //    foreach ($persons as $person) {
+      //       $person->delete();
+      //    }
 
-         //delete contact
-         customers::where('id', '=', $id)->delete();
+      //    //delete contact
+      //    customers::where('id', '=', $id)->delete();
 
-         //delete address
-         address::where('customerID', $id)->delete();
+      //    //delete address
+      //    address::where('customerID', $id)->delete();
 
-         //delete company group
-         $check_group = customer_group::where('customerID', $id)->count();
-         if ($check_group > 0) {
-            $groups = customer_group::where('customerID', $id)->get();
-            foreach ($groups as $group) {
-               $deleteGroup = customer_group::find($group->id);
-               $deleteGroup->delete();
-            }
-         }
+      //    //delete company group
+      //    $check_group = customer_group::where('customerID', $id)->count();
+      //    if ($check_group > 0) {
+      //       $groups = customer_group::where('customerID', $id)->get();
+      //       foreach ($groups as $group) {
+      //          $deleteGroup = customer_group::find($group->id);
+      //          $deleteGroup->delete();
+      //       }
+      //    }
 
-         Session::flash('success', 'Contact was successfully deleted');
+      //    Session::flash('success', 'Contact was successfully deleted');
 
-         return redirect()->route('finance.contact.index');
-      } else {
-         Session::flash('error', 'You have recorded transactions for this contact. Hence, this contact cannot be deleted.');
+      //    return redirect()->route('finance.contact.index');
+      // } else {
+      //    Session::flash('error', 'You have recorded transactions for this contact. Hence, this contact cannot be deleted.');
 
-         return redirect()->back();
-      }
+      //    return redirect()->back();
+      // }
    }
 
 
@@ -210,7 +201,7 @@ class customerController extends Controller
       $primary->created_by = FacadesAuth::user()->id;
       $primary->save();
 
-      $address = new address;
+      $address = new supplier_address();
       $address->customerID = $primary->id;
       $address->save();
    }

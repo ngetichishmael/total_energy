@@ -26,7 +26,6 @@
                     <th>Customer Name</th>
                     <th>Phone number</th>
                     <th>Address</th>
-                    <th>Image</th>
                     <th width="15%">Action</th>
                 </thead>
                 <tbody>
@@ -36,15 +35,14 @@
                             {!! $contact->Area->Subregion->Region->name ?? ' ' !!}
                         </td>
                         <td>
-                            {!! $contact->Area->Subregion->name ?? ' ' !!}
+                            {!! $contact->Area->Subregion->name ?? '' !!}
                         </td>
                         <td>
-                            {!! $contact->Area->name ?? ' ' !!}
+                            {!! $contact->Area->name ?? '' !!}
                         </td>
                         <td>
                             {!! $contact->customer_name !!}
                         </td>
-                        <td>{!! $contact->email !!}</td>
                         <td>{!! $contact->phone_number !!}</td>
                         <td>
                             {{ $contact->address }}
