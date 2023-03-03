@@ -237,7 +237,7 @@ class CheckingSaleOrderController extends Controller
                'qty' => $value["qty"],
                'discount' => $items["discount"] ?? "0",
                'checkin_code' => $checkinCode,
-               'order_type' => 'Van sales',
+               'order_type' => 'Pre Order',
                'delivery_date' => now(),
                'business_code' => $checkin->business_code,
                'updated_at' => now(),
