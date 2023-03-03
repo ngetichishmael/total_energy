@@ -39,7 +39,7 @@ class customersController extends Controller
       $user = $request->user();
 
       $route_code = $request->user()->route_code;
-      $region = Region::where('primary_key',  $route_code)->first();
+      $region = Region::whereId($route_code)->first();
       $subregions = Subregion::where('region_id', $region->id)->pluck('id');
 
       $query = customers::whereIn('route_code', $subregions)->get();
