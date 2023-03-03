@@ -205,7 +205,10 @@ class CheckingSaleOrderController extends Controller
 
       $user_code = $request->user()->user_code;
       $request = $request->collect();
+      $total = 0;
       foreach ($request as $value) {
+         $price_total = $value["qty"] * $value["price"];
+         $total += $price_total;
          $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
          Cart::updateOrCreate(
             [
@@ -230,8 +233,8 @@ class CheckingSaleOrderController extends Controller
             [
                'user_code' => $user_code,
                'customerID' => $checkin->id,
-               'price_total' => $value["qty"] * $value["price"],
-               'balance' => $value["qty"] * $value["price"],
+               'price_total' => $total,
+               'balance' => $total,
                'order_status' => 'Pending Delivery',
                'payment_status' => 'Pending Payment',
                'qty' => $value["qty"],
