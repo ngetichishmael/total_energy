@@ -204,7 +204,6 @@ class CheckingSaleOrderController extends Controller
       $checkin = customers::whereId($checkinCode)->first();
 
       $user_code = $request->user()->user_code;
-      $business_code = $request->user()->business_code;
       $request = $request->collect();
       foreach ($request as $value) {
          $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
@@ -223,7 +222,7 @@ class CheckingSaleOrderController extends Controller
                "userID" => $user_code,
             ]
          );
-         Orders::updateOrCreate(
+         Order::updateOrCreate(
             [
 
                'order_code' => $random,
@@ -231,16 +230,17 @@ class CheckingSaleOrderController extends Controller
             [
                'user_code' => $user_code,
                'customerID' => $checkin->id,
-               'price_total' => $this->amount($amountRequest, $checkinCode),
-               'balance' => $this->amount($amountRequest, $checkinCode),
+               'price_total' => $value["qty"] * $value["price"],
+               'balance' => $value["qty"] * $value["price"],
                'order_status' => 'Pending Delivery',
                'payment_status' => 'Pending Payment',
                'qty' => $value["qty"],
+               'discount' => $items["discount"] ?? "0",
                'checkin_code' => $checkinCode,
-               'order_type' => 'Pre Order',
+               'order_type' => 'Van sales',
                'delivery_date' => now(),
-               'business_code' => $business_code,
-               'created_at' => now()
+               'business_code' => $checkin->business_code,
+               'updated_at' => now(),
             ]
          );
          Order_items::create([
