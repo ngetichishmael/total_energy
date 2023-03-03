@@ -95,13 +95,13 @@
                     Customers</span>
             </a>
         </li>
-        <li class="nav-item {!! Nav::isResource('checkin') !!}">
+        {{-- <li class="nav-item {!! Nav::isResource('checkin') !!}">
             <a class="d-flex align-items-center {!! Nav::isRoute('customer.checkin.index') !!}" href="{!! route('customer.checkin.index') !!}">
                 <i data-feather='log-in'></i><span class="menu-title text-truncate" data-i18n="Todo">Customer
                     Visits
                 </span>
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item {!! Nav::isResource('supplier') !!}">
             <a class="d-flex align-items-center" href="#"><i data-feather='refresh-ccw'></i><span
                     class="menu-title text-truncate" data-i18n="Invoice">Suppliers</span></a>
@@ -144,12 +144,12 @@
                     Deliveries</span>
             </a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="d-flex align-items-center" href="#">
                 <i data-feather='calendar'></i><span class="menu-title text-truncate" data-i18n="Todo"> Scheduled
                     visits</span>
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item {!! Nav::isResource('survey') !!}">
             <a class="d-flex align-items-center" href="#">
                 <i data-feather='clipboard'></i><span class="menu-title text-truncate">Survey</span>
