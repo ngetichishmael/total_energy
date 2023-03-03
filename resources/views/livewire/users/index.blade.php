@@ -23,7 +23,7 @@
                 <thead>
                     <tr>
                         <th width="1%">#</th>
-                        {{-- <th width="5%">Image</th> --}}
+                        <th>Region</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -34,24 +34,24 @@
                 </thead>
                 <tbody>
                     @foreach ($users as $key => $user)
-                        @if ($user->businessID == Auth::user()->businessID)
-                            <tr>
-                                <td>{!! $key + 1 !!}</td>
-                                <td>{!! $user->name !!}</td>
-                                <td>
-                                    {!! $user->email !!}
-                                </td>
-                                <td>{!! $user->phone_number !!}</td>
-                                <td>{!! $user->account_type !!}</td>
-                                <td>{!! $user->status !!}</td>
-                                <td>
-                                    <div class="d-flex" style="gap:2px;">
-                                        <a href="{{ route('user.edit', $user->user_code) }}"
-                                            class="btn btn-primary btn-sm">Edit</a>
-                                        <a href="{!! route('user.destroy', $user->id) !!}" class="btn btn-danger btn-sm">Delete</a>
-                                </td>
-                            </tr>
-                        @endif
+                        <tr>
+                            <td>{!! $key + 1 !!}</td>
+                            <td>{!! $user->Region->name !!}</td>
+                            <td>{!! $user->name !!}</td>
+                            <td>{!! $user->name !!}</td>
+                            <td>
+                                {!! $user->email !!}
+                            </td>
+                            <td>{!! $user->phone_number !!}</td>
+                            <td>{!! $user->account_type !!}</td>
+                            <td>{!! $user->status !!}</td>
+                            <td>
+                                <div class="d-flex" style="gap:2px;">
+                                    <a href="{{ route('user.edit', $user->user_code) }}"
+                                        class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="{!! route('user.destroy', $user->id) !!}" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

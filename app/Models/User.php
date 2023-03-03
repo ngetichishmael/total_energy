@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -77,5 +78,14 @@ class User extends Authenticatable implements MustVerifyEmail
    public function TargetsVisit(): HasMany
    {
       return $this->hasMany(VisitsTarget::class, 'user_code', 'user_code');
+   }
+   /**
+    * Get the Region that owns the User
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    */
+   public function Region(): BelongsTo
+   {
+      return $this->belongsTo(Region::class,  'route_code', 'id');
    }
 }

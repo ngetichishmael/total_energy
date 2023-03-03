@@ -26,7 +26,7 @@
     <section id="multiple-column-form">
         <div class="row">
             <div class="col-8">
-                <div class="card">
+                c <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Customers</h4>
                     </div>

@@ -80,12 +80,12 @@
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="select-country">Route</label>
+                                                    <label for="select-country">Zone</label>
                                                     <select class="form-control select2" id="select-country" name="route"
                                                         required>
-                                                        <option value="">Select Route</option>
-                                                        @foreach ($routes as $key => $value)
-                                                            <option value="{{ $value }}">{{ $key }}
+                                                        <option value="">Zone</option>
+                                                        @foreach ($routes as $value)
+                                                            <option value="{{ $value->id }}">{{ $value->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>

@@ -6,19 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Session;
-
-use Illuminate\Support\Str;
-use App\Http\Controllers\Api\JWTException;
 use App\Models\AppPermission;
 use App\Models\Region;
-use App\Models\Routes;
-use App\Models\Subregion;
-use App\Models\zone;
 use Exception;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
-use Illuminate\Support\Facades\Redirect;
-use Tymon\JWTAuth\Contracts\Providers\Auth;
 
 class usersController extends Controller
 {
@@ -35,10 +26,8 @@ class usersController extends Controller
    //create
    public function create()
    {
-      $regions = Region::pluck('primary_key', 'name')->toArray();
-      $subregions = Subregion::pluck('primary_key', 'name')->toArray();
-      $zones = zone::pluck('primary_key', 'name')->toArray();
-      $routes = array_merge($regions, $subregions, $zones);
+      // $routes = array_merge($regions, $subregions, $zones);
+      $routes = Region::all();
       return view('app.users.create', [
          "routes" => $routes
       ]);

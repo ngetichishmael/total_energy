@@ -39,19 +39,10 @@ class customersController extends Controller
       $user = $request->user();
 
       $route_code = $request->user()->route_code;
-      $query = null;
-      $regions = Region::where('primary_key',  $route_code)->first();
-      $subregion = Subregion::where('primary_key',  $route_code)->first();
-      $zone = zone::where('primary_key',  $route_code)->first();
+      $region = Region::where('primary_key',  $route_code)->first();
+      $subregions = Subregion::where('region_id', $region->id)->pluck('id');
 
-      if ($regions) {
-         $query = customers::where('region_id', $regions->id)->get();
-      } else if ($subregion) {
-         $query = customers::where('region_id', $subregion->Region->id)->get();
-      } else if ($zone) {
-         $query = customers::where('region_id', $zone->Subregion->Region->id)->get();
-      }
-      info('Query');
+      $query = customers::whereIn('route_code', $subregions)->get();
 
       return response()->json([
          "user" => $user,
