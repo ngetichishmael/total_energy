@@ -35,7 +35,7 @@ class Index extends Component
       User::whereId($id)->update(
          ['status' => "Suspended"]
       );
-      return redirect()->to('/customer');
+      return redirect()->to('/users');
    }
    public function activate($id)
    {
