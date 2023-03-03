@@ -19,51 +19,52 @@
     </div>
     <div class="card card-default">
         <div class="card-body">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th width="1%">#</th>
-                        <th>Region</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Account Type</th>
-                        <th>Status</th>
-                        <th width="12%">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $key => $user)
+            <div class="pt-0 card-datatable table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>{!! $key + 1 !!}</td>
-                            <td>{!! $user->Region->name ?? ' ' !!}</td>
-                            <td>{!! $user->name !!}</td>
-                            <td>{!! $user->name !!}</td>
-                            <td>
-                                {!! $user->email !!}
-                            </td>
-                            <td>{!! $user->phone_number !!}</td>
-                            <td>{!! $user->account_type !!}</td>
-                            <td>{!! $user->status !!}</td>
-                            <td>
-                                <div class="d-flex" style="gap:2px;">
-                                    <a href="{{ route('user.edit', $user->user_code) }}"
-                                        class="btn btn-primary btn-sm">Edit</a>
-                                    @if ($$user->status === 'Active')
-                                        <button wire:click.prevent="deactivate({{ $user->id }})"
-                                            onclick="confirm('Are you sure you want to DEACTIVATE this customer?')||event.stopImmediatePropagation()"
-                                            type="button" class="btn btn-success btn-sm">Activate</button>
-                                    @else
-                                        <button wire:click.prevent="activate({{ $user->id }})"
-                                            onclick="confirm('Are you sure you want to ACTIVATE this customer?')||event.stopImmediatePropagation()"
-                                            type="button" class="btn btn-danger btn-sm">Suspend</button>
-                                    @endif
-                                    <a href="{!! route('user.destroy', $user->id) !!}" class="btn btn-danger btn-sm">Delete</a>
-                            </td>
+                            <th width="1%">#</th>
+                            <th>Region</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Account Type</th>
+                            <th>Status</th>
+                            <th width="12%">Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $key => $user)
+                            <tr>
+                                <td>{!! $key + 1 !!}</td>
+                                <td>{!! $user->Region->name ?? ' ' !!}</td>
+                                <td>{!! $user->name !!}</td>
+                                <td>
+                                    {!! $user->email !!}
+                                </td>
+                                <td>{!! $user->phone_number !!}</td>
+                                <td>{!! $user->account_type !!}</td>
+                                <td>{!! $user->status !!}</td>
+                                <td>
+                                    <div class="d-flex" style="gap:2px;">
+                                        <a href="{{ route('user.edit', $user->user_code) }}"
+                                            class="btn btn-primary btn-sm">Edit</a>
+                                        @if ($$user->status === 'Active')
+                                            <button wire:click.prevent="deactivate({{ $user->id }})"
+                                                onclick="confirm('Are you sure you want to DEACTIVATE this customer?')||event.stopImmediatePropagation()"
+                                                type="button" class="btn btn-success btn-sm">Activate</button>
+                                        @else
+                                            <button wire:click.prevent="activate({{ $user->id }})"
+                                                onclick="confirm('Are you sure you want to ACTIVATE this customer?')||event.stopImmediatePropagation()"
+                                                type="button" class="btn btn-danger btn-sm">Suspend</button>
+                                        @endif
+                                        <a href="{!! route('user.destroy', $user->id) !!}" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             <div class="mt-1">{!! $users->links() !!}</div>
         </div>
     </div>

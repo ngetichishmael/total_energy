@@ -40,7 +40,7 @@ class Index extends Component
    public function activate($id)
    {
       User::whereId($id)->update(
-         ['status' => "Approved"]
+         ['status' => "Active"]
       );
 
       return redirect()->to('/users');
