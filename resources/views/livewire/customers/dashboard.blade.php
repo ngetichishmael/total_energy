@@ -1,7 +1,7 @@
 <div>
     <div class="mb-1 row">
         <div class="col-md-10">
-            <label for="">Search</label>
+            <label for="">Search by name, route, region</label>
             <input type="text" wire:model="search" class="form-control"
                 placeholder="Enter customer name, email address or phone number">
         </div>
@@ -20,17 +20,24 @@
             <table class="table table-striped table-bordered">
                 <thead>
                     <th width="1%">#</th>
+                    <th>Name</th>
+                    <th>number</th>
+                    <th>Address</th>
                     <th>Zone</th>
                     <th>Region</th>
                     <th>Route</th>
-                    <th>Customer Name</th>
-                    <th>Phone number</th>
-                    <th>Address</th>
                     <th width="15%">Action</th>
                 </thead>
                 <tbody>
                     @foreach ($contacts as $count => $contact)
                         <td>{!! $count + 1 !!}</td>
+                        <td>
+                            {!! $contact->customer_name !!}
+                        </td>
+                        <td>{!! $contact->phone_number !!}</td>
+                        <td>
+                            {{ $contact->address }}
+                        </td>
                         <td>
                             {!! $contact->Area->Subregion->Region->name ?? ' ' !!}
                         </td>
@@ -39,13 +46,6 @@
                         </td>
                         <td>
                             {!! $contact->Area->name ?? '' !!}
-                        </td>
-                        <td>
-                            {!! $contact->customer_name !!}
-                        </td>
-                        <td>{!! $contact->phone_number !!}</td>
-                        <td>
-                            {{ $contact->address }}
                         </td>
                         <td>
                             <a href="{{ route('customer.edit', $contact->id) }}" class="btn btn-sm btn-primary">Edit</a>

@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Customers;
 
 use App\Exports\customers as ExportsCustomers;
 use App\Models\customer\customers;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Region;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
@@ -18,12 +18,12 @@ class Dashboard extends Component
    public function render()
    {
       $searchTerm = '%' . $this->search . '%';
-      $contacts = customers::with(['Area.Subregion.Region'])->whereLike(
+      $contacts = customers::with('Area.Subregion.Region')->whereLike(
          [
+            'Area.name',
             'customer_name',
             'phone_number',
             'address',
-
          ],
          $searchTerm
       )
