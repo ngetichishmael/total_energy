@@ -54,7 +54,7 @@
                                     @if ($user->status === 'Active')
                                         <button wire:click.prevent="deactivate({{ $user->id }})"
                                             onclick="confirm('Are you sure you want to DEACTIVATE this customer?')||event.stopImmediatePropagation()"
-                                            type="button" class="btn btn-success btn-sm">Activate</button>
+                                            type="button" class="btn btn-success btn-sm">Activate </button>
                                     @else
                                         <button wire:click.prevent="activate({{ $user->id }})"
                                             onclick="confirm('Are you sure you want to ACTIVATE this customer?')||event.stopImmediatePropagation()"
