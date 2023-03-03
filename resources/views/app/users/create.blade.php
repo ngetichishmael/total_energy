@@ -54,9 +54,9 @@
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="last-name-column">email</label>
+                                                    <label for="last-name-column">Email</label>
                                                     <input type="email" id="last-name-column" class="form-control"
-                                                        placeholder="Email" name="email" required />
+                                                        placeholder="Email" name="Email" required />
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
