@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Customers;
 
 use App\Exports\customers as ExportsCustomers;
 use App\Models\customer\customers;
-use App\Models\Region;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;

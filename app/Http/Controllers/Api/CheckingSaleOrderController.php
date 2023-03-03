@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\customer\checkin;
 use App\Models\products\product_information;
 use App\Models\Cart;
+use App\Models\customers;
 use App\Models\Order_items;
 use App\Models\Orders as Order;
 use App\Models\Orders;
@@ -199,8 +200,11 @@ class CheckingSaleOrderController extends Controller
    public function NewSales(Request $request, $checkinCode, $random)
    {
       $amountRequest = $request;
-      $checkin = checkin::where('code', $checkinCode)->first();
+      // $checkin = checkin::where('code', $checkinCode)->first();
+      $checkin = customers::whereId($checkinCode)->first();
+
       $user_code = $request->user()->user_code;
+      $business_code = $request->user()->business_code;
       $request = $request->collect();
       foreach ($request as $value) {
          $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
@@ -226,7 +230,7 @@ class CheckingSaleOrderController extends Controller
             ],
             [
                'user_code' => $user_code,
-               'customerID' => $checkin->customer_id,
+               'customerID' => $checkin->id,
                'price_total' => $this->amount($amountRequest, $checkinCode),
                'balance' => $this->amount($amountRequest, $checkinCode),
                'order_status' => 'Pending Delivery',
@@ -235,7 +239,7 @@ class CheckingSaleOrderController extends Controller
                'checkin_code' => $checkinCode,
                'order_type' => 'Pre Order',
                'delivery_date' => now(),
-               'business_code' => $checkin->business_code,
+               'business_code' => $business_code,
                'created_at' => now()
             ]
          );
