@@ -187,12 +187,6 @@
                 <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Todo"> Users</span>
             </a>
         </li>
-        <li class="nav-item {!! Nav::isResource('territories') !!}">
-            <a class="d-flex align-items-center" href="{!! route('territories.index') !!}">
-                <i data-feather='map-pin'></i><span class="menu-title text-truncate" data-i18n="Todo">
-                    Territories</span>
-            </a>
-        </li>
         <li class="nav-item {!! Nav::isResource('settings') !!}">
             <a class="d-flex align-items-center" href="#"><i data-feather='settings'></i><span
                     class="menu-title text-truncate" data-i18n="Invoice"> Settings</span></a>
