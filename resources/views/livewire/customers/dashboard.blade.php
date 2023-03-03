@@ -26,6 +26,7 @@
                     <th>Zone</th>
                     <th>Region</th>
                     <th>Route</th>
+                    <th width="15%">Edit</th>
                     <th width="15%">Action</th>
                 </thead>
                 <tbody>
@@ -49,6 +50,17 @@
                         </td>
                         <td>
                             <a href="{{ route('customer.edit', $contact->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                        </td>
+                        <td>
+                            @if ($contact->approval === 'Approved')
+                                <button wire:click.prevent="deactivate({{ $contact->id }})"
+                                    onclick="confirm('Are you sure you want to DEACTIVATE this customer?')||event.stopImmediatePropagation()"
+                                    type="button" class="btn btn-success btn-sm">Approved</button>
+                            @else
+                                <button wire:click.prevent="activate({{ $contact->id }})"
+                                    onclick="confirm('Are you sure you want to ACTIVATE this customer?')||event.stopImmediatePropagation()"
+                                    type="button" class="btn btn-danger btn-sm">Suspend</button>
+                            @endif
                         </td>
                         </tr>
                     @endforeach

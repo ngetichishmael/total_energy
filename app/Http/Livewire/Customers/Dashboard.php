@@ -35,4 +35,19 @@ class Dashboard extends Component
    {
       return Excel::download(new ExportsCustomers, 'customers.xlsx');
    }
+   public function deactivate($id)
+   {
+      customers::whereId($id)->update(
+         ['approval' => "Suspended"]
+      );
+      return redirect()->to('/customer');
+   }
+   public function activate($id)
+   {
+      customers::whereId($id)->update(
+         ['approval' => "Approved"]
+      );
+
+      return redirect()->to('/customer');
+   }
 }

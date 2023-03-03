@@ -30,4 +30,19 @@ class Index extends Component
 
       return view('livewire.users.index', compact('users'));
    }
+   public function deactivate($id)
+   {
+      User::whereId($id)->update(
+         ['status' => "Suspended"]
+      );
+      return redirect()->to('/customer');
+   }
+   public function activate($id)
+   {
+      User::whereId($id)->update(
+         ['status' => "Approved"]
+      );
+
+      return redirect()->to('/users');
+   }
 }

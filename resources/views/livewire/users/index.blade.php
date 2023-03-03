@@ -49,6 +49,15 @@
                                 <div class="d-flex" style="gap:2px;">
                                     <a href="{{ route('user.edit', $user->user_code) }}"
                                         class="btn btn-primary btn-sm">Edit</a>
+                                    @if ($$user->status === 'Active')
+                                        <button wire:click.prevent="deactivate({{ $user->id }})"
+                                            onclick="confirm('Are you sure you want to DEACTIVATE this customer?')||event.stopImmediatePropagation()"
+                                            type="button" class="btn btn-success btn-sm">Activate</button>
+                                    @else
+                                        <button wire:click.prevent="activate({{ $user->id }})"
+                                            onclick="confirm('Are you sure you want to ACTIVATE this customer?')||event.stopImmediatePropagation()"
+                                            type="button" class="btn btn-danger btn-sm">Suspend</button>
+                                    @endif
                                     <a href="{!! route('user.destroy', $user->id) !!}" class="btn btn-danger btn-sm">Delete</a>
                             </td>
                         </tr>
