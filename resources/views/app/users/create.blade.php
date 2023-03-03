@@ -47,14 +47,14 @@
                                             </div>
                                             <div class="mb-2 col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="first-name-column">User Name</label>
+                                                    <label for="first-name-column">Name</label>
                                                     <input type="text" id="first-name-column" class="form-control"
-                                                        placeholder="User Name" name="name" required />
+                                                        placeholder="name" name="name" required />
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="last-name-column">Last Name</label>
+                                                    <label for="last-name-column">email</label>
                                                     <input type="email" id="last-name-column" class="form-control"
                                                         placeholder="Email" name="email" required />
                                                 </div>
