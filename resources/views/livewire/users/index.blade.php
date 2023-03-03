@@ -51,7 +51,7 @@
                                         class="btn btn-primary btn-sm">Edit</a>
                                 </td>
                                 <td>
-                                    @if ($$user->status === 'Active')
+                                    @if ($user->status === 'Active')
                                         <button wire:click.prevent="deactivate({{ $user->id }})"
                                             onclick="confirm('Are you sure you want to DEACTIVATE this customer?')||event.stopImmediatePropagation()"
                                             type="button" class="btn btn-success btn-sm">Activate</button>
