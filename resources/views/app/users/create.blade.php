@@ -56,7 +56,7 @@
                                                 <div class="form-group">
                                                     <label for="last-name-column">Email</label>
                                                     <input type="email" id="last-name-column" class="form-control"
-                                                        placeholder="Email" name="Email" required />
+                                                        placeholder="Email" name="email" required />
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
