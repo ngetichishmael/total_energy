@@ -18,17 +18,15 @@ class Dashboard extends Component
    public function render()
    {
       $searchTerm = '%' . $this->search . '%';
-      $reponses = SurveyResponses::where('business_code', Auth::user()->business_code)
-         ->whereLike(
-            [
-               'Customer.customer_name',
-               'Survey.description',
-               'Answer',
-               'reason'
-            ],
-            $searchTerm
-         )
-         ->where('business_code', Auth::user()->business_code)
+      $reponses = SurveyResponses::whereLike(
+         [
+            'Customer.customer_name',
+            'Survey.description',
+            'Answer',
+            'reason'
+         ],
+         $searchTerm
+      )
          ->paginate($this->perPage);
       return view('livewire.survery.responses.dashboard', [
          'responses' => $reponses
