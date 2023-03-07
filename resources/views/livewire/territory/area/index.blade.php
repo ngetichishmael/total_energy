@@ -1,6 +1,6 @@
 @extends('layouts.app')
 {{-- page header --}}
-@section('title', 'Product Brands')
+@section('title', 'Routes')
 {{-- page styles --}}
 
 {{-- content section --}}

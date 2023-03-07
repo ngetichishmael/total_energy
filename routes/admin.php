@@ -60,6 +60,15 @@ Route::middleware(['auth'])->group(function () {
       'create' => 'current-information.create',
       'store' => 'current-information.store',
    ]);
+   Route::resource('survery/responses', SurveryResponseController::class)->names([
+      'index' => 'SurveryResponses',
+      'show' => 'SurveryResponses.show',
+      'edit' => 'SurveryResponses.edit',
+      'update' => 'SurveryResponses.update',
+      'destroy' => 'SurveryResponses.destroy',
+      'create' => 'SurveryResponses.create',
+      'store' => 'SurveryResponses.store',
+   ]);
    Route::group(['prefix' => 'maps'], function () {
       Route::get('/', [MapsController::class, 'index'])->name('maps');
    });

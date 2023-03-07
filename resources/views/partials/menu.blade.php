@@ -162,6 +162,13 @@
                         <span class="menu-item text-truncate">Survey</span>
                     </a>
                 </li>
+                <li>
+                    <a class="d-flex align-items-center {!! Nav::isResource('survey') !!}" href="{!! route('SurveryResponses') !!}">
+                        <i data-feather="circle">
+                        </i>
+                        <span class="menu-item text-truncate">Responses</span>
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="nav-item {!! Nav::isResource('routes') !!}">
