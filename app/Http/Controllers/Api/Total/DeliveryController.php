@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api\Total;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Delivery;
 use App\Models\Delivery_items;
 use App\Models\Order_items;
-use App\Models\products\product_information;
+use App\Models\Orders;
 use App\Models\products\product_price;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,7 @@ class DeliveryController extends Controller
       $order_code = Delivery::where('delivery_code', $delivery_code)->first();
       foreach ($requests as $value) {
 
-         Delivery_items::updateOrCreate(
+         $delivery = Delivery_items::updateOrCreate(
             [
                "business_code" => $request->user()->business_code,
                "delivery_code" => $delivery_code,
@@ -43,11 +44,64 @@ class DeliveryController extends Controller
                "updated_by" => $user_code
             ]
          );
+         $checker = Order_items::where('productID', $value["productID"])
+            ->where('order_code', $order_code->order_code)->first();
          Order_items::where('productID', $value["productID"])
             ->where('order_code', $order_code->order_code)
             ->update([
                "delivery_quantity" => $value["qty"]
             ]);
+         if ($checker->quantity > $value["qty"]) {
+            Cart::updateOrCreate(
+               [
+                  'checkin_code' => $checker->checkin_code,
+                  "order_code" => $order_code->order_code,
+               ],
+               [
+                  'productID' => $value["productID"],
+                  "product_name" => $checker->product_name,
+                  "qty" => $checker->quantity - $value["qty"],
+                  "price" => $checker->price,
+                  "amount" => ($checker->quantity - $value["qty"]) * $checker->ProductPrice->selling_price,
+                  "total_amount" => ($checker->quantity - $value["qty"]) * $checker->ProductPrice->selling_price,
+                  "userID" => $user_code,
+               ]
+            );
+            Orders::updateOrCreate(
+               [
+
+                  'order_code' => $order_code->order_code,
+               ],
+               [
+                  'user_code' => $user_code,
+                  'customerID' => $delivery->customer,
+                  'price_total' => ($checker->quantity - $value["qty"]) * $checker->ProductPrice->selling_price,
+                  'balance' => ($checker->quantity - $value["qty"]) * $checker->ProductPrice->selling_price,
+                  'order_status' => 'Pending Delivery',
+                  'payment_status' => 'Pending Payment',
+                  'qty' => $value["qty"],
+                  'checkin_code' => $checker->checkin_code,,
+                  'order_type' => 'Van sales',
+                  'delivery_date' => now(),
+                  'business_code' => $request->user()->business_code,
+                  'updated_at' => now(),
+               ]
+            );
+            Order_items::create([
+               'order_code' => $checker->checkin_code,
+               'productID' => $value["productID"],
+               'product_name' => $checker->product_name,
+               'quantity' => $checker->quantity - $value["qty"],,
+               'sub_total' => ($checker->quantity - $value["qty"]) * $checker->ProductPrice->selling_price,
+               'total_amount' => ($checker->quantity - $value["qty"]) * $checker->ProductPrice->selling_price,
+               'selling_price' => $checker->price,
+               'discount' => 0,
+               'taxrate' => 0,
+               'taxvalue' => 0,
+               'created_at' => now(),
+               'updated_at' => now(),
+            ]);
+         }
          $total += product_price::whereId($value["productID"])->pluck('buying_price')->implode("") * $value["qty"];
       }
       return response()->json([
