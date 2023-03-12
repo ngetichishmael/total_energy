@@ -16,7 +16,7 @@
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Regions</a></li>
+                            <li class="breadcrumb-item"><a href="#">Outlet Name</a></li>
                             <li class="breadcrumb-item active"><a href="#">All</a></li>
                         </ol>
                     </div>
@@ -31,7 +31,7 @@
             <div class="card card-default">
                 <div class="card-body">
                     <div class="card-body">
-                        <h4 class="card-title">Add Region</h4>
+                        <h4 class="card-title">Add Outlet</h4>
 
                         <form class="form" method="POST" action="{{ route('outlets.store') }}">
                             @method('POST')

@@ -23,9 +23,9 @@
                     <th>OrderID</th>
                     <th>Customer</th>
                     <th>Sales Agents</th>
-                    <th>Delivery By</th>
+                    <th>Total Paid</th>
                     <th>Date</th>
-                    <th>Status</th>
+                    <th>Approved ?</th>
                     <th>Action</th>
                 </thead>
                 <tbody>
@@ -33,15 +33,21 @@
                         @foreach ($deliveries as $count => $deliver)
                     <tr>
                         <td>{!! $count + 1 !!}</td>
+                        <td>{!! $deliver->order_code !!}</td>
+                        <td>{!! $deliver->Customer->customer_name ?? ' ' !!}</td>
+                        <td>{!! $deliver->User->name ?? '' !!}</td>
+                        <td>{!! $deliver->Order->price_total ?? '' !!}</td>
+                        <td>{!! $deliver->updated_at !!}</td>
+
                         <td>
-                            {!! $deliver->order_code !!}
+                            @if ($deliver->approval == 0)
+                                <button wire:click.prevent="approve({{ $deliver->id }})"
+                                    onclick="confirm('Are you sure you want to APPROVE this order?')||event.stopImmediatePropagation()"
+                                    type="button" class="btn btn-danger btn-sm">NO</button>
+                            @else
+                                <button type="button" class="btn btn-success btn-sm">YES</button>
+                            @endif
                         </td>
-                        <td>{!! $deliver->customer_name !!}</td>
-                        <td>{!! $deliver->agent !!}</td>
-                        <td>{!! $deliver->name !!}</td>
-                        <td>{!! $deliver->delivery_date !!}</td>
-                        <td><a href="" class="badge {!! $deliver->delivery_status !!}"
-                                style="color: rgb(2, 66, 100);">{!! $deliver->delivery_status !!}</a></td>
                         <td><a href="{!! route('delivery.details', $deliver->order_code, $deliver->name) !!}" class="btn btn-sm btn-success">View</a></td>
                     </tr>
                     @endforeach

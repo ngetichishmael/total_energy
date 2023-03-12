@@ -1,41 +1,42 @@
 <?php
 
 namespace App\Helpers;
+
 use App\Models\activity_log;
 use App\Models\customer\customers;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+
 class Helper
 {
-   public static function get_timeago( $ptime ){
+   public static function get_timeago($ptime)
+   {
       $estimate_time = time() - $ptime;
 
-      if( $estimate_time < 1 )
-      {
+      if ($estimate_time < 1) {
          return 'less than 1 second ago';
       }
 
       $condition = array(
-                  12 * 30 * 24 * 60 * 60  =>  'year',
-                  30 * 24 * 60 * 60       =>  'month',
-                  24 * 60 * 60            =>  'day',
-                  60 * 60                 =>  'hr',
-                  60                      =>  'min',
-                  1                       =>  'sec'
+         12 * 30 * 24 * 60 * 60  =>  'year',
+         30 * 24 * 60 * 60       =>  'month',
+         24 * 60 * 60            =>  'day',
+         60 * 60                 =>  'hr',
+         60                      =>  'min',
+         1                       =>  'sec'
       );
 
-      foreach( $condition as $secs => $str )
-      {
+      foreach ($condition as $secs => $str) {
          $d = $estimate_time / $secs;
 
-         if( $d >= 1 )
-         {
-               $r = round( $d );
-               return $r . ' ' . $str . ( $r > 1 ? '' : '' ) . ' ago';
+         if ($d >= 1) {
+            $r = round($d);
+            return $r . ' ' . $str . ($r > 1 ? '' : '') . ' ago';
          }
       }
    }
 
-   public static function seoUrl($string) {
+   public static function seoUrl($string)
+   {
       //Lower case everything
       $string = strtolower($string);
       //Make alphanumeric (removes all other characters)
@@ -47,7 +48,8 @@ class Helper
       return $string;
    }
 
-   public static function generateRandomString($length = 6) {
+   public static function generateRandomString($length = 6)
+   {
       $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
       $charactersLength = strlen($characters);
       $randomString = '';
@@ -62,19 +64,19 @@ class Helper
    {
       $ipaddress = '';
       if (getenv('HTTP_CLIENT_IP'))
-            $ipaddress = getenv('HTTP_CLIENT_IP');
-      else if(getenv('HTTP_X_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-      else if(getenv('HTTP_X_FORWARDED'))
-            $ipaddress = getenv('HTTP_X_FORWARDED');
-      else if(getenv('HTTP_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_FORWARDED_FOR');
-      else if(getenv('HTTP_FORWARDED'))
-            $ipaddress = getenv('HTTP_FORWARDED');
-      else if(getenv('REMOTE_ADDR'))
-            $ipaddress = getenv('REMOTE_ADDR');
+         $ipaddress = getenv('HTTP_CLIENT_IP');
+      else if (getenv('HTTP_X_FORWARDED_FOR'))
+         $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+      else if (getenv('HTTP_X_FORWARDED'))
+         $ipaddress = getenv('HTTP_X_FORWARDED');
+      else if (getenv('HTTP_FORWARDED_FOR'))
+         $ipaddress = getenv('HTTP_FORWARDED_FOR');
+      else if (getenv('HTTP_FORWARDED'))
+         $ipaddress = getenv('HTTP_FORWARDED');
+      else if (getenv('REMOTE_ADDR'))
+         $ipaddress = getenv('REMOTE_ADDR');
       else
-            $ipaddress = 'UNKNOWN';
+         $ipaddress = 'UNKNOWN';
 
       return $ipaddress;
    }
@@ -87,7 +89,8 @@ class Helper
    }
 
    /*======== date difference =======*/
-   public static function date_difference($enddate,$startdate){
+   public static function date_difference($enddate, $startdate)
+   {
       // Declare two dates
       $start_date = strtotime($startdate);
       $end_date = strtotime($enddate);
@@ -95,9 +98,9 @@ class Helper
       // Get the difference and divide into
       // total no. seconds 60/60/24 to get
       // number of days
-      $difference = ($end_date - $start_date)/60/60/24;
+      $difference = ($end_date - $start_date) / 60 / 60 / 24;
 
-      if($difference == 0){
+      if ($difference == 0) {
          $difference = 1;
       }
 
@@ -106,22 +109,23 @@ class Helper
 
 
    /**============= Record Activity =============**/
-   public static function activity($activities, $section, $action,$activityID, $businessID){
+   public static function activity($activities, $section, $action, $activityID, $businessID)
+   {
       $ipaddress = '';
       if (getenv('HTTP_CLIENT_IP'))
-            $ipaddress = getenv('HTTP_CLIENT_IP');
-      else if(getenv('HTTP_X_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-      else if(getenv('HTTP_X_FORWARDED'))
-            $ipaddress = getenv('HTTP_X_FORWARDED');
-      else if(getenv('HTTP_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_FORWARDED_FOR');
-      else if(getenv('HTTP_FORWARDED'))
-            $ipaddress = getenv('HTTP_FORWARDED');
-      else if(getenv('REMOTE_ADDR'))
-            $ipaddress = getenv('REMOTE_ADDR');
+         $ipaddress = getenv('HTTP_CLIENT_IP');
+      else if (getenv('HTTP_X_FORWARDED_FOR'))
+         $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+      else if (getenv('HTTP_X_FORWARDED'))
+         $ipaddress = getenv('HTTP_X_FORWARDED');
+      else if (getenv('HTTP_FORWARDED_FOR'))
+         $ipaddress = getenv('HTTP_FORWARDED_FOR');
+      else if (getenv('HTTP_FORWARDED'))
+         $ipaddress = getenv('HTTP_FORWARDED');
+      else if (getenv('REMOTE_ADDR'))
+         $ipaddress = getenv('REMOTE_ADDR');
       else
-            $ipaddress = 'UNKNOWN';
+         $ipaddress = 'UNKNOWN';
 
       $activity = new activity_log;
       $activity->activity = $activities;
@@ -160,11 +164,11 @@ class Helper
    /*::         GeoDataSource.com (C) All Rights Reserved 2018                  :*/
    /*::                                                                         :*/
    /*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-   public static function distance($lat1, $lon1, $lat2, $lon2, $unit) {
+   public static function distance($lat1, $lon1, $lat2, $lon2, $unit)
+   {
       if (($lat1 == $lat2) && ($lon1 == $lon2)) {
          return 0;
-      }
-      else {
+      } else {
          $theta = $lon1 - $lon2;
          $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
          $dist = acos($dist);
@@ -193,8 +197,9 @@ class Helper
 	|-----------------------------------------------------------------
    */
    // check if client exists
-	public static function get_customer(){
-		$customers = customers::where('businessID',Auth::user()->businessID)->where('status','Active')->get();
-		return $customers;
-	}
+   public static function get_customer()
+   {
+      $customers = customers::where('businessID', Auth::user()->businessID)->where('status', 'Active')->get();
+      return $customers;
+   }
 }

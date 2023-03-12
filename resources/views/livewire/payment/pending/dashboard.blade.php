@@ -23,9 +23,10 @@
                     <th>OrderID</th>
                     <th>Customer</th>
                     <th>Sales Agents</th>
-                    <th>Delivery By</th>
-                    <th>Date</th>
+                    <th>Total Paid</th>
+                    <th>Pending Paid</th>
                     <th>Status</th>
+                    <th>Date</th>
                     <th>Action</th>
                 </thead>
                 <tbody>
@@ -33,15 +34,13 @@
                         @foreach ($deliveries as $count => $deliver)
                     <tr>
                         <td>{!! $count + 1 !!}</td>
-                        <td>
-                            {!! $deliver->order_code !!}
-                        </td>
-                        <td>{!! $deliver->customer_name !!}</td>
-                        <td>{!! $deliver->agent !!}</td>
-                        <td>{!! $deliver->name !!}</td>
-                        <td>{!! $deliver->delivery_date !!}</td>
-                        <td><a href="" class="badge {!! $deliver->delivery_status !!}"
-                                style="color: rgb(2, 66, 100);">{!! $deliver->delivery_status !!}</a></td>
+                        <td>{!! $deliver->order_code !!}</td>
+                        <td>{!! $deliver->Customer->customer_name ?? ' ' !!}</td>
+                        <td>{!! $deliver->User->name ?? '' !!}</td>
+                        <td>{!! $deliver->Order->price_total ?? '' !!}</td>
+                        <td>{!! $deliver->Order->balance ?? '' !!}</td>
+                        <td>{!! $deliver->delivery_status !!}</td>
+                        <td>{!! $deliver->updated_at !!}</td>
                         <td><a href="{!! route('delivery.details', $deliver->order_code, $deliver->name) !!}" class="btn btn-sm btn-success">View</a></td>
                     </tr>
                     @endforeach

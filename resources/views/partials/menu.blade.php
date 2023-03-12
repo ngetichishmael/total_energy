@@ -159,6 +159,22 @@
                     visits</span>
             </a>
         </li> --}}
+        <li class="nav-item {!! Nav::isRoute('payment*') !!}">
+            <a class="d-flex align-items-center" href="#">
+                <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Todo">
+                    Payment Management</span>
+            </a>
+            <ul class="menu-content">
+                <li><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}"
+                        href="{{ route('PaidPayment') }}"><i data-feather="users"></i><span
+                            class="menu-item text-truncate">Paid</span></a>
+                </li>
+                <li><a class="d-flex align-items-center {!! Nav::isRoute('customer*') !!}"
+                        href="{{ route('PendingPayment') }}"><i data-feather="circle"></i><span
+                            class="menu-item text-truncate">Pending</span></a>
+                </li>
+            </ul>
+        </li>
         <li class="nav-item {!! Nav::isResource('survey') !!}">
             <a class="d-flex align-items-center" href="#">
                 <i data-feather='clipboard'></i><span class="menu-title text-truncate">Survey</span>

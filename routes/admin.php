@@ -78,6 +78,24 @@ Route::middleware(['auth'])->group(function () {
       'create' => 'outlets.create',
       'store' => 'outlets.store',
    ]);
+   Route::resource('payment/paid', PaidPaymentController::class)->names([
+      'index' => 'PaidPayment',
+      'show' => 'PaidPayment.show',
+      'edit' => 'PaidPayment.edit',
+      'update' => 'PaidPayment.update',
+      'destroy' => 'PaidPayment.destroy',
+      'create' => 'PaidPayment.create',
+      'store' => 'PaidPayment.store',
+   ]);
+   Route::resource('payment/pending', PendingPaymentController::class)->names([
+      'index' => 'PendingPayment',
+      'show' => 'PendingPayment.show',
+      'edit' => 'PendingPayment.edit',
+      'update' => 'PendingPayment.update',
+      'destroy' => 'PendingPayment.destroy',
+      'create' => 'PendingPayment.create',
+      'store' => 'PendingPayment.store',
+   ]);
    Route::group(['prefix' => 'maps'], function () {
       Route::get('/', [MapsController::class, 'index'])->name('maps');
    });
