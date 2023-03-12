@@ -69,6 +69,15 @@ Route::middleware(['auth'])->group(function () {
       'create' => 'SurveryResponses.create',
       'store' => 'SurveryResponses.store',
    ]);
+   Route::resource('customer/outlets', OutletTypesController::class)->names([
+      'index' => 'outlets',
+      'show' => 'outlets.show',
+      'edit' => 'outlets.edit',
+      'update' => 'outlets.update',
+      'destroy' => 'outlets.destroy',
+      'create' => 'outlets.create',
+      'store' => 'outlets.store',
+   ]);
    Route::group(['prefix' => 'maps'], function () {
       Route::get('/', [MapsController::class, 'index'])->name('maps');
    });

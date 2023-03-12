@@ -90,10 +90,19 @@
             </ul>
         </li>
         <li class="nav-item {!! Nav::isRoute('customer') !!}">
-            <a class="d-flex align-items-center" href="{{ route('customer') }}">
+            <a class="d-flex align-items-center" href="#">
                 <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Todo">
-                    Customers</span>
+                    Customers Managements</span>
             </a>
+            <ul class="menu-content">
+                <li><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}" href="{{ route('customer') }}"><i
+                            data-feather="users"></i><span class="menu-item text-truncate">Customers</span></a>
+                </li>
+                <li><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}" href="{{ route('outlets') }}"><i
+                            data-feather="circle"></i><span class="menu-item text-truncate">Customer
+                            OutLets</span></a>
+                </li>
+            </ul>
         </li>
         {{-- <li class="nav-item {!! Nav::isResource('checkin') !!}">
             <a class="d-flex align-items-center {!! Nav::isRoute('customer.checkin.index') !!}" href="{!! route('customer.checkin.index') !!}">
