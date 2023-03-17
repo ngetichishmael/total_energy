@@ -45,10 +45,10 @@ class ordersController extends Controller
    //allocation
    public function allocation($code)
    {
-      $order = Orders::where('business_code', Auth::user()->business_code)->where('order_code', $code)->first();
+      $order = Orders::where('order_code', $code)->first();
       $items = Order_items::where('order_code', $order->order_code)->get();
-      $users = User::where('business_code', Auth::user()->business_code)->orderby('id', 'desc')->get();
-      $warehouses = warehousing::where('business_code', Auth::user()->business_code)->orderby('id', 'desc')->get();
+      $users = User::orderby('id', 'desc')->get();
+      $warehouses = warehousing::orderby('id', 'desc')->get();
 
       return view('app.orders.allocation', compact('order', 'items', 'users', 'warehouses'));
    }
