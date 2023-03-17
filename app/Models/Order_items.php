@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\products\product_price;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
