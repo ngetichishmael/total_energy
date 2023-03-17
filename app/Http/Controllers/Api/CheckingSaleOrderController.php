@@ -10,8 +10,8 @@ use App\Models\Cart;
 use App\Models\customers;
 use App\Models\Order_items;
 use App\Models\Orders as Order;
-use App\Models\Orders;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 
 class CheckingSaleOrderController extends Controller
@@ -202,7 +202,7 @@ class CheckingSaleOrderController extends Controller
    // Beginning of NewSales
    public function NewSales(Request $request, $checkinCode, $random)
    {
-      $checkin = customers::whereId($checkinCode)->first();
+      // $checkin = customers::whereId($checkinCode)->first();
 
       $user_code = $request->user()->user_code;
       $request = $request->collect();
@@ -213,7 +213,7 @@ class CheckingSaleOrderController extends Controller
          $product = product_information::whereId($value["productID"])->first();
          Cart::updateOrCreate(
             [
-               'checkin_code' => $checkinCode,
+               'checkin_code' => Str::random(20),
                "order_code" => $random,
             ],
             [
@@ -232,7 +232,7 @@ class CheckingSaleOrderController extends Controller
             ],
             [
                'user_code' => $user_code,
-               'customerID' => $checkin->id,
+               'customerID' => $checkinCode,
                'price_total' => $total,
                'balance' => $total,
                'order_status' => 'Pending Delivery',
@@ -242,7 +242,7 @@ class CheckingSaleOrderController extends Controller
                'checkin_code' => $checkinCode,
                'order_type' => 'Pre Order',
                'delivery_date' => now(),
-               'business_code' => $checkin->business_code,
+               'business_code' => $request->user()->business_code,
                'updated_at' => now(),
             ]
          );
@@ -269,7 +269,7 @@ class CheckingSaleOrderController extends Controller
          "success" => true,
          "message" => "Product added to order",
          "order_code" => $random,
-         "data"    => $checkin
+         "data"    => null
       ]);
    }
 }
