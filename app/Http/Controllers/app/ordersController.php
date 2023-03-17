@@ -28,7 +28,7 @@ class ordersController extends Controller
    //order details
    public function details($code)
    {
-      $order = Orders::where('business_code', Auth::user()->business_code)->where('order_code', $code)->first();
+      $order = Orders::where('order_code', $code)->first();
       // dd($code);
       $items = Order_items::where('order_code', $order->order_code)->get();
       $sub = Order_items::select('sub_total')->where('order_code', $order->order_code)->get();
