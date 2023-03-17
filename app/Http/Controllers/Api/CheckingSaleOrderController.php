@@ -242,7 +242,7 @@ class CheckingSaleOrderController extends Controller
                'checkin_code' => $checkinCode,
                'order_type' => 'Pre Order',
                'delivery_date' => now(),
-               'business_code' => $request->user()->business_code,
+               'business_code' => $user_code,
                'updated_at' => now(),
             ]
          );
