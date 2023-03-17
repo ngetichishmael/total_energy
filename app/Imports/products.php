@@ -36,8 +36,8 @@ class products implements ToCollection, WithHeadingRow
          $product_price = new product_price;
          $product_price->productID = $product->id;
          $product_price->product_code = $row['product_code'];
-         $product_price->selling_price = $row['selling_price'] ?? "0";
-         $product_price->buying_price = $row['buying_price'] ?? "0";
+         $product_price->selling_price = (int)$row['selling_price'] ?? "0";
+         $product_price->buying_price = (int)$row['buying_price'] ?? "0";
          $product_price->branch_id = $row['region'] ?? "1";
          $product_price->business_code = Auth::user()->business_code;
          $product_price->created_by = Auth::user()->id;
