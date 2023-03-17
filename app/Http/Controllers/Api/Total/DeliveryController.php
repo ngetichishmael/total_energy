@@ -88,7 +88,7 @@ class DeliveryController extends Controller
                ]
             );
             Order_items::create([
-               'order_code' => $checker->checkin_code,
+               'order_code' => $order_code->order_code,
                'productID' => $value["productID"],
                'product_name' => $checker->product_name,
                'quantity' => $checker->quantity - $value["qty"],
