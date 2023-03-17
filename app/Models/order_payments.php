@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class order_payments extends Model
 {
-    Protected $table = 'order_payments';
-
+   protected $table = 'order_payments';
+   protected $guarded = [""];
 }

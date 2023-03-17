@@ -210,7 +210,7 @@ class CheckingSaleOrderController extends Controller
       foreach ($request as $value) {
          $price_total = $value["qty"] * $value["price"];
          $total += $price_total;
-         $product = product_information::with('ProductPrice')->where('id', $value["productID"])->first();
+         $product = product_information::whereId($value["productID"])->first();
          Cart::updateOrCreate(
             [
                'checkin_code' => $checkinCode,
@@ -228,7 +228,6 @@ class CheckingSaleOrderController extends Controller
          );
          Order::updateOrCreate(
             [
-
                'order_code' => $random,
             ],
             [

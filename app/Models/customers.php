@@ -16,7 +16,7 @@ class customers extends Model
     */
    public function Region(): BelongsTo
    {
-      return $this->belongsTo(Region::class, 'route_code', 'primary_key');
+      return $this->belongsTo(Region::class, 'route_code', 'id');
    }
    /**
     * Get the user that owns the customers

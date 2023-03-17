@@ -14,23 +14,24 @@ class Index extends Component
    use WithPagination;
    protected $paginationTheme = 'bootstrap';
    public $perPage = 5;
-   public $search;
+   public ?string $search = null;
    public $orderBy = 'orders.id';
    public $orderAsc = false;
    public $customer_name = null;
 
-   public function updatingSearch()
-   {
-      $this->resetPage();
-   }
+
    public function render()
    {
-      $orders =  Orders::join('customers', 'customers.id', '=', 'orders.customerID')
-         ->join('users', 'users.user_code', '=', 'orders.user_code')
-         ->when($this->customer_name, function ($query) {
-            $query->where('customer_name', $this->customer_name);
-         })
-         ->search(trim($this->search))
+      $searchTerm = '%' . $this->search . '%';
+      $orders =  Orders::with('Customer', 'user')
+         ->whereLike(
+            [
+               'user.name',
+               'Customer.customer_name',
+               'order_type'
+            ],
+            $searchTerm
+         )
          ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
          ->paginate($this->perPage);
 
@@ -38,14 +39,22 @@ class Index extends Component
    }
    public function export()
    {
-       return Excel::download(new OrdersExport, 'orders.xlsx');
+      return Excel::download(new OrdersExport, 'orders.xlsx');
    }
 
-   // public function render()
-   // {
-   //    return view('livewire.orders.index',[
-   //       'orders' => Orders::whereLike('model', $this->search??''),
+   public function deactivate($id)
+   {
 
-   //    ]);
-   // }
+      Orders::whereId($id)->update([
+         'order_status' => 'CANCELLED',
+      ]);
+      $this->render();
+   }
+   public function activate($id)
+   {
+      Orders::whereId($id)->update([
+         'order_status' => 'Pending Delivery',
+      ]);
+      $this->render();
+   }
 }

@@ -19,14 +19,15 @@ class products implements ToCollection, WithHeadingRow
    public function collection(Collection $rows)
    {
       foreach ($rows as $row) {
+         // dd($row["product_code"]);
          $product = new product_information;
-         $product->sku_code = $row['sku'];
-         $product->product_name = $row['product_name'];
-         $product->description = $row['description'];
-         $product->brand = $row['brand'];
-         $product->category = $row['category'];
-         $product->units = $row['units'];
-         $product->measure = $row['measure'];
+         $product->sku_code = $row['uompp'];
+         $product->product_name = $row['product'];
+         $product->description = $row['product_code'];
+         $product->brand = "FAST MOVERS";
+         $product->category = $row['uom'];
+         $product->units = $row['volume'];
+         $product->measure = $row['quantity'];
          $product->business_code = Auth::user()->business_code;
          $product->created_by = Auth::user()->id;
          $product->save();
@@ -34,9 +35,10 @@ class products implements ToCollection, WithHeadingRow
          //product price
          $product_price = new product_price;
          $product_price->productID = $product->id;
-         $product_price->selling_price = $row['price'] ?? "0";
-         $product_price->buying_price = $row['cost'] ?? "0";
-         $product_price->branch_id = $row['region'] ?? "2";
+         $product_price->product_code = $row['product_code'];
+         $product_price->selling_price = $row['selling_price'] ?? "0";
+         $product_price->buying_price = $row['buying_price'] ?? "0";
+         $product_price->branch_id = $row['region'] ?? "1";
          $product_price->business_code = Auth::user()->business_code;
          $product_price->created_by = Auth::user()->id;
          $product_price->save();
