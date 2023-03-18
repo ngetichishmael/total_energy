@@ -36,7 +36,7 @@
                         <td>{!! $deliver->order_code !!}</td>
                         <td>{!! $deliver->Customer->customer_name ?? ' ' !!}</td>
                         <td>{!! $deliver->User->name ?? '' !!}</td>
-                        <td>{!! $deliver->Order->price_total ?? '' !!}</td>
+                        <td>{!! ($deliver->Order->price_total ?? 0) - ($deliver->Order->balance ?? 0) !!}</td>
                         <td>{!! $deliver->updated_at !!}</td>
 
                         <td>
