@@ -28,7 +28,7 @@ class RegionalFilter extends Controller
    {
       $route_code = $request->user()->route_code;
       $data = array();
-      $regions = Region::where('primary_key',  $route_code)->first();
+      $regions = Region::whereId($route_code)->first();
       $subregion = Subregion::where('primary_key',  $route_code)->first();
       $area = Area::where('primary_key',  $route_code)->first();
       $subarea = Subarea::where('primary_key',  $route_code)->first();

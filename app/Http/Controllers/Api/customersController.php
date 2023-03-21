@@ -122,7 +122,7 @@ class customersController extends Controller
       $customer->created_by = $request->user()->user_code;
       $customer->route_code = $request->route_code;
       $customer->customer_group = $request->outlet;
-      $customer->region_id = $request->route_code;
+      $customer->region_id = $request->user()->route_code;
       $customer->unit_id = $request->route_code;
       $customer->image = $image_path;
       $customer->save();
