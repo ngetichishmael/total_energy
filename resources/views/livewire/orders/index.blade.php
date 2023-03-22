@@ -2,7 +2,7 @@
     use Illuminate\Support\Str;
 @endphp
 <div>
-    <div class="d-flex justify-content-between align-items-center mx-50 pt-0 pb-2">
+    <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50">
         <div class="col-md-6">
             <label for="">Search</label>
             <input type="text" wire:model="search" class="form-control" placeholder="Enter customer name">
@@ -34,6 +34,7 @@
                         <th width="1%">#</th>
                         <th>Order Type</th>
                         <th>Customer</th>
+                        <th>Region</th>
                         <th>Route</th>
                         <th>Sales Person</th>
                         <th>Amount</th>
@@ -51,8 +52,10 @@
                                 <td>{{ $order->order_type }}</td>
                                 <td title="{{ $order->Customer->customer_name ?? null }}">
                                     {{ Str::limit($order->Customer->customer_name ?? null, 20) }}</td>
-                                <td title="{{ $order->Customer->Region->name ?? null }}">
-                                    {{ Str::limit($order->Customer->Region->name ?? null, 20) }}</td>
+                                <td title="{{ $order->Customer->Area->Subregion->name ?? null }}">
+                                    {{ Str::limit($order->Customer->Area->Subregion->name ?? null, 20) }}</td>
+                                <td title="{{ $order->Customer->Area->Subregion->name ?? null }}">
+                                    {{ Str::limit($order->Customer->Area->name ?? null, 20) }}</td>
                                 <td title="{{ $order->User->name ?? null }}">
                                     {{ Str::limit($order->User->name ?? null, 10) }}</td>
                                 <td>ksh {{ number_format($order->price_total) }}</td>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,18 +10,15 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Delivery extends Model
 {
+   use Searchable;
    protected $table = 'delivery';
    protected $guarded = [""];
+   protected $searchable = [
+      'user.name',
+      'Customer.customer_name',
+      'Customer.Area.name',
+   ];
 
-   public function scopeSearch($query, $term)
-   {
-      $term = "%$term%";
-      $query->where(function ($query) use ($term) {
-         $query->where('customer_name', 'like', $term)
-            ->orWhere('name', 'like', $term)
-            ->orWhere('order_code', 'like', $term);
-      });
-   }
    /**
     * Get all of the OrderItems for the Delivery
     *

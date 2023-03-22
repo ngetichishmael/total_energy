@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,17 +10,16 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Orders extends Model
 {
+   use Searchable;
    protected $table = 'orders';
 
    protected $guarded = [];
-
-   public function scopeSearch($query, $term)
-   {
-      $term = "%$term%";
-      $query->where(function ($query) use ($term) {
-         $query->where('customer_name', 'like', $term);
-      });
-   }
+   protected $searchable = [
+      'user.name',
+      'Customer.customer_name',
+      'order_type',
+      'Customer.Region.name',
+   ];
    /**
     * Get the OrderItem associated with the Orders
     *

@@ -85,7 +85,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Allocate</label>
-                                    <input type="text" name="allocate[]" class="form-control"
+                                    <input type="number" name="allocate[]" class="form-control"
                                         placeholder="max {!! $item->quantity !!}" max="{!! $item->quantity !!}" required>
                                 </div>
                             </div>

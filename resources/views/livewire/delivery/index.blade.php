@@ -17,38 +17,47 @@
     </div>
     <div class="card card-default">
         <div class="card-body">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <th width="1%">#</th>
-                    <th>OrderID</th>
-                    <th>Customer</th>
-                    <th>Sales Agents</th>
-                    <th>Delivery By</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        @foreach ($deliveries as $count => $deliver)
-                    <tr>
-                        <td>{!! $count + 1 !!}</td>
-                        <td>
-                            {!! $deliver->order_code !!}
-                        </td>
-                        <td>{!! $deliver->customer_name !!}</td>
-                        <td>{!! $deliver->agent !!}</td>
-                        <td>{!! $deliver->name !!}</td>
-                        <td>{!! $deliver->delivery_date !!}</td>
-                        <td><a href="" class="badge {!! $deliver->delivery_status !!}"
-                                style="color: rgb(2, 66, 100);">{!! $deliver->delivery_status !!}</a></td>
-                        <td><a href="{!! route('delivery.details', $deliver->order_code, $deliver->name) !!}" class="btn btn-sm btn-success">View</a></td>
-                    </tr>
-                    @endforeach
-                    </tr>
-                </tbody>
-            </table>
-            <div class="mt-1">{!! $deliveries->links() !!}</div>
+            <div class="card-datatable table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <th width="1%">#</th>
+                        <th>OrderID</th>
+                        <th>Customer</th>
+                        <th>Customer</th>
+                        <th>Region</th>
+                        <th>Route</th>
+                        <th>Sales Agents</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            @foreach ($deliveries as $count => $deliver)
+                        <tr>
+                            <td>{!! $count + 1 !!}</td>
+                            <td>
+                                {!! $deliver->order_code !!}
+                            </td>
+                            <td>{!! $deliver->Customer->customer_name !!}</td>
+                            <td title="{{ $deliver->Customer->customer_name ?? null }}">
+                                {{ Str::limit($deliver->Customer->customer_name ?? null, 20) }}</td>
+                            <td title="{{ $deliver->Customer->Area->Subregion->name ?? null }}">
+                                {{ Str::limit($deliver->Customer->Area->Subregion->name ?? null, 20) }}</td>
+                            <td title="{{ $deliver->Customer->Area->Subregion->name ?? null }}">
+                                {{ Str::limit($deliver->Customer->Area->name ?? null, 20) }}</td>
+                            <td>{!! $deliver->User->name !!}</td>
+                            <td>{!! $deliver->updated_at !!}</td>
+                            <td><a href="" class="badge {!! $deliver->delivery_status !!}"
+                                    style="color: rgb(2, 66, 100);">{!! $deliver->delivery_status !!}</a></td>
+                            <td><a href="{!! route('delivery.details', $deliver->order_code, $deliver->User->name) !!}" class="btn btn-sm btn-success">View</a></td>
+                        </tr>
+                        @endforeach
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="mt-1">{!! $deliveries->links() !!}</div>
+            </div>
         </div>
     </div>
 </div>

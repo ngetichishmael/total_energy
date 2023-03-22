@@ -2,12 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class customers extends Model
 {
+   use searchable;
+   protected $searchable = [
+      'Area.name',
+      'customer_name',
+      'phone_number',
+      'address',
+      'Area.Subregion.name',
+      'Area.Subregion.Region.name',
+   ];
    protected $table = 'customers';
    /**
     * Get the Region that owns the customers

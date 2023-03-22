@@ -24,14 +24,7 @@ class Index extends Component
    {
       $searchTerm = '%' . $this->search . '%';
       $orders =  Orders::with('Customer', 'user')
-         ->whereLike(
-            [
-               'user.name',
-               'Customer.customer_name',
-               'order_type'
-            ],
-            $searchTerm
-         )
+         ->search($searchTerm)
          ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
          ->paginate($this->perPage);
 
