@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CustomerCommentController;
 use App\Http\Controllers\Api\Manager\AuthenticationController;
 use App\Http\Controllers\Api\Manager\CustomerController;
 use App\Http\Controllers\Api\Manager\DashboardAppController;
@@ -55,5 +56,11 @@ Route::group(['namespace' => 'Api'], function () {
       Route::post('/full/delivery/{delivery_code}', [DeliveryController::class, 'fullDelivery']);
       Route::post('/edit/delivery/{delivery_code}', [DeliveryController::class, 'editDelivery']);
       Route::post('/cancel/delivery/{delivery_code}', [DeliveryController::class, 'cancel']);
+
+      /**
+       * Comments section
+       */
+      Route::get('customer/comments/{id}', [CustomerCommentController::class, 'show']);
+      Route::post('customer/comment', [CustomerCommentController::class, 'store']);
    });
 });
