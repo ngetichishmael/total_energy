@@ -34,6 +34,6 @@ class CustomerComment extends Model
     */
    public function Customer(): BelongsTo
    {
-      return $this->belongsTo(customers::class);
+      return $this->belongsTo(customers::class, 'customers_id');
    }
 }

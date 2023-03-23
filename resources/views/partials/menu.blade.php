@@ -102,6 +102,11 @@
                             data-feather="circle"></i><span class="menu-item text-truncate">Customer
                             OutLets</span></a>
                 </li>
+                <li><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}"
+                        href="{{ route('CustomerComment') }}"><i data-feather="circle"></i><span
+                            class="menu-item text-truncate">Customer
+                            Comments</span></a>
+                </li>
             </ul>
         </li>
         {{-- <li class="nav-item {!! Nav::isResource('checkin') !!}">

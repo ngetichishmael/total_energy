@@ -96,6 +96,9 @@ Route::middleware(['auth'])->group(function () {
       'create' => 'PendingPayment.create',
       'store' => 'PendingPayment.store',
    ]);
+   Route::resource('customer/comment', CustomerCommentController::class)->names([
+      'index' => 'CustomerComment',
+   ]);
    Route::group(['prefix' => 'maps'], function () {
       Route::get('/', [MapsController::class, 'index'])->name('maps');
    });
