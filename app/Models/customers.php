@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class customers extends Model
 {
@@ -28,13 +29,13 @@ class customers extends Model
       return $this->belongsTo(Region::class, 'route_code', 'id');
    }
    /**
-    * Get the user that owns the customers
+    * Get the Creator associated with the customers
     *
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
     */
-   public function user(): BelongsTo
+   public function Creator(): HasOne
    {
-      return $this->belongsTo(User::class, 'foreign_key', 'other_key');
+      return $this->hasOne(User::class, 'user_code', 'created_by');
    }
    /**
     * Get the Area that owns the customers

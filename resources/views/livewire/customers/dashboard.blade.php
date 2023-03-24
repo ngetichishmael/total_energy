@@ -27,6 +27,7 @@
                         <th>Zone</th>
                         <th>Region</th>
                         <th>Route</th>
+                        <th>Created By</th>
                         <th>Order</th>
                         <th width="15%">Edit</th>
                         <th width="15%">Action</th>
@@ -49,6 +50,9 @@
                             </td>
                             <td>
                                 {!! $contact->Area->name ?? '' !!}
+                            </td>
+                            <td>
+                                {!! $contact->Creator->name ?? '' !!}
                             </td>
                             <td>
                                 <a href="{{ route('make.orders', ['id' => $contact->id]) }}"
