@@ -19,6 +19,7 @@ class Dashboard extends Component
       $searchTerm = '%' . $this->search . '%';
       $contacts = customers::with('Area.Subregion.Region')
          ->search($searchTerm)
+         ->orderBy('id', 'DESC')
          ->paginate($this->perPage);
       return view('livewire.customers.dashboard', [
          'contacts' => $contacts

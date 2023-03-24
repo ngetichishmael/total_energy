@@ -66,7 +66,7 @@
                                 @else
                                     <button wire:click.prevent="activate({{ $contact->id }})"
                                         onclick="confirm('Are you sure you want to ACTIVATE this customer?')||event.stopImmediatePropagation()"
-                                        type="button" class="btn btn-danger btn-sm">Suspend</button>
+                                        type="button" class="btn btn-danger btn-sm">Pending</button>
                                 @endif
                             </td>
                             </tr>

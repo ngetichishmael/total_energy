@@ -1,7 +1,7 @@
 <div>
     <div class="col-lg-12 col-12">
         <div class="card">
-            <h5 class="card-header">Assign Orders for {{ $id }}</h5>
+            <h5 class="card-header">Make an Order for <strong> {{ $id }}</strong> </h5>
         </div>
         <div class="card">
             <div class="card-body p-0">
