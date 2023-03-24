@@ -25,6 +25,12 @@ class ordersController extends Controller
       return view('app.orders.index');
    }
 
+   public function makeOrder($id)
+   {
+      return view('app.orders.make', [
+         'id' => $id,
+      ]);
+   }
    //order details
    public function details($code)
    {

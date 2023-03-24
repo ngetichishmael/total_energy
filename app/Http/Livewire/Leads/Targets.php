@@ -11,6 +11,7 @@ class Targets extends Component
 {
    public $Targets;
    public $users;
+   // public $QPTargets;
    public $countTargets = true;
    public function mount()
    {
@@ -18,10 +19,9 @@ class Targets extends Component
       $today = Carbon::now();
       $lastDayofMonth =  Carbon::parse($today)->endOfMonth()->toDateString();
       $this->users = User::where('account_type', 'Sales')->get();
-      $this->QPTargets = LeadsTargets::all();
       $this->fill([
          'Targets' => collect([
-            ['primarykey' => '','deadline' => $lastDayofMonth]
+            ['primarykey' => '', 'deadline' => $lastDayofMonth]
          ]),
       ]);
    }
@@ -48,7 +48,7 @@ class Targets extends Component
          'Targets.*.primarykey' => 'required',
          'Targets.*.deadline' => 'required',
          'Targets.*.Target' => 'required',
-     ]);
+      ]);
       foreach ($this->Targets as $value) {
          if ($value["primarykey"] === 'ALL') {
             $users = User::where('account_type', 'Sales')->get();

@@ -17,60 +17,67 @@
     </div>
     <div class="card card-default">
         <div class="card-body">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <th width="1%">#</th>
-                    <th>Name</th>
-                    <th>number</th>
-                    <th>Address</th>
-                    <th>Zone</th>
-                    <th>Region</th>
-                    <th>Route</th>
-                    <th width="15%">Edit</th>
-                    <th width="15%">Action</th>
-                </thead>
-                <tbody>
-                    @foreach ($contacts as $count => $contact)
-                        <td>{!! $count + 1 !!}</td>
-                        <td>
-                            {!! $contact->customer_name !!}
-                        </td>
-                        <td>{!! $contact->phone_number !!}</td>
-                        <td>
-                            {{ $contact->address }}
-                        </td>
-                        <td>
-                            {!! $contact->Area->Subregion->Region->name ?? ' ' !!}
-                        </td>
-                        <td>
-                            {!! $contact->Area->Subregion->name ?? '' !!}
-                        </td>
-                        <td>
-                            {!! $contact->Area->name ?? '' !!}
-                        </td>
-                        <td>
-                            <a href="{{ route('customer.edit', $contact->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                        </td>
-                        <td>
-                            @if ($contact->approval === 'Approved')
-                                <button wire:click.prevent="deactivate({{ $contact->id }})"
-                                    onclick="confirm('Are you sure you want to DEACTIVATE this customer?')||event.stopImmediatePropagation()"
-                                    type="button" class="btn btn-success btn-sm">Approved</button>
-                            @else
-                                <button wire:click.prevent="activate({{ $contact->id }})"
-                                    onclick="confirm('Are you sure you want to ACTIVATE this customer?')||event.stopImmediatePropagation()"
-                                    type="button" class="btn btn-danger btn-sm">Suspend</button>
-                            @endif
-                        </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="card-datatable table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <th width="1%">#</th>
+                        <th>Name</th>
+                        <th>number</th>
+                        <th>Address</th>
+                        <th>Zone</th>
+                        <th>Region</th>
+                        <th>Route</th>
+                        <th>Order</th>
+                        <th width="15%">Edit</th>
+                        <th width="15%">Action</th>
+                    </thead>
+                    <tbody>
+                        @foreach ($contacts as $count => $contact)
+                            <td>{!! $count + 1 !!}</td>
+                            <td>
+                                {!! $contact->customer_name !!}
+                            </td>
+                            <td>{!! $contact->phone_number !!}</td>
+                            <td>
+                                {{ $contact->address }}
+                            </td>
+                            <td>
+                                {!! $contact->Area->Subregion->Region->name ?? ' ' !!}
+                            </td>
+                            <td>
+                                {!! $contact->Area->Subregion->name ?? '' !!}
+                            </td>
+                            <td>
+                                {!! $contact->Area->name ?? '' !!}
+                            </td>
+                            <td>
+                                <a href="{{ route('make.orders', ['id' => $contact->id]) }}"
+                                    class="btn btn-sm btn-secondary">Order</a>
+                            </td>
+                            <td>
+                                <a href="{{ route('customer.edit', $contact->id) }}"
+                                    class="btn btn-sm btn-primary">Edit</a>
+                            </td>
+                            <td>
+                                @if ($contact->approval === 'Approved')
+                                    <button wire:click.prevent="deactivate({{ $contact->id }})"
+                                        onclick="confirm('Are you sure you want to DEACTIVATE this customer?')||event.stopImmediatePropagation()"
+                                        type="button" class="btn btn-success btn-sm">Approved</button>
+                                @else
+                                    <button wire:click.prevent="activate({{ $contact->id }})"
+                                        onclick="confirm('Are you sure you want to ACTIVATE this customer?')||event.stopImmediatePropagation()"
+                                        type="button" class="btn btn-danger btn-sm">Suspend</button>
+                                @endif
+                            </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
-            <div class="mt-1">
-                {{ $contacts->links() }}
+                <div class="mt-1">
+                    {{ $contacts->links() }}
+                </div>
             </div>
-
         </div>
     </div>
 </div>
