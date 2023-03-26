@@ -157,7 +157,7 @@ class customersController extends Controller
       $checkin->code = Helper::generateRandomString(20);
       $checkin->customer_id =  $customer->id;
       $checkin->account_number = $request->customer;
-      $checkin->checkin_type = $request->checkin_type;
+      $checkin->checkin_type = $request->checkin_type ?? 'self';
       $checkin->user_code = Auth::user()->user_code;
       $checkin->ip = Helper::get_client_ip();
       $checkin->start_time = date('H:i:s');

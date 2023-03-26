@@ -96,6 +96,14 @@ Route::middleware(['auth'])->group(function () {
       'create' => 'PendingPayment.create',
       'store' => 'PendingPayment.store',
    ]);
+   Route::resource('visits/user', UserVisitController::class)->names([
+      'index' => 'UsersVisits',
+      'show' => 'UsersVisits.show',
+   ]);
+   Route::resource('visits/customer', CustomerVisitController::class)->names([
+      'index' => 'CustomerVisits',
+      'show' => 'CustomerVisits.show',
+   ]);
    Route::resource('customer/comment', CustomerCommentController::class)->names([
       'index' => 'CustomerComment',
    ]);
