@@ -16,10 +16,7 @@ class RegionalFilter extends Controller
 
    /**
     *
-    ALTER TABLE `customers` ADD `region_id` INT(255) NULL
-    DEFAULT NULL AFTER `route_code`, ADD `subregion_id` INT(255)
-    NULL DEFAULT NULL AFTER `region_id`, ADD `zone_id` INT(255) NULL
-    DEFAULT NULL AFTER `subregion_id`, ADD `unit_id` INT(255) NULL DEFAULT NULL AFTER `zone_id`;
+   
     *
     * @param Request $request
     * @return void
