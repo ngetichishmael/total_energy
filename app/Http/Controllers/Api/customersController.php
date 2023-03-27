@@ -22,6 +22,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Area;
+use App\Models\Route_customer;
+use App\Models\Routes;
+use Carbon\Carbon;
 
 /**
  * @group Customers Api's
@@ -144,6 +147,7 @@ class customersController extends Controller
 
    public function calculate_distance(Request $request)
    {
+      $id = $request->user()->id;
       $customer = customers::where('account', $request->customer)->first();
       $lat1 = $customer->latitude;
       $lon1 = $customer->longitude;
@@ -160,7 +164,7 @@ class customersController extends Controller
       $checkin->code = Helper::generateRandomString(20);
       $checkin->customer_id =  $customer->id;
       $checkin->account_number = $request->customer;
-      $checkin->checkin_type = $request->checkin_type ?? 'self';
+      $checkin->checkin_type = $this->checkVisit($id, $customer->id);
       $checkin->user_code = Auth::user()->user_code;
       $checkin->ip = Helper::get_client_ip();
       $checkin->start_time = date('H:i:s');
@@ -185,6 +189,27 @@ class customersController extends Controller
 
    }
 
+   public function checkVisit($user_id, $customer_id)
+   {
+
+      $today = Carbon::today()->format('Y-m-d');
+      $visit = null;
+      $checker = Routes::with([
+         'RouteSales' => function ($query) use ($user_id) {
+            $query->where('userID', $user_id);
+         }
+      ])
+         ->where('start_date', '>', $today)
+         ->where('end_date', '<', $today)
+         ->pluck('route_code');
+      if ($checker !== null) {
+         $route_customer = Route_customer::whereIn('routeID', $checker)->where('customer_id', $customer_id)->get();
+         if ($route_customer !== null) {
+            $visit = "Admin";
+         }
+      }
+      return $visit;
+   }
    /**
     * Customer deliveries
     *

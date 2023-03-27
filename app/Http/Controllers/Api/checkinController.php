@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Helpers\Helper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session as FacadesSession;
+use App\Models\Route_customer;
+use App\Models\Routes;
+use Carbon\Carbon;
 
 /**
  * @group Checkin Api's
@@ -35,6 +38,7 @@ class checkinController extends Controller
     **/
    public function create_checkin_session(Request $request)
    {
+      $id = $request->user()->id ?? 2;
       $customer = customers::where('id', $request->customerID)->first();
       $checkingCount = checkin::where('customer_id', $request->customerID)
          ->where('user_code', $request->user_code)
@@ -62,7 +66,7 @@ class checkinController extends Controller
       $checkin->code           = $checking_code;
       $checkin->customer_id    = $customer->id;
       $checkin->account_number = $request->customerID;
-      $checkin->checkin_type   = $request->checkin_type;
+      $checkin->checkin_type   =  $this->checkVisit($id, $request->customerID);
       $checkin->user_code      = $request->user_code;
       $checkin->ip             = Helper::get_client_ip();
       $checkin->start_time     = $startTime;
@@ -86,21 +90,46 @@ class checkinController extends Controller
          "checking Code" => $checkin->code,
          "checkingCount" => $checkingCount,
          "orderCount" => $orderCount,
+         "data" => $checkin->checkin_type
       ]);
-
-      // }else{
-      //    Session::flash('warning','You are not near the customer shop');
-      //    return redirect()->back();
-
-      //    return response()->json([
-      //       "success" => false,
-      //       "code" => 201,
-      //       "message" => "You are not near the customer shop",
-      //    ]);
-      // }
-
    }
+   public function checkVisit($user_id, $customer_id)
+   {
 
+      $today = Carbon::today()->format('Y-m-d');
+      $visit = null;
+      $checkerSelf = Routes::with([
+         'RouteSales' => function ($query) use ($user_id) {
+            $query->where('userID', $user_id);
+         }
+      ])
+         ->where('Type', 'Individual')
+         ->where('start_date', '<', $today)
+         ->where('end_date', '>', $today)
+         ->pluck('route_code');
+      $checkerAdmin = Routes::with([
+         'RouteSales' => function ($query) use ($user_id) {
+            $query->where('userID', $user_id);
+         }
+      ])
+         ->where('Type', 'Assigned')
+         ->where('start_date', '<', $today)
+         ->where('end_date', '>', $today)
+         ->pluck('route_code');
+      if (count($checkerSelf) > 0) {
+         $route_customer = Route_customer::where('customerID', $customer_id)->whereIn('routeID', $checkerSelf)->get();
+         if (count($route_customer) > 0) {
+            $visit = 'self';
+         }
+      }
+      if (count($checkerAdmin) > 0) {
+         $route_customer = Route_customer::where('customerID', $customer_id)->whereIn('routeID', $checkerAdmin)->get();
+         if (count($route_customer) > 0) {
+            $visit = 'admin';
+         }
+      }
+      return $visit;
+   }
    /**
     * Customer Checkin
     *

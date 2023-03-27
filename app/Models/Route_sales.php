@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Route_sales extends Model
 {
-   Protected $table = 'route_sales';
+   protected $table = 'route_sales';
 }
