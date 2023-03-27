@@ -14,12 +14,14 @@ use App\Models\order_payments;
 use App\Models\Orders;
 use App\Models\OutletType;
 use App\Models\Region;
+
 use App\Models\Subregion;
 use App\Models\zone;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Area;
 
 /**
  * @group Customers Api's
@@ -40,9 +42,10 @@ class customersController extends Controller
 
       $route_code = $request->user()->route_code;
       $region = Region::whereId($route_code)->first();
-      $subregions = Subregion::where('region_id', $region->id)->pluck('id');
+      $subregion = Subregion::where('region_id', $region->id)->pluck('id');
+      $areas = Area::whereIn('subregion_id', $subregion)->pluck('id');
 
-      $query = customers::whereIn('route_code', $subregions)->get();
+      $query = customers::whereIn('route_code', $areas)->get();
 
       return response()->json([
          "user" => $user,
