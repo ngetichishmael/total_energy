@@ -18,6 +18,7 @@ class Dashboard extends Component
       $searchTerm = '%' . $this->search . '%';
       $comments = CustomerComment::with('User', 'Customer')
          ->search($searchTerm)
+         ->orderBy('id', 'DESC')
          ->paginate($this->perPage);
       return view('livewire.comment.dashboard', [
          'comments' => $comments

@@ -116,14 +116,14 @@
                                     <div class="form-group">
                                         <label for="company-column">Latitude</label>
                                         <input type="text" id="company-column" class="form-control" name="latitude"
-                                            placeholder="Latitude" value="{{ $customer->latitude }}" />
+                                            placeholder="Latitude" value="{{ $customer->latitude }}" readonly />
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="email-id-column">Longitude</label>
                                         <input type="email" id="email-id-column" class="form-control" name="longitude"
-                                            placeholder="Longitude" value="{{ $customer->longitude }}" />
+                                            placeholder="Longitude" value="{{ $customer->longitude }}" readonly />
                                     </div>
                                 </div>
 

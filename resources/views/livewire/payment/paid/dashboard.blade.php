@@ -48,7 +48,7 @@
                                 <button type="button" class="btn btn-success btn-sm">YES</button>
                             @endif
                         </td>
-                        <td><a href="{!! route('delivery.details', $deliver->order_code, $deliver->name) !!}" class="btn btn-sm btn-success">View</a></td>
+                        <td><a href="{!! route('PaidPayment.show', ['paid' => $deliver->order_code]) !!}" class="btn btn-sm btn-success">View</a></td>
                     </tr>
                     @endforeach
                     </tr>

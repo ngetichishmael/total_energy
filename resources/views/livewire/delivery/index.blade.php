@@ -23,7 +23,6 @@
                         <th width="1%">#</th>
                         <th>OrderID</th>
                         <th>Customer</th>
-                        <th>Customer</th>
                         <th>Region</th>
                         <th>Route</th>
                         <th>Sales Agents</th>
@@ -36,10 +35,7 @@
                             @foreach ($deliveries as $count => $deliver)
                         <tr>
                             <td>{!! $count + 1 !!}</td>
-                            <td>
-                                {!! $deliver->order_code !!}
-                            </td>
-                            <td>{!! $deliver->Customer->customer_name !!}</td>
+                            <td>{!! $deliver->order_code !!}</td>
                             <td title="{{ $deliver->Customer->customer_name ?? null }}">
                                 {{ Str::limit($deliver->Customer->customer_name ?? null, 20) }}</td>
                             <td title="{{ $deliver->Customer->Area->Subregion->name ?? null }}">

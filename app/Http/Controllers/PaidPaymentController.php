@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order_items;
 use Illuminate\Http\Request;
 
 class PaidPaymentController extends Controller
@@ -43,9 +44,13 @@ class PaidPaymentController extends Controller
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-   public function show($id)
+   public function show($order_code)
    {
-      //
+      $orders = Order_items::where('order_code', $order_code)->get();
+      return view('livewire.payment.paid.invoice', [
+         "orders" => $orders,
+         "order_code" => $order_code
+      ]);
    }
 
    /**

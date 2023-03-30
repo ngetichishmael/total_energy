@@ -165,13 +165,13 @@
                     visits</span>
             </a>
         </li> --}}
-        <li class="nav-item {!! Nav::isRoute('payment') !!}">
+        <li class="nav-item {!! Nav::isRoute('*Payment') !!}">
             <a class="d-flex align-items-center" href="#">
                 <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Todo">
                     Payment Management</span>
             </a>
             <ul class="menu-content">
-                <li><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}"
+                <li><a class="d-flex align-items-center {!! Nav::isRoute('PaidPayment') !!}"
                         href="{{ route('PaidPayment') }}"><i data-feather="users"></i><span
                             class="menu-item text-truncate">Paid</span></a>
                 </li>
