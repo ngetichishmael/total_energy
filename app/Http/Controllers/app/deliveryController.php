@@ -16,7 +16,7 @@ class deliveryController extends Controller
    {
       $total = 0;
       $subtotal = 0;
-      $deliveries = Delivery::with('User', 'OrderItems')
+      $deliveries = Delivery::with('User', 'DeliveryItems')
          ->where('order_code', $code)
          ->select('*')
          ->limit(1)

@@ -6,7 +6,7 @@ use App\Exports\OrdersExport;
 use Livewire\Component;
 use App\Models\Orders;
 use Livewire\WithPagination;
-use Auth;
+use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
@@ -22,13 +22,29 @@ class Index extends Component
 
    public function render()
    {
+
+
+      return view('livewire.orders.index', [
+         'orders' => $this->orders()
+      ]);
+   }
+   public function orders()
+   {
+
       $searchTerm = '%' . $this->search . '%';
-      $orders =  Orders::with('Customer', 'user')
+      $perpage = $this->search == null ? $this->perPage : 1000;
+      $orders =  Orders::with('Customer', 'user', 'OrderItems')
          ->search($searchTerm)
          ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
-         ->paginate($this->perPage);
+         ->paginate($perpage);
+      return $orders;
+   }
+   public function shipment()
+   {
 
-      return view('livewire.orders.index', compact('orders'));
+      return redirect()->route('picking-sheet')->with([
+         "products" => $this->orders(),
+      ]);
    }
    public function export()
    {

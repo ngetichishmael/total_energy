@@ -19,6 +19,8 @@ class Orders extends Model
       'Customer.customer_name',
       'order_type',
       'Customer.Region.name',
+      'Customer.Region.Subregion.name',
+      'Customer.Region.Subregion.area.name',
    ];
    /**
     * Get the OrderItem associated with the Orders

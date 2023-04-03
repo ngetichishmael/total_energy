@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
       'create' => 'visit.target.create',
       'store' => 'visit.target.store',
    ]);
+   Route::get('picking-sheet', PickingSheetController::class)->name('picking-sheet');
    Route::resource('target/leads', app\Target\LeadsController::class)->names([
       'index' => 'leads.target',
       'show' => 'leads.target.show',
