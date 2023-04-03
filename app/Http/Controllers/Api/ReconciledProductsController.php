@@ -23,23 +23,23 @@ class ReconciledProductsController extends Controller
          $reconciled_products->save();
 
          DB::table('inventory_allocated_items')
-         ->where('created_by',$usercode)
-         ->decrement('allocated_qty',$data['amount'],[
-            'updated_at'=>now()
-         ]);
+            ->where('created_by', $usercode)
+            ->decrement('allocated_qty', $data['amount'], [
+               'updated_at' => now()
+            ]);
          DB::table('inventory_allocated_items')
-         ->where('allocated_qty', '<', 1 )
-         ->delete();
+            ->where('allocated_qty', '<', 1)
+            ->delete();
 
          DB::table('product_inventory')
-         ->where('created_by',$usercode)
-         ->increment('current_stock',$data['amount'],[
-            'updated_by'=>now(),
-            'updated_by'=>$id,
-         ]);
+            ->where('created_by', $usercode)
+            ->increment('current_stock', $data['amount'], [
+               'updated_by' => now(),
+               'updated_by' => $id,
+            ]);
          DB::table('order_payments')
-         ->where('user_id', $id )
-         ->update(['isReconcile'=>'true']);
+            ->where('user_id', $id)
+            ->update(['isReconcile' => 'true']);
       }
 
       return response()->json([
