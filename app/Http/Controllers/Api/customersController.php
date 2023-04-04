@@ -154,6 +154,9 @@ class customersController extends Controller
             "contact_person" => $request->contact_person ?? $customer->contact_person,
             "customer_group" => $request->customer_group ?? $customer->customer_group,
             "price_group" => $request->price_group ?? $customer->price_group,
+            "route" => $request->route ?? $customer->route,
+            "region_id" => $request->route ?? $customer->route,
+            "unit_id" => $request->route ?? $customer->route,
             "approval" => 'Approved' ?? $customer->approval,
             "status" => 'Active' ?? $customer->status,
             "telephone" => $request->telephone ?? $customer->telephone,
@@ -168,7 +171,7 @@ class customersController extends Controller
             "branch" => $request->branch ?? $customer->branch,
             "email" => $request->email ?? $customer->email,
             "phone_number" => $request->phone_number ?? $customer->phone_number,
-            "businessID" => $request->user()->business_code ?? $customer->business_code,
+            "business_code" => $request->user()->business_code ?? $customer->business_code,
             "created_by" => $request->user()->id ?? $customer->id
          ]
       );
