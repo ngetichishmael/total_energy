@@ -2,26 +2,29 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\Helper;
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use App\Models\Area;
 use App\Models\Cart;
-use App\Models\customer\checkin;
-use App\Models\customer\customers;
-use App\Models\Delivery;
-use App\Models\Delivery_items;
-use App\Models\Order_items;
-use App\Models\order_payments;
 use App\Models\Orders;
 use App\Models\Region;
-use App\Models\Subregion;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use App\Models\Area;
-use App\Models\Route_customer;
 use App\Models\Routes;
-use Carbon\Carbon;
+use App\Helpers\Helper;
+use App\Models\Delivery;
+use App\Models\Subregion;
+use App\Models\Order_items;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\Delivery_items;
+use App\Models\order_payments;
+use App\Models\Route_customer;
+use App\Models\customer\checkin;
+use App\Models\customer\customers;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * @group Customers Api's
@@ -134,6 +137,58 @@ class customersController extends Controller
          ->where('user_code', $request->user()->user_code)
          ->increment('AchievedLeadsTarget');
 
+      // $data = [
+      //    "id" => $customer->id,
+      //    "soko_uuid" => Str::uuid(),
+      //    "company_type" => "Total Energy",
+      //    "image" => $image_path,
+      //    "customer_name" => $request->customer_name ?? $customer->customer_name,
+      //    "telephone" => $request->telephone ?? $customer->telephone,
+      //    "mobile" => $request->telephone ?? $customer->telephone,
+      //    "email" => $request->email ?? $customer->email,
+      //    "type" => "Total Energy",
+      //    "contact_person" => $request->contact_person ?? $customer->contact_person,
+      //    "latitude" => $request->latitude ?? $customer->latitude,
+      //    "longitude" => $request->longitude ?? $customer->longitude,
+      //    "address" => [
+      //       "street" => $request->address ?? $customer->address,
+      //       "city" => $request->address ?? $customer->address,
+      //       "postal_code" => $request->address ?? $customer->address,
+      //       "country" => $request->address ?? $customer->address,
+      //    ],
+      //    "metadata" => [
+      //       "manufacturer_number" => $request->manufacturer_number ?? $customer->manufacturer_number,
+      //       "route" => $request->route ?? $customer->route,
+      //       "route_code" => $request->route_code,
+      //       "region" =>  $request->route_code,
+      //       "subregion" =>  $request->route_code,
+      //       "zone" =>  $request->route_code,
+      //       "unit" =>  $request->route_code,
+      //       "branch" => $request->branch ?? $customer->branch,
+      //       "business_code" => $request->user()->business_code ?? $customer->business_code
+      //    ]
+      // ];
+      // $response = Http::withHeaders([
+      //    "Content-Type" => "application/json",
+      // ])->post(env("BASE_URL"), $data);
+
+      // if ($response->ok()) {
+      //    return response()->json([
+      //       "success" => true,
+      //       "status" => 200,
+      //       "message" => "Customer added successfully",
+      //       "response" => $response->body(),
+      //       "data" => $data,
+      //    ]);
+      // } else {
+      //    return response()->json([
+      //       "success" => true,
+      //       "status" => 401,
+      //       "message" => "An error occurred while processing",
+      //       "response" => $response
+      //    ]);
+      // }
+
       return response()->json([
          "success" => true,
          "status" => 200,
@@ -175,6 +230,9 @@ class customersController extends Controller
             "created_by" => $request->user()->id ?? $customer->id
          ]
       );
+
+
+
       return response()->json([
          "success" => true,
          "status" => 200,
