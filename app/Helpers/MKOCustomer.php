@@ -76,7 +76,6 @@ class MKOCustomer
       ];
 
       info("Sending for Odoo Customer");
-      info(json_encode($data));
       DB::table('leads_targets')
          ->where('user_code', $request->user()->user_code)
          ->increment('AchievedLeadsTarget');

@@ -10,7 +10,7 @@ class CustomerCreation
    public static function createCustomer($request, $source)
    {
       $image_path = $request->file('image')->store('image', 'public');
-      $emailData = $request->email == null ? null : $request->email;
+      $emailData = $request->email == null ? strtolower(str_replace(' ', '', $request->customer_name)) . '@totalenergies.com' : $request->email;
       $customer = customers::updateOrCreate(
          [
             'customer_name' => $request->customer_name,
@@ -24,11 +24,13 @@ class CustomerCreation
             'image' => $image_path,
             'telephone' => $request->phone_number,
             'mobile' => $request->phone_number,
+            'phone_number' => $request->phone_number,
             'email' => $emailData,
             'type' => $request->type,
             'street' => $request->address,
             'city' => $request->address,
-            'postal_code' => $request->postal_code,
+            'postal_code' => $request->address,
+            'province' => $request->address,
             'country' => $request->country ?? "Kenya",
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
@@ -40,6 +42,7 @@ class CustomerCreation
             'zone' => $request->zone,
             'unit' => $request->unit,
             'branch' => $request->branch,
+            'created_by' => $request->created_by,
             'business_code' => $request->business_code,
          ]
       );
