@@ -29,6 +29,7 @@ class CustomerCreation
             'type' => $request->type,
             'street' => $request->address,
             'address' => $request->address,
+            'customer_group' => $request->customer_group,
             'city' => $request->address,
             'postal_code' => $request->address,
             'province' => $request->address,
@@ -43,7 +44,7 @@ class CustomerCreation
             'zone' => $request->zone,
             'unit' => $request->unit,
             'branch' => $request->branch,
-            'created_by' => $request->created_by,
+            'created_by' => $request->user()->id,
             'business_code' => $request->business_code,
          ]
       );
