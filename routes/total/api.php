@@ -33,6 +33,7 @@ Route::group(['namespace' => 'Api'], function () {
    Route::post('/manager/login',  [AuthenticationController::class, 'login']);
    Route::middleware(['auth:sanctum'])->group(function () {
       Route::get('/manager/customers', [CustomerController::class, 'getCustomers']);
+      Route::get('/search/customers', [CustomerController::class, 'searchExternalCustomer']);
       Route::get('/manager/users', [UsersController::class, 'getUsers']);
       Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
       Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);

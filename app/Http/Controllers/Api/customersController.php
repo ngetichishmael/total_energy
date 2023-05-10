@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\CrystalCustomer;
+use App\Helpers\CrystalEditCustomer;
+use App\Helpers\Customer;
+use App\Helpers\EditCustomer;
 use Carbon\Carbon;
 use App\Models\Area;
 use App\Models\Cart;
@@ -9,10 +13,11 @@ use App\Models\Orders;
 use App\Models\Region;
 use App\Models\Routes;
 use App\Helpers\Helper;
+use App\Helpers\MKOCustomer;
+use App\Helpers\MKOEditCustomer;
 use App\Models\Delivery;
 use App\Models\Subregion;
 use App\Models\Order_items;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Delivery_items;
 use App\Models\order_payments;
@@ -21,10 +26,8 @@ use App\Models\customer\checkin;
 use App\Models\customer\customers;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\MKOCustomer as ModelsMKOCustomer;
 use Illuminate\Support\Facades\Auth;
-
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
 
 /**
  * @group Customers Api's
@@ -73,174 +76,44 @@ class customersController extends Controller
          "data" => $customer
       ]);
    }
-
-   /**
-    * Add Customer
-    *
-    * @bodyParam customer_name string required as outlet name
-    * @bodyParam contact_person string required
-    * @bodyParam phone_number string required
-    * @bodyParam email string
-    * @bodyParam address string
-    * @bodyParam latitude string
-    * @bodyParam longitude string
-    * @bodyParam business_code string required
-    * @bodyParam created_by string required user code
-    **/
    public function add_customer(Request $request)
    {
-      //   $user_code = $request->user()->user_code;
-      $validator           =  Validator::make($request->all(), [
-         "customer_name"   => "required|unique:customers",
-         "contact_person"  => "required",
-         "business_code"   => "required",
-         "created_by"      => "required",
-         "phone_number"    => "required|unique:customers",
-         "latitude"        => "required",
-         "longitude"       => "required",
-         "image" => 'required|image|mimes:jpg,png,jpeg,gif,svg',
-      ]);
-
-      if ($validator->fails()) {
-         return response()->json(
-            [
-               "status" => 401,
-               "message" =>
-               "validation_error",
-               "errors" => $validator->errors()
-            ],
-            403
-         );
+      $route_code = $request->user()->route_code;
+      info("route_code=" . $route_code);
+      switch ($route_code) {
+         case 1:
+            $customerModel = MKOCustomer::class;
+            break;
+         case 2:
+            $customerModel = CrystalCustomer::class;
+            break;
+         default:
+            $customerModel = Customer::class;
+            break;
       }
-      $image_path = $request->file('image')->store('image', 'public');
-      $emailData = $request->email == null ? null : $request->email;
-
-
-      $customer = new customers;
-      $customer->customer_name = $request->customer_name;
-      $customer->contact_person = $request->contact_person;
-      $customer->phone_number = $request->phone_number;
-      $customer->email = $emailData;
-      $customer->address = $request->address;
-      $customer->latitude = $request->latitude;
-      $customer->longitude = $request->longitude;
-      $customer->business_code = $request->business_code;
-      $customer->created_by = $request->user()->user_code;
-      $customer->route_code = $request->route_code;
-      $customer->customer_group = $request->outlet;
-      $customer->region_id = $request->route_code;
-      $customer->unit_id = $request->route_code;
-      $customer->image = $image_path;
-      $customer->save();
-
-      DB::table('leads_targets')
-         ->where('user_code', $request->user()->user_code)
-         ->increment('AchievedLeadsTarget');
-
-      // $data = [
-      //    "id" => $customer->id,
-      //    "soko_uuid" => Str::uuid(),
-      //    "company_type" => "Total Energy",
-      //    "image" => $image_path,
-      //    "customer_name" => $request->customer_name ?? $customer->customer_name,
-      //    "telephone" => $request->telephone ?? $customer->telephone,
-      //    "mobile" => $request->telephone ?? $customer->telephone,
-      //    "email" => $request->email ?? $customer->email,
-      //    "type" => "Total Energy",
-      //    "contact_person" => $request->contact_person ?? $customer->contact_person,
-      //    "latitude" => $request->latitude ?? $customer->latitude,
-      //    "longitude" => $request->longitude ?? $customer->longitude,
-      //    "address" => [
-      //       "street" => $request->address ?? $customer->address,
-      //       "city" => $request->address ?? $customer->address,
-      //       "postal_code" => $request->address ?? $customer->address,
-      //       "country" => $request->address ?? $customer->address,
-      //    ],
-      //    "metadata" => [
-      //       "manufacturer_number" => $request->manufacturer_number ?? $customer->manufacturer_number,
-      //       "route" => $request->route ?? $customer->route,
-      //       "route_code" => $request->route_code,
-      //       "region" =>  $request->route_code,
-      //       "subregion" =>  $request->route_code,
-      //       "zone" =>  $request->route_code,
-      //       "unit" =>  $request->route_code,
-      //       "branch" => $request->branch ?? $customer->branch,
-      //       "business_code" => $request->user()->business_code ?? $customer->business_code
-      //    ]
-      // ];
-      // $response = Http::withHeaders([
-      //    "Content-Type" => "application/json",
-      // ])->post(env("BASE_URL"), $data);
-
-      // if ($response->ok()) {
-      //    return response()->json([
-      //       "success" => true,
-      //       "status" => 200,
-      //       "message" => "Customer added successfully",
-      //       "response" => $response->body(),
-      //       "data" => $data,
-      //    ]);
-      // } else {
-      //    return response()->json([
-      //       "success" => true,
-      //       "status" => 401,
-      //       "message" => "An error occurred while processing",
-      //       "response" => $response
-      //    ]);
-      // }
-
-      return response()->json([
-         "success" => true,
-         "status" => 200,
-         "message" => "Customer added successfully",
-      ]);
+      $respond = $customerModel::addCustomer($request);
+      return response()->json([$respond]);
    }
+
    public function editCustomer(Request $request)
    {
-      $customer = customers::whereId($request->id)->first();
+      $route_code = $request->user()->route_code;
 
-      $edited = customers::whereId($request->id)->update(
-         [
-            "customer_name" => $request->customer_name ?? $customer->customer_name,
-            "account" => $request->account ?? $customer->account,
-            "address" => $request->address ?? $customer->address,
-            "latitude" => $request->latitude ?? $customer->latitude,
-            "longitude" => $request->longitude ?? $customer->longitude,
-            "contact_person" => $request->contact_person ?? $customer->contact_person,
-            "customer_group" => $request->customer_group ?? $customer->customer_group,
-            "price_group" => $request->price_group ?? $customer->price_group,
-            "route" => $request->route ?? $customer->route,
-            "region_id" => $request->route ?? $customer->route,
-            "unit_id" => $request->route ?? $customer->route,
-            "approval" => 'Approved' ?? $customer->approval,
-            "status" => 'Active' ?? $customer->status,
-            "telephone" => $request->telephone ?? $customer->telephone,
-            "manufacturer_number" => $request->manufacturer_number ?? $customer->manufacturer_number,
-            "vat_number" => $request->vat_number ?? $customer->vat_number,
-            "delivery_time" => $request->delivery_time ?? $customer->delivery_time,
-            "city" => $request->city ?? $customer->city,
-            "province" => $request->province ?? $customer->province,
-            "postal_code" => $request->postal_code ?? $customer->postal_code,
-            "country" => $request->country ?? $customer->country,
-            "customer_secondary_group" => $request->customer_secondary_group ?? $customer->customer_secondary_group,
-            "branch" => $request->branch ?? $customer->branch,
-            "email" => $request->email ?? $customer->email,
-            "phone_number" => $request->phone_number ?? $customer->phone_number,
-            "business_code" => $request->user()->business_code ?? $customer->business_code,
-            "created_by" => $request->user()->id ?? $customer->id
-         ]
-      );
+      switch ($route_code) {
+         case 1:
+            $customerModel = MKOEditCustomer::class;
+            break;
+         case 2:
+            $customerModel = CrystalEditCustomer::class;
+            break;
+         default:
+            $customerModel = EditCustomer::class;
+            break;
+      }
 
-
-
-      return response()->json([
-         "success" => true,
-         "status" => 200,
-         "message" => "Customer editted successfully",
-         "customer" => $edited
-      ]);
+      $respond = $customerModel::EditCustomer($request);
+      return response()->json([$respond]);
    }
-
    public function calculate_distance(Request $request)
    {
       $id = $request->user()->id;

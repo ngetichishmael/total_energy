@@ -19,6 +19,7 @@ class customers extends Model
       'Area.Subregion.Region.name',
    ];
    protected $table = 'customers';
+   protected $guarded  = [''];
    /**
     * Get the Region that owns the customers
     *
