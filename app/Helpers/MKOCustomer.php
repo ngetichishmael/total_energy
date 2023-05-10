@@ -80,27 +80,45 @@ class MKOCustomer
          ->where('user_code', $request->user()->user_code)
          ->increment('AchievedLeadsTarget');
       $response = Http::withBody(json_encode($data), 'application/json')->post(env('MKO_CUSTOMER'));
+
       if ($response->ok()) {
          $resultJson = $response->json();
-         $result = $resultJson['result'];
-         $odoo_uuid = $result['data']['odoo_uuid'];
-         $soko_uuid = $result['data']['soko_uuid'];
-         $customer = $customer->update([
-            'soko_uuid' => $soko_uuid,
-            'odoo_uuid' => $odoo_uuid
-         ]);
-         info("Odoo Uuid: " . $odoo_uuid);
-         info("Sokoflow Uuid: " . $soko_uuid);
-         info($customer);
+
+         if (isset($resultJson['result'])) {
+            $result = $resultJson['result'];
+
+            if (isset($result['data']['odoo_uuid'], $result['data']['soko_uuid'])) {
+               $odoo_uuid = $result['data']['odoo_uuid'];
+               $soko_uuid = $result['data']['soko_uuid'];
+
+               $customer->update([
+                  'soko_uuid' => $soko_uuid,
+                  'odoo_uuid' => $odoo_uuid
+               ]);
+
+               info("Odoo Uuid: " . $odoo_uuid);
+               info("Sokoflow Uuid: " . $soko_uuid);
+            }
+         } else {
+            $customer->delete();
+            $response = [
+               "success" => true,
+               "status" => 401,
+               "message" => "An error occurred while processing",
+               "response" => $response
+            ];
+            return $response;
+         }
       } else {
-         $customer->delete();
-         return [
+         $response = [
             "success" => true,
             "status" => 401,
             "message" => "An error occurred while processing",
             "response" => $response
          ];
+         return $response;
       }
+
       return $response;
    }
    public static function validate($request)
