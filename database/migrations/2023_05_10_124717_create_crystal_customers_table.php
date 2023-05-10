@@ -16,7 +16,7 @@ class CreateCrystalCustomersTable extends Migration
       Schema::create('crystal_customers', function (Blueprint $table) {
          $table->id();
          $table->unsignedBigInteger('code');
-         $table->string('id');
+         $table->string('id_code');
          $table->string('companyid');
          $table->unsignedInteger('cust_type');
          $table->string('group_id');
