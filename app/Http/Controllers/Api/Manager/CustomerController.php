@@ -25,10 +25,10 @@ class CustomerController extends Controller
       $data = MKOCustomer::whereLike(['customer_name'], $search);
 
       switch ($route_code) {
-         case 1:
+         case 2:
             $data->where('source', 'odoo');
             break;
-         case 2:
+         case 1:
             $data->where('source', 'crystal');
             break;
          default:
