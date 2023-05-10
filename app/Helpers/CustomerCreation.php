@@ -28,6 +28,7 @@ class CustomerCreation
             'email' => $emailData,
             'type' => $request->type,
             'street' => $request->address,
+            'address' => $request->address,
             'city' => $request->address,
             'postal_code' => $request->address,
             'province' => $request->address,
