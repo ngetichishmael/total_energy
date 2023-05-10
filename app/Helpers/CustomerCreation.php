@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\customers;
+use App\Models\MKOCustomer;
 use Illuminate\Support\Str;
 
 class CustomerCreation
@@ -48,6 +49,11 @@ class CustomerCreation
             'business_code' => $request->business_code,
          ]
       );
+      if (isset($request->external_id)) {
+         MKOCustomer::whereId($request->external_id)->update([
+            'merged' => 1
+         ]);
+      }
       return $customer;
    }
 }

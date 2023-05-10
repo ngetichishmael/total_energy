@@ -37,6 +37,7 @@ class CreateMKOCustomersTable extends Migration
          $table->string('unit')->nullable();
          $table->string('branch')->nullable();
          $table->string('business_code')->nullable();
+         $table->tinyInteger('merged')->default(0);
          $table->timestamps();
       });
    }
