@@ -92,7 +92,7 @@ class customersController extends Controller
             break;
       }
       $respond = $customerModel::addCustomer($request);
-      return response()->json([$respond]);
+      return response()->json([$respond], $respond['status']);
    }
 
    public function editCustomer(Request $request)

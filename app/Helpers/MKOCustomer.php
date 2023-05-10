@@ -106,11 +106,11 @@ class MKOCustomer
    public static function validate($request)
    {
       $validator           =  Validator::make($request->all(), [
-         "customer_name"   => "required|unique:m_k_o_customers",
+         "customer_name"   => "required|unique:customers",
          "contact_person"  => "required",
          "business_code"   => "required",
          "created_by"      => "required",
-         "phone_number"    => "required|unique:m_k_o_customers",
+         "phone_number"    => "required|unique:customers",
          "latitude"        => "required",
          "longitude"       => "required",
          "image" => 'required|image|mimes:jpg,png,jpeg,gif,svg',
