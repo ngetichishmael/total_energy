@@ -189,53 +189,56 @@ class productController extends Controller
          'product_name' => 'required',
          'buying_price' => 'required',
          'selling_price' => 'required',
-         'image' => 'required|mimes:png,jpg,bmp,gif,jpeg|max:5048',
+         'image' => 'sometimes|required|mimes:png,jpg,bmp,gif,jpeg|max:5048',
       ]);
-      $image_path = $request->file('image')->store('image', 'public');
+
+      $product_inf = product_information::whereId($id)->first();
+      $image_path = $request->file('image') ? $request->file('image')->store('image', 'public') : $product_inf->image;
+
       product_information::updateOrCreate([
          'id' => $id,
          "business_code" => Auth::user()->business_code,
       ], [
-         "product_name" => $request->product_name,
-         "sku_code" => $request->sku_code,
-         "url" => Str::slug($request->product_name),
-         "brand" => $request->brandID,
-         "supplierID" => $request->supplierID,
-         "category" => $request->category,
-         "image" => $image_path,
-         "active" => $request->status,
+         "product_name" => $request->product_name ?? $product_inf->product_name,
+         "sku_code" => $request->sku_code ?? $product_inf->sku_code,
+         "url" => Str::slug($request->product_name ?? $product_inf->product_name),
+         "brand" => $request->brandID ?? $product_inf->brandID,
+         "supplierID" => $request->supplierID ?? $product_inf->supplierID,
+         "category" => $request->category ?? $product_inf->category,
+         "image" => $image_path ?? $product_inf->image,
+         "active" => $request->status ?? $product_inf->status,
          "track_inventory" => 'Yes',
          "business_code" => Auth::user()->business_code,
          "created_by" => Auth::user()->user_code,
       ]);
-
-
+      $product_price = product_price::whereId($id)->first();
       product_price::updateOrCreate(
          [
             'productID' => $id,
          ],
          [
-            'buying_price' => $request->buying_price,
-            'selling_price' => $request->selling_price,
-            'offer_price' => $request->buying_price,
-            'setup_fee' => $request->selling_price,
+            'buying_price' => $request->buying_price ?? $product_price->buying_price,
+            'selling_price' => $request->selling_price ?? $product_price->selling_price,
+            'offer_price' => $request->offer_price ?? $product_price->buying_price,
+            'setup_fee' => $request->setup_fee ?? $product_price->selling_price,
             'taxID' => "1",
             'tax_rate' => "0",
-            'default_price' => $request->selling_price,
+            'default_price' => $request->default_price ?? $product_price->selling_price,
             'business_code' => Auth::user()->business_code,
             'created_by' => Auth::user()->user_code,
          ]
       );
 
+
+      $product_inventory = product_inventory::whereId($id)->first();
       product_inventory::updateOrCreate(
          [
-
             'productID' => $id,
          ],
          [
-            'current_stock' => $request->current_stock,
-            'reorder_point' => $request->reorder_point,
-            'reorder_qty' => $request->reorder_qty,
+            'current_stock' => $request->current_stock ?? $product_inventory->current_stock,
+            'reorder_point' => $request->reorder_point ?? $product_inventory->reorder_point,
+            'reorder_qty' => $request->reorder_qty ?? $product_inventory->reorder_qty,
             'expiration_date' => "None",
             'default_inventory' => "None",
             'notification' => 0,
@@ -243,8 +246,8 @@ class productController extends Controller
             'updated_by' => Auth::user()->user_code,
             'business_code' => Auth::user()->business_code,
          ]
-
       );
+
 
       session()->flash('success', 'Product successfully updated !');
 

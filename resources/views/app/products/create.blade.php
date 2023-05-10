@@ -99,18 +99,21 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-name">Whole Sale</label>
-                                    <input type="number" min="10" max="1000000" class="form-control"
-                                        id="buying_price" name="buying_price" placeholder="Whole Sale" />
+                                    <input type="text" pattern="[0-9]+" min="10" max="1000000"
+                                        class="form-control" id="buying_price" name="buying_price" placeholder="Whole Sale"
+                                        title="Please enter a valid number (10-1000000)" />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-email">Retail Price</label>
-                                    <input type="number" min="10" max="1000000" id="selling_price"
-                                        name="selling_price" class="form-control" placeholder="Retail Price" required
-                                        onchange="check()" />
+                                    <input type="text" pattern="[0-9]+" min="10" max="1000000"
+                                        id="selling_price" name="selling_price" class="form-control"
+                                        placeholder="Retail Price" required onchange="check()"
+                                        title="Please enter a valid number (10-1000000)" />
                                 </div>
                                 <span style="color:#ff9398; visibility: hidden" id="msg">Notice!! Your selling price
                                     is less than buying price</span>
                             </div>
+
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
@@ -121,20 +124,25 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-name">Available Stock</label>
-                                    <input type="number" min="10" max="100000" class="form-control"
-                                        id="basic-default-name" name="current_stock" placeholder="Available Quantity" />
+                                    <input type="text" pattern="[0-9]+" min="10" max="100000"
+                                        class="form-control" id="basic-default-name" name="current_stock"
+                                        placeholder="Available Quantity"
+                                        title="Please enter a valid number (10-100000)" />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-email">Reorder Point</label>
-                                    <input type="number" min="10" max="100000" id="basic-default-email"
-                                        name="reorder_point" class="form-control" placeholder="Reorder Point" />
+                                    <input type="text" pattern="[0-9]+" min="10" max="100000"
+                                        id="basic-default-email" name="reorder_point" class="form-control"
+                                        placeholder="Reorder Point" title="Please enter a valid number (10-100000)" />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-email">Reorder Quantity</label>
-                                    <input type="number" min="10" max="100000" id="basic-default-email"
-                                        name="reorder_qty" class="form-control" placeholder="Reorder Quantity" />
+                                    <input type="text" pattern="[0-9]+" min="10" max="100000"
+                                        id="basic-default-email" name="reorder_qty" class="form-control"
+                                        placeholder="Reorder Quantity" title="Please enter a valid number (10-100000)" />
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">

@@ -41,6 +41,7 @@ class MKOCustomer implements ShouldQueue
          [
             'odoo_uuid' => Str::uuid(),
             'soko_uuid' => Str::uuid(),
+            'soource' => 'odoo',
             'company_type' => $this->value["company_type"],
             'image' => $this->value["image_1920"],
             'telephone' => $this->value["telephone"],

@@ -26,8 +26,8 @@
                                     <label class="form-label" for="basic-addon-name">Product Name</label>
                                     <input type="text" id="basic-addon-name" class="form-control"
                                         value="{{ $product_information->product_name }}" placeholder="Enter Product Name"
-                                        aria-label="Name" name="product_name" aria-describedby="basic-addon-name"
-                                        required />
+                                        aria-label="Name" name="product_name" aria-describedby="basic-addon-name" required
+                                        readonly />
                                 </div>
                                 <div class="mb-2 form-group">
                                     <label class="form-label" for="basic-default-email1">SKU CODE</label>
@@ -57,8 +57,8 @@
                                 <div class="mb-2 form-group">
                                     <label for="select-country1">Brands </label>
                                     <select class="select2 form-control"name="brandID" id="brandID" required>
+                                        <option value="">--Please choose the Brand--</option>
                                         @foreach ($brands as $brand)
-                                            <option value="">--Please choose the Brand--</option>
                                             <option value="{{ $brand }}"
                                                 {{ $product_information->brand == $brand ? 'selected' : '' }}>
                                                 {{ $brand }}
@@ -104,16 +104,20 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-name">Whole Sale</label>
-                                    <input type="number" min="10" max="100000" class="form-control"
-                                        value={{ $product_price->buying_price }} id="basic-default-name"
-                                        name="buying_price" placeholder="Whole Sale" />
+                                    <input type="text" pattern="[0-9]+" min="10" max="1000000"
+                                        class="form-control" value="{{ $product_price->buying_price }}"
+                                        id="basic-default-name" name="buying_price" placeholder="Whole Sale"
+                                        title="Please enter a valid number (0-9)" />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-email">Retail Price</label>
-                                    <input type="number" min="10" max="100000" id="basic-default-email"
-                                        value={{ $product_price->selling_price }} name="selling_price" class="form-control"
-                                        placeholder="Selling Price" />
+                                    <input type="text" pattern="[0-9]+" min="10" max="1000000"
+                                        id="basic-default-email" value="{{ $product_price->selling_price }}"
+                                        name="selling_price" class="form-control" placeholder="Selling Price"
+                                        title="Please enter a valid number (0-9)" />
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -125,23 +129,27 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-name">Available Stock</label>
-                                    <input type="number" min="10" max="100000" class="form-control"
-                                        value={{ $product_inventory->current_stock }} id="basic-default-name"
-                                        name="current_stock" placeholder="Available Quantity" />
+                                    <input type="text" pattern="[0-9]+" min="10" max="100000"
+                                        class="form-control" value="{{ $product_inventory->current_stock }}"
+                                        id="basic-default-name" name="current_stock" placeholder="Available Quantity"
+                                        title="Please enter a valid number (0-9)" />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-email">Reorder Point</label>
-                                    <input type="number" min="10" max="100000" id="basic-default-email"
-                                        value={{ $product_inventory->reorder_point }} name="reorder_point"
-                                        class="form-control" placeholder="Reorder Point" />
+                                    <input type="text" pattern="[0-9]+" min="10" max="100000"
+                                        id="basic-default-email" value="{{ $product_inventory->reorder_point }}"
+                                        name="reorder_point" class="form-control" placeholder="Reorder Point"
+                                        title="Please enter a valid number (0-9)" />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-email">Reorder Quantity</label>
-                                    <input type="number" min="10" max="100000" id="basic-default-email"
-                                        value={{ $product_inventory->reorder_qty }} name="reorder_qty"
-                                        class="form-control" placeholder="Reorder Quantity" />
+                                    <input type="text" pattern="[0-9]+" min="10" max="100000"
+                                        id="basic-default-email" value="{{ $product_inventory->reorder_qty }}"
+                                        name="reorder_qty" class="form-control" placeholder="Reorder Quantity"
+                                        title="Please enter a valid number (0-9)" />
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">

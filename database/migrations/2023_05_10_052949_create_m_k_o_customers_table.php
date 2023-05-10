@@ -12,6 +12,7 @@ class CreateMKOCustomersTable extends Migration
          $table->id();
          $table->string('odoo_uuid')->nullable();
          $table->string('soko_uuid')->nullable();
+         $table->string('source')->nullable();
          $table->string('company_type')->nullable();
          $table->string('image')->nullable();
          $table->string('customer_name')->nullable();
