@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link type="text/css" rel="stylesheet" href="{!! asset('assets/image-uploader/dist/image-uploader.min.css') !!}">
     <!-- END: Page CSS-->
-
+    <link rel="icon" type="image/png" href="{{ asset('app-assets/images/logo.jpg') }}" sizes="32x32">
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/css/tables/datatable/dataTables.bootstrap5.min.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/css/tables/datatable/responsive.bootstrap4.min.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/css/tables/datatable/buttons.bootstrap5.min.css') !!}">
@@ -109,33 +109,33 @@
 
         }
 
-            .dashboard-landing .right-side {
-                position: absolute;
-                height: 100%;
-                width: 30%;
-                right: 0;
-                background: rgba(255, 255, 255, 1);
-                box-shadow: -8px -4px 37px 7px rgba(0, 0, 0, 0.75);
-                -webkit-box-shadow: -8px -4px 37px 7px rgba(0, 0, 0, 0.75);
-                -moz-box-shadow: -8px -4px 37px 7px rgba(0, 0, 0, 0.75);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+        .dashboard-landing .right-side {
+            position: absolute;
+            height: 100%;
+            width: 30%;
+            right: 0;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: -8px -4px 37px 7px rgba(0, 0, 0, 0.75);
+            -webkit-box-shadow: -8px -4px 37px 7px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: -8px -4px 37px 7px rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-            .dashboard-landing .right-side .login-fields {
-                height: 70%;
-                width: 100%;
-                box-shadow: -8px -4px 37px 7px rgba(255, 255, 255, 0.75) inset;
-                -webkit-box-shadow: -8px -4px 37px 7px rgba(255, 255, 255, 0.75)inset;
-                -moz-box-shadow: -8px -4px 37px 7px rgba(255, 255, 255, 0.75) inset;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+        .dashboard-landing .right-side .login-fields {
+            height: 70%;
+            width: 100%;
+            box-shadow: -8px -4px 37px 7px rgba(255, 255, 255, 0.75) inset;
+            -webkit-box-shadow: -8px -4px 37px 7px rgba(255, 255, 255, 0.75)inset;
+            -moz-box-shadow: -8px -4px 37px 7px rgba(255, 255, 255, 0.75) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-            }
+        }
 
-            @media (max-width: 626px) {
+        @media (max-width: 626px) {
             .dashboard-landing .left-side {
                 display: none;
                 width: 0%;
@@ -143,52 +143,53 @@
             }
 
             .dashboard-landing .right-side {
-                    position: absolute;
-                    height: 100%;
-                    width: 100%;
-                    right: 0;
-                }
-            }
-            .title {
-                z-index: 999;
                 position: absolute;
-                overflow: hidden;
-                top: 5%;
-                left: 40%;
-                transform: translate(-50%, -50%);
-                font-size: 80px !important;
-                -webkit-text-stroke: 1px azure;
-                color: rgb(2, 0, 36);
-                color: linear-gradient(90deg, rgba(2, 0, 36, 1) 2%, rgba(240, 209, 32, 1) 43%, rgba(53, 130, 123, 1) 100%);
-                background-image: linear-gradient(azure, azure);
-                background-repeat: no-repeat;
-                -webkit-background-clip: text;
-                background-clip: text;
-                background-position: -700px;
+                height: 100%;
+                width: 100%;
+                right: 0;
+            }
+        }
+
+        .title {
+            z-index: 999;
+            position: absolute;
+            overflow: hidden;
+            top: 5%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            font-size: 80px !important;
+            -webkit-text-stroke: 1px azure;
+            color: rgb(2, 0, 36);
+            color: linear-gradient(90deg, rgba(2, 0, 36, 1) 2%, rgba(240, 209, 32, 1) 43%, rgba(53, 130, 123, 1) 100%);
+            background-image: linear-gradient(azure, azure);
+            background-repeat: no-repeat;
+            -webkit-background-clip: text;
+            background-clip: text;
+            background-position: -700px;
+        }
+
+        .login {
+            display: inline-block;
+            position: relative;
+            padding: 7px 18px;
+            border-radius: 10px;
+            background-color: #39B54A !important;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2) inset;
+            display: flex;
+            gap: 1px;
+        }
+
+        .login span {
+            font-size: 24px;
+            display: inline-block;
+            color: blue;
+        }
+
+        @keyframes backcolor {
+            100% {
+                background-position: 0px;
             }
 
-            .login {
-                display: inline-block;
-                position: relative;
-                padding: 7px 18px;
-                border-radius: 10px;
-                background-color: #39B54A !important;
-                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2) inset;
-                display: flex;
-                gap: 1px;
-            }
-
-            .login span {
-                font-size: 24px;
-                display: inline-block;
-                color: blue;
-            }
-
-            @keyframes backcolor {
-                100% {
-                    background-position: 0px;
-                }
-
-            }
+        }
     </style>
 </head>

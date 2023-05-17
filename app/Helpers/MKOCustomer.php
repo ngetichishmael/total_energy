@@ -5,6 +5,7 @@ namespace App\Helpers;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class MKOCustomer
@@ -81,6 +82,17 @@ class MKOCustomer
          ->increment('AchievedLeadsTarget');
       $response = Http::withBody(json_encode($data), 'application/json')->post(env('MKO_CUSTOMER'));
 
+      if ($response->serverError()) {
+         Log::error('Error occurred ' . $response->status());
+         $customer->delete();
+         $response = [
+            "success" => true,
+            "status" => 401,
+            "message" => "An error occurred while processing",
+            "response" => $response
+         ];
+         return $response;
+      }
       if ($response->ok()) {
          $resultJson = $response->json();
 

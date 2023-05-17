@@ -38,7 +38,7 @@ class CustomerCreation
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'manufacturer_number' => $request->manufacturer_number,
-            'route' => $request->route,
+            'route' => $request->route_code,
             'route_code' => $request->route_code,
             'region' => $request->region,
             'subregion' => $request->subregion,
