@@ -69,6 +69,13 @@
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
+                                                    <label for="city-column">Login Password</label>
+                                                    <input type="text" id="city-column" class="form-control"  placeholder="Password"
+                                                    name="password"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
                                                     <label for="select-country">Sales Team Category</label>
                                                     <select class="form-control select2" id="select-country"
                                                         name="account_type" required>

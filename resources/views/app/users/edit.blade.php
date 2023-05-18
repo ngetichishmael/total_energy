@@ -28,9 +28,11 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.update',[
-                     'id' =>$user_code
-                    ]) }}" style="gap: 20px;">
+                    <form method="POST"
+                        action="{{ route('user.update', [
+                            'id' => $user_code,
+                        ]) }}"
+                        style="gap: 20px;">
                         @csrf
                         <div class="row">
                             <div class="col-12">
@@ -41,16 +43,15 @@
                                                 <div class="form-group">
                                                     <label for="first-name-column">User Name</label>
                                                     <input type="text" id="first-name-column" class="form-control"
-                                                        placeholder="User Name" value="{{ $edit->name }}" name="name"
-                                                        required />
+                                                        placeholder="User Name" value="{{ $edit->name }}"
+                                                        name="name" />
                                                 </div>
                                             </div>
                                             <div class="mb-2 col-md-6 col-12 ">
                                                 <div class="form-group">
                                                     <label for="last-name-column">Last Name</label>
                                                     <input type="email" id="last-name-column" class="form-control"
-                                                        value="{{ $edit->email }}" placeholder="Email" name="email"
-                                                        required />
+                                                        value="{{ $edit->email }}" placeholder="Email" name="email" />
                                                 </div>
                                             </div>
                                             <div class="mb-2 col-md-6 col-12 ">
@@ -58,7 +59,14 @@
                                                     <label for="city-column">Phone Number</label>
                                                     <input type="tel" id="city-column" class="form-control"
                                                         pattern="[0789][0-9]{9}" value="{{ $edit->phone_number }}"
-                                                        name="phone_number" required />
+                                                        name="phone_number" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="city-column">Update Password</label>
+                                                    <input type="text" id="city-column" class="form-control"
+                                                        placeholder="Password" name="password" />
                                                 </div>
                                             </div>
                                             <div class="mb-2 col-md-6 col-12 ">
@@ -66,7 +74,7 @@
                                                     <label for="select-country">Current Type:
                                                         {{ $edit->account_type }}</label>
                                                     <select class="form-control select2" id="select-country"
-                                                        name="account_type" required>
+                                                        name="account_type">
                                                         <option value="">Select Type</option>
                                                         <option value="Sales">Sales Agent</option>
                                                         <option value="Admin">Administrator</option>
@@ -77,8 +85,7 @@
                                                 <div class="form-group">
                                                     <label for="select-country">Current Status:
                                                         {{ $edit->status }}</label>
-                                                    <select class="form-control select2" id="select-action"
-                                                        name="status" required>
+                                                    <select class="form-control select2" id="select-action" name="status">
                                                         <option value="">Select Action</option>
                                                         <option value="Active">Active</option>
                                                         <option value="Suspend">Suspend</option>
@@ -138,7 +145,8 @@
                                                             <td>
                                                                 <div class="custom-control custom-checkbox">
                                                                     <input type="checkbox" class="custom-control-input"
-                                                                        id="author-read" name="deliveries"  @if ($permissions->deliveries === 'YES') checked @endif />
+                                                                        id="author-read" name="deliveries"
+                                                                        @if ($permissions->deliveries === 'YES') checked @endif />
                                                                     <label class="custom-control-label"
                                                                         for="author-read"></label>
                                                                 </div>
@@ -162,7 +170,7 @@
                                                                 <div class="custom-control custom-checkbox">
                                                                     <input type="checkbox" class="custom-control-input"
                                                                         id="user-read" name="merchanizing"
-                                                                         @if ($permissions->merchanizing === 'YES') checked @endif />
+                                                                        @if ($permissions->merchanizing === 'YES') checked @endif />
                                                                     <label class="custom-control-label"
                                                                         for="user-read"></label>
                                                                 </div>
@@ -173,7 +181,8 @@
                                             </div>
                                         </div>
                                         <div class="mt-2 col-12 d-flex flex-sm-row flex-column" style="gap: 20px;">
-                                            <button type="submit" class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Update</button>
+                                            <button type="submit"
+                                                class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Update</button>
                                             <a href="{{ route('users.index') }}" type="reset"
                                                 class="btn btn-outline-secondary">Cancel</a>
                                         </div>

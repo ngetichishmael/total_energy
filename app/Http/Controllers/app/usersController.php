@@ -78,14 +78,12 @@ class usersController extends Controller
          'employee_code' => 'required',
          'route' => 'required',
       ]);
-      $user_code = $request->employee_code;
-      //save user
-      $code = rand(100000, 999999);
-      User::updateOrCreate(
-         [
-            "user_code" => $user_code,
 
-         ],
+      $user_code = $request->employee_code;
+
+      // Save user
+      User::updateOrCreate(
+         ["user_code" => $user_code],
          [
             "email" => $request->email,
             "phone_number" => $request->phone_number,
@@ -94,32 +92,33 @@ class usersController extends Controller
             "email_verified_at" => now(),
             "route_code" => $request->route,
             "status" => 'Active',
-            "password" => Hash::make('password'),
+            "password" => $request->password === null ? Hash::make('password') : Hash::make($request->password),
             "business_code" => FacadesAuth::user()->business_code,
-
          ]
       );
+
+      // Update or create app permissions
       $van_sales = $request->van_sales == null ? "NO" : "YES";
       $new_sales = $request->new_sales == null ? "NO" : "YES";
       $deliveries = $request->deliveries == null ? "NO" : "YES";
       $schedule_visits = $request->schedule_visits == null ? "NO" : "YES";
-      $merchanizing = $request->merchanizing == null ? "NO" : "YES";
-      AppPermission::updateOrCreate(
-         [
-            "user_code" => $user_code,
+      $merchandizing = $request->merchandizing == null ? "NO" : "YES";
 
-         ],
+      AppPermission::updateOrCreate(
+         ["user_code" => $user_code],
          [
             "van_sales" => $van_sales,
             "new_sales" => $new_sales,
             "schedule_visits" => $schedule_visits,
             "deliveries" => $deliveries,
-            "merchanizing" => $merchanizing,
+            "merchandizing" => $merchandizing,
          ]
       );
-      Session()->flash('success', 'User Created Successfully');
+
+      session()->flash('success', 'User Created Successfully');
       return redirect()->route('users.index');
    }
+
    public function edit($id)
    {
       $permissions = array();
@@ -148,24 +147,18 @@ class usersController extends Controller
    //update
    public function update(Request $request, $user_code)
    {
-      $this->validate($request, [
-         'email' => 'required',
-         'name' => 'required',
-         'phone_number' => 'required',
-         'account_type' => 'required',
-      ]);
-
+      $user = User::where('user_code', '=', $user_code)->first();
       User::updateOrCreate(
          [
             "user_code" => $user_code,
-            "business_code" => FacadesAuth::user()->business_code,
          ],
          [
-            "email" => $request->email,
-            "phone_number" => $request->phone_number,
-            "name" => $request->name,
-            "account_type" => $request->account_type,
+            "email" => $request->email ?? $user->email,
+            "phone_number" => $request->phone_number ?? $user->phone_number,
+            "name" => $request->name ?? $user->name,
+            "account_type" => $request->account_type ?? $user->account_type,
             "status" => 'Active',
+            "password" => $request->password === null ? $user->password : Hash::make($request->password),
 
          ]
       );
@@ -188,8 +181,7 @@ class usersController extends Controller
       );
 
       Session()->flash('success', 'User updated Successfully');
-
-      return redirect()->back();
+      return redirect()->route('users.index');
    }
    public function destroy($id)
    {
