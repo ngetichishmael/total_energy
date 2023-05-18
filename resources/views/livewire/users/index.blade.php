@@ -47,7 +47,7 @@
                                 <td>{!! $user->account_type !!}</td>
                                 <td>{!! $user->status !!}</td>
                                 <td>
-                                    <a href="{{ route('user.edit', $user->user_code) }}"
+                                    <a href="{{ route('user.edit', $user->id) }}"
                                         class="btn btn-primary btn-sm">Edit</a>
                                 </td>
                                 <td>

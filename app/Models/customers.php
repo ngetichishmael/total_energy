@@ -6,6 +6,9 @@ use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Route;
 
 class customers extends Model
 {
@@ -20,6 +23,27 @@ class customers extends Model
    ];
    protected $table = 'customers';
    protected $guarded  = [''];
+
+   public function scopeFilterCustomers($query)
+   {
+      if (Auth::check()) {
+         $user = Auth::user();
+         if ($user->account_type === 'Admin') {
+            return $query;
+         }
+         return $query->where('route_code', $user->route_code);
+      }
+   }
+
+   public function newQuery()
+   {
+      if (Route::current() && Route::current()->middleware() === ['web']) {
+         return parent::newQuery()->filterCustomers();
+      }
+
+      return parent::newQuery();
+   }
+
    /**
     * Get the Region that owns the customers
     *

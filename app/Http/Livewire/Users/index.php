@@ -28,7 +28,12 @@ class Index extends Component
          ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc')
          ->paginate($this->perPage);
 
-      return view('livewire.users.index', compact('users'));
+      return view(
+         'livewire.users.index',
+         [
+            'users' => $users
+         ]
+      );
    }
    public function deactivate($id)
    {

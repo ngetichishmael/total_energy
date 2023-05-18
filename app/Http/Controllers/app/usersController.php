@@ -117,53 +117,30 @@ class usersController extends Controller
             "merchanizing" => $merchanizing,
          ]
       );
-      try {
-         $curl = curl_init();
-
-         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://prsp.jambopay.co.ke/api/api/org/disburseSingleSms/',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '{
-               "number" :  "' . $request->phone_number . '",
-               "sms" : ' . $code . ',
-               "callBack" : "https://....",
-               "senderName" : "PASANDA"
-         }
-         ',
-            CURLOPT_HTTPHEADER => array(
-               'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjozNywibmFtZSI6IkRldmVpbnQgTHRkIiwiZW1haWwiOiJpbmZvQGRldmVpbnQuY29tIiwibG9jYXRpb24iOiIyMyBPbGVuZ3VydW9uZSBBdmVudWUsIExhdmluZ3RvbiIsInBob25lIjoiMjU0NzQ4NDI0NzU3IiwiY291bnRyeSI6IktlbnlhIiwiY2l0eSI6Ik5haXJvYmkiLCJhZGRyZXNzIjoiMjMgT2xlbmd1cnVvbmUgQXZlbnVlIiwiaXNfdmVyaWZpZWQiOmZhbHNlLCJpc19hY3RpdmUiOmZhbHNlLCJjcmVhdGVkQXQiOiIyMDIxLTExLTIzVDEyOjQ5OjU2LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTExLTIzVDEyOjQ5OjU2LjAwMFoifSwiaWF0IjoxNjQ5MzEwNzcxfQ.4y5XYFbC5la28h0HfU6FYFP5a_6s0KFIf3nhr3CFT2I',
-               'Content-Type: application/json'
-            ),
-         ));
-
-         $response = curl_exec($curl);
-
-         curl_close($curl);
-      } catch (Exception $e) {
-      }
       Session()->flash('success', 'User Created Successfully');
-      // Redirect::back()->with('message', 'User Created Successfully');
-
       return redirect()->route('users.index');
    }
-
-   //edit
-   public function edit($user_code)
+   public function edit($id)
    {
-      $edit = User::where('user_code', $user_code)
-         ->where('business_code', FacadesAuth::user()->business_code)
-         ->first();
-      $permissions = AppPermission::where('user_code', $user_code)->firstOrFail();
+      $permissions = array();
+      $edit = User::whereId($id)->first();
+      $permissions = AppPermission::where('user_code', $edit->user_code)->first();
+      if ($permissions == null) {
+         $permissions = AppPermission::Create(
+            [
+               "user_code" => $edit->user_code,
+               "van_sales" => "NO",
+               "new_sales" => "NO",
+               "schedule_visits" => "NO",
+               "deliveries" => "NO",
+               "merchanizing" => "NO",
+            ]
+         );
+      }
 
       return view('app.users.edit', [
          'edit' => $edit,
-         'user_code' => $user_code,
+         'user_code' => $edit->user_code,
          'permissions' => $permissions
       ]);
    }
