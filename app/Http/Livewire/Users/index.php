@@ -2,13 +2,10 @@
 
 namespace App\Http\Livewire\Users;
 
-use App\Models\Region;
-use App\Models\Subregion;
 use App\Models\User;
-use App\Models\zone;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Support\Facades\Auth;
 
 class Index extends Component
 {
@@ -21,19 +18,24 @@ class Index extends Component
 
    public function render()
    {
-      $searchTerm = '%' . $this->search . '%';
-      $users =  User::whereLike([
-         'Region.name', 'name', 'email', 'phone_number',
-      ], $searchTerm)
-         ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc')
-         ->paginate($this->perPage);
-
       return view(
          'livewire.users.index',
          [
-            'users' => $users
+            'users' => $this->getUsers()
          ]
       );
+   }
+   public function getUsers()
+   {
+      $searchTerm = '%' . $this->search . '%';
+      $query = User::search($searchTerm)
+         ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc');
+      $user = Auth::user();
+      if ($user->account_type != 'Admin') {
+         $query->where('route_code', $user->route_code);
+      }
+
+      return $query->paginate($this->perPage);
    }
    public function deactivate($id)
    {

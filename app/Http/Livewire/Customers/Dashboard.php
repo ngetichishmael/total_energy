@@ -3,7 +3,10 @@
 namespace App\Http\Livewire\Customers;
 
 use App\Exports\customers as ExportsCustomers;
+use App\Models\Area;
 use App\Models\customers;
+use App\Models\Subregion;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
@@ -16,13 +19,9 @@ class Dashboard extends Component
    public ?string $search = null;
    public function render()
    {
-      $searchTerm = '%' . $this->search . '%';
-      $contacts = customers::with('Area.Subregion.Region', 'Creator')
-         ->search($searchTerm)
-         ->orderBy('id', 'DESC')
-         ->paginate($this->perPage);
+
       return view('livewire.customers.dashboard', [
-         'contacts' => $contacts
+         'contacts' => $this->getCustomer()
       ]);
    }
    public function export()
@@ -43,5 +42,25 @@ class Dashboard extends Component
       );
 
       return redirect()->to('/customer');
+   }
+   public function areas()
+   {
+      $user = Auth::user();
+      $subregions = Subregion::where('region_id', $user->route_code)->pluck('id');
+      $areas = Area::whereIn('subregion_id', $subregions)->pluck('id');
+      return $areas;
+   }
+   public function getCustomer()
+   {
+      $searchTerm = '%' . $this->search . '%';
+      $query = customers::search($searchTerm)
+         ->orderBy('id', 'DESC');
+
+      if (Auth::user()->account_type != 'Admin') {
+         $query->whereIn('unit_id', $this->areas());
+      }
+
+      $contacts = $query->paginate($this->perPage);
+      return $contacts;
    }
 }

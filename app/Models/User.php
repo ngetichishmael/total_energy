@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Searchable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements MustVerifyEmail
 {
 
-   use HasFactory, Notifiable;
+   use HasFactory, Notifiable, Searchable;
    use LaratrustUserTrait;
    use HasApiTokens;
 
@@ -25,6 +26,9 @@ class User extends Authenticatable implements MustVerifyEmail
     */
    protected $guarded = [""];
 
+   protected $searchable = [
+      'Region.name', 'name', 'email', 'phone_number',
+   ];
    /**
     * The attributes that should be hidden for arrays.
     *

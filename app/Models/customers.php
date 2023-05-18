@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Facades\Route;
 
 class customers extends Model
@@ -26,23 +25,27 @@ class customers extends Model
 
    public function scopeFilterCustomers($query)
    {
+      $user = Auth::user();
+
       if (Auth::check()) {
-         $user = Auth::user();
-         if ($user->account_type === 'Admin') {
+
+         if ($user->account_type == 'Admin') {
             return $query;
+         } else {
+            return $query->where('route_code', $user->route_code);
          }
-         return $query->where('route_code', $user->route_code);
       }
    }
 
    public function newQuery()
    {
-      if (Route::current() && Route::current()->middleware() === ['web']) {
+      if (Route::current() && in_array('web', Route::current()->middleware())) {
          return parent::newQuery()->filterCustomers();
       }
 
       return parent::newQuery();
    }
+
 
    /**
     * Get the Region that owns the customers
@@ -69,6 +72,6 @@ class customers extends Model
     */
    public function Area(): BelongsTo
    {
-      return $this->belongsTo(Area::class, 'route_code', 'id');
+      return $this->belongsTo(Area::class, 'unit_id', 'id');
    }
 }
