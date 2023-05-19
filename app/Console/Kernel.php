@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Schedules\CrystalCustomerSchedule;
 use App\Schedules\MKOCustomerSchedule;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
    {
       // $schedule->command('inspire')->hourly();
       $schedule->call(MKOCustomerSchedule::class)->dailyAt('17:55');
+      $schedule->call(CrystalCustomerSchedule::class)->dailyAt('21:59');
    }
 
    /**

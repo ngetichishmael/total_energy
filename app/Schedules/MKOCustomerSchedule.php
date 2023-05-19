@@ -9,7 +9,7 @@ class MKOCustomerSchedule
 {
    public function __invoke()
    {
-      $object = (object)[];;
+      $object = (object)[];
       $response = Http::withBody(json_encode($object), 'application/json')->get(env('MKO_CUSTOMER'));
       $result = $response->json('result');
       foreach ($result["data"] as $value) {

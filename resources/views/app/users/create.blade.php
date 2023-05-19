@@ -70,8 +70,8 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="city-column">Login Password</label>
-                                                    <input type="text" id="city-column" class="form-control"  placeholder="Password"
-                                                    name="password"/>
+                                                    <input type="text" id="city-column" class="form-control"
+                                                        placeholder="Password" name="password" />
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
@@ -80,6 +80,9 @@
                                                     <select class="form-control select2" id="select-country"
                                                         name="account_type" required>
                                                         <option value="">Select Category</option>
+                                                        <option value="Admin">Administator</option>
+                                                        <option value="Manager">Manager</option>
+                                                        <option value="Sales">Sales Agent</option>
                                                         <option value="Lube Sales Executive">Lube Sales Executive</option>
                                                         <option value="Lube Merchandizers">Lube Merchandizers</option>
                                                     </select>
@@ -91,6 +94,7 @@
                                                     <select class="form-control select2" id="select-country" name="route"
                                                         required>
                                                         <option value="">Zone</option>
+                                                        <option value="0">General</option>
                                                         @foreach ($routes as $value)
                                                             <option value="{{ $value->id }}">{{ $value->name }}
                                                             </option>

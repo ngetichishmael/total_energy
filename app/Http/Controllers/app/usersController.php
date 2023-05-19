@@ -136,11 +136,12 @@ class usersController extends Controller
             ]
          );
       }
-
+      $routes = Region::all();
       return view('app.users.edit', [
          'edit' => $edit,
          'user_code' => $edit->user_code,
-         'permissions' => $permissions
+         'permissions' => $permissions,
+         "routes" => $routes
       ]);
    }
 
@@ -155,6 +156,7 @@ class usersController extends Controller
          [
             "email" => $request->email ?? $user->email,
             "phone_number" => $request->phone_number ?? $user->phone_number,
+            "route_code" => $request->route ?? $user->route_code ?? 1,
             "name" => $request->name ?? $user->name,
             "account_type" => $request->account_type ?? $user->account_type,
             "status" => 'Active',
