@@ -26,7 +26,6 @@ use App\Models\customer\checkin;
 use App\Models\customer\customers;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\MKOCustomer as ModelsMKOCustomer;
 use Illuminate\Support\Facades\Auth;
 
 /**

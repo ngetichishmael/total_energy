@@ -15,7 +15,7 @@ class OrdersController extends Controller
          'status' => 200,
          'success' => true,
          'message' => 'Orders with the Order items, the Sales associate, and the customer',
-         'Data' => Orders::with('OrderItem', 'User', 'Customer')->get(),
+         'Data' => Orders::with('OrderItem', 'User', 'Customer','Payments','OrderItems')->get(),
       ]);
    }
 }

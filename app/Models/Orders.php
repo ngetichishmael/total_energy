@@ -42,6 +42,15 @@ class Orders extends Model
       return $this->hasMany(Order_items::class, 'order_code', 'order_code');
    }
    /**
+    * Get all of the Payments for the Orders
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+   public function Payments(): HasMany
+   {
+       return $this->hasMany(order_payments::class, 'order_id', 'order_code');
+   }
+   /**
     * Get the User that owns the Orders
     *
     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
