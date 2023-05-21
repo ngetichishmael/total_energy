@@ -79,7 +79,7 @@ class CrystalCustomer
       DB::table('leads_targets')
          ->where('user_code', $request->user()->user_code)
          ->increment('AchievedLeadsTarget');
-      $response = Http::withBody(json_encode($data), 'application/json')->post(env('CYSTAL_CUSTOMER'));
+      $response = Http::withBody(json_encode($data), 'application/json')->post(env('CRYSTAL_BASE_URL') . '/apis/customers/createcustomer.php');
       info($response);
       if ($response->failed()) {
          return [

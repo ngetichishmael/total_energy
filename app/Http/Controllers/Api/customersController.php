@@ -85,7 +85,7 @@ class customersController extends Controller
             $customerModel = MKOCustomer::class;
             break;
          case 1:
-            // $customerModel = CrystalCustomer::class;
+            $customerModel = CrystalCustomer::class;
             break;
          default:
             $customerModel = Customer::class;
