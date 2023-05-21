@@ -32,7 +32,7 @@ class CustomerController extends Controller
             $data->where('source', 'crystal');
             break;
          default:
-            $data->where('sokoflow', 'odoo');
+            $data->where('source', 'crystal');
             break;
       }
 
