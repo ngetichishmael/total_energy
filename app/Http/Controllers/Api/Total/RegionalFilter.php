@@ -24,24 +24,7 @@ class RegionalFilter extends Controller
    public function filterRegionalCustomers(Request $request)
    {
       $route_code = $request->user()->route_code;
-      $data = array();
-      $regions = Region::whereId($route_code)->first();
-      $subregion = Subregion::where('primary_key',  $route_code)->first();
-      $area = Area::where('primary_key',  $route_code)->first();
-      $subarea = Subarea::where('primary_key',  $route_code)->first();
-      $zone = zone::where('primary_key',  $route_code)->first();
-
-      if ($regions) {
-         $data = customers::where('region_id', $regions->id)->get();
-      } else if ($subregion) {
-         $data = customers::where('region_id', $subregion->Region->id)->get();
-      } else if ($area) {
-         $data = customers::where('region_id', $area->Subregion->Region->id)->get();
-      } else if ($subarea) {
-         $data = customers::where('region_id', $subarea->Area->Subregion->Region->id)->get();
-      } else if ($zone) {
-         $data = customers::where('region_id', $zone->subarea->Area->Subregion->Region->id)->get();
-      }
+      $data = customers::where('region_id', $route_code)->get();
       return response()->json(
          [
             'status' => 200,
