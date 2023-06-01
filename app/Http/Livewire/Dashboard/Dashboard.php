@@ -83,7 +83,7 @@ class Dashboard extends Component
 
 
 
-        $activeAll = User::where('account_type', 'Sales')
+        $activeAll = User::where('account_type','<>','Admin')
             ->count();
         $sales = DB::table('order_payments')
             ->whereBetween('updated_at', [$this->start, $this->end])
