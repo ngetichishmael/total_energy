@@ -52,7 +52,7 @@ class Targets extends Component
       ]);
       foreach ($this->Targets as $value) {
          if ($value["primarykey"] === 'ALL') {
-            $users = User::where('account_type', 'Sales')->get();
+            $users = User::where('account_type','<>', 'Admin')->get();
             foreach ($users as $user) {
                SalesTarget::updateOrCreate(
                   [
