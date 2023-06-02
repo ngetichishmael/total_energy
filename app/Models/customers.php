@@ -63,7 +63,7 @@ class customers extends Model
     */
    public function Creator(): HasOne
    {
-      return $this->hasOne(User::class, 'user_code', 'created_by');
+      return $this->hasOne(User::class, 'id', 'created_by');
    }
    /**
     * Get the Area that owns the customers

@@ -1,23 +1,30 @@
 <div>
     <div class="row mb-2">
-
-        <div class="col-md-9">
+        <div class="col-md-5">
             <label for="">Search</label>
             <input wire:model.debounce.300ms="search" type="text" class="form-control" placeholder="Search ...">
             <!-- Button trigger modal -->
             <div class="mt-1">
-                <a href="{{ route('visit.target.create') }}" type="button" class="btn btn-primary">
+                <a href="{{ route('sales.target.create') }}" type="button" class="btn btn-primary">
                     New Target
                 </a>
             </div>
         </div>
         <div class="col-md-3">
             <label for="">Items Per</label>
-            <select wire:model="perPage" class="form-control">`
+            <select wire:model="perPage" class="form-control">
                 <option value="10" selected>10</option>
                 <option value="25">25</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="">Time Frame</label>
+            <select wire:model="timeFrame" class="form-control">
+                <option value="quarter">Quarter</option>
+                <option value="half_year">Half Year</option>
+                <option value="year">Year</option>
             </select>
         </div>
     </div>
@@ -30,49 +37,33 @@
                         <th>Sales Person</th>
                         <th>Target</th>
                         <th>Achieved</th>
-                        <th>Dead Line</th>
-                        <th>Count Down</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th>Success Ratio</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($visits as $visit)
+                    @forelse ($targets as $target)
                         <tr>
-                            <td>{{ $visit->id }}</td>
-                            <td>{{ $visit->User()->pluck('name')->implode('') }}</td>
-                            <td>{{ $visit->VisitsTarget }}</td>
-                            <td>{{ $visit->AchievedVisitsTarget }}</td>
-                            <td>{{ $visit->Deadline }}</td>
+                            <td>{{ $target->id }}</td>
+                            <td>{{ $target->User()->pluck('name')->implode('')  }}</td>
+                            <td>{{ $target->VisitsTarget }}</td>
+                            <td>{{ $target->AchievedVisitsTarget }}</td>
+                            <td>{{ $target->Deadline }}</td>
                             <td>
-                                @if ($today < $visit->Deadline)
-                                    <button type="button" class="btn btn-outline-success">
-                                        <i data-feather="star" class="mr-25"></i>
-                                        <span>
-                                            @php
-                                                $now = time();
-                                                $deadline = strtotime($visit->Deadline);
-                                                $datediff = $deadline - $now;
-                                                echo round($datediff / (60 * 60 * 24));
-                                            @endphp
-                                        </span>
-                                    </button>
+                                @if ($today < $target->Deadline)
+                                    <span class="btn btn-flat-success">Active</span>
                                 @else
-                                    <button type="button" class="btn btn-outline-danger">
-                                        <i data-feather="alert-triangle" class="mr-25"></i>
-                                        <span>
-                                            @php
-                                                $now = time();
-                                                $deadline = strtotime($visit->Deadline);
-                                                $datediff = $deadline - $now;
-                                                echo round($datediff / (60 * 60 * 24));
-                                            @endphp
-                                        </span>
-                                    </button>
+                                    <span class="btn btn-flat-danger">Expired</span>
                                 @endif
+                            </td>
+                            <td>
+                                {{ $this->getSuccessRatio($target->AchievedVisitsTarget, $target->VisitsTarget) }}%
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4"> No visits Available</td>
+                            <td colspan="7">No Targets Available</td>
                         </tr>
                     @endforelse
                 </tbody>
