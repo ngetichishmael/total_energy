@@ -73,12 +73,13 @@ Route::middleware(['auth'])->group(function () {
    Route::resource('customer/outlets', OutletTypesController::class)->names([
       'index' => 'outlets',
       'show' => 'outlets.show',
-      'edit' => 'outlets.edit',
-      'update' => 'outlets.update',
+      'edit/{outlet_code}' => 'outlets.edit',
       'destroy' => 'outlets.destroy',
       'create' => 'outlets.create',
       'store' => 'outlets.store',
    ]);
+   Route::post('update/{outlet_code}', ['uses' => 'OutletTypesController@update', 'as' => 'outlets.update']);
+   Route::get('destroy/{outlet_code}', ['uses' => 'OutletTypesController@destroy', 'as' => 'outlets.destroy']);
    Route::resource('payment/paid', PaidPaymentController::class)->names([
       'index' => 'PaidPayment',
       'show' => 'PaidPayment.show',

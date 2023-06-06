@@ -59,9 +59,10 @@ class OutletTypesController extends Controller
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-   public function edit($id)
+   public function edit($outlet_code)
    {
-      //
+      $edit = OutletType::where('outlet_code',$outlet_code)->first();
+      return view('app.outlets.edit',['edit'=>$edit]);
    }
 
    /**
@@ -71,9 +72,14 @@ class OutletTypesController extends Controller
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-   public function update(Request $request, $id)
+   public function update(Request $request, $outlet_code)
    {
-      //
+      $update = OutletType::find($outlet_code);
+      $update->outlet_name = $request->outlet_name;
+      $update->save();
+
+      Session()->flash('success', "Outlet successfully Updated");
+      return redirect()->route('outlets');
    }
 
    /**
@@ -82,8 +88,10 @@ class OutletTypesController extends Controller
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-   public function destroy($id)
+   public function destroy($outlet_code)
    {
-      //
+      OutletType::where('outlet_code', $outlet_code)->delete();
+      Session()->flash('success', "Successfully Deleted Outlet");
+      return redirect()->route('outlets');
    }
 }
