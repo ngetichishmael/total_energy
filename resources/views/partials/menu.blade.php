@@ -14,9 +14,9 @@
                 <ul class="menu-content">
                     <li class="nav-item {!! Nav::isResource('maps') !!}">
                         <a class="d-flex align-items-center" href="{!! route('maps') !!}">
-                            <i data-feather='globe'></i>
+                            <i data-feather='users'></i>
                             <span class="menu-title text-truncate" data-i18n="Todo">
-                                Maps</span>
+                                Customers</span>
                         </a>
                     </li>
                     <li class="nav-item {!! Nav::isResource('current-information') !!}">

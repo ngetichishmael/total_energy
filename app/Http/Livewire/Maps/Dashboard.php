@@ -13,7 +13,6 @@ class Dashboard extends Component
       $initialMarkers = [];
       $customers = customers::whereNotNull('latitude')
          ->whereNotNull('longitude')
-         ->limit(50)
          ->get();
       foreach ($customers as $data) {
          $array =
@@ -39,7 +38,7 @@ class Dashboard extends Component
          array_push($initialMarkers, $array);
       }
       return view('livewire.maps.dashboard', [
-         'initialMarkers' => $initialMarkers
+         'initialMarkers' => json_encode($initialMarkers)
       ]);
    }
 }

@@ -146,7 +146,7 @@ class MKOEditCustomer
       DB::table('leads_targets')
          ->where('user_code', $request->user()->user_code)
          ->increment('AchievedLeadsTarget');
-      $response = Http::withBody(json_encode($data), 'application/json')->post(env('MKO_CUSTOMER'));
+      $response = Http::withBody(json_encode($data), 'application/json')->post(env('MKO_BASE_URL') . '/customer');
       if ($response->ok()) {
          $resultJson = $response->json();
          $result = $resultJson['result'];

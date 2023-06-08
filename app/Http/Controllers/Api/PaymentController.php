@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\MKOOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -15,7 +16,7 @@ class PaymentController extends Controller
 
    public function index(Request $request)
    {
-
+      $route_code = $request->user()->route_code;
       $user_code = $request->user()->user_code;
       $orderID = $request->get('orderID');
       $checking_code = DB::table('orders')->where('order_code', $orderID)->first();
@@ -47,6 +48,9 @@ class PaymentController extends Controller
          ->where('user_code', $user_code)
          ->increment('AchievedSalesTarget', $amount);
 
+      if ($route_code === 2) {
+         (new MKOOrder())($request);
+      }
       return response()->json([
          "success" => true,
          "message" => "Successfully",

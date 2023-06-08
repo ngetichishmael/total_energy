@@ -26,28 +26,39 @@
                            <p class="card-text mb-2">Signup </p>
                            @include('partials._messages')
                            <form class="auth-register-form mt-2" action="{!! route('signup') !!}" method="POST">
-                              @csrf
-                              <div class="mb-1">
-                                 <label for="register-username" class="form-label">Your Name</label>
-                                 {!! Form::text('full_names',null,['class'=>'form-control','required'=>'']) !!}
-                              </div>
+            @csrf
+
+            <!-- Name -->
+            <div>
+                <x-label for="name" :value="__('Name')" />
+
+                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+            </div>
                               <div class="mb-1">
                                  <label for="register-email" class="form-label">Email</label>
                                  {!! Form::email('email',null,['class'=>'form-control','required'=>'']) !!}
-                              </div>
+            </div>
                               <div class="mb-1">
                                  <label for="register-password" class="form-label">Password</label>
                                  <div class="input-group input-group-merge form-password-toggle">
                                     <input type="password" class="form-control form-control-merge" id="register-password" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="register-password" tabindex="3" required/>
                                     <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
-                                 </div>
-                              </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mt-4">
+                <x-label for="password_confirmation" :value="__('Confirm Password')" />
+
+                <x-input id="password_confirmation" class="block mt-1 w-full"
+                                type="password"
+                                name="password_confirmation" required />
+            </div>
                               <div class="mb-1">
                                  <label for="register-password" class="form-label">Confirm Password</label>
                                  <div class="input-group input-group-merge form-password-toggle">
                                     <input type="password" class="form-control form-control-merge" id="register-password" name="password_confirmation" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="register-password" tabindex="3" required/>
                                     <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
-                                 </div>
+            </div>
                              </div>
                               <div class="mb-1">
                                  <div class="form-check">
@@ -58,7 +69,7 @@
                                  </div>
                               </div>
                               <button type="submit" class="btn btn-primary w-100" tabindex="5">Sign up</button>
-                          </form>
+        </form>
                            <p class="text-center mt-2">
                               <span>Already a member?</span>
                               <a href="{!! url('login') !!}">

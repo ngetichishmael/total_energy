@@ -1,6 +1,6 @@
 @extends('layouts.app')
 {{-- page header --}}
-@section('title','Map')
+@section('title', 'Map')
 
 {{-- content section --}}
 @section('content')
