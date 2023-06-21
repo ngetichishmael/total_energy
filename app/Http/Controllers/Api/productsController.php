@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\products\product_information;
 use App\Models\Region;
-use App\Models\Subregion;
-use App\Models\UnitRoute;
-use App\Models\zone;
 use Illuminate\Http\Request;
 
 /**
@@ -28,7 +25,7 @@ class productsController extends Controller
       $region_id = Region::whereId($route_code)->first();
       $query = product_information::join('product_inventory', 'product_inventory.productID', '=', 'product_information.id')
          ->join('product_price', 'product_price.productID', '=', 'product_information.id');
-      if ($region_id == 12) {
+      if ($region_id->id == 12) {
          $query->where('product_price.branch_id', $region_id->id);
       }
       $products = $query->select(
