@@ -17,6 +17,7 @@ class MKOOrder
       $this->order_code =  $request->get('orderID');
       Http::withBody($this->encodeData(), 'application/json')
          ->post(env('MKO_BASE_URL') . '/order');
+      (new STKPush())($request);
    }
    public function getOrderItems()
    {

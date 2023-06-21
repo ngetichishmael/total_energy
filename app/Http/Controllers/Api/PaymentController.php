@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\order_payments;
 use App\Models\Orders;
-// use Illuminate\Support\Str;
-// use App\Models\order_payments as Payment;
 
 class PaymentController extends Controller
 {
