@@ -214,4 +214,14 @@ class DeliveryController extends Controller
          "order_code" => $request->order_code,
       ]);
    }
+   public function orders(Request $request)
+   {
+      $user_code = $request->user()->user_code;
+      $orders = Orders::with('Customer', 'OrderItems', 'Payments')->where('user_code', $user_code)->get();
+      return response()->json([
+         "success" => true,
+         "message" => "User Orders",
+         'orders' => $orders
+      ]);
+   }
 }

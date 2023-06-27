@@ -10,13 +10,13 @@ class TargetsController extends Controller
 {
    public function getSalespersonTarget(Request $request)
    {
-       $user_code=$request->user()->user_code;
-       $target=User::with('TargetSales','TargetLeads','TargetsOrder','TargetsVisit')
-       ->where('user_code',$user_code)->get();
-       return response()->json([
-           "success" => true,
-           "message" => "Target Set",
-           "Targets"=>$target,
-       ]);
+      $user_code = $request->user()->user_code;
+      $target = User::with('TargetSales', 'TargetLeads', 'TargetsOrder', 'TargetsVisit')
+         ->where('user_code', $user_code)->get();
+      return response()->json([
+         "success" => true,
+         "message" => "Target Set",
+         "Targets" => $target,
+      ]);
    }
 }

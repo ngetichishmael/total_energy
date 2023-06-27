@@ -52,7 +52,6 @@ class deliveryController extends Controller
       $items = Delivery_items::join('product_information', 'product_information.id', '=', 'delivery_items.productID')
          ->where('delivery_code', $delivery_code)
          ->where('product_information.business_code', $businessCode)
-         //                           ->select('allocated_quantity','item_condition')
          ->get();
       $customer = customers::where('id', $order->customerID)->first();
 

@@ -58,6 +58,12 @@ Route::group(['namespace' => 'Api'], function () {
       Route::post('/edit/delivery/{delivery_code}', [DeliveryController::class, 'editDelivery']);
       Route::post('/cancel/delivery/{delivery_code}', [DeliveryController::class, 'cancel']);
 
+
+
+
+      Route::get('/user/orders', [DeliveryController::class, 'orders']);
+
+
       /**
        * Comments section
        */
