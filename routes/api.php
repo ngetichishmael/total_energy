@@ -96,7 +96,7 @@ Route::group(['namespace' => 'Api'], function () {
 
    //checkin visits *History *
    Route::get('checkin/{checkinCode}/order/{orderID}/details', ['uses' => 'checkinController@order_details', 'as' => 'checkin.order.details']);
-
+   Route::get('checkin/userOrders', ['uses' => 'checkinController@userOrders', 'as' => 'checkin.userOrders'])->middleware('auth:sanctum');
    Route::get('checkin/{checkinCode}/order/{orderID}/print', ['uses' => 'checkinController@order_print', 'as' => 'checkin.order.print']);
 
    Route::get('latest/allocation/{user_code}', ['uses' => 'checkinController@latest_allocation', 'as' => 'checkin.latest.allocation']);

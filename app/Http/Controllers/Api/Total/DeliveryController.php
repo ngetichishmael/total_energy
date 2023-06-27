@@ -217,7 +217,10 @@ class DeliveryController extends Controller
    public function orders(Request $request)
    {
       $user_code = $request->user()->user_code;
-      $orders = Orders::with('Customer', 'OrderItems', 'Payments')->where('user_code', $user_code)->get();
+      $orders = Orders::with('Customer', 'OrderItems', 'Payments')
+         ->where('user_code', $user_code)
+         ->orderby('orders.id', 'desc')
+         ->get();
       return response()->json([
          "success" => true,
          "message" => "User Orders",

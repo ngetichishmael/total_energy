@@ -640,4 +640,15 @@ class checkinController extends Controller
          "message" => "Reason saved",
       ]);
    }
+   public function userOrders(Request $request)
+   {
+
+      $orders = Orders::where('user_code', $request->user()->user_code)->with('Customer')->orderby('orders.id', 'desc')
+         ->get();
+      return response()->json([
+         "success" => true,
+         "message" => "All your Orders",
+         "Data" => $orders,
+      ]);
+   }
 }
