@@ -1,11 +1,11 @@
 <div>
-    <div class="row mb-2">
+    <div class="mb-2 row">
         <div class="col-md-5">
             <label for="">Search</label>
             <input wire:model.debounce.300ms="search" type="text" class="form-control" placeholder="Search ...">
             <!-- Button trigger modal -->
             <div class="mt-1">
-                <a href="{{ route('sales.target.create') }}" type="button" class="btn btn-primary">
+                <a href="{{ route('order.target.create') }}" type="button" class="btn btn-primary">
                     New Target
                 </a>
             </div>
@@ -46,7 +46,7 @@
                     @forelse ($targets as $target)
                         <tr>
                             <td>{{ $target->id }}</td>
-                            <td>{{ $target->User()->pluck('name')->implode('')  }}</td>
+                            <td>{{ $target->User()->pluck('name')->implode('') }}</td>
                             <td>{{ $target->OrdersTarget }}</td>
                             <td>{{ $target->AchievedOrdersTarget }}</td>
                             <td>{{ $target->Deadline }}</td>
