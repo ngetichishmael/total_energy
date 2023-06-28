@@ -137,6 +137,8 @@ Route::group(['namespace' => 'Api'], function () {
    Route::post('/scheduleVisit/{CustomerAccountNumber}', 'VisitScheduleController@NewVisit')->middleware('auth:sanctum');
    Route::get('/scheduleVisit/checkAll', 'AddNewRouteController@index')->middleware('auth:sanctum');
    Route::post('/payment', 'PaymentController@index')->middleware('auth:sanctum');
+   Route::post('/stkpush', 'PaymentController@stkPushCallback')->name('mpesa.stkpush');
+   Route::post('/initial/stkpush', 'STKPushController@index')->name('mpesa.test.stkpush');
 
 
    //Stock Lift

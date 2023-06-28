@@ -39,5 +39,7 @@ return [
       'b2c_url_live' => env('MPESA_B2C_URL_LIVE', ''),
       'consumer_key' => env('MPESA_CONSUMER_KEY', ''),
       'consumer_secret' => env('MPESA_CONSUMER_SECRET', ''),
+      'lipa_passkey' => env('MPESA_LIPA_NA_MPESA_PASSKEY', ''),
+      'business_shortcode' => env('MPESA_BUSINESS_SHORTCODE', ''),
    ],
 ];
