@@ -90,9 +90,13 @@
                                                     <select class="form-control select2" id="select-country" name="route"
                                                         required>
                                                         <option value="">Zone</option>
-                                                        <option value="0">General</option>
+                                                        <option value="0"
+                                                            @if ($edit->route_code == 0) selected @endif>General
+                                                        </option>
                                                         @foreach ($routes as $value)
-                                                            <option value="{{ $value->id }}">{{ $value->name }}
+                                                            <option value="{{ $value->id }}"
+                                                                @if ($value->id == $edit->route_code) selected @endif>
+                                                                {{ $value->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -102,10 +106,13 @@
                                                 <div class="form-group">
                                                     <label for="select-country">Current Status:
                                                         {{ $edit->status }}</label>
-                                                    <select class="form-control select2" id="select-action" name="status">
-                                                        <option value="">Select Action</option>
-                                                        <option value="Active">Active</option>
-                                                        <option value="Suspend">Suspend</option>
+                                                    <select class="form-control" id="select-action" name="status">
+                                                        <option value="Active"
+                                                            @if ($edit->route_code == 'Active') selected @endif>
+                                                            Active</option>
+                                                        <option value="Suspend"
+                                                            @if ($edit->route_code == 'Suspended') selected @endif>
+                                                            Suspended</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -218,5 +225,9 @@
 @endsection
 {{-- page scripts --}}
 @section('script')
-
+    <script>
+        $(document).ready(function() {
+            $('.js-select2').select2();
+        });
+    </script>
 @endsection

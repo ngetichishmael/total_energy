@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\app;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use App\Models\AppPermission;
-use App\Models\Region;
 use Exception;
+use App\Helpers\SMS;
+use App\Models\User;
+use App\Models\Region;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\AppPermission;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class usersController extends Controller
@@ -32,40 +34,6 @@ class usersController extends Controller
          "routes" => $routes
       ]);
    }
-   public function sendOTP($number, $code)
-   {
-
-      try {
-         $curl = curl_init();
-
-         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://prsp.jambopay.co.ke/api/api/org/disburseSingleSms/',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '{
-                "number" : "' . $number . '",
-                "sms" : ' . $code . ',
-                "callBack" : "https://....",
-                "senderName" : "PASANDA"
-          }
-          ',
-            CURLOPT_HTTPHEADER => array(
-               'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjozNywibmFtZSI6IkRldmVpbnQgTHRkIiwiZW1haWwiOiJpbmZvQGRldmVpbnQuY29tIiwibG9jYXRpb24iOiIyMyBPbGVuZ3VydW9uZSBBdmVudWUsIExhdmluZ3RvbiIsInBob25lIjoiMjU0NzQ4NDI0NzU3IiwiY291bnRyeSI6IktlbnlhIiwiY2l0eSI6Ik5haXJvYmkiLCJhZGRyZXNzIjoiMjMgT2xlbmd1cnVvbmUgQXZlbnVlIiwiaXNfdmVyaWZpZWQiOmZhbHNlLCJpc19hY3RpdmUiOmZhbHNlLCJjcmVhdGVkQXQiOiIyMDIxLTExLTIzVDEyOjQ5OjU2LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIxLTExLTIzVDEyOjQ5OjU2LjAwMFoifSwiaWF0IjoxNjQ5MzEwNzcxfQ.4y5XYFbC5la28h0HfU6FYFP5a_6s0KFIf3nhr3CFT2I',
-               'Content-Type: application/json'
-            ),
-         ));
-
-         $response = curl_exec($curl);
-
-         curl_close($curl);
-      } catch (Exception $e) {
-      }
-   }
 
    //store
    public function store(Request $request)
@@ -75,12 +43,11 @@ class usersController extends Controller
          'name' => 'required',
          'phone_number' => 'required',
          'account_type' => 'required',
-         'employee_code' => 'required',
          'route' => 'required',
       ]);
 
-      $user_code = $request->employee_code;
-
+      $user_code = Str::uuid();
+      $password = $request->password  === null ? 'password' : $request->password;
       // Save user
       User::updateOrCreate(
          ["user_code" => $user_code],
@@ -92,7 +59,7 @@ class usersController extends Controller
             "email_verified_at" => now(),
             "route_code" => $request->route,
             "status" => 'Active',
-            "password" => $request->password === null ? Hash::make('password') : Hash::make($request->password),
+            "password" => Hash::make($password),
             "business_code" => FacadesAuth::user()->business_code,
          ]
       );
@@ -114,7 +81,11 @@ class usersController extends Controller
             "merchandizing" => $merchandizing,
          ]
       );
-
+      $message = "Your login information is username" . $request->phone_number . 'and password ' . $password;
+      if (in_array($request->account, ['Admin', 'Manager'])) {
+         $message = "Your login information is username" . $request->email . 'and password ' . $password;
+      }
+      (new SMS())($request->account, $message);
       session()->flash('success', 'User Created Successfully');
       return redirect()->route('users.index');
    }

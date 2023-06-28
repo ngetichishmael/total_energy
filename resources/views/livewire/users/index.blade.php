@@ -38,7 +38,13 @@
                         @foreach ($users as $key => $user)
                             <tr>
                                 <td>{!! $key + 1 !!}</td>
-                                <td>{!! $user->Region->name ?? ' ' !!}</td>
+                                <td>
+                                    @if ($user->route_code == 0)
+                                        General
+                                    @else
+                                        {!! $user->Region->name ?? ' ' !!}
+                                    @endif
+                                </td>
                                 <td>{!! $user->name !!}</td>
                                 <td>
                                     {!! $user->email !!}
@@ -51,7 +57,7 @@
                                         class="btn btn-primary btn-sm">Edit</a>
                                 </td>
                                 <td>
-                                    @if ($user->status === 'Active')
+                                    @if ($user->status == 'Active')
                                         <button wire:click.prevent="deactivate({{ $user->id }})"
                                             onclick="confirm('Are you sure you want to DEACTIVATE this customer?')||event.stopImmediatePropagation()"
                                             type="button" class="btn btn-success btn-sm">Activate </button>

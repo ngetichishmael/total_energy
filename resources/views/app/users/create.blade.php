@@ -10,7 +10,6 @@
 {{-- content section --}}
 @section('content')
     <!-- begin breadcrumb -->
-
     <div class="content-header row">
         <div class="mb-2 content-header-left col-md-12 col-12">
             <div class="row breadcrumbs-top">
@@ -38,13 +37,6 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="mb-2 col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="first-name-column">Employee Code</label>
-                                                    <input type="text" id="first-name-column" class="form-control"
-                                                        placeholder="Employee Code" name="employee_code" required />
-                                                </div>
-                                            </div>
                                             <div class="mb-2 col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="first-name-column">Name</label>
