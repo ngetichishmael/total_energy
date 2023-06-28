@@ -165,6 +165,19 @@ Route::group(['middleware' => ['verified']], function () {
    //export
    Route::get('supplier/export/{type}', ['uses' => 'app\supplier\ImportController@export', 'as' => 'supplier.export']);
 
+   //editing sales targets
+   Route::get('target/sales/edit/{code}', ['uses' => 'app\Target\SalesController@edit', 'as' => 'salestarget.edit']);
+   Route::post('target/sales/update/{code}', ['uses' => 'app\Target\SalesController@update', 'as' => 'salestarget.update']);
+   //edits for visits targets
+   Route::get('target/visits/edit/{code}', ['uses' => 'app\Target\VisitsController@edit', 'as' => 'visitstarget.edit']);
+   Route::post('target/visits/update/{code}', ['uses' => 'app\Target\VisitsController@update', 'as' => 'visitstarget.update']);
+   //edits for leads targets
+   Route::get('target/leads/edit/{code}', ['uses' => 'app\Target\LeadsController@edit', 'as' => 'leadstarget.edit']);
+   Route::post('target/leads/update/{code}', ['uses' => 'app\Target\LeadsController@update', 'as' => 'leadstarget.update']);
+   //edits for orders targets
+   Route::get('target/orders/edit/{code}', ['uses' => 'app\Target\OrdersController@edit', 'as' => 'orderstarget.edit']);
+   Route::post('target/orders/update/{code}', ['uses' => 'app\Target\OrdersController@update', 'as' => 'orderstarget.update']);
+
    /* === product === */
    Route::get('products', ['uses' => 'app\products\productController@index', 'as' => 'product.index']);
    Route::get('products/create', ['uses' => 'app\products\productController@create', 'as' => 'products.create']);

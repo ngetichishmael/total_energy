@@ -40,6 +40,7 @@
                         <th>Deadline</th>
                         <th>Status</th>
                         <th>Success Ratio</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,6 +61,7 @@
                             <td>
                                 {{ $this->getSuccessRatio($target->AchievedVisitsTarget, $target->VisitsTarget) }}%
                             </td>
+                            <td><a href="{{ route('visitstarget.edit',$target->user_code) }}" class="btn btn-outline-info btn-sm">Edit</a></td>
                         </tr>
                     @empty
                         <tr>
