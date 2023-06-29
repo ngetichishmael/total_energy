@@ -152,7 +152,13 @@ class usersController extends Controller
             "merchanizing" => $merchanizing,
          ]
       );
-
+      if ($request->password) {
+         $message = "Your data has been updated login with " . $request->phone_number . ' and new password is ' . $request->password;
+         if (in_array($request->account, ['Admin', 'Manager'])) {
+            $message = "Your  data has been updated login with " . $request->email . ' and new password is ' . $request->password;
+         }
+         (new SMS())($request->phone_number, $message);
+      }
       Session()->flash('success', 'User updated Successfully');
       return redirect()->route('users.index');
    }
