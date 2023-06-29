@@ -103,7 +103,7 @@ class AuthController extends Controller
    {
 
 
-      $user = FacadesDB::table('users')->where('phone_number', $number)->get();
+      $user = FacadesDB::table('users')->where('phone_number', $number)->first();
 
       if ($user) {
          try {
@@ -111,11 +111,12 @@ class AuthController extends Controller
             $code = rand(100000, 999999);
 
             UserCode::updateOrCreate([
-               'user_id' => $user[0]->id,
+               'user_id' => $user->id,
                'code' => $code
             ]);
             $message = "Your reset OTP is  " . $code;
-            (new SMS())($number, $message);
+            info($message);
+            (new SMS())($user->phone_number, $message);
 
             return response()->json(['data' => $user, 'otp' => $code]);
          } catch (ExceptionHandler $e) {
