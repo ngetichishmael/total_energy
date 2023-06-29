@@ -81,11 +81,11 @@ class usersController extends Controller
             "merchandizing" => $merchandizing,
          ]
       );
-      $message = "Your login information is username" . $request->phone_number . 'and password ' . $password;
+      $message = "Your login information is username " . $request->phone_number . ' and password is ' . $password;
       if (in_array($request->account, ['Admin', 'Manager'])) {
-         $message = "Your login information is username" . $request->email . 'and password ' . $password;
+         $message = "Your login information is username " . $request->email . ' and password ' . $password;
       }
-      (new SMS())($request->account, $message);
+      (new SMS())($request->phone_number, $message);
       session()->flash('success', 'User Created Successfully');
       return redirect()->route('users.index');
    }
