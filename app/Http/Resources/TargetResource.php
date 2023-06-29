@@ -15,7 +15,7 @@ class TargetResource extends JsonResource
     */
    public function toArray($request)
    {
-      $month = Carbon::now()->endOfMonth()->format('Y/M/D');
+      $month = Carbon::now()->endOfMonth()->format('Y-m-d');
       return [
          'id' => $this->id,
          'user_code' => $this->user_code,
