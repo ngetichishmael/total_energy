@@ -6,7 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
 
-class Visit extends Component
+class Dashboard extends Component
 {
    public $perPage = 10;
    public $search = '';
@@ -15,7 +15,7 @@ class Visit extends Component
    public function render()
    {
 
-      $targetsQuery = User::with('TargetsVisit')->where('account_type', '<>', 'Admin');
+      $targetsQuery = User::with('TargetSale')->where('account_type', '<>', 'Admin');
       $today = Carbon::now();
       // $targetsQuery = SalesTarget::query();
       // Apply search filter
@@ -26,7 +26,7 @@ class Visit extends Component
       $this->applyTimeFrameFilter($targetsQuery);
       // Fetch targets
       $targets = $targetsQuery->get();
-      return view('livewire.target.visit', [
+      return view('livewire.target.dashboard', [
          'targets' => $targets,
          'today' => $today,
       ]);

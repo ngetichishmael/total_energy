@@ -3,7 +3,6 @@
         <div class="col-md-5">
             <label for="">Search</label>
             <input wire:model.debounce.300ms="search" type="text" class="form-control" placeholder="Search ...">
-            <!-- Button trigger modal -->
         </div>
         <div class="col-md-3">
             <label for="">Items Per</label>
@@ -16,7 +15,7 @@
         </div>
         <div class="col-md-3">
             <div class="mt-1">
-                <a href="{{ route('leads.target.create') }}" type="button" class="btn btn-primary">
+                <a href="{{ route('visit.target.create') }}" type="button" class="btn btn-primary">
                     New Target
                 </a>
             </div>
@@ -42,11 +41,11 @@
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $target->name }}</td>
-                            <td>{{ $target->TargetLead->LeadsTarget ?? 0 }}</td>
-                            <td>{{ $target->TargetLead->AchievedLeadsTarget ?? 0 }}</td>
-                            <td>{{ $target->TargetLead->Deadline ?? '' }}</td>
+                            <td>{{ $target->TargetSale->SalesTarget }}</td>
+                            <td>{{ $target->TargetSale->AchievedSalesTarget }}</td>
+                            <td>{{ $target->TargetSale->Deadline }}</td>
                             <td>
-                                {{ $this->getSuccessRatio($target->TargetLead->AchievedLeadsTarget ?? 0, $target->TargetLead->LeadsTarget ?? 0) }}%
+                                {{ $this->getSuccessRatio($target->TargetSale->AchievedSalesTarget, $target->TargetSale->SalesTarget) }}%
                             </td>
                             <td>
                                 <div class="dropdown">
@@ -57,12 +56,12 @@
                                         <i data-feather="settings"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a href="{{ route('leadstarget.edit', $target->user_code) }}" type="button"
+                                        <a href="{{ route('salestarget.edit', $target->user_code) }}" type="button"
                                             class="dropdown-item btn btn-sm" style="color:#7cc7e0 ;font-weight: bold"><i
                                                 data-feather="edit"></i>
                                             &nbsp;Edit</a>
-                                        <a href="{{ route('leads.target.show', [
-                                            'lead' => $target->user_code,
+                                        <a href="{{ route('sales.target.show', [
+                                            'sale' => $target->user_code,
                                         ]) }}"
                                             type="button" class="dropdown-item btn btn-sm"
                                             style="color:#6df16d ; font-weight: bold"><i data-feather="eye"></i>&nbsp;

@@ -4,11 +4,6 @@
             <label for="">Search</label>
             <input wire:model.debounce.300ms="search" type="text" class="form-control" placeholder="Search ...">
             <!-- Button trigger modal -->
-            <div class="mt-1">
-                <a href="{{ route('sales.target.create') }}" type="button" class="btn btn-primary">
-                    New Target
-                </a>
-            </div>
         </div>
         <div class="col-md-3">
             <label for="">Items Per</label>
@@ -20,12 +15,11 @@
             </select>
         </div>
         <div class="col-md-3">
-            <label for="">Time Frame</label>
-            <select wire:model="timeFrame" class="form-control">
-                <option value="quarter">Quarter</option>
-                <option value="half_year">Half Year</option>
-                <option value="year">Year</option>
-            </select>
+            <div class="mt-1">
+                <a href="{{ route('sales.target.create') }}" type="button" class="btn btn-primary">
+                    New Target
+                </a>
+            </div>
         </div>
     </div>
     <div class="card card-default">
@@ -38,31 +32,45 @@
                         <th>Target</th>
                         <th>Achieved</th>
                         <th>Deadline</th>
-                        <th>Status</th>
                         <th>Success Ratio</th>
                         <th>Action</th>
 
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($targets as $target)
+                    @forelse ($targets as $key=>$target)
                         <tr>
-                            <td>{{ $target->id }}</td>
-                            <td>{{ $target->User()->pluck('name')->implode('')  }}</td>
-                            <td>{{ $target->SalesTarget }}</td>
-                            <td>{{ $target->AchievedSalesTarget }}</td>
-                            <td>{{ $target->Deadline }}</td>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $target->name }}</td>
+                            <td>{{ $target->TargetSale->SalesTarget }}</td>
+                            <td>{{ $target->TargetSale->AchievedSalesTarget }}</td>
+                            <td>{{ $target->TargetSale->Deadline }}</td>
                             <td>
-                                @if ($today < $target->Deadline)
-                                    <span class="btn btn-flat-success">Active</span>
-                                @else
-                                    <span class="btn btn-flat-danger">Expired</span>
-                                @endif
+                                {{ $this->getSuccessRatio($target->TargetSale->AchievedSalesTarget, $target->TargetSale->SalesTarget) }}%
                             </td>
                             <td>
-                                {{ $this->getSuccessRatio($target->AchievedVisitsTarget, $target->VisitsTarget) }}%
+                                <div class="dropdown">
+                                    <button style="background-color: #007ec4;color:white"
+                                        class="btn btn-md  dropdown-toggle mr-2" type="button" id="dropdownMenuButton"
+                                        data-bs-trigger="click" aria-haspopup="true" aria-expanded="false"
+                                        data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                                        <i data-feather="settings"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a href="{{ route('salestarget.edit', $target->user_code) }}" type="button"
+                                            class="dropdown-item btn btn-sm" style="color:#7cc7e0 ;font-weight: bold"><i
+                                                data-feather="edit"></i>
+                                            &nbsp;Edit</a>
+                                        <a href="{{ route('sales.target.show', [
+                                            'sale' => $target->user_code,
+                                        ]) }}"
+                                            type="button" class="dropdown-item btn btn-sm"
+                                            style="color:#6df16d ; font-weight: bold"><i data-feather="eye"></i>&nbsp;
+                                            View</a>
+                                    </div>
+                                </div>
+
                             </td>
-                            <td><a href="{{ route('salestarget.edit',$target->user_code) }}" class="btn btn-outline-info btn-sm">Edit</a></td>
                         </tr>
                     @empty
                         <tr>
