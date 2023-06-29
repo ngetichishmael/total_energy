@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -70,7 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-   public function TargetsOrder(): HasMany
+   public function TargetsOrders(): HasMany
    {
       return $this->hasMany(OrdersTarget::class, 'user_code', 'user_code');
    }
@@ -79,10 +80,57 @@ class User extends Authenticatable implements MustVerifyEmail
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-   public function TargetsVisit(): HasMany
+   public function TargetsVisits(): HasMany
    {
       return $this->hasMany(VisitsTarget::class, 'user_code', 'user_code');
    }
+
+
+
+   /**
+    * Get the last added TargetSales for the User.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
+   public function TargetSale(): HasOne
+   {
+      return $this->hasOne(SalesTarget::class, 'user_code', 'user_code')
+         ->latest('created_at');
+   }
+
+   /**
+    * Get the last added TargetLeads for the User.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
+   public function TargetLead(): HasOne
+   {
+      return $this->hasOne(LeadsTargets::class, 'user_code', 'user_code')
+         ->latest('created_at');
+   }
+
+   /**
+    * Get the last added TargetsOrder for the User.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
+   public function TargetsOrder(): HasOne
+   {
+      return $this->hasOne(OrdersTarget::class, 'user_code', 'user_code')
+         ->latest('created_at');
+   }
+
+   /**
+    * Get the last added TargetsVisit for the User.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
+   public function TargetsVisit(): HasOne
+   {
+      return $this->hasOne(VisitsTarget::class, 'user_code', 'user_code')
+         ->latest('created_at');
+   }
+
    /**
     * Get the Region that owns the User
     *

@@ -123,7 +123,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Error occured while trying to send OTP code']);
          }
       } else {
-         return response()->json(['message' => 'User is not registered!']);
+         return response()->json(['message' => 'User is not registered!'], 500);
       }
    }
 
