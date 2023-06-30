@@ -623,11 +623,11 @@ footer.footer-border {
 
 .main-menu.menu-light {
    color: #6e6b7b;
-   background: #007ec4;
+   background: #003c5c;
 }
 
 .main-menu.menu-light .navigation {
-   background: #007ec4;
+   background: #003c5c;
 }
 
 .main-menu.menu-light .navigation .navigation-header {
@@ -726,8 +726,8 @@ footer.footer-border {
 
 .main-menu.menu-light .navigation>li.active>a {
    /* background: linear-gradient(118deg, #007ec4, #007ec4); */
-   background: linear-gradient(118deg, red, red);
-   box-shadow: 0 0 10px 1px brown;
+   background: linear-gradient(118deg, red, blue);
+   box-shadow: 0 0 10px 1px yellow;
    color: #fff;
    font-weight: 400;
    border-radius: 4px;
