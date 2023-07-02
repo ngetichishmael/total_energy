@@ -6,6 +6,7 @@ use App\Models\OrdersTarget;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
 class OrdersController extends Controller
@@ -65,6 +66,18 @@ class OrdersController extends Controller
    public function edit($code)
    {
       $edit = OrdersTarget::where('user_code', $code)->orderBY('id', 'DESC')->first();
+      if (!$edit) {
+         $today = Carbon::now(); //Current Date and Time
+         $lastDayofMonth =    Carbon::parse($today)->endOfMonth()->toDateString();
+         OrdersTarget::Create(
+            [
+               'user_code' => $code,
+               'Deadline' => $lastDayofMonth,
+               'OrdersTarget' => 0
+            ]
+         );
+         $edit = OrdersTarget::where('user_code', $code)->orderBY('id', 'DESC')->first();
+      }
       return view('app.Targets.ordersedit', ['edit' => $edit]);
    }
 

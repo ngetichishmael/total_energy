@@ -19,11 +19,11 @@ class Targets extends Component
 
       $today = Carbon::now();
       $lastDayofMonth =  Carbon::parse($today)->endOfMonth()->toDateString();
-      $this->users = User::where('account_type','<>', 'Admin')->get();
+      $this->users = User::where('account_type', '<>', 'Admin')->get();
       $this->QPTargets = VisitsTarget::all();
       $this->fill([
          'Targets' => collect([
-            ['primarykey' => '','deadline' => $lastDayofMonth]
+            ['primarykey' => '', 'deadline' => $lastDayofMonth]
          ]),
       ]);
    }
@@ -50,10 +50,10 @@ class Targets extends Component
          'Targets.*.primarykey' => 'required',
          'Targets.*.deadline' => 'required',
          'Targets.*.Target' => 'required',
-     ]);
+      ]);
       foreach ($this->Targets as $value) {
          if ($value["primarykey"] === 'ALL') {
-            $users = User::where('account_type','<>', 'Admin')->get();
+            $users = User::where('account_type', '<>', 'Admin')->get();
             foreach ($users as $user) {
                VisitsTarget::updateOrCreate(
                   [
@@ -79,8 +79,8 @@ class Targets extends Component
       }
       return redirect()->to('/target/visit');
    }
-    public function render()
-    {
-        return view('livewire.visits.targets');
-    }
+   public function render()
+   {
+      return view('livewire.visits.targets');
+   }
 }

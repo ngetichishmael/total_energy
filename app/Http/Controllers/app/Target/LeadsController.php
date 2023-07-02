@@ -6,6 +6,7 @@ use App\Models\LeadsTargets;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
 class LeadsController extends Controller
@@ -65,6 +66,18 @@ class LeadsController extends Controller
    public function edit($code)
    {
       $edit = LeadsTargets::where('user_code', $code)->orderBY('id', 'DESC')->first();
+      if (!$edit) {
+         $today = Carbon::now(); //Current Date and Time
+         $lastDayofMonth =    Carbon::parse($today)->endOfMonth()->toDateString();
+         LeadsTargets::Create(
+            [
+               'user_code' => $code,
+               'Deadline' => $lastDayofMonth,
+               'LeadsTarget' => 0
+            ]
+         );
+         $edit =  LeadsTargets::where('user_code', $code)->orderBY('id', 'DESC')->first();
+      }
       return view('app.Targets.leadsedit', ['edit' => $edit]);
    }
 

@@ -6,6 +6,7 @@ use App\Models\VisitsTarget;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
 class VisitsController extends Controller
@@ -65,6 +66,18 @@ class VisitsController extends Controller
    public function edit($code)
    {
       $edit = VisitsTarget::where('user_code', $code)->orderBY('id', 'DESC')->first();
+      if (!$edit) {
+         $today = Carbon::now(); //Current Date and Time
+         $lastDayofMonth =    Carbon::parse($today)->endOfMonth()->toDateString();
+         VisitsTarget::Create(
+            [
+               'user_code' => $code,
+               'Deadline' => $lastDayofMonth,
+               'VisitsTarget' => 0
+            ]
+         );
+         $edit = VisitsTarget::where('user_code', $code)->orderBY('id', 'DESC')->first();
+      }
       return view('app.Targets.visitsedit', ['edit' => $edit]);
    }
 
