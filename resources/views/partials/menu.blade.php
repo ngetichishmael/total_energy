@@ -225,6 +225,11 @@
                 <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Todo"> Users</span>
             </a>
         </li>
+        <li class="nav-item {!! Nav::isResource('reports') !!}">
+            <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i
+                    data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Invoice">
+                    All Reports</span></a>
+        </li>
         <li class="nav-item {!! Nav::isResource('settings') !!}">
             <a class="d-flex align-items-center" href="#"><i data-feather='settings'></i><span
                     class="menu-title text-truncate" data-i18n="Invoice"> Settings</span></a>
