@@ -154,8 +154,8 @@
                                 <h3 class="mb-0">{{ date_format(now(), 'd') }}</h3>
                             </div>
                             <div class="my-auto">
-                                <h4 class="card-title mb-25">Sidai Africa Ltd</h4>
-                                <p class="mb-0 card-text">Tunza Mifugo Yako</p>
+                                <h4 class="card-title mb-25">Total Energies</h4>
+                                <p class="mb-0 card-text">Transforming Ourselves to Reinvent Energy</p>
                             </div>
                         </div>
                         <div class="media" style="background: white">
