@@ -78,21 +78,6 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-xl-2 col-sm-4 col-12 mb-2 mb-xl-0">
-                            <a href="#distributorsOrders" class="d-flex align-items-center">
-                                <div class="avatar bg-light-primary">
-                                    <div class="avatar-content">
-                                        <span class="material-symbols-outlined">order_approve</span>
-                                    </div>
-                                </div> &nbsp;&nbsp;
-                                <div class="media-body my-auto pl-3 ml-3">
-                                    <h4 class="font-weight-bolder ml-2" style="font-weight: bolder">
-                                        {{ number_format($orderfullmentbydistributors) }}</h4>
-                                    <p class="card-text font-small-3 mb-0 font-medium-1"
-                                        style="color: rgba(71,75,79,0.76)">Distributor-Orders</p>
-                                </div>
-                            </a>
-                        </div>
 
                         <div class="col-xl-2 col-sm-4 col-12 mb-2 mb-xl-0">
                             <a href="#orderFulfillmentSection" class="d-flex align-items-center">

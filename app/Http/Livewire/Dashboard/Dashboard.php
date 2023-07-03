@@ -6,7 +6,6 @@ use App\Models\customer\checkin;
 use App\Models\customers;
 use App\Models\Delivery;
 use App\Models\Orders;
-use App\Models\suppliers\suppliers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -88,7 +87,7 @@ class Dashboard extends Component
    }
    public function getOrderFullmentByDistributorsCount()
    {
-      return Orders::whereIn('order_status', ['Pending Delivery', 'Pending delivery'])
+      return Orders::where('order_status', 'LIKE', '%deliver%')
          ->where('order_type', 'Pre Order')
          ->whereBetween('updated_at', [$this->start, $this->end])
          ->count();
@@ -96,8 +95,8 @@ class Dashboard extends Component
    public function getOrderFullmentByDistributorsPage()
    {
 
-      return Orders::with('Customer', 'user', 'distributor')
-         ->whereIn('order_status', ['Pending Delivery', 'Pending delivery'])
+      return Orders::with('Customer', 'user')
+         ->where('order_status', 'LIKE', '%deliver%')
          ->where('order_type', 'Pre Order')
          ->whereBetween('updated_at', [$this->start, $this->end])
          ->paginate($this->perPreorder);
@@ -106,7 +105,7 @@ class Dashboard extends Component
    public function getOrderFullmentCount()
    {
 
-      return Delivery::whereIn('delivery_status', ['Delivered', 'DELIVERED', 'Partial Delivery'])
+      return Delivery::where('delivery_status', 'LIKE', '%deliver%')
          ->whereBetween('updated_at', [$this->start, $this->end])
          ->count();
    }
@@ -174,7 +173,7 @@ class Dashboard extends Component
    public function getOrderFullmentTotal()
    {
 
-      return Delivery::whereIn('delivery_status', ['Delivered', 'DELIVERED', 'Partial Delivery'])
+      return Delivery::where('delivery_status', 'LIKE', '%deliver%')
          ->with('User', 'Customer')
          ->whereBetween('updated_at', [$this->start, $this->end])
          ->paginate($this->perOrderFulfilment);
@@ -197,7 +196,6 @@ class Dashboard extends Component
 
    public function getGraphData()
    {
-      $sidai = suppliers::whereIn('name', ['Sidai', 'SIDAI', 'sidai'])->first();
       $months = [
          1 => 'January',
          2 => 'February',
@@ -217,7 +215,7 @@ class Dashboard extends Component
          ->groupBy('month')
          ->pluck('count', 'month')
          ->toArray();
-      $deliveryCounts = Delivery::whereIn('delivery_status', ['Delivered', 'DELIVERED', 'Partial Delivery'])
+      $deliveryCounts = Delivery::where('delivery_status', 'LIKE', '%deliver%')
          ->whereYear('updated_at', '=', date('Y'))
          ->selectRaw('MONTH(updated_at) as month, COUNT(*) as count')
          ->groupBy('month')
