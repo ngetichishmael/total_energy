@@ -24,7 +24,7 @@
                 <div>
                       <div class="card-body">
                     <div style="display: flex; justify-content: center;">
-                        <img src="{{ asset('app-assets/images/logo.png') }}" class="logo" alt="kenMeat" style="width:250px; height:150px;"/>
+                        <img src="{{ asset('app-assets/images/logo.png') }}" class="logo" alt="TotalEnergies" style="width:250px; height:150px;"/>
                     </div>
 
                     <div class="card-body">
