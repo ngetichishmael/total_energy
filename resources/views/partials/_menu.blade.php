@@ -51,6 +51,19 @@
                     </span>
                 </a>
             </li>
+            <li class="nav-item {!! Nav::isResource('visits') !!}">
+                <a class="d-flex align-items-center" href="#"><i data-feather='truck'></i><span
+                        class="menu-title text-truncate" data-i18n="Invoice">Visits</span></a>
+                <ul class="menu-content">
+                    <li><a class="nav-item {!! Nav::isResource('UsersVisits') !!} d-flex align-items-center"
+                            href="{!! route('UsersVisits') !!}"><i data-feather="user"></i><span
+                                class="menu-item text-truncate">Users</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center" href="{!! route('CustomerVisits') !!}"><i
+                                data-feather="users"></i><span class="menu-item text-truncate">Customers</span></a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item {!! Nav::isResource('supplier') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather='refresh-ccw'></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Suppliers</span></a>

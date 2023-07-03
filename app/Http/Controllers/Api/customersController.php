@@ -136,6 +136,7 @@ class customersController extends Controller
       $checkin->user_code = Auth::user()->user_code;
       $checkin->ip = Helper::get_client_ip();
       $checkin->start_time = date('H:i:s');
+      $checkin->stop_time = date('H:i:s');
       $checkin->business_code = Auth::user()->business_code;
       $checkin->save();
 
