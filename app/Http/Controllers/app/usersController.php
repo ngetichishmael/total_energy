@@ -9,6 +9,7 @@ use App\Models\Region;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AppPermission;
+use App\Models\AssignedRegion;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
@@ -57,12 +58,18 @@ class usersController extends Controller
             "name" => $request->name,
             "account_type" => $request->account_type,
             "email_verified_at" => now(),
-            "route_code" => $request->route,
+            //"route_code" => $request->route,
             "status" => 'Active',
             "password" => Hash::make($password),
             "business_code" => FacadesAuth::user()->business_code,
          ]
       );
+      foreach ($request->route as $route) {
+         $routes = new AssignedRegion();
+         $routes->region_id = $route;
+         $routes->user_code = $user_code;
+         $routes->save();
+     }
 
       // Update or create app permissions
       $van_sales = $request->van_sales == null ? "NO" : "YES";
