@@ -142,6 +142,14 @@ class usersController extends Controller
 
          ]
       );
+      foreach ($request->route as $route) {
+         $routes = new AssignedRegion();
+         $routes->region_id = $route;
+         $routes->user_code = $user_code;
+         $routes->save();
+     }
+
+     
       $van_sales = $request->van_sales == null ? "NO" : "YES";
       $new_sales = $request->new_sales == null ? "NO" : "YES";
       $deliveries = $request->deliveries == null ? "NO" : "YES";
