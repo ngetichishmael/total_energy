@@ -47,7 +47,7 @@ class Order extends Component
       }
 
       // Apply the filter
-      $query->whereHas('TargetSale', function ($targetSaleQuery) use ($endDate) {
+      $query->whereHas('TargetsOrder', function ($targetSaleQuery) use ($endDate) {
          $targetSaleQuery->whereDate('Deadline', '<=', $endDate->format('Y-m-d'));
       });
    }
