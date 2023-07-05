@@ -31,6 +31,18 @@ class ordersController extends Controller
          'id' => $id,
       ]);
    }
+   public function pendingdeliveries()
+   {
+      return view('app.orders.pendingdeliveries');
+   }
+   public function vansalesorders()
+   {
+      return view('app.orders.distributororders');
+   }
+   public function pendingorders()
+   {
+      return view('app.orders.pendingorders');
+   }
    //order details
    public function details($code)
    {
