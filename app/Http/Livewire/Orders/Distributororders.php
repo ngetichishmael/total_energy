@@ -28,22 +28,15 @@ class Distributororders extends Component
    public function render()
    {
       $searchTerm = '%' . $this->search . '%';
-      $sokoflow = suppliers::whereIn('name', ['Sokoflow', 'SOKOFLOW', 'sokoflow'])->first();
-      $pendingorders = Orders::with('Customer', 'user', 'distributor')
-         ->where(function ($query) use ($sokoflow) {
-            $query->whereNotNull('supplierID')
-               ->where('supplierID', '!=', '')
-               ->where('supplierID', '!=', $sokoflow->id);
-         })
-         ->where('order_type','=','Pre Order')
+      $pendingorders = Orders::with('Customer', 'user')
+         ->where('order_type', '=', 'Pre Order')
          ->where(function ($query) use ($searchTerm) {
             $query->whereHas('Customer', function ($subQuery) use ($searchTerm) {
                $subQuery->where('customer_name', 'like', $searchTerm);
             })
                ->orWhereHas('User', function ($subQuery) use ($searchTerm) {
                   $subQuery->where('name', 'like', $searchTerm);
-               })
-               ;
+               });
          })
          ->when($this->statusFilter, function ($query) {
             $query->where('order_status', $this->statusFilter);

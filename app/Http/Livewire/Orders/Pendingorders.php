@@ -25,14 +25,8 @@ class Pendingorders extends Component
    public function render()
    {
       $searchTerm = '%' . $this->search . '%';
-      $sokoflow = suppliers::where('name', 'Sokoflow')->first();
       $pendingorders = Orders::with('Customer', 'user')
          ->where('order_status', '=', 'Pending Delivery')
-         ->where(function ($query) use ($sokoflow) {
-            $query->whereNull('supplierID')
-               ->orWhere('supplierID', '')
-               ->orWhere('supplierID', $sokoflow->id);
-         })
          ->where('order_type', '=', 'Pre Order')
          ->where(function ($query) use ($searchTerm) {
             $query->whereHas('Customer', function ($subQuery) use ($searchTerm) {

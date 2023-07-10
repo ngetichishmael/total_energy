@@ -14,6 +14,8 @@ use App\Models\order_payments as OrderPayment;
 use App\Models\User;
 use Livewire\WithPagination;
 
+use Illuminate\Database\Eloquent\Builder;
+
 class Dashboard extends Component
 {
    use WithPagination;
@@ -34,32 +36,50 @@ class Dashboard extends Component
 
    // Individual functions for data retrieval
 
+   public function whereBetweenDate(Builder $query, string $column = null, string $start = null, string $end = null): Builder
+   {
+      if (is_null($start) && is_null($end)) {
+         return $query;
+      }
 
+      if (!is_null($start) && Carbon::parse($start)->isSameDay(Carbon::parse($end))) {
+         return $query->where($column, '=', $start);
+      }
+      $end = $end == null ? Carbon::now()->endOfMonth()->format('Y-m-d') : $end;
+      return $query->whereBetween($column, [$start, $end]);
+   }
    public function getCashAmount()
    {
       return OrderPayment::where('payment_method', 'PaymentMethods.Cash')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->sum('amount');
    }
 
    public function getMpesaAmount()
    {
       return OrderPayment::where('payment_method', 'PaymentMethods.Mpesa')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->sum('amount');
    }
 
    public function getChequeAmount()
    {
       return OrderPayment::where('payment_method', 'PaymentMethods.Cheque')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->sum('amount');
    }
 
    public function getSalesAmount()
    {
-      return DB::table('order_payments')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+      return OrderPayment::where(function (Builder $query) {
+         $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+      })
          ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile', 'user_id')
          ->sum('balance');
    }
@@ -73,7 +93,9 @@ class Dashboard extends Component
    {
 
       return Orders::where('order_type', 'Van sales')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->where('order_status', 'DELIVERED')
          ->sum('price_total');
    }
@@ -82,14 +104,18 @@ class Dashboard extends Component
    {
 
       return Orders::where('order_type', 'Pre Order')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->count();
    }
    public function getOrderFullmentByDistributorsCount()
    {
       return Orders::where('order_status', 'LIKE', '%deliver%')
          ->where('order_type', 'Pre Order')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->count();
    }
    public function getOrderFullmentByDistributorsPage()
@@ -98,7 +124,9 @@ class Dashboard extends Component
       return Orders::with('Customer', 'user')
          ->where('order_status', 'LIKE', '%deliver%')
          ->where('order_type', 'Pre Order')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->paginate($this->perPreorder);
    }
 
@@ -106,14 +134,17 @@ class Dashboard extends Component
    {
 
       return Delivery::where('delivery_status', 'LIKE', '%deliver%')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->count();
    }
 
    public function getActiveUserCount()
    {
-      return DB::table('customer_checkin')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+      return checkin::where(function (Builder $query) {
+         $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+      })
          ->distinct('user_code')
          ->count();
    }
@@ -127,8 +158,9 @@ class Dashboard extends Component
 
    public function getStrikeCount()
    {
-      return DB::table('customer_checkin')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+      return checkin::where(function (Builder $query) {
+         $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+      })
          ->count();
    }
 
@@ -152,7 +184,9 @@ class Dashboard extends Component
    {
       return Orders::with('User', 'Customer')
          ->where('order_type', 'Pre Order')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->paginate($this->perPreorder);
    }
 
@@ -161,13 +195,17 @@ class Dashboard extends Component
       return checkin::with('User', 'Customer')
          ->distinct('user_code')
          ->groupBy('user_code')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->paginate($this->perActiveUsers);
    }
    public function getUserTotal()
    {
       return User::where('account_type', '!=', 'Customer')->with('Region')
-         ->whereBetween('created_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->paginate($this->perUserTotal);
    }
    public function getOrderFullmentTotal()
@@ -175,7 +213,9 @@ class Dashboard extends Component
 
       return Delivery::where('delivery_status', 'LIKE', '%deliver%')
          ->with('User', 'Customer')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->paginate($this->perOrderFulfilment);
    }
 
@@ -183,14 +223,18 @@ class Dashboard extends Component
    {
       return checkin::with('User', 'Customer')
          ->groupBy('customer_id')
-         ->whereBetween('updated_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->paginate($this->perVisits);
    }
 
    public function getCustomersCountTotal()
    {
       return customers::with('Area', 'Creator', 'Region')
-         ->whereBetween('created_at', [$this->start, $this->end])
+         ->where(function (Builder $query) {
+            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+         })
          ->paginate($this->perBuyingCustomer);
    }
 
@@ -234,10 +278,6 @@ class Dashboard extends Component
    }
    public function render()
    {
-      $start_date = Carbon::now()->startOfMonth()->format('Y-m-d');
-      $end_date = Carbon::now()->endOfMonth()->format('Y-m-d');
-      $this->start = $this->start == null ? $start_date : $this->start;
-      $this->end = $this->end == null ? $end_date : $this->end;
 
       $data = [
          'Cash' => $this->getCashAmount(),

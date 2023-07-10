@@ -27,17 +27,8 @@ class Pendingdeliveries extends Component
    public function render()
    {
       $searchTerm = '%' . $this->search . '%';
-      $sokoflow=suppliers::where('name', 'MarkG')->first();
+      $sokoflow = suppliers::where('name', 'MarkG')->first();
       $orders =  Delivery::whereNotIn('delivery_status', ['Pending Delivery', 'Partial delivery'])
-         // ->where(function ($query) use ($sokoflow) {
-         //    $query->whereHas('Order', function ($subQuery) use ($sokoflow) {
-         //       $subQuery->whereNull('supplierID')
-         //          ->orWhere('supplierID', '')
-         //          ->orWhere('supplierID', $sokoflow->id);
-         //    })->whereHas('Order', function ($subQuery) {
-         //       $subQuery->where('order_type', 'Pre Order');
-         //    });
-         // })
          ->with('Customer', 'User', 'Order', 'DeliveryItems')
          ->where(function ($query) use ($searchTerm) {
             $query->whereHas('Customer', function ($subQuery) use ($searchTerm) {
