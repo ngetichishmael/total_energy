@@ -83,8 +83,8 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="select-country">Zone</label>
-                                                    <select class="form-control select2" id="select-country" name="route"
-                                                        required>
+                                                    <select class="form-control select2" id="select-country" name="route[]"
+                                                        required multiple>
                                                         <option value="">Zone</option>
                                                         <option value="0">General</option>
                                                         @foreach ($routes as $value)

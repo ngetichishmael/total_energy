@@ -198,6 +198,11 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('supplier/import', ['uses' => 'app\supplier\ImportController@index', 'as' => 'supplier.import.index']);
    Route::post('supplier/post/import', ['uses' => 'app\supplier\ImportController@import', 'as' => 'supplier.import']);
 
+   //routes for orders
+   Route::get('pendingorders', ['uses' => 'app\ordersController@pendingorders', 'as' => 'orders.pendingorders']);
+   Route::get('pendingdeliveries', ['uses' => 'app\ordersController@pendingdeliveries', 'as' => 'orders.pendingdeliveries']);
+   Route::get('vansalesorders', ['uses' => 'app\ordersController@vansalesorders', 'as' => 'orders.vansalesorders']);
+   Route::get('delivery', ['uses' => 'app\deliveryController@index', 'as' => 'delivery.index']);
    //export
    Route::get('supplier/export/{type}', ['uses' => 'app\supplier\ImportController@export', 'as' => 'supplier.export']);
 

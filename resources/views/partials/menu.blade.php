@@ -164,10 +164,30 @@
             </ul>
         </li>
         <li class="nav-item {!! Nav::isResource('orders') !!}">
-            <a class="d-flex align-items-center" href="{!! route('orders.index') !!}">
+            <a class="d-flex align-items-center" href="#">
                 <i data-feather='shopping-cart'></i><span class="menu-title text-truncate" data-i18n="Todo">
                     Orders</span>
             </a>
+            <ul class="menu-content">
+                <li style="padding-left: 50px"><a class="d-flex align-items-center"
+                        href="{{ route('orders.pendingorders') }}">
+                        <span class="menu-item text-truncate">Pending Orders</span></a>
+                </li>
+                <li style="padding-left: 50px"><a class="d-flex align-items-center"
+                        href="{{ route('orders.pendingdeliveries') }}">
+                        <span class="menu-item text-truncate">Pending Deliveries</span></a>
+                </li>
+                <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{!! route('delivery.index') !!}">
+                        <span class="menu-title text-truncate" data-i18n="Todo">
+                            Delivery History</span>
+                    </a>
+                </li>
+                <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{!! route('orders.vansalesorders') !!}">
+                        <span class="menu-title text-truncate" data-i18n="Todo">
+                            Vansales Orders</span>
+                    </a>
+                </li>
+            </ul>
         </li>
         <li class="nav-item {!! Nav::isResource('deliver') !!}">
             <a class="d-flex align-items-center" href="{!! route('delivery.index') !!}">
