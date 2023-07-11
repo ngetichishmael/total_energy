@@ -1,5 +1,5 @@
 <div>
-    
+
     @php
         use Illuminate\Support\Str;
     @endphp
@@ -7,7 +7,7 @@
         .details-container {
             position: relative;
         }
-    
+
         .details-icon {
             position: absolute;
             right: -5px;
@@ -31,20 +31,20 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="validationTooltip01">Start Date</label>
-                    <input wire:model="start" name="startDate" type="date" class="form-control" id="validationTooltip01"
-                        placeholder="YYYY-MM-DD HH:MM" required />
+                    <input wire:model="start" name="startDate" type="date" class="form-control"
+                        id="validationTooltip01" placeholder="YYYY-MM-DD HH:MM" required />
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="validationTooltip01">End Date</label>
-                    <input wire:model="end" name="startDate" type="date" class="form-control" id="validationTooltip01"
-                        placeholder="YYYY-MM-DD HH:MM" required />
+                    <input wire:model="end" name="startDate" type="date" class="form-control"
+                        id="validationTooltip01" placeholder="YYYY-MM-DD HH:MM" required />
                 </div>
             </div>
-    
+
             <div class="col-md-1">
-                <label for="">Items Per</label>
+                <label for="">Page</label>
                 <select wire:model="perPage" class="form-control">`
                     <option value="10" selected>10</option>
                     <option value="25">25</option>
@@ -64,8 +64,6 @@
                             <th>Address</th>
                             <th class="cell-fit">Zone, Region, Route</th>
                             <th>Created By</th>
-                            <th>Order</th>
-                            <th width="15%">Edit</th>
                             <th width="15%">Action</th>
                         </thead>
                         <tbody>
@@ -77,7 +75,7 @@
                                         <span class="details-icon">&#9432;</span>
                                     </div>
                                 </td>
-    
+
                                 <td>{!! $contact->phone_number !!}</td>
                                 <td title="{{ $contact->address ?? null }}">
                                     <div class="details-container">
@@ -93,38 +91,42 @@
                                     {!! Str::camel($contact->Area->name ?? '') !!}
                                 </td>
                                 <td>
-                                    {!! $contact->Creator->name ?? '' !!}
+                                    {!! $contact->Creator->name ?? Auth::user()->name !!}
                                 </td>
                                 <td>
-                                    <a href="{{ route('make.orders', ['id' => $contact->id]) }}"
-                                        class="btn btn-sm btn-secondary">Order</a>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button"
+                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <i data-feather='settings'></i>
+                                        </button>
+                                        <div class="dropdown-menu g-25" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item btn btn-flat-primary btn-sm"
+                                                href="{{ route('make.orders', ['id' => $contact->id]) }}">Order</a>
+                                            <a class="dropdown-item btn btn-flat-primary btn-sm"
+                                                href="{{ route('customer.edit', $contact->id) }}">Edit</a>
+                                            @if ($contact->route_code !== 2)
+                                                @if ($contact->approval === 'Approved')
+                                                    <button wire:click.prevent="deactivate({{ $contact->id }})"
+                                                        onclick="confirm('Are you sure you want to DEACTIVATE this customer?')||event.stopImmediatePropagation()"
+                                                        type="button"
+                                                        class="dropdown-item btn btn-success btn-sm">Approved</button>
+                                                @else
+                                                    <button wire:click.prevent="activate({{ $contact->id }})"
+                                                        onclick="confirm('Are you sure you want to ACTIVATE this customer?')||event.stopImmediatePropagation()"
+                                                        type="button"
+                                                        class="dropdown-item btn btn-success btn-sm">Pending</button>
+                                                @endif
+                                            @endif
+
+                                        </div>
+                                    </div>
                                 </td>
-                                <td>
-                                    <a href="{{ route('customer.edit', $contact->id) }}"
-                                        class="btn btn-sm btn-primary">Edit</a>
-                                </td>
-                                @if ($contact->route_code == 2)
-                                    <td>
-                                        <button type="button" class="btn btn-success btn-sm">Approved</button>
-                                    </td>
-                                @else
-                                    <td>
-                                        @if ($contact->approval === 'Approved')
-                                            <button wire:click.prevent="deactivate({{ $contact->id }})"
-                                                onclick="confirm('Are you sure you want to DEACTIVATE this customer?')||event.stopImmediatePropagation()"
-                                                type="button" class="btn btn-success btn-sm">Approved</button>
-                                        @else
-                                            <button wire:click.prevent="activate({{ $contact->id }})"
-                                                onclick="confirm('Are you sure you want to ACTIVATE this customer?')||event.stopImmediatePropagation()"
-                                                type="button" class="btn btn-danger btn-sm">Pending</button>
-                                        @endif
-                                    </td>
-                                @endif
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-    
+
                     <div class="mt-1">
                         {{ $contacts->links() }}
                     </div>

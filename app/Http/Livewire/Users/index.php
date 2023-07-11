@@ -15,10 +15,13 @@ class Index extends Component
    public $orderBy = 'id';
    public $orderAsc = true;
    public ?string $search = null;
+   public $account = null;
 
    public function render()
    {
-      return view('livewire.users.index',[
+      return view(
+         'livewire.users.index',
+         [
             'users' => $this->getUsers()
          ]
       );
@@ -27,7 +30,10 @@ class Index extends Component
    {
       $searchTerm = '%' . $this->search . '%';
       $query = User::search($searchTerm)
-         ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc');
+         ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc')
+         ->when($this->account, function ($query) {
+            $query->where('account_type', 'LIKE', '%' . $this->account . '%');
+         });
       $user = Auth::user();
       if ($user->account_type != 'Admin') {
          $query->where('route_code', $user->route_code);

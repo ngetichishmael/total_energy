@@ -50,6 +50,13 @@ class usersController extends Controller
       $user_code = Str::uuid();
       $password = $request->password  === null ? 'password' : $request->password;
       // Save user
+      foreach ($request->route as $route) {
+         $routes = new AssignedRegion();
+         $routes->region_id = $route;
+         $routes->user_code = $user_code;
+         $routes->save();
+      }
+      $assigned_route = AssignedRegion::where('user_code', $user_code)->first();
       User::updateOrCreate(
          ["user_code" => $user_code],
          [
@@ -58,18 +65,13 @@ class usersController extends Controller
             "name" => $request->name,
             "account_type" => $request->account_type,
             "email_verified_at" => now(),
-            //"route_code" => $request->route,
+            "route_code" => $assigned_route->region_id,
             "status" => 'Active',
             "password" => Hash::make($password),
             "business_code" => FacadesAuth::user()->business_code,
          ]
       );
-      foreach ($request->route as $route) {
-         $routes = new AssignedRegion();
-         $routes->region_id = $route;
-         $routes->user_code = $user_code;
-         $routes->save();
-     }
+
 
       // Update or create app permissions
       $van_sales = $request->van_sales == null ? "NO" : "YES";
@@ -147,9 +149,9 @@ class usersController extends Controller
          $routes->region_id = $route;
          $routes->user_code = $user_code;
          $routes->save();
-     }
+      }
 
-     
+
       $van_sales = $request->van_sales == null ? "NO" : "YES";
       $new_sales = $request->new_sales == null ? "NO" : "YES";
       $deliveries = $request->deliveries == null ? "NO" : "YES";
