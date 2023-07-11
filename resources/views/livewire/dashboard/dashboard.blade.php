@@ -31,7 +31,7 @@
                     <h3 class="mt-2 mb-75 pt-50">
                         <?php
                         // Calculate the sum total
-                        $sumTotal = $Cash + $Mpesa + $Cheque;
+                        $sumTotal = $Cash + $Mpesa + $Cheque + $total;
                         ?>
 
                         <a href="javascript:void(0);"> Ksh. {{ number_format($sumTotal) }} </a>
@@ -128,7 +128,7 @@
                                         <h4 class="ml-2 font-weight-bolder" style="font-weight: bolder">
                                             &nbsp; {{ number_format($total) }}</h4>
                                         <p class="mb-0 card-text font-small-3 font-medium-1"
-                                            style="color: rgba(71,75,79,0.76)"> Reconciled</p>
+                                            style="color: rgba(71,75,79,0.76)"> Bank</p>
                                     </div>
                                 </a>
                             </div>
