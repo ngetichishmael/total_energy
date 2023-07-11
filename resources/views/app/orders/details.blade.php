@@ -130,7 +130,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/sokoflowadmin">Home</a></li>
                             <li class="breadcrumb-item"><a href="{!! route('orders.index') !!}">Orders</a></li>
-                            <li class="breadcrumb-item active">{!! $order->order_code !!}</li>
+                            <li class="breadcrumb-item active">{!! $order->order_code ?? '' !!}</li>
                             <li class="breadcrumb-item active">Details</li>
                         </ol>
                     </div>
@@ -147,14 +147,15 @@
                         <div class="col-sm-6">
                             <div>
                                 <span class="text-sm text-grey-m2 align-middle">To:</span>
-                                <span class="text-600 text-110 text-blue align-middle">{{ $test->customer_name ?? "" }}</span>
+                                <span
+                                    class="text-600 text-110 text-blue align-middle">{{ $test->customer_name ?? '' }}</span>
                             </div>
                             <div class="text-grey-m2">
                                 <div class="my-1">
-                                    Address, <span class="text-blue">{!! $test->address !!}</span>
+                                    Address, <span class="text-blue">{!! $test->address ?? '' !!}</span>
                                 </div>
                                 <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b
-                                        class="text-600">(+254){!! $test->phone_number !!}</b></div>
+                                        class="text-600">(+254){!! $test->phone_number ?? '' !!}</b></div>
                             </div>
                         </div>
                         <!-- /.col -->
@@ -165,14 +166,14 @@
                                 <div class="mt-1">Invoice </div>
 
                                 <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span
-                                        class="text-600 text-90">ID:</span> #{!! $order->id !!}</div>
+                                        class="text-600 text-90">ID:</span> #{!! $order->id ?? '' !!}</div>
 
                                 <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span
-                                        class="text-600 text-90">Issue Date:</span> {!! $order->created_at !!}</div>
+                                        class="text-600 text-90">Issue Date:</span> {!! $order->created_at ?? '' !!}</div>
 
                                 <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span
                                         class="text-600 text-90">Status:</span> <span
-                                        class="badge badge-warning badge-pill px-25 text-black-50">{!! $order->order_status !!}</span>
+                                        class="badge badge-warning badge-pill px-25 text-black-50">{!! $order->order_status ?? '' !!}</span>
                                 </div>
                             </div>
                         </div>
@@ -198,10 +199,10 @@
                                     @foreach ($items as $count => $item)
                                         <tr>
                                             <td>{!! $count + 1 !!}</td>
-                                            <td>{!! $item->product_name !!}</td>
-                                            <td>{!! $item->quantity !!}</td>
-                                            <td class="text-95">ksh{!! $item->selling_price !!}</td>
-                                            <td class="text-secondary-d2">ksh{!! $item->selling_price * $item->quantity !!}</td>
+                                            <td>{!! $item->product_name ?? '' !!}</td>
+                                            <td>{!! $item->quantity ?? '' !!}</td>
+                                            <td class="text-95">ksh{!! $item->selling_price ?? '' !!}</td>
+                                            <td class="text-secondary-d2">ksh{!! $item->selling_price * $item->quantity ?? '' !!}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -219,7 +220,7 @@
                                         SubTotal
                                     </div>
                                     <div class="col-5">
-                                        <span class="text-120 text-secondary-d1">Ksh {!! $sub->sum('sub_total') !!}</span>
+                                        <span class="text-120 text-secondary-d1">Ksh {!! $sub->sum('sub_total') ?? '' !!}</span>
                                     </div>
                                 </div>
 
@@ -228,7 +229,7 @@
                                         Tax (10%)
                                     </div>
                                     <div class="col-5">
-                                        <span class="text-110 text-secondary-d1">{!! $item->taxrate !!}%</span>
+                                        <span class="text-110 text-secondary-d1">{!! $item->taxrate ?? '' !!}%</span>
                                     </div>
                                 </div>
 
@@ -237,7 +238,7 @@
                                         Total Amount
                                     </div>
                                     <div class="col-5">
-                                        <span class="text-150 text-success-d3 opacity-2">Ksh {!! $total->sum('total_amount') !!}</span>
+                                        <span class="text-150 text-success-d3 opacity-2">Ksh {!! $total->sum('total_amount') ?? '' !!}</span>
                                     </div>
                                 </div>
                             </div>
@@ -249,15 +250,15 @@
             </div>
         </div>
         <div class="col-md-4">
-            <center><a href="{!! route('orders.delivery.allocation', $order->order_code) !!}" class="btn btn-block btn-warning mb-2">Allocate Delivery</a></center>
+            <center><a href="{!! route('orders.delivery.allocation', $order->order_code ?? 1) !!}" class="btn btn-block btn-warning mb-2">Allocate Delivery</a></center>
             @if ($payment)
                 <div class="card">
                     <div class="card-header">Order Payments</div>
                     <div class="card-body">
                         <h6>
-                            <b>Amount:</b> {!! $payment->amount !!} <br>
-                            <b>Payment Date:</b> {!! $payment->payment_date !!}<br>
-                            <b>Payment Method:</b> {!! $payment->payment_method !!}<br>
+                            <b>Amount:</b> {!! $payment->amount ?? '' !!} <br>
+                            <b>Payment Date:</b> {!! $payment->payment_date ?? '' !!}<br>
+                            <b>Payment Method:</b> {!! $payment->payment_method ?? '' !!}<br>
                         </h6>
                         <hr>
                     </div>
