@@ -1,23 +1,23 @@
 <div>
-<div class="col-xl-12 col-md-12 col-12">
+    <div class="col-xl-12 col-md-12 col-12">
         <div class="card">
-                <div class="pt-0 pb-2 d-flex justify-content-end align-items-center mx-50 row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="validationTooltip01" style="padding:10px">Start Date</label>
-                            <input wire:model="start" name="startDate" type="date" class="form-control"
-                                id="validationTooltip01" placeholder="YYYY-MM-DD HH:MM" required />
-                        </div>
+            <div class="pt-0 pb-2 d-flex justify-content-end align-items-center mx-50 row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="validationTooltip01" style="padding:10px">Start Date</label>
+                        <input wire:model="start" name="startDate" type="date" class="form-control"
+                            id="validationTooltip01" placeholder="YYYY-MM-DD HH:MM" required />
                     </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="validationTooltip01" style="padding:10px">End Date</label>
-                            <input wire:model="end" name="startDate" type="date" class="form-control"
-                                id="validationTooltip01" placeholder="YYYY-MM-DD HH:MM" required />
-                        </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="validationTooltip01" style="padding:10px">End Date</label>
+                        <input wire:model="end" name="startDate" type="date" class="form-control"
+                            id="validationTooltip01" placeholder="YYYY-MM-DD HH:MM" required />
                     </div>
                 </div>
             </div>
+        </div>
 
     </div>
 
@@ -31,7 +31,7 @@
                     <h3 class="mt-2 mb-75 pt-50">
                         <?php
                         // Calculate the sum total
-                        $sumTotal = $Cash + $Mpesa + $Cheque + $total;
+                        $sumTotal = $Cash + $Mpesa + $Cheque;
                         ?>
 
                         <a href="javascript:void(0);"> Ksh. {{ number_format($sumTotal) }} </a>
