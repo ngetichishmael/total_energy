@@ -34,14 +34,16 @@ class Sales extends Component
        User::whereId($id)->update(
           ['status' => "Suspended"]
        );
+       session()->flash('success', 'User Disabled Successfully');
        return redirect()->to('/users/sales');
     }
+    
     public function activate($id)
     {
        User::whereId($id)->update(
           ['status' => "Active"]
        );
- 
+       session()->flash('success', 'User Activated Successfully');
        return redirect()->to('/users/sales');
     }
 
@@ -50,7 +52,7 @@ class Sales extends Component
         if ($id) {
             $user = User::where('id', $id);
             $user ->delete();
-
+            session()->flash('success', 'User Deleted Successfully');
             return redirect()->to('/users/sales');
         }
     }

@@ -34,6 +34,7 @@ class LubeSalesExecutive extends Component
        User::whereId($id)->update(
           ['status' => "Suspended"]
        );
+       session()->flash('success', 'User Disabled Successfully');
        return redirect()->to('/users/LubeSalesExecutive');
     }
     public function activate($id)
@@ -41,7 +42,7 @@ class LubeSalesExecutive extends Component
        User::whereId($id)->update(
           ['status' => "Active"]
        );
- 
+       session()->flash('success', 'User Activated Successfully');
        return redirect()->to('/users/LubeSalesExecutive');
     }
 
@@ -50,7 +51,7 @@ class LubeSalesExecutive extends Component
         if ($id) {
             $user = User::where('id', $id);
             $user ->delete();
-
+            session()->flash('success', 'User Deleted Successfully');
             return redirect()->to('/users/LubeSalesExecutive');
         }
     }
