@@ -299,12 +299,21 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('products/brand/{id}/destroy', ['uses' => 'app\products\brandController@destroy', 'as' => 'product.brand.destroy']);
 
    /* === users === */
-   Route::get('users', ['uses' => 'app\usersController@index', 'as' => 'users.index']);
+   Route::get('users', ['uses' => 'app\usersController@index', 'as' => 'user.index']);
    Route::get('user/create', ['uses' => 'app\usersController@create', 'as' => 'user.create']);
    Route::post('user/store', ['uses' => 'app\usersController@store', 'as' => 'user.store']);
    Route::get('user/{id}/edit', ['uses' => 'app\usersController@edit', 'as' => 'user.edit']);
    Route::post('user/{id}/update', ['uses' => 'app\usersController@update', 'as' => 'user.update']);
    Route::get('user{id}/destroy', ['uses' => 'app\usersController@destroy', 'as' => 'user.destroy']);
+   Route::get('user/{id}/view', ['uses' => 'app\usersController@view', 'as' => 'user.view']);
+
+   Route::get('user{id}/suspend', ['uses' => 'app\usersController@suspend', 'as' => 'user.suspend']);
+   Route::get('users', ['uses' => 'app\usersController@index', 'as' => 'users.list']);
+   // Route::get('users-Admins', ['uses' => 'app\usersController@admins', 'as' => 'users.admins']);
+   Route::get('users/admins', ['uses' => 'app\usersController@admins', 'as' => 'users.admins']);
+   Route::get('users/lubemerchandizer', ['uses' => 'app\usersController@lubemerchandizer', 'as' => 'lubemerchandizer']);
+   Route::get('users/sales', ['uses' => 'app\usersController@sales', 'as' => 'sales']);
+   Route::get('users/LubeSalesExecutive', ['uses' => 'app\usersController@LubeSalesExecutive', 'as' => 'LubeSalesExecutive']);
 
    /* === Route Scheduling === */
    Route::get('routes', ['uses' => 'app\routesController@index', 'as' => 'routes.index']);

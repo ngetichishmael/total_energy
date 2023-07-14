@@ -17,10 +17,46 @@ use Illuminate\Support\Facades\Auth as FacadesAuth;
 class usersController extends Controller
 {
    //list
+   public function list()
+   {
+      // $lists = User::whereIn('account_type', ['Admin', 'Manager'])
+      //    ->distinct('account_type')
+      //    ->whereNotIn('account_type', ['Customer'])
+      //    ->groupBy('account_type')
+      //    ->pluck('account_type');
+      // $count = 1;
+      return view('app.users.usertypes');
+   }
    public function index()
    {
-      return view('app.users.index');
+      return view('app.users.usertypes');
    }
+
+   public function admins()
+   {
+      $admins = User::where('account_type', 'Admin');
+      return view('app.users.admins', compact('admins'));
+   }
+
+   public function lubemerchandizer()
+   {
+      $Merchandizer = User::where('account_type', 'Lube Merchandizers');
+      return view('app.users.Merchandizer', compact('Merchandizer'));
+   }
+
+   public function  LubeSalesExecutive()
+   {
+      $LubeSalesExecutive = User::where('account_type', 'Lube Sales Executive');
+      return view('app.users.LubeSalesExecutive', compact('LubeSalesExecutive'));
+   }
+
+   public function  sales()
+   {
+      $sales = User::where('account_type', 'Sales');
+      return view('app.users.sales', compact('sales'));
+   }
+  
+
    public function indexUser()
    {
       return view('app.users.import');

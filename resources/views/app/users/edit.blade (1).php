@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app3')
 {{-- page header --}}
 @section('title', 'Edit User')
 
@@ -10,7 +10,7 @@
 
     <div class="content-header row">
         <div class="mb-2 content-header-left col-md-12 col-12">
-            <div class="row breadcrumbs-top">
+            <div class="row breadcrumbs-top" style="padding-left:10%; padding-right:5%">
                 <div class="col-12">
                     <h2 class="mb-0 content-header-title float-start">Users </h2>
                     <div class="breadcrumb-wrapper">
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="padding-left:10%; padding-right:5%">
         <div class="col-md-10">
             <div class="card">
                 <div class="card-body">
@@ -41,25 +41,26 @@
                                         <div class="row">
                                             <div class="mb-2 col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="first-name-column">User Name</label>
+                                                    <label for="first-name-column">Name</label>
                                                     <input type="text" id="first-name-column" class="form-control"
-                                                        placeholder="User Name" value="{{ $edit->name }}"
-                                                        name="name" />
+                                                        placeholder="User Name" value="{{ $edit->name ?? '' }}"
+                                                        name="name" required />
                                                 </div>
                                             </div>
                                             <div class="mb-2 col-md-6 col-12 ">
                                                 <div class="form-group">
-                                                    <label for="last-name-column">Last Name</label>
+                                                    <label for="last-name-column">Email</label>
                                                     <input type="email" id="last-name-column" class="form-control"
-                                                        value="{{ $edit->email }}" placeholder="Email" name="email" />
+                                                        value="{{ $edit->email ?? '' }}" placeholder="Email" name="email"
+                                                        required />
                                                 </div>
                                             </div>
                                             <div class="mb-2 col-md-6 col-12 ">
                                                 <div class="form-group">
                                                     <label for="city-column">Phone Number</label>
                                                     <input type="tel" id="city-column" class="form-control"
-                                                        pattern="[0789][0-9]{9}" value="{{ $edit->phone_number }}"
-                                                        name="phone_number" />
+                                                        pattern="[0789][0-9]{9}" value="{{ $edit->phone_number ?? '' }}"
+                                                        name="phone_number" required />
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
@@ -72,47 +73,40 @@
                                             <div class="mb-2 col-md-6 col-12 ">
                                                 <div class="form-group">
                                                     <label for="select-country">Current Type:
-                                                        {{ $edit->account_type }}</label>
+                                                        {{ $edit->account_type ?? '' }}</label>
                                                     <select class="form-control select2" id="select-country"
+                                                        name="account_type" required>
+                                                        <option value="{{ $edit->account_type ?? ''}}">  {{ $edit->account_type ?? ''}} </option>
+                                                        <option value="Merchandizer"> </option>
                                                         name="account_type">
-                                                        <option value="">Select Type</option>
+                                                        <option value="">Select Category</option>
                                                         <option value="Admin">Administator</option>
                                                         <option value="Manager">Manager</option>
+                                                        <option value="Account Manager">Account Manager</option>
                                                         <option value="Sales">Sales Agent</option>
-                                                        <option value="Lube Sales Executive">Lube Sales Executive</option>
-                                                        <option value="Lube Merchandizers">Lube Merchandizers</option>
+                                                        <option value="Sales">Merchandizer</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="select-country">Zone</label>
-                                                    <select class="form-control select2" id="select-country" name="route[]"
-                                                        required multiple>
+                                                    <select class="form-control select2" id="select-country" name="route"
+                                                        required>
                                                         <option value="">Zone</option>
-                                                        <option value="0"
-                                                            @if ($edit->route_code == 0) selected @endif>General
-                                                        </option>
-                                                        @foreach ($routes as $value)
-                                                            <option value="{{ $value->id }}"
-                                                                @if ($value->id == $edit->route_code) selected @endif>
-                                                                {{ $value->name }}
-                                                            </option>
-                                                        @endforeach
+                                                        <option value="0">General</option>
+
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="mb-2 col-md-6 col-12 ">
                                                 <div class="form-group">
                                                     <label for="select-country">Current Status:
-                                                        {{ $edit->status }}</label>
-                                                    <select class="form-control" id="select-action" name="status">
-                                                        <option value="Active"
-                                                            @if ($edit->route_code == 'Active') selected @endif>
-                                                            Active</option>
-                                                        <option value="Suspend"
-                                                            @if ($edit->route_code == 'Suspended') selected @endif>
-                                                            Suspended</option>
+                                                        {{ $edit->status ?? '' }}</label>
+                                                    <select class="form-control select2" id="select-action" name="status">
+                                                        <option value="">Select Action</option>
+                                                        <option value="Active">Active</option>
+                                                        <option value="Suspend">Suspend</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -225,9 +219,5 @@
 @endsection
 {{-- page scripts --}}
 @section('script')
-    <script>
-        $(document).ready(function() {
-            $('.js-select2').select2();
-        });
-    </script>
+
 @endsection

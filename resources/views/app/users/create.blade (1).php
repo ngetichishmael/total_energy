@@ -1,7 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.app3')
 {{-- page header --}}
-@section('title', 'Edit User')
+@section('title', 'Create User')
+{{-- page styles --}}
+@section('stylesheets')
 
+@endsection
 
 
 {{-- content section --}}
@@ -10,29 +13,25 @@
 
     <div class="content-header row">
         <div class="mb-2 content-header-left col-md-12 col-12">
-            <div class="row breadcrumbs-top">
+            <div class="row breadcrumbs-top" style="padding-left:10%; padding-right:5%">
                 <div class="col-12">
                     <h2 class="mb-0 content-header-title float-start">Users </h2>
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item"><a href="#">Users</a></li>
-                            <li class="breadcrumb-item active">Edit</li>
+                            <li class="breadcrumb-item active">Create</li>
                         </ol>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="padding-left:10%; padding-right:2%">
         <div class="col-md-10">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST"
-                        action="{{ route('user.update', [
-                            'id' => $user_code,
-                        ]) }}"
-                        style="gap: 20px;">
+                    <form method="POST" action="{!! route('user.store') !!}" style="gap: 20px;">
                         @csrf
                         <div class="row">
                             <div class="col-12">
@@ -41,82 +40,51 @@
                                         <div class="row">
                                             <div class="mb-2 col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="first-name-column">User Name</label>
+                                                    <label for="first-name-column">Name</label>
                                                     <input type="text" id="first-name-column" class="form-control"
-                                                        placeholder="User Name" value="{{ $edit->name }}"
-                                                        name="name" />
-                                                </div>
-                                            </div>
-                                            <div class="mb-2 col-md-6 col-12 ">
-                                                <div class="form-group">
-                                                    <label for="last-name-column">Last Name</label>
-                                                    <input type="email" id="last-name-column" class="form-control"
-                                                        value="{{ $edit->email }}" placeholder="Email" name="email" />
-                                                </div>
-                                            </div>
-                                            <div class="mb-2 col-md-6 col-12 ">
-                                                <div class="form-group">
-                                                    <label for="city-column">Phone Number</label>
-                                                    <input type="tel" id="city-column" class="form-control"
-                                                        pattern="[0789][0-9]{9}" value="{{ $edit->phone_number }}"
-                                                        name="phone_number" />
+                                                        placeholder="name" name="name" required />
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="city-column">Update Password</label>
+                                                    <label for="last-name-column">Email</label>
+                                                    <input type="email" id="last-name-column" class="form-control"
+                                                        placeholder="Email" name="email" required />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="city-column">Phone Number</label>
+                                                    <input type="tel" id="city-column" class="form-control"
+                                                        pattern="[0789][0-9]{9}" placeholder="0700000000"
+                                                        name="phone_number" required />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="city-column">Login Password</label>
                                                     <input type="text" id="city-column" class="form-control"
                                                         placeholder="Password" name="password" />
                                                 </div>
                                             </div>
-                                            <div class="mb-2 col-md-6 col-12 ">
-                                                <div class="form-group">
-                                                    <label for="select-country">Current Type:
-                                                        {{ $edit->account_type }}</label>
-                                                    <select class="form-control select2" id="select-country"
-                                                        name="account_type">
-                                                        <option value="">Select Type</option>
-                                                        <option value="Admin">Administator</option>
-                                                        <option value="Manager">Manager</option>
-                                                        <option value="Sales">Sales Agent</option>
-                                                        <option value="Lube Sales Executive">Lube Sales Executive</option>
-                                                        <option value="Lube Merchandizers">Lube Merchandizers</option>
-                                                    </select>
-                                                </div>
-                                            </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label for="select-country">Zone</label>
-                                                    <select class="form-control select2" id="select-country" name="route[]"
-                                                        required multiple>
-                                                        <option value="">Zone</option>
-                                                        <option value="0"
-                                                            @if ($edit->route_code == 0) selected @endif>General
-                                                        </option>
-                                                        @foreach ($routes as $value)
-                                                            <option value="{{ $value->id }}"
-                                                                @if ($value->id == $edit->route_code) selected @endif>
-                                                                {{ $value->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="mb-2 col-md-6 col-12 ">
-                                                <div class="form-group">
-                                                    <label for="select-country">Current Status:
-                                                        {{ $edit->status }}</label>
-                                                    <select class="form-control" id="select-action" name="status">
-                                                        <option value="Active"
-                                                            @if ($edit->route_code == 'Active') selected @endif>
-                                                            Active</option>
-                                                        <option value="Suspend"
-                                                            @if ($edit->route_code == 'Suspended') selected @endif>
-                                                            Suspended</option>
+                                                    <label for="select-country"> Account Type</label>
+                                                    <select class="form-control select2" id="select-country"
+                                                        name="account_type" required>
+                                                        <option value="Merchandizer"> </option>
+                                                        <option value="Admin">Administator</option>
+                                                        <option value="Manager">Manager</option>
+                                                        <option value="HR">HR</option>
+                                                        <option value="Account Manager">Account Manager</option>
+                                                        <option value="Merchandiser">Merchandiser</option>
+                                                        <option value="Sales">Sales Agent</option>
+                                                        <option value="Sales">Merchandizer</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -145,8 +113,7 @@
                                                             <td>
                                                                 <div class="custom-control custom-checkbox">
                                                                     <input type="checkbox" class="custom-control-input"
-                                                                        id="admin-read" name="van_sales"
-                                                                        @if ($permissions->van_sales === 'YES') checked @endif />
+                                                                        id="admin-read" name="van_sales" checked />
                                                                     <label class="custom-control-label"
                                                                         for="admin-read"></label>
                                                                 </div>
@@ -157,8 +124,7 @@
                                                             <td>
                                                                 <div class="custom-control custom-checkbox">
                                                                     <input type="checkbox" class="custom-control-input"
-                                                                        id="staff-read" name="new_sales"
-                                                                        @if ($permissions->new_sales === 'YES') checked @endif />
+                                                                        id="staff-read" name="new_sales" checked />
                                                                     <label class="custom-control-label"
                                                                         for="staff-read"></label>
                                                                 </div>
@@ -169,8 +135,7 @@
                                                             <td>
                                                                 <div class="custom-control custom-checkbox">
                                                                     <input type="checkbox" class="custom-control-input"
-                                                                        id="author-read" name="deliveries"
-                                                                        @if ($permissions->deliveries === 'YES') checked @endif />
+                                                                        id="author-read" name="deliveries" checked />
                                                                     <label class="custom-control-label"
                                                                         for="author-read"></label>
                                                                 </div>
@@ -182,7 +147,7 @@
                                                                 <div class="custom-control custom-checkbox">
                                                                     <input type="checkbox" class="custom-control-input"
                                                                         id="contributor-read" name="schedule_visits"
-                                                                        @if ($permissions->schedule_visits === 'YES') checked @endif />
+                                                                        checked />
                                                                     <label class="custom-control-label"
                                                                         for="contributor-read"></label>
                                                                 </div>
@@ -193,8 +158,7 @@
                                                             <td>
                                                                 <div class="custom-control custom-checkbox">
                                                                     <input type="checkbox" class="custom-control-input"
-                                                                        id="user-read" name="merchanizing"
-                                                                        @if ($permissions->merchanizing === 'YES') checked @endif />
+                                                                        id="user-read" name="merchanizing" checked />
                                                                     <label class="custom-control-label"
                                                                         for="user-read"></label>
                                                                 </div>
@@ -205,8 +169,8 @@
                                             </div>
                                         </div>
                                         <div class="mt-2 col-12 d-flex flex-sm-row flex-column" style="gap: 20px;">
-                                            <button type="submit"
-                                                class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Update</button>
+                                            <button type="submit" class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Save
+                                                Changes</button>
                                             <a href="{{ route('users.list') }}" type="reset"
                                                 class="btn btn-outline-secondary">Cancel</a>
                                         </div>
@@ -225,9 +189,5 @@
 @endsection
 {{-- page scripts --}}
 @section('script')
-    <script>
-        $(document).ready(function() {
-            $('.js-select2').select2();
-        });
-    </script>
+
 @endsection
