@@ -56,6 +56,11 @@ class usersController extends Controller
       return view('app.users.sales', compact('sales'));
    }
   
+   public function  Distributors()
+   {
+      $Distributors = User::where('account_type', 'Distributors');
+      return view('app.users.distributors', compact('Distributors'));
+   }
 
    public function indexUser()
    {
