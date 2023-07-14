@@ -1,5 +1,38 @@
 <div>
-    <div class="mb-2 row">
+
+<div class="card">
+            <h5 class="card-header"></h5>
+            <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50 row">
+                <div class="col-md-4 user_role">
+                    <div class="input-group input-group-merge">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i data-feather="search"></i></span>
+                        </div>
+                        <input wire:model="search" type="text" id="fname-icon" class="form-control" name="fname-icon" placeholder="Search" />
+                    </div>
+                </div>
+                <div class="col-md-2 user_role">
+                    <div class="form-group">
+                        <label for="selectSmall">Per Page</label>
+                        <select wire:model="perPage" class="form-control form-control-sm" id="selectSmall">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+            
+             <div class="col-md-2" >
+                
+
+                 <a  class="btn btn" style="background-color:#4395d1; color:#ffffff;"  href="{!! route('user.create') !!}" > <i data-feather="user-plus" style="padding:2px"></i>  Add User</a>
+
+             </div>
+             
+            </div>
+        </div>
+    <!-- <div class="mb-2 row">
         <div class="col-md-9">
             <label for="">Search</label>
             <input wire:model.debounce.300ms="search" type="text" class="form-control"
@@ -16,7 +49,7 @@
                 <option value="100">100</option>
             </select>
         </div>
-    </div>
+    </div> -->
     <div class="card card-default">
         <div class="card-body">
             <div class="pt-0 card-datatable">
@@ -42,26 +75,51 @@
                                     {!! $admin->email !!}
                                 </td>
                                 <td>{!! $admin->phone_number !!}</td>
-                                <td>{!! $admin->status !!}</td>
                                 <td>
-                                   <div class="dropdown" >
-                                      <button  class="btn btn-primary dropdown-toggle mr-2" type="button" id="dropdownMenuButton" data-bs-trigger="click" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                                         <i data-feather="settings"></i>
-                                      </button>
-                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                         <a href="{{ route('user.edit', $admin->id) }}" type="button" class="dropdown-item btn btn-sm" style="color: #6df16d;font-weight: bold"><i data-feather="edit"></i> &nbsp;Edit</a>
-                                         <a href="{{ route('visit.target.show', $admin->id) }}" type="button" class="dropdown-item btn btn-sm" style="color: #7cc7e0; font-weight: bold"><i data-feather="eye"></i>&nbsp; Visits</a>             
-                                    @if ($admin->status === 'Active')
-                                        <a wire:click.prevent="deactivate({{ $admin->id }})"
-                                            onclick="confirm('Are you sure you want to DEACTIVATE this user?')||event.stopImmediatePropagation()"
-                                            type="button" class="dropdown-item btn btn-sm me-2" style="color: #e5602f;font-weight: bold" ><i data-feather="pause"></i>&nbsp;Suspend</a>
+                                    @if ($admin->status == 'Active')
+                                        <span class="badge badge-pill badge-light-success mr-1">Active</span>
                                     @else
-                                        <a wire:click.prevent="activate({{ $admin->id }})"
-                                            onclick="confirm('Are you sure you want to ACTIVATE this user?')||event.stopImmediatePropagation()"
-                                            type="button" class="dropdown-item btn btn-sm me-2" style="color:  #54a149; font-weight: bold"><i data-feather="check"></i>&nbsp;Activate </a>
+                                        <span class="badge badge-pill badge-light-warning mr-1">Disabled</span>
                                     @endif
-                                      </div>
-                                   </div>
+                                </td>
+
+                                <td>
+                                    <div class="dropdown">
+                                    <button class="btn btn dropdown-toggle mr-2" style="background-color:#4395d1; color:#ffffff; padding: 6px 14px; font-size: 12px;" type="button" id="dropdownMenuButton" data-bs-trigger="click" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                                        <i data-feather="settings"></i>
+                                    </button>
+
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{{ route('user.edit', $admin->id) }}">
+                                                <i data-feather='edit' class="mr-50"></i>
+                                                <span>Edit</span>
+                                            </a>
+                                            <a class="dropdown-item" href="{{ route('visit.target.show', $admin->id) }}">
+                                                <i data-feather='eye' class="mr-50"></i>
+                                                <span>Visits</span>
+                                            </a>
+                                            @if ($admin->status == 'Active')
+                                                <a wire:click.prevent="deactivate({{ $admin->id }})"
+                                                    onclick="confirm('Are you sure you want to DEACTIVATE this Admin?')||event.stopImmediatePropagation()"
+                                                    class="dropdown-item">
+                                                    <i data-feather='check-circle' class="mr-50"></i>
+                                                    <span>Suspend</span>
+                                                </a>
+                                            @else
+                                                <a wire:click.prevent="activate({{ $admin->id }})"
+                                                    onclick="confirm('Are you sure you want to ACTIVATE this Admin?')||event.stopImmediatePropagation()"
+                                                    class="dropdown-item">
+                                                    <i data-feather='x-circle' class="mr-50"></i>
+                                                    <span>Activate</span>
+                                                </a>
+                                            @endif
+                                            <a class="dropdown-item" wire:click.prevent="destroy({{ $admin->id }})"
+                                                onclick="confirm('Are you sure you want to delete the User?')||event.stopImmediatePropagation()">
+                                                <i data-feather="trash" class="mr-50"></i>
+                                                <span>Delete</span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

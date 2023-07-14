@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app1')
 {{-- page header --}}
 @section('title', 'Merchandizers')
 
@@ -7,7 +7,7 @@
     <!-- begin breadcrumb -->
     <div class="mb-2 row">
         <div class="col-md-9">
-            <h2 class="page-header"> Merchandizers </h2>
+            <h2 class="page-header"> Lube Merchandizers </h2>
         </div>
         <div class="col-md-3">
             <center>

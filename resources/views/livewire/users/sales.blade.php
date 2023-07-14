@@ -25,7 +25,7 @@
              <div class="col-md-2">
                 
 
-                 <a href="{!! route('user.create') !!}" class="btn btn-gradient-success" style="background-color: #027333; color:white"> <i data-feather="user-plus" style="padding:2px"></i>  Add User</a>
+                 <a href="{!! route('user.create') !!}" class="btn btn" style="background-color: #4395d1; color:white"> <i data-feather="user-plus" style="padding:2px"></i>  Add User</a>
 
              </div>
              
@@ -64,9 +64,9 @@
                 </td>
                 <td>
                     <div class="dropdown">
-                    <button  class="btn btn-primary dropdown-toggle mr-2" type="button" id="dropdownMenuButton" data-bs-trigger="click" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                                         <i data-feather="settings"></i>
-                                      </button>
+                    <button class="btn btn dropdown-toggle mr-2" style="background-color:#4395d1; color:#ffffff; padding: 6px 14px; font-size: 12px;" type="button" id="dropdownMenuButton" data-bs-trigger="click" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                                        <i data-feather="settings"></i>
+                                    </button>
                         <div class="dropdown-menu">
                             <!-- <a class="dropdown-item" href="{{ route('user.view', $user->id) }}">
                                 <i data-feather="eye" class="mr-50"></i>
@@ -76,16 +76,20 @@
                                 <i data-feather='edit' class="mr-50"></i>
                                 <span>Edit</span>
                             </a>
+                            <a class="dropdown-item" href="{{ route('visit.target.show', $user->id) }}">
+                                                <i data-feather='eye' class="mr-50"></i>
+                                                <span>Visits</span>
+                                            </a>
                             @if ($user->status == 'Active')
                                 <a wire:click.prevent="deactivate({{ $user->id }})"
-                                    onclick="confirm('Are you sure you want to DEACTIVATE this user?')||event.stopImmediatePropagation()"
+                                    onclick="confirm('Are you sure you want to DEACTIVATE this sales user?')||event.stopImmediatePropagation()"
                                     class="dropdown-item">
                                     <i data-feather='check-circle' class="mr-50"></i>
                                     <span>Suspend</span>
                                 </a>
                             @else
                                 <a wire:click.prevent="activate({{ $user->id }})"
-                                    onclick="confirm('Are you sure you want to ACTIVATE this user?')||event.stopImmediatePropagation()"
+                                    onclick="confirm('Are you sure you want to ACTIVATE this sales user?')||event.stopImmediatePropagation()"
                                     class="dropdown-item">
                                     <i data-feather='x-circle' class="mr-50"></i>
                                     <span>Activate</span>
