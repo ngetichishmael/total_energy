@@ -35,7 +35,7 @@ class Distributors extends Component
           ['status' => "Suspended"]
        );
        session()->flash('success', 'Distributor Disabled Successfully');
-       return redirect()->to('/users/sales');
+       return redirect()->to('/users/Distributors');
     }
     
     public function activate($id)
@@ -44,7 +44,7 @@ class Distributors extends Component
           ['status' => "Active"]
        );
        session()->flash('success', 'Distributor Activated Successfully');
-       return redirect()->to('/users/sales');
+       return redirect()->to('/users/Distributors');
     }
 
     public function destroy($id)
@@ -53,7 +53,7 @@ class Distributors extends Component
             $user = User::where('id', $id);
             $user ->delete();
             session()->flash('success', 'Distributor Deleted Successfully');
-            return redirect()->to('/users/sales');
+            return redirect()->to('/users/Distributors');
         }
     }
 
