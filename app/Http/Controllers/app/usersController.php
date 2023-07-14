@@ -132,7 +132,7 @@ class usersController extends Controller
       }
       (new SMS())($request->phone_number, $message);
       session()->flash('success', 'User Created Successfully');
-      return redirect()->route('users.index');
+      return redirect()->route('users.list');
    }
 
    public function edit($id)
@@ -213,13 +213,13 @@ class usersController extends Controller
          (new SMS())($request->phone_number, $message);
       }
       Session()->flash('success', 'User updated Successfully');
-      return redirect()->route('users.index');
+      return redirect()->route('users.list');
    }
    public function destroy($id)
    {
       User::where('id', $id)->delete();
       Session()->flash('success', 'User deleted Successfully');
-      return redirect()->route('users.index');
+      return redirect()->route('users.list');
    }
    public function import()
    {

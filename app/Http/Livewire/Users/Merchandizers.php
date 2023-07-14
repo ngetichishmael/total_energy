@@ -34,6 +34,7 @@ class Merchandizers extends Component
        User::whereId($id)->update(
           ['status' => "Suspended"]
        );
+       session()->flash('success', 'Merchandizer Disabled Successfully');
        return redirect()->to('/users/lubemerchandizer');
     }
     public function activate($id)
@@ -41,7 +42,7 @@ class Merchandizers extends Component
        User::whereId($id)->update(
           ['status' => "Active"]
        );
- 
+       session()->flash('success', 'Merchandizer Activated Successfully');
        return redirect()->to('/users/lubemerchandizer');
     }
 
@@ -50,7 +51,7 @@ class Merchandizers extends Component
         if ($id) {
             $user = User::where('id', $id);
             $user ->delete();
-
+            session()->flash('success', 'Merchandizer Deleted Successfully');
             return redirect()->to('/users/lubemerchandizer');
         }
     }

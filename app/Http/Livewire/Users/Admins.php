@@ -35,6 +35,7 @@ class Admins extends Component
        User::whereId($id)->update(
           ['status' => "Suspended"]
        );
+       session()->flash('success', 'Admin Disabled Successfully');
        return redirect()->to('/users/admins');
     }
     public function activate($id)
@@ -42,7 +43,7 @@ class Admins extends Component
        User::whereId($id)->update(
           ['status' => "Active"]
        );
- 
+       session()->flash('success', 'Admin Activated Successfully');
        return redirect()->to('/users/admins');
     }
  
@@ -51,7 +52,7 @@ class Admins extends Component
         if ($id) {
             $user = User::where('id', $id);
             $user ->delete();
- 
+            session()->flash('success', 'Admin Deleted Successfully');
             return redirect()->to('/users/admins');
         }
     }
