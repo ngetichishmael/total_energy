@@ -19,7 +19,7 @@ class Dashboard extends Component
     public $perPage = 10;
     public $search = null;
     public $start = null;
-    public ?string $end = null;
+    public $end = null;
     public function render()
     {
 
