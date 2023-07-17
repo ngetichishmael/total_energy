@@ -3,9 +3,8 @@
 namespace App\Http\Livewire\Customers;
 
 use App\Exports\customers as ExportsCustomers;
-use App\Models\Area;
+use App\Models\AssignedRegion;
 use App\Models\customers;
-use App\Models\Subregion;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -20,6 +19,12 @@ class Dashboard extends Component
     public $search = null;
     public $start = null;
     public $end = null;
+    public $user;
+
+    public function mount()
+    {
+        $this->user = Auth::user();
+    }
     public function render()
     {
 
@@ -48,10 +53,11 @@ class Dashboard extends Component
     }
     public function areas()
     {
-        $user = Auth::user();
-        $subregions = Subregion::where('region_id', $user->route_code)->pluck('id');
-        $areas = Area::whereIn('subregion_id', $subregions)->pluck('id');
-        return $areas;
+        $user_code = $this->user->user_code;
+
+        $regions = AssignedRegion::where('user_code', $user_code)->pluck('region_id');
+        return $regions->toArray();
+
     }
     public function getCustomer()
     {
@@ -59,7 +65,7 @@ class Dashboard extends Component
         $query = customers::search($searchTerm)
             ->orderBy('id', 'DESC');
         if (Auth::user()->account_type != 'Admin') {
-            $query->whereIn('unit_id', $this->areas());
+            $query->whereIn('region_id', $this->areas());
         }
         if (is_null($this->start) && is_null($this->end)) {
             $contacts = $query->paginate($this->perPage);
