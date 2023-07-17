@@ -14,7 +14,7 @@ class Index extends Component
    public $perPage = 10;
    public $orderBy = 'id';
    public $orderAsc = true;
-   public ?string $search = null;
+   public $search = null;
    public $account = null;
 
    public function render()
