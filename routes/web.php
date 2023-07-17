@@ -314,6 +314,7 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('users/lubemerchandizer', ['uses' => 'app\usersController@lubemerchandizer', 'as' => 'lubemerchandizer']);
    Route::get('users/sales', ['uses' => 'app\usersController@sales', 'as' => 'sales']);
    Route::get('users/LubeSalesExecutive', ['uses' => 'app\usersController@LubeSalesExecutive', 'as' => 'LubeSalesExecutive']);
+   Route::get('users/Distributors', ['uses' => 'app\usersController@Distributors', 'as' => 'Distributors']);
 
    /* === Route Scheduling === */
    Route::get('routes', ['uses' => 'app\routesController@index', 'as' => 'routes.index']);

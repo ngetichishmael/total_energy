@@ -45,6 +45,8 @@
                                 <a href="{{ route('lubemerchandizer') }}" class="btn btn-primary btn-sm">View </a>
                              @elseif($list == 'Sales')
                                 <a href="{{ route('sales') }}" class="btn btn-primary btn-sm">View </a>
+                                @elseif($list == 'Distributors')
+                                <a href="{{ route('Distributors') }}" class="btn btn-primary btn-sm">View </a>
                              @endif
                           </div>
                        </td>

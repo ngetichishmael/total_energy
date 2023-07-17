@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\zone;
 use Livewire\WithPagination;
 
-class LubeSalesExecutive extends Component
+class Distributors extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -21,29 +21,30 @@ class LubeSalesExecutive extends Component
     public function render()
     {
        $searchTerm = '%' . $this->search . '%';
-       $LubeSalesExecutive =  User::where('account_type', ['Lube Sales Executive'])->whereLike([
+       $distributors =  User::where('account_type', ['Distributors'])->whereLike([
           'Region.name', 'name', 'email', 'phone_number',
        ], $searchTerm)
           ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc')
           ->paginate($this->perPage);
  
-       return view('livewire.users.lube-sales-executive', compact('LubeSalesExecutive'));
+       return view('livewire.users.distributors', compact('distributors'));
     }
     public function deactivate($id)
     {
        User::whereId($id)->update(
           ['status' => "Suspended"]
        );
-       session()->flash('success', 'User Disabled Successfully');
-       return redirect()->to('/users/LubeSalesExecutive');
+       session()->flash('success', 'Distributor Disabled Successfully');
+       return redirect()->to('/users/Distributors');
     }
+    
     public function activate($id)
     {
        User::whereId($id)->update(
           ['status' => "Active"]
        );
-       session()->flash('success', 'User Activated Successfully');
-       return redirect()->to('/users/LubeSalesExecutive');
+       session()->flash('success', 'Distributor Activated Successfully');
+       return redirect()->to('/users/Distributors');
     }
 
     public function destroy($id)
@@ -51,8 +52,8 @@ class LubeSalesExecutive extends Component
         if ($id) {
             $user = User::where('id', $id);
             $user ->delete();
-            session()->flash('success', 'User Deleted Successfully');
-            return redirect()->to('/users/LubeSalesExecutive');
+            session()->flash('success', 'Distributor Deleted Successfully');
+            return redirect()->to('/users/Distributors');
         }
     }
 

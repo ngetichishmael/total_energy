@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app1')
 {{-- page header --}}
 @section('title', 'Create User')
 {{-- page styles --}}
@@ -12,7 +12,7 @@
     <!-- begin breadcrumb -->
     <div class="content-header row">
         <div class="mb-2 content-header-left col-md-12 col-12">
-            <div class="row breadcrumbs-top">
+            <div class="row breadcrumbs-top" style="padding-left:5%; padding-right:5%">
                 <div class="col-12">
                     <h2 class="mb-0 content-header-title float-start">Users </h2>
                     <div class="breadcrumb-wrapper">
@@ -26,8 +26,8 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-10">
+    <div class="row" style="padding-left:5%; padding-right:5%">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <form method="POST" action="{!! route('user.store') !!}" style="gap: 20px;">
@@ -73,8 +73,7 @@
                                                         name="account_type" required>
                                                         <option value="">Select Category</option>
                                                         <option value="Admin">Administator</option>
-                                                        <option value="Manager">Manager</option>
-                                                        <option value="Distributor">Distributor</option>
+                                                        <option value="Distributors">Distributors</option>
                                                         <option value="Sales">Sales Agent</option>
                                                         <option value="Lube Sales Executive">Lube Sales Executive</option>
                                                         <option value="Lube Merchandizers">Lube Merchandizers</option>
@@ -180,12 +179,16 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="mt-2 col-12 d-flex flex-sm-row flex-column" style="gap: 20px;">
-                                            <button type="submit" class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Save
-                                                Changes</button>
-                                            <a href="{{ route('users.index') }}" type="reset"
+                                        <div class="mt-2 col-12 d-flex flex-sm-row flex-column justify-content-center"
+                                            style="gap: 20px;">
+                                            <button type="submit"
+                                                class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Save</button>
+                                            <a href="{{ route('users.list') }}" type="reset"
                                                 class="btn btn-outline-secondary">Cancel</a>
                                         </div>
+
+
+
                                     </div>
                                 </form>
                                 <!-- users edit account form ends -->
