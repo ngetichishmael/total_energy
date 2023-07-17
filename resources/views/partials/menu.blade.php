@@ -1,19 +1,23 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
-<div class="navbar-header mb-1">
+    <div class="navbar-header mb-1">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto">
-            <a class="navbar-brand" href="{{ url('/dashboard') }}">
-                        
-                    <h2 class="brand-text" style="color:#FFFFFF; font-size:28px;  font-family: Montserrat;">Total Energies</h2>
+                <a class="navbar-brand" href="{{ url('/dashboard') }}">
+
+                    <h2 class="brand-text" style="color:#FFFFFF; font-size:28px;  font-family: Montserrat;">Total Energies
+                    </h2>
                 </a>
             </li>
-        <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
+            <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i
+                        class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i
+                        class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc"
+                        data-ticon="disc"></i></a></li>
         </ul>
     </div>
 
 
 
-<div class="shadow-bottom"></div>
+    <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
             <li class=" nav-item {!! Nav::isRoute('app.dashboard') !!}">
@@ -123,8 +127,9 @@
             <a class="d-flex align-items-center" href="#"><i data-feather='truck'></i><span
                     class="menu-title text-truncate" data-i18n="Invoice">Visits</span></a>
             <ul class="menu-content">
-                <li><a class="nav-item {!! Nav::isResource('UsersVisits') !!} d-flex align-items-center" href="{!! route('UsersVisits') !!}"><i
-                            data-feather="user"></i><span class="menu-item text-truncate">Users</span></a>
+                <li><a class="nav-item {!! Nav::isResource('UsersVisits') !!} d-flex align-items-center"
+                        href="{!! route('UsersVisits') !!}"><i data-feather="user"></i><span
+                            class="menu-item text-truncate">Users</span></a>
                 </li>
                 <li><a class="d-flex align-items-center" href="{!! route('CustomerVisits') !!}"><i
                             data-feather="users"></i><span class="menu-item text-truncate">Customers</span></a>
@@ -264,7 +269,7 @@
                     data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Invoice">
                     All Reports</span></a>
         </li>
-        <li class="nav-item {!! Nav::isResource('settings') !!}">
+        {{-- <li class="nav-item {!! Nav::isResource('settings') !!}">
             <a class="d-flex align-items-center" href="#"><i data-feather='settings'></i><span
                     class="menu-title text-truncate" data-i18n="Invoice"> Settings</span></a>
             <ul class="menu-content">
@@ -272,11 +277,11 @@
                             data-feather="circle"></i><span class="menu-item text-truncate">Account</span></a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
         </ul>
 
         <br>
         <br>
     </div>
-    
+
 </div>
