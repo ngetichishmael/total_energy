@@ -74,6 +74,7 @@
                                                         <option value="">Select Category</option>
                                                         <option value="Admin">Administator</option>
                                                         <option value="Manager">Manager</option>
+                                                        <option value="Distributor">Distributor</option>
                                                         <option value="Sales">Sales Agent</option>
                                                         <option value="Lube Sales Executive">Lube Sales Executive</option>
                                                         <option value="Lube Merchandizers">Lube Merchandizers</option>
