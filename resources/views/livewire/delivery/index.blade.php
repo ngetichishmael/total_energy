@@ -38,7 +38,7 @@
                             <td title="{{ $deliver->Customer->customer_name ?? null }}">
                                 {{ Str::limit($deliver->Customer->customer_name ?? null, 20) }}</td>
                             <td title="{{ $deliver->Customer->Region->name ?? null }}">
-                                {{ Str::limit($deliver->Customer->Region->name ?? null, 20) }}</td>
+                                {{ Str::limit($deliver->Customer->Region->name ?? "Nairobi", 20) }}</td>
                             <td>{!! $deliver->User->name !!}</td>
                             <td>{!! $deliver->updated_at !!}</td>
                             <td><a href="" class="badge {!! $deliver->delivery_status !!}"
