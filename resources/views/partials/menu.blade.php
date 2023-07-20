@@ -94,15 +94,13 @@
             </li>
         </ul>
         </li>
-        <li class="nav-item {!! Nav::isResource('inventory') !!}">
-            <a class="d-flex align-items-center" href="#"><i data-feather='package'></i><span
-                    class="menu-title text-truncate" data-i18n="Invoice"> Inventory</span></a>
-            <ul class="menu-content">
-                <li><a class="d-flex align-items-center" href="{!! route('inventory.allocated') !!}"><i
-                            data-feather="circle"></i><span class="menu-item text-truncate">Allocated
-                            Stock</span></a></li>
-            </ul>
+        <li class="nav-item {!! Nav::isRoute('inventory.allocated') !!}">
+            <a class="d-flex align-items-center nav-item {!! Nav::isResource('inventory.allocated') !!}" href="{!! route('inventory.allocated') !!}">
+                <i data-feather="menu"></i>
+                <span class="menu-item text-truncate">Allocated Stock</span>
+            </a>
         </li>
+
         <li class="nav-item {!! Nav::isRoute('customer') !!}">
             <a class="d-flex align-items-center" href="#">
                 <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Todo">
@@ -113,13 +111,11 @@
                             data-feather="users"></i><span class="menu-item text-truncate">Customers</span></a>
                 </li>
                 <li><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}" href="{{ route('outlets') }}"><i
-                            data-feather="circle"></i><span class="menu-item text-truncate">Customer
-                            OutLets</span></a>
+                            data-feather="circle"></i><span class="menu-item text-truncate">OutLets</span></a>
                 </li>
                 <li><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}"
                         href="{{ route('CustomerComment') }}"><i data-feather="circle"></i><span
-                            class="menu-item text-truncate">Customer
-                            Comments</span></a>
+                            class="menu-item text-truncate">Comments</span></a>
                 </li>
             </ul>
         </li>
