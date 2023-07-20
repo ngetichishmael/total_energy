@@ -21,6 +21,7 @@
                     <tr>
                         <th width="1%">#</th>
                         <th>Name</th>
+                        <th>Sales Name</th>
                         <th>Status</th>
                         <th>Type</th>
                         <th>Start Date</th>
@@ -32,6 +33,7 @@
                         <tr>
                             <td>{!! $count + 1 !!}</td>
                             <td>{!! $route->name !!}</td>
+                            <td>{!! $route->user->name ?? '' !!}</td>
                             <td>{!! $route->status !!}</td>
                             <td>{!! $route->Type !!}</td>
                             <td>{!! $route->start_date !!}</td>
