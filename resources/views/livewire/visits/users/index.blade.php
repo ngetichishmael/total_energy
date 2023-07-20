@@ -12,7 +12,7 @@
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('app.dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{!! route('users.index') !!}">Users</a></li>
+                            <li class="breadcrumb-item"><a href="{!! route('users.list') !!}">Users</a></li>
                             <li class="breadcrumb-item active">List</li>
                         </ol>
                     </div>
