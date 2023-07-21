@@ -14,6 +14,7 @@
   'dashboard.line-chart' => 'App\\Http\\Livewire\\Dashboard\\LineChart',
   'dashboard.percentage-targets' => 'App\\Http\\Livewire\\Dashboard\\PercentageTargets',
   'delivery.index' => 'App\\Http\\Livewire\\Delivery\\index',
+  'distributor.dashboard' => 'App\\Http\\Livewire\\Distributor\\Dashboard',
   'individual.leads' => 'App\\Http\\Livewire\\Individual\\Leads',
   'inventory.allocated' => 'App\\Http\\Livewire\\Inventory\\Allocated',
   'inventory.items' => 'App\\Http\\Livewire\\Inventory\\Items',

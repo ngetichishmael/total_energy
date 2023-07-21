@@ -4,7 +4,7 @@
             <li class="nav-item me-auto">
             <a class="navbar-brand" href="{{ url('/dashboard') }}">
                         
-                    <h2 class="brand-text" style="color:#FFFFFF; font-size:28px;  font-family: Montserrat;">Total Energies</h2>
+                    <h2 class="brand-text" style="color:#000; font-size:28px;  font-family: Montserrat;">Total Energies</h2>
                 </a>
             </li>
         <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
@@ -48,13 +48,14 @@
                 <ul class="menu-content">
                     <li><a class="d-flex align-items-center" href="{!! route('product.index') !!}"><i
                                 data-feather="circle"></i><span class="menu-item text-truncate">Products</span></a></li>
+                   
+                    @if (Auth::user()->account_type === 'Admin')
                     <li><a class="d-flex align-items-center" href="{!! route('product.category') !!}"><i
                                 data-feather="circle"></i><span class="menu-item text-truncate">Categories</span></a>
                     </li>
                     <li><a class="d-flex align-items-center" href="{!! route('product.brand') !!}"><i
                                 data-feather="circle"></i><span class="menu-item text-truncate">Brands</span></a></li>
-                    {{-- <li><a class="d-flex align-items-center" href="{!! route('product.brand') !!}"><i
-                                data-feather="circle"></i><span class="menu-item text-truncate">Outlets</span></a></li> --}}
+                    @endif
                 </ul>
             </li>
             <li class="nav-item {!! Nav::isResource('notification') !!}">
@@ -131,6 +132,7 @@
                 </li>
             </ul>
         </li>
+        @if (Auth::user()->account_type === 'Admin')
         <li class="nav-item {!! Nav::isResource('supplier') !!}">
             <a class="d-flex align-items-center" href="#"><i data-feather='refresh-ccw'></i><span
                     class="menu-title text-truncate" data-i18n="Invoice">Suppliers</span></a>
@@ -143,6 +145,7 @@
                 </li>
             </ul>
         </li>
+       
         <li class="nav-item {!! Nav::isResource('target') !!}">
             <a class="d-flex align-items-center" href="#"><i data-feather="target"></i><span
                     class="menu-title text-truncate" data-i18n="Invoice">Target</span></a>
@@ -161,6 +164,7 @@
                 </li>
             </ul>
         </li>
+        @endif
         <li class="nav-item {!! Nav::isResource('orders') !!}">
             <a class="d-flex align-items-center" href="#">
                 <i data-feather='shopping-cart'></i><span class="menu-title text-truncate" data-i18n="Todo">
@@ -254,25 +258,28 @@
                             Warehouse</span></a></li>
             </ul>
         </li>
+        @if (Auth::user()->account_type === 'Admin')
         <li class="nav-item {!! Nav::isResource('users') !!}">
             <a class="d-flex align-items-center" href="{!! route('users.list') !!}">
                 <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Todo"> Users</span>
             </a>
         </li>
-        <li class="nav-item {!! Nav::isResource('reports') !!}">
-            <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i
-                    data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Invoice">
-                    All Reports</span></a>
-        </li>
-        <li class="nav-item {!! Nav::isResource('settings') !!}">
-            <a class="d-flex align-items-center" href="#"><i data-feather='settings'></i><span
-                    class="menu-title text-truncate" data-i18n="Invoice"> Settings</span></a>
-            <ul class="menu-content">
-                <li><a class="d-flex align-items-center" href="{!! route('settings.account') !!}"><i
-                            data-feather="circle"></i><span class="menu-item text-truncate">Account</span></a>
-                </li>
-            </ul>
-        </li>
+
+            <li class="nav-item {!! Nav::isResource('reports') !!}">
+                <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i
+                        data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Invoice">
+                        All Reports</span></a>
+            </li>
+            <li class="nav-item {!! Nav::isResource('settings') !!}">
+                <a class="d-flex align-items-center" href="#"><i data-feather='settings'></i><span
+                        class="menu-title text-truncate" data-i18n="Invoice"> Settings</span></a>
+                <ul class="menu-content">
+                    <li><a class="d-flex align-items-center" href="{!! route('settings.account') !!}"><i
+                                data-feather="circle"></i><span class="menu-item text-truncate">Account</span></a>
+                    </li>
+                </ul>
+            </li>
+        @endif
         </ul>
 
         <br>
