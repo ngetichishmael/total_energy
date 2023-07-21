@@ -623,11 +623,11 @@ footer.footer-border {
 
 .main-menu.menu-light {
    color: #333333;
-   background: #FFFFFF;
+   background: #fff;
 }
 
 .main-menu.menu-light .navigation {
-   background: #FFFFFF;
+   background: #fff;
 }
 
 .main-menu.menu-light .navigation .navigation-header {
