@@ -622,16 +622,16 @@ footer.footer-border {
 }
 
 .main-menu.menu-light {
-   color: #6e6b7b;
-   background: #333333;
+   color: #333333;
+   background: #fff;
 }
 
 .main-menu.menu-light .navigation {
-   background: #333333;
+   background: #fff;
 }
 
 .main-menu.menu-light .navigation .navigation-header {
-   color: #a6a4b0;
+   color: #333333;
    margin: calc(2rem + 0.286rem) 0 0.8rem 2.2rem;
    padding: 0;
    line-height: 1.5;
@@ -647,7 +647,7 @@ footer.footer-border {
 }
 
 .main-menu.menu-light .navigation li a {
-   color: #ffffff;
+   color: #000;
    padding: 10px 15px 10px 15px;
    line-height: 1.45;
 }
@@ -726,7 +726,7 @@ footer.footer-border {
 
 .main-menu.menu-light .navigation>li.active>a {
    /* background: linear-gradient(118deg, #007ec4, #007ec4); */
-   background: linear-gradient(118deg, red, blue);
+   background: rgb(118, 1, 1);
    box-shadow: 0 0 10px 1px yellow;
    color: #fff;
    font-weight: 400;
