@@ -663,6 +663,7 @@ footer.footer-border {
 .main-menu.menu-light .navigation li.nav-item a:hover>* {
    transition: transform 0.25s ease;
    transform: translateX(5px);
+   color: #000;
 }
 
 .main-menu.menu-light .navigation li.nav-item ul.menu-content li a:hover>* {
@@ -704,7 +705,7 @@ footer.footer-border {
 
 .main-menu.menu-light .navigation>li.open:not(.menu-item-closing)>a,
 .main-menu.menu-light .navigation>li.sidebar-group-active>a {
-   color: #ffffff;
+   color: #000;
    /* background: whitesmoke; */
    /* border-radius: 6px; */
 }
