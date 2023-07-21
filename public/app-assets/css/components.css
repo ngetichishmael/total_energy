@@ -715,7 +715,7 @@ footer.footer-border {
 }
 
 .main-menu.menu-light .navigation>li:not(.open)>ul .active {
-   background: transparent;
+   background:  #0186f5;
    box-shadow: none;
    font-size: 10px;
 }
@@ -772,14 +772,14 @@ footer.footer-border {
 }
 
 .main-menu.menu-light .navigation>li ul .has-sub:not(.open)>ul .active {
-   background: transparent;
+   background:  #0186f5;
    box-shadow: none;
 }
 
 .main-menu.menu-light .navigation>li ul .open>a,
 .main-menu.menu-light .navigation>li ul .sidebar-group-active>a {
    color: #6e6b7b;
-   background: whitesmoke;
+   background:  #0186f5;
    border-radius: 6px;
 }
 
