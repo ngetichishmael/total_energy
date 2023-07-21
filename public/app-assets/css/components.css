@@ -726,11 +726,11 @@ footer.footer-border {
 
 .main-menu.menu-light .navigation>li.active>a {
    /* background: linear-gradient(118deg, #007ec4, #007ec4); */
-   background: rgb(118, 1, 1);
-   box-shadow: 0 0 10px 1px yellow;
+   background:  #fc0103;
+   box-shadow: 0 0 10px 1px white;
    color: #fff;
    font-weight: 400;
-   border-radius: 4px;
+   border-radius: 8px;
 }
 
 .main-menu.menu-light .navigation>li .active {
@@ -799,10 +799,9 @@ footer.footer-border {
 }
 
 .main-menu.menu-light .navigation>li ul .active {
-   background: linear-gradient(118deg, green, blue);
-   box-shadow: 0 0 10px 1px yellow;
-   7);
-   */ border-radius: 4px;
+   background: #0186f5;
+   box-shadow: 0 0 10px 1px white;
+   border-radius: 4px;
    z-index: 1;
 }
 
