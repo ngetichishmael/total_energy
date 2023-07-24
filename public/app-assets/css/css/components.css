@@ -623,11 +623,11 @@ footer.footer-border {
 
 .main-menu.menu-light {
    color: #333333;
-   background: #FFFFFF;
+   background: #fff;
 }
 
 .main-menu.menu-light .navigation {
-   background: #FFFFFF;
+   background: #fff;
 }
 
 .main-menu.menu-light .navigation .navigation-header {
@@ -663,7 +663,6 @@ footer.footer-border {
 .main-menu.menu-light .navigation li.nav-item a:hover>* {
    transition: transform 0.25s ease;
    transform: translateX(5px);
-   color: #000;
 }
 
 .main-menu.menu-light .navigation li.nav-item ul.menu-content li a:hover>* {
@@ -705,7 +704,7 @@ footer.footer-border {
 
 .main-menu.menu-light .navigation>li.open:not(.menu-item-closing)>a,
 .main-menu.menu-light .navigation>li.sidebar-group-active>a {
-   color: #000;
+   color: #ffffff;
    /* background: whitesmoke; */
    /* border-radius: 6px; */
 }
@@ -716,7 +715,7 @@ footer.footer-border {
 }
 
 .main-menu.menu-light .navigation>li:not(.open)>ul .active {
-   background: #0186f5;
+   background: transparent;
    box-shadow: none;
    font-size: 10px;
 }
@@ -727,11 +726,11 @@ footer.footer-border {
 
 .main-menu.menu-light .navigation>li.active>a {
    /* background: linear-gradient(118deg, #007ec4, #007ec4); */
-   background: #fc0103;
-   box-shadow: 0 0 10px 1px white;
+   background: rgb(118, 1, 1);
+   box-shadow: 0 0 10px 1px yellow;
    color: #fff;
    font-weight: 400;
-   border-radius: 8px;
+   border-radius: 4px;
 }
 
 .main-menu.menu-light .navigation>li .active {
@@ -773,14 +772,14 @@ footer.footer-border {
 }
 
 .main-menu.menu-light .navigation>li ul .has-sub:not(.open)>ul .active {
-   background: #0186f5;
+   background: transparent;
    box-shadow: none;
 }
 
 .main-menu.menu-light .navigation>li ul .open>a,
 .main-menu.menu-light .navigation>li ul .sidebar-group-active>a {
    color: #6e6b7b;
-   background: #0186f5;
+   background: whitesmoke;
    border-radius: 6px;
 }
 
@@ -800,9 +799,10 @@ footer.footer-border {
 }
 
 .main-menu.menu-light .navigation>li ul .active {
-   background: #0186f5;
-   box-shadow: 0 0 10px 1px white;
-   border-radius: 4px;
+   background: linear-gradient(118deg, green, blue);
+   box-shadow: 0 0 10px 1px yellow;
+   7);
+   */ border-radius: 4px;
    z-index: 1;
 }
 

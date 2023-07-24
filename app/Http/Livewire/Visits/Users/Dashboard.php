@@ -56,6 +56,10 @@ class Dashboard extends Component
         return $visits;
     }
 
+    public function getRegions($user_code)
+    {
+
+    }
     public function updatedStart()
     {
         //  $this->mount();

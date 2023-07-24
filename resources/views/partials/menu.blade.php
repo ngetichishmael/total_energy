@@ -3,9 +3,9 @@
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto">
                 <a class="navbar-brand" href="{{ url('/dashboard') }}">
+                    <img src="{!! asset('app-assets/images/small_logo.png') !!}" alt="soko flow" class="img" width="170px" height="55px">
 
-                    <h2 class="brand-text" style="color:#000; font-size:28px;  font-family: Montserrat;">Total Energies
-                    </h2>
+                    <!-- <h2 class="brand-text" style="color:#000; font-size:28px;  font-family: Montserrat;">Total Energies</h2> -->
                 </a>
             </li>
             <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i
@@ -293,4 +293,5 @@
         <br>
         <br>
     </div>
+
 </div>

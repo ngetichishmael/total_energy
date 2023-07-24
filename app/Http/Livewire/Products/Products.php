@@ -19,25 +19,47 @@ class Products extends Component
 
    public function render()
    {
-
       $searchTerm = '%' . $this->search . '%';
-      $products =  product_information::with('ProductPrice')->whereLike(
-         [
-            "parentID",
-            "product_name",
-            "sku_code",
-            "brand",
-            "supplierID",
-            "track_inventory",
-            "same_price",
-            "short_description",
-            "notification_email",
-         ],
-         $searchTerm
-      )
-         ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc')
-         ->paginate($this->perPage);
+      $query = product_information::with('ProductPrice')->whereLike([
+         "parentID",
+         "product_name",
+         "sku_code",
+         "brand",
+         "supplierID",
+         "track_inventory",
+         "same_price",
+         "short_description",
+         "notification_email",
+      ], $searchTerm)->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc');
+
+      if (Auth::user()->account_type === 'Admin') {
+         $products = $query->paginate($this->perPage);
+      } else {
+         $products = $query->where('distributor_id', Auth::user()->id)->paginate($this->perPage);
+      }
 
       return view('livewire.products.products', compact('products'));
    }
+
+   public function deactivate($id)
+   {
+      product_information::whereId($id)->update(
+         ['status' => 0]
+      );
+      session()->flash('success', 'Product disabled successfully.');
+      return redirect()->to('/products');
+   }
+
+   public function activate($id)
+   {
+      product_information::whereId($id)->update(
+         ['status' => 1]
+      );
+      session()->flash('success', 'Product activated successfully.');
+      return redirect()->to('/products');
+   }
+
+
+  
+
 }

@@ -1,12 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.app1')
 @section('title', 'Dashboard')
 @section('stylesheets')
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/css/plugins/charts/chart-apex.min.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/css/pages/dashboard-ecommerce.min.css') !!}">
 @endsection
 @section('content')
-
-    @livewire('dashboard.dashboard')
+    @livewire('distributor.dashboard')
 @endsection
 @section('scripts')
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/js/charts/apexcharts.min.js') !!}">

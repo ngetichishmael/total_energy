@@ -42,6 +42,13 @@ class usersController extends Controller
         return view('app.users.Merchandizer', compact('Merchandizer'));
     }
 
+    public function RegionalUsers($region_id)
+    {
+        $region_name = Region::whereId($region_id)->pluck('name')->implode('');
+
+        return view('app.users.regionalUsers', compact('region_id', 'region_name'));
+
+    }
     public function LubeSalesExecutive()
     {
         $LubeSalesExecutive = User::where('account_type', 'Lube Sales Executive');

@@ -36,13 +36,13 @@
                                         <span class="help-block">
                                             <strong class="text-danger">{{ $errors->first('password') }}</strong>
                                         </span>
-                                    @endif
+                        @endif
                         <form class="mt-2 auth-login-form" action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="mb-1">
                                 <label for="login-email" class="form-label">Email</label>
                                 <input type="text" class="form-control" id="login-email" name="email"
-                                    placeholder="john@example.com" aria-describedby="login-email" tabindex="1"
+                                    placeholder="" aria-describedby="login-email" tabindex="1"
                                     autofocus />
                 
                             </div>
@@ -56,7 +56,7 @@
                                 <div class="input-group input-group-merge form-password-toggle">
                                     <input type="password" class="form-control form-control-merge" id="login-password"
                                         name="password" tabindex="2"
-                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                        placeholder=""
                                         aria-describedby="login-password" />
                                     <span class="cursor-pointer input-group-text"><i data-feather="eye"></i></span>
                               

@@ -2,11 +2,8 @@
 
 namespace App\Http\Livewire\Users;
 
-use Livewire\Component;
-use App\Models\Region;
-use App\Models\Subregion;
 use App\Models\User;
-use App\Models\zone;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class LubeSalesExecutive extends Component
@@ -16,41 +13,41 @@ class LubeSalesExecutive extends Component
     public $perPage = 10;
     public $orderBy = 'id';
     public $orderAsc = true;
-    public ?string $search = null;
- 
+    public $search = null;
+
     public function render()
     {
-       $searchTerm = '%' . $this->search . '%';
-       $LubeSalesExecutive =  User::where('account_type', ['Lube Sales Executive'])->whereLike([
-          'Region.name', 'name', 'email', 'phone_number',
-       ], $searchTerm)
-          ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc')
-          ->paginate($this->perPage);
- 
-       return view('livewire.users.lube-sales-executive', compact('LubeSalesExecutive'));
+        $searchTerm = '%' . $this->search . '%';
+        $LubeSalesExecutive = User::where('account_type', ['Lube Sales Executive'])->whereLike([
+            'Region.name', 'name', 'email', 'phone_number',
+        ], $searchTerm)
+            ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc')
+            ->paginate($this->perPage);
+
+        return view('livewire.users.lube-sales-executive', compact('LubeSalesExecutive'));
     }
     public function deactivate($id)
     {
-       User::whereId($id)->update(
-          ['status' => "Suspended"]
-       );
-       session()->flash('success', 'User Disabled Successfully');
-       return redirect()->to('/users/LubeSalesExecutive');
+        User::whereId($id)->update(
+            ['status' => "Suspended"]
+        );
+        session()->flash('success', 'User Disabled Successfully');
+        return redirect()->to('/users/LubeSalesExecutive');
     }
     public function activate($id)
     {
-       User::whereId($id)->update(
-          ['status' => "Active"]
-       );
-       session()->flash('success', 'User Activated Successfully');
-       return redirect()->to('/users/LubeSalesExecutive');
+        User::whereId($id)->update(
+            ['status' => "Active"]
+        );
+        session()->flash('success', 'User Activated Successfully');
+        return redirect()->to('/users/LubeSalesExecutive');
     }
 
     public function destroy($id)
     {
         if ($id) {
             $user = User::where('id', $id);
-            $user ->delete();
+            $user->delete();
             session()->flash('success', 'User Deleted Successfully');
             return redirect()->to('/users/LubeSalesExecutive');
         }
