@@ -179,13 +179,16 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="mt-2 col-12 d-flex flex-sm-row flex-column justify-content-center" style="gap: 20px;">
-                                            <button type="submit" class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Save</button>
-                                            <a href="{{ route('users.list') }}" type="reset" class="btn btn-outline-secondary">Cancel</a>
+                                        <div class="mt-2 col-12 d-flex flex-sm-row flex-column justify-content-center"
+                                            style="gap: 20px;">
+                                            <button type="submit"
+                                                class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Save</button>
+                                            <a href="{{ route('users.list') }}" type="reset"
+                                                class="btn btn-outline-secondary">Cancel</a>
                                         </div>
 
 
-                                        
+
                                     </div>
                                 </form>
                                 <!-- users edit account form ends -->

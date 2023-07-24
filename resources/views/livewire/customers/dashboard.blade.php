@@ -59,6 +59,7 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                             <th width="1%">#</th>
+                            <th>Group</th>
                             <th>Name</th>
                             <th>number</th>
                             <th>Address</th>
@@ -69,6 +70,12 @@
                         <tbody>
                             @foreach ($contacts as $count => $contact)
                                 <td>{!! $count + 1 !!}</td>
+                                <td title="{{ $contact->customer_group ?? null }}">
+                                    <div class="details-container">
+                                        {{ Str::limit($contact->customer_group ?? null, 10) }}
+                                        <span class="details-icon">&#9432;</span>
+                                    </div>
+                                </td>
                                 <td title="{{ $contact->customer_name ?? null }}">
                                     <div class="details-container">
                                         {{ Str::limit($contact->customer_name ?? null, 10) }}

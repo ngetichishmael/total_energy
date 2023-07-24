@@ -9,4 +9,5 @@ class AssignedRegion extends Model
 {
     use HasFactory;
     protected $table = "assigned_regions";
+    protected $guarded = [''];
 }
