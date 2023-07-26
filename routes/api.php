@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\ReportsController;
 use App\Http\Controllers\Api\SurveryAnswersController;
 use App\Http\Controllers\Api\surveyController;
 use App\Http\Controllers\Api\TargetsController;
+use App\Http\Controllers\Api\TargetsUIController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -204,4 +205,6 @@ Route::group(['namespace' => 'Api'], function () {
      * Get Company Routes
      */
     Route::get('/get/company/routes', [CompanyRouteController::class, "getCompanyRoutes"])->middleware('auth:sanctum');
+    Route::get('/get/targets/{type}', [TargetsUIController::class, "getTarget"])->name('getUITargets');
+
 });

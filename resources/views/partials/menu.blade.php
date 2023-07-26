@@ -205,12 +205,6 @@
                     Deliveries</span>
             </a>
         </li>
-        {{-- <li class="nav-item">
-            <a class="d-flex align-items-center" href="#">
-                <i data-feather='calendar'></i><span class="menu-title text-truncate" data-i18n="Todo"> Scheduled
-                    visits</span>
-            </a>
-        </li> --}}
         <li class="nav-item {!! Nav::isRoute('*Payment') !!}">
             <a class="d-flex align-items-center" href="#">
                 <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Todo">
