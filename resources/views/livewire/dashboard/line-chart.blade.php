@@ -3,7 +3,6 @@
 
     <script type="application/javascript">
       const data = @json($graphdata);
-{{--       @dd($graphdata)--}}
       const labels = data.map(entry => entry.month);
 
       console.log(data);

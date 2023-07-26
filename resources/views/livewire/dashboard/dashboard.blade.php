@@ -22,7 +22,6 @@
     </div>
 
     <div class="row match-height">
-        <!-- Medal Card -->
         <div class="col-xl-4 col-md-6 col-12">
             <div class="card card-congratulation-medal">
                 <div class="card-body">
@@ -42,9 +41,6 @@
                 </div>
             </div>
         </div>
-        <!--/ Medal Card -->
-
-        <!-- Statistics Card -->
         <div class="col-xl-8 col-md-6 col-12">
             <div class="card card-statistics">
                 <div class="card-header">
@@ -250,11 +246,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
         <div class="row match-height">
             <div class="col-lg-8 col-12">
                 <div class="card card-company-table">
@@ -281,7 +272,7 @@
                             </div>
                             <div class="my-auto">
                                 <h4 class="card-title mb-25">Total Energies</h4>
-                                <p class="mb-0 card-text">Transforming Ourselves to Reinvent Energy</p>
+                                <p class="mb-0 card-text">Transforming Ourselves to Reinvent Energy asa</p>
                             </div>
                         </div>
                         <div class="media" style="background: white">
