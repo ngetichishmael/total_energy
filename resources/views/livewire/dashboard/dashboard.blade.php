@@ -22,6 +22,7 @@
     </div>
 
     <div class="row match-height">
+        <!-- Medal Card -->
         <div class="col-xl-4 col-md-6 col-12">
             <div class="card card-congratulation-medal">
                 <div class="card-body">
@@ -41,6 +42,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-xl-8 col-md-6 col-12">
             <div class="card card-statistics">
                 <div class="card-header">
@@ -272,7 +274,7 @@
                             </div>
                             <div class="my-auto">
                                 <h4 class="card-title mb-25">Total Energies</h4>
-                                <p class="mb-0 card-text">Transforming Ourselves to Reinvent Energy asa</p>
+                                <p class="mb-0 card-text">Transforming Ourselves to Reinvent Energy</p>
                             </div>
                         </div>
                         <div class="media" style="background: white">
@@ -299,6 +301,19 @@
                                     <h6 class="mb-0" style="background: white;"> </h6>
                                     <small style="background: white; color: darkgrey">Nairobi, Kenya</small>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row match-height">
+            <div class="col-lg-12 col-12">
+                <div class="card card-company-table">
+                    <div class="p-0 card-body">
+                        <div class="table-responsive">
+                            <div>
+                                @livewire('individual.leads')
                             </div>
                         </div>
                     </div>

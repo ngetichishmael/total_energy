@@ -3,8 +3,11 @@
 namespace App\Http\Livewire\Visits\Users;
 
 use App\Exports\UsersVisitsExport;
+use App\Models\AssignedRegion;
+use App\Models\Region;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -18,6 +21,11 @@ class Dashboard extends Component
     protected $paginationTheme = 'bootstrap';
     public $perPage = 10;
     public $search = null;
+    public $user;
+    public function mount()
+    {
+        $this->user = Auth::user();
+    }
     public function render()
     {
         return view('livewire.visits.users.dashboard', [
@@ -30,15 +38,20 @@ class Dashboard extends Component
         $searchTerm = '%' . $this->search . '%';
 
         $query = User::join('customer_checkin', 'users.user_code', '=', 'customer_checkin.user_code')
-            ->whereRaw('customer_checkin.start_time <= customer_checkin.stop_time')
-            ->select(
-                'users.name as name',
-                'users.user_code as user_code',
-                DB::raw('COUNT(customer_checkin.id) as visit_count'),
-                DB::raw('SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(customer_checkin.stop_time, customer_checkin.start_time)))) as average_time'),
-                DB::raw('SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(customer_checkin.stop_time, customer_checkin.start_time)))) as total_time_spent'),
-                DB::raw('TIMEDIFF(MAX(customer_checkin.stop_time), MIN(customer_checkin.start_time)) as total_trading_time')
-            )
+            ->whereRaw('customer_checkin.start_time <= customer_checkin.stop_time');
+        if ($this->user->user_code !== 'Admin') {
+
+            $query->whereIn('users.user_code', $this->getUserBasedonRegions());
+        }
+
+        $query->select(
+            'users.name as name',
+            'users.user_code as user_code',
+            DB::raw('COUNT(customer_checkin.id) as visit_count'),
+            DB::raw('SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(customer_checkin.stop_time, customer_checkin.start_time)))) as average_time'),
+            DB::raw('SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(customer_checkin.stop_time, customer_checkin.start_time)))) as total_time_spent'),
+            DB::raw('TIMEDIFF(MAX(customer_checkin.stop_time), MIN(customer_checkin.start_time)) as total_trading_time')
+        )
             ->where('users.name', 'like', $searchTerm)
             ->groupBy('users.name');
         if ($this->start != null) {
@@ -54,6 +67,26 @@ class Dashboard extends Component
 
         $visits = $query->paginate($this->perPage);
         return $visits;
+    }
+
+    public function getUserRegions($user_code)
+    {
+        $assignedRegions = AssignedRegion::where('user_code', $user_code)->pluck('region_id')->toArray();
+        return Region::whereIn('id', $assignedRegions)
+            ->pluck('name')
+            ->implode(',');
+    }
+    public function getUserBasedonRegions()
+    {
+        $regionIds = AssignedRegion::where('user_code', $this->user->user_code)
+            ->pluck('region_id')
+            ->toArray();
+
+        $userCodes = AssignedRegion::whereIn('region_id', $regionIds)
+            ->pluck('user_code')
+            ->toArray();
+
+        return $userCodes;
     }
 
     public function updatedStart()
