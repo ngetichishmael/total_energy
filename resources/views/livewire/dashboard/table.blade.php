@@ -94,8 +94,8 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $sale->order_code }}</td>
-                                <td>{{ $sale->user()->pluck('name')->implode('') }}</td>
-                                <td>{{ $sale->customer()->pluck('customer_name')->implode('') }}</td>
+                                <td>{{ $sale->user->name }}</td>
+                                <td>{{ $sale->customer->customer_name }}</td>
                                 <td>{{ $sale->balance }}</td>
                                 <td>{{ $sale->payment_status }}</td>
                                 <td>{{ $sale->updated_at }}</td>
@@ -140,7 +140,6 @@
                             <th>Customer</th>
                             <th>Type</th>
                             <th>Region</th>
-                            <th>Route</th>
                             <th>Registered By</th>
                             <th>Date</th>
                         </tr>
@@ -150,9 +149,8 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $sale->customer_name ?? '' }}</td>
-                                <td>{{ $sale->customer_type ?? '' }}</td>
+                                <td>{{ $sale->customer_group ?? '' }}</td>
                                 <td>{{ $sale->Region->name ?? '' }}</td>
-                                <td>{{ $sale->Area->name ?? '' }}</td>
                                 <td>{{ $sale->Creator->name ?? '' }}</td>
                                 <td>{{ $sale->updated_at }}</td>
                             </tr>
@@ -194,8 +192,8 @@
                         <tr>
                             <th>ID</th>
                             <th>Order Code</th>
-                            <th>Customer</th>
                             <th>Sales Associates</th>
+                            <th>Customer</th>
                             <th>Balance </th>
                             <th>Payment Status</th>
                             <th>Date</th>

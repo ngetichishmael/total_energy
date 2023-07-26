@@ -109,6 +109,8 @@ class Dashboard extends Component
             ->where(function (Builder $query) {
                 $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
             })
+            ->whereHas('Customer')
+            ->whereHas('User')
             ->count();
     }
     public function getOrderFullmentByDistributorsCount()
@@ -179,6 +181,8 @@ class Dashboard extends Component
             ->where('order_type', 'Van sales')
             ->whereBetween('created_at', [$this->start, $this->end])
             ->where('order_status', 'DELIVERED')
+            ->whereHas('Customer')
+            ->whereHas('User')
             ->paginate($this->perVansale);
     }
 
@@ -189,6 +193,8 @@ class Dashboard extends Component
             ->where(function (Builder $query) {
                 $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
             })
+            ->whereHas('Customer')
+            ->whereHas('User')
             ->paginate($this->perPreorder);
     }
 
@@ -213,11 +219,13 @@ class Dashboard extends Component
     public function getOrderFullmentTotal()
     {
 
-        return Delivery::where('delivery_status', 'LIKE', '%deliver%')
-            ->with('User', 'Customer')
+        return Delivery::with('User', 'Customer')
+            ->where('delivery_status', 'LIKE', '%deliver%')
             ->where(function (Builder $query) {
                 $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
             })
+            ->whereHas('User')
+            ->whereHas('Customer')
             ->paginate($this->perOrderFulfilment);
     }
 
