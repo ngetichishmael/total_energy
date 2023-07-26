@@ -39,7 +39,7 @@ class Dashboard extends Component
 
         $query = User::join('customer_checkin', 'users.user_code', '=', 'customer_checkin.user_code')
             ->whereRaw('customer_checkin.start_time <= customer_checkin.stop_time');
-        if ($this->user->user_code !== 'Admin') {
+        if ($this->user->account_type !== 'Admin') {
 
             $query->whereIn('users.user_code', $this->getUserBasedonRegions());
         }
