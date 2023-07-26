@@ -26,17 +26,15 @@
                         <th>Customer</th>
                         <th>Start Time</th>
                         <th>End Time</th>
-                        <th>Duration</th>
                     </thead>
                     <tbody>
                         @foreach ($visits as $count => $visit)
                             <td>{!! $count + 1 !!}</td>
-                            <td>{!! $visit->region_name !!}</td>
-                            <td>{!! $visit->sales_agent !!} </td>
-                            <td> {{ $visit->customer_name }}</td>
+                            <td>{!! $visit->User->Region->name !!}</td>
+                            <td>{!! $visit->User->name !!} </td>
+                            <td> {{ $visit->Customer->customer_name }}</td>
                             <td>{{ $visit->start_time }}</td>
                             <td>{{ $visit->stop_time ?? 'User within' }}</td>
-                            <td>{{ $visit->duration }}</td>
 
                             </tr>
                         @endforeach

@@ -14,11 +14,11 @@
                     placeholder="YYYY-MM-DD HH:MM" required />
             </div>
         </div>
-
+        
         <div class="col-md-2">
             <button type="button" class="btn btn-icon btn-outline-success" wire:click="export"
                 wire:loading.attr="disabled" data-toggle="tooltip" data-placement="top" title="Export Excel">
-                Export
+               Export
             </button>
         </div>
     </div>
@@ -43,7 +43,6 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                         <th width="1%">#</th>
-                        <th>Regions</th>
                         <th>Sales Associate</th>
                         <th>Visit Count</th>
                         <th>Total Time Spent</th>
@@ -54,7 +53,6 @@
                         @foreach ($visits as $count => $visit)
                             <tr>
                                 <td>{!! $count + 1 !!}</td>
-                                <td>{!! $this->getRegions($visit->user_code) !!}</td>
                                 <td>{!! $visit->name !!}</td>
                                 <td>{!! $visit->visit_count !!} </td>
                                 <td> {{ $visit->average_time }}</td>

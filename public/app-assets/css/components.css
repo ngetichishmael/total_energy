@@ -716,7 +716,7 @@ footer.footer-border {
 }
 
 .main-menu.menu-light .navigation>li:not(.open)>ul .active {
-   background: #0186f5;
+   background:  #0186f5;
    box-shadow: none;
    font-size: 10px;
 }
@@ -727,11 +727,7 @@ footer.footer-border {
 
 .main-menu.menu-light .navigation>li.active>a {
    /* background: linear-gradient(118deg, #007ec4, #007ec4); */
-<<<<<<< HEAD
-   background: #fc0103;
-=======
    background:  #fc0103;
->>>>>>> origin/ricky
    box-shadow: 0 0 10px 1px white;
    color: #fff;
    font-weight: 400;
@@ -777,14 +773,14 @@ footer.footer-border {
 }
 
 .main-menu.menu-light .navigation>li ul .has-sub:not(.open)>ul .active {
-   background: #0186f5;
+   background:  #0186f5;
    box-shadow: none;
 }
 
 .main-menu.menu-light .navigation>li ul .open>a,
 .main-menu.menu-light .navigation>li ul .sidebar-group-active>a {
    color: #6e6b7b;
-   background: #0186f5;
+   background:  #0186f5;
    border-radius: 6px;
 }
 

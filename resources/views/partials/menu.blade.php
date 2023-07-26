@@ -2,8 +2,8 @@
     <div class="navbar-header mb-1">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto">
-                <a class="navbar-brand" href="{{ url('/dashboard') }}">
-                    <img src="{!! asset('app-assets/images/small_logo.png') !!}" alt="soko flow" class="img" width="170px" height="55px">
+            <a class="navbar-brand" href="{{ url('/dashboard') }}">
+            <img src="{!! asset('app-assets/images/small_logo.png') !!}" alt="soko flow" class="img" width="170px" height="55px">
 
                     <!-- <h2 class="brand-text" style="color:#000; font-size:28px;  font-family: Montserrat;">Total Energies</h2> -->
                 </a>
@@ -52,15 +52,13 @@
                 <ul class="menu-content">
                     <li><a class="d-flex align-items-center" href="{!! route('product.index') !!}"><i
                                 data-feather="circle"></i><span class="menu-item text-truncate">Products</span></a></li>
-
+                   
                     @if (Auth::user()->account_type === 'Admin')
-                        <li><a class="d-flex align-items-center" href="{!! route('product.category') !!}"><i
-                                    data-feather="circle"></i><span
-                                    class="menu-item text-truncate">Categories</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="{!! route('product.brand') !!}"><i
-                                    data-feather="circle"></i><span class="menu-item text-truncate">Brands</span></a>
-                        </li>
+                    <li><a class="d-flex align-items-center" href="{!! route('product.category') !!}"><i
+                                data-feather="circle"></i><span class="menu-item text-truncate">Categories</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center" href="{!! route('product.brand') !!}"><i
+                                data-feather="circle"></i><span class="menu-item text-truncate">Brands</span></a></li>
                     @endif
                 </ul>
             </li>
@@ -140,38 +138,37 @@
             </ul>
         </li>
         @if (Auth::user()->account_type === 'Admin')
-            <li class="nav-item {!! Nav::isResource('supplier') !!}">
-                <a class="d-flex align-items-center" href="#"><i data-feather='refresh-ccw'></i><span
-                        class="menu-title text-truncate" data-i18n="Invoice">Suppliers</span></a>
-                <ul class="menu-content">
-                    <li><a class="d-flex align-items-center" href="{!! route('supplier') !!}"><i
-                                data-feather="circle"></i><span class="menu-item text-truncate">Suppliers</span></a>
-                    </li>
-                    <li><a class="d-flex align-items-center" href="{!! route('supplier.category.index') !!}"><i
-                                data-feather="circle"></i><span class="menu-item text-truncate">Categories</span></a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="nav-item {!! Nav::isResource('target') !!}">
-                <a class="d-flex align-items-center" href="#"><i data-feather="target"></i><span
-                        class="menu-title text-truncate" data-i18n="Invoice">Target</span></a>
-                <ul class="menu-content">
-                    <li><a class="d-flex align-items-center" href=" {{ route('sales.target') }}"><i
-                                data-feather="credit-card"></i><span class="menu-item text-truncate">Sales</span></a>
-                    </li>
-                    <li><a class="d-flex align-items-center" href="{{ route('visit.target') }}"><i
-                                data-feather="truck"></i><span class="menu-item text-truncate">Visits</span></a>
-                    </li>
-                    <li><a class="d-flex align-items-center" href="{{ route('leads.target') }}"><i
-                                data-feather="compass"></i><span class="menu-item text-truncate">Leads</span></a>
-                    </li>
-                    <li><a class="d-flex align-items-center" href="{{ route('order.target') }}"><i
-                                data-feather="shopping-cart"></i><span
-                                class="menu-item text-truncate">Orders</span></a>
-                    </li>
-                </ul>
-            </li>
+        <li class="nav-item {!! Nav::isResource('supplier') !!}">
+            <a class="d-flex align-items-center" href="#"><i data-feather='refresh-ccw'></i><span
+                    class="menu-title text-truncate" data-i18n="Invoice">Suppliers</span></a>
+            <ul class="menu-content">
+                <li><a class="d-flex align-items-center" href="{!! route('supplier') !!}"><i
+                            data-feather="circle"></i><span class="menu-item text-truncate">Suppliers</span></a>
+                </li>
+                <li><a class="d-flex align-items-center" href="{!! route('supplier.category.index') !!}"><i
+                            data-feather="circle"></i><span class="menu-item text-truncate">Categories</span></a>
+                </li>
+            </ul>
+        </li>
+       
+        <li class="nav-item {!! Nav::isResource('target') !!}">
+            <a class="d-flex align-items-center" href="#"><i data-feather="target"></i><span
+                    class="menu-title text-truncate" data-i18n="Invoice">Target</span></a>
+            <ul class="menu-content">
+                <li><a class="d-flex align-items-center" href=" {{ route('sales.target') }}"><i
+                            data-feather="credit-card"></i><span class="menu-item text-truncate">Sales</span></a>
+                </li>
+                <li><a class="d-flex align-items-center" href="{{ route('visit.target') }}"><i
+                            data-feather="truck"></i><span class="menu-item text-truncate">Visits</span></a>
+                </li>
+                <li><a class="d-flex align-items-center" href="{{ route('leads.target') }}"><i
+                            data-feather="compass"></i><span class="menu-item text-truncate">Leads</span></a>
+                </li>
+                <li><a class="d-flex align-items-center" href="{{ route('order.target') }}"><i
+                            data-feather="shopping-cart"></i><span class="menu-item text-truncate">Orders</span></a>
+                </li>
+            </ul>
+        </li>
         @endif
         <li class="nav-item {!! Nav::isResource('orders') !!}">
             <a class="d-flex align-items-center" href="#">
@@ -205,6 +202,12 @@
                     Deliveries</span>
             </a>
         </li>
+        {{-- <li class="nav-item">
+            <a class="d-flex align-items-center" href="#">
+                <i data-feather='calendar'></i><span class="menu-title text-truncate" data-i18n="Todo"> Scheduled
+                    visits</span>
+            </a>
+        </li> --}}
         <li class="nav-item {!! Nav::isRoute('*Payment') !!}">
             <a class="d-flex align-items-center" href="#">
                 <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Todo">
@@ -261,11 +264,11 @@
             </ul>
         </li>
         @if (Auth::user()->account_type === 'Admin')
-            <li class="nav-item {!! Nav::isResource('users') !!}">
-                <a class="d-flex align-items-center" href="{!! route('users.list') !!}">
-                    <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Todo"> Users</span>
-                </a>
-            </li>
+        <li class="nav-item {!! Nav::isResource('users') !!}">
+            <a class="d-flex align-items-center" href="{!! route('users.list') !!}">
+                <i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Todo"> Users</span>
+            </a>
+        </li>
 
             <li class="nav-item {!! Nav::isResource('reports') !!}">
                 <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i

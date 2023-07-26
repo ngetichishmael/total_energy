@@ -2,19 +2,38 @@
 
 namespace App\Http\Livewire\Users;
 
-use App\Models\Region;
-use App\Models\Role;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+
+use App\Models\User;
+use App\Models\Role;
 
 class UserTypes extends Component
 {
     public function render()
     {
+        // $accountTypes = Role::pluck('name')->toArray();
 
+        // $lists = User::whereIn('account_type', $accountTypes)
+        //     ->distinct('account_type')
+        //     ->whereNotIn('account_type', ['Customer'])
+        //     ->groupBy('account_type')
+        //     ->pluck('account_type');
+
+        // $counts = User::join('roles', 'users.account_type', '=', 'roles.name')
+        //     ->whereIn('users.account_type', $accountTypes)
+        //     ->whereNotIn('users.account_type', ['Customer'])
+        //     ->groupBy('users.account_type')
+        //     ->selectRaw('users.account_type, count(*) as count')
+        //     ->pluck('count', 'users.account_type');
+
+        // $count = 1;
+
+        // return view('livewire.users.user-types', compact('lists', 'counts', 'count'));
+  
         $accountTypes = Role::pluck('name')->toArray();
 
         $lists = Role::pluck('name');
+
         $counts = Role::leftJoin('users', 'roles.name', '=', 'users.account_type')
             ->whereIn('roles.name', $accountTypes)
             ->whereNotIn('roles.name', ['Customer'])
@@ -24,23 +43,9 @@ class UserTypes extends Component
 
         $count = 1;
 
-        return view('livewire.users.user-types', [
-            'lists' => $lists,
-            'counts' => $counts,
-            'count' => $count,
-            'regions' => $this->regionalFilter(),
-        ]);
-
-    }
-
-    public function regionalFilter()
-    {
-        $regionsData = Region::select('regions.name as region_name',
-            'regions.id as region_id',
-            DB::raw('COUNT(assigned_regions.user_code) as unique_users_count'))
-            ->leftJoin('assigned_regions', 'regions.id', '=', 'assigned_regions.region_id')
-            ->groupBy('regions.name')
-            ->get();
-        return $regionsData;
+        return view('livewire.users.user-types', compact('lists', 'counts', 'count'));
+    
     }
 }
+
+
