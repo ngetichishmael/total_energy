@@ -34,7 +34,7 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
 
-    @include('partials._javascripts')
+    @include('partials._js')
     </body>
 <!-- END: Body-->
 
