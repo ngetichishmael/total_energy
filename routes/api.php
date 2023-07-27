@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AppsPermissionController;
 use App\Http\Controllers\Api\CompanyRouteController;
 use App\Http\Controllers\Api\CurrentDeviceInformationController;
+use App\Http\Controllers\api\CustomerDataController;
 use App\Http\Controllers\Api\CustomersProductsController;
 use App\Http\Controllers\Api\CustomerVisitsOrders;
 use App\Http\Controllers\Api\DeliveriesController;
@@ -206,5 +207,8 @@ Route::group(['namespace' => 'Api'], function () {
      */
     Route::get('/get/company/routes', [CompanyRouteController::class, "getCompanyRoutes"])->middleware('auth:sanctum');
     Route::get('/get/targets/{type}', [TargetsUIController::class, "getTarget"])->name('getUITargets');
+
+    //Customers
+    Route::get('/get/ui/customers', [CustomerDataController::class, "getCustomers"])->name('getUICustomers');
 
 });
