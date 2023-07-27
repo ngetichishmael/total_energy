@@ -1,4 +1,4 @@
-@extends('layouts.app1')
+@extends('layouts.app')
 {{-- page header --}}
 @section('title', 'Customer')
 {{-- page styles --}}
@@ -121,12 +121,11 @@
         </div>
         <div class="col-md-4">
             <center>
-                <!-- <a href="{!! route('customer.create') !!}" class="btn btn-primary btn-sm"><i class="fa fa-user-plus"></i> Add a
-                        Customer</a>
-                    <a href="{{ route('user-import') }}" class="btn btn-info btn-sm"><i class="fa fa-file-upload"></i> Import
-                        Customer</a> -->
+                <a href="{!! route('customer.create') !!}" class="btn btn-primary btn-sm"><i class="fa fa-user-plus"></i> Add a
+                    Customer</a>
+                <a href="{{ route('user-import') }}" class="btn btn-info btn-sm"><i class="fa fa-file-upload"></i> Import
+                    Customer</a>
                 {{-- <a href="{!! route('customer.export','csv') !!}" class="btn btn-warning btn-sm"><i class="fal fa-file-download"></i> Export Customer</a> --}}
-
             </center>
         </div>
     </div>
@@ -166,15 +165,6 @@
 
                         <!-- JavaScript code to populate DataTable -->
                         <script>
-                            var dataTable = $('#customerTable').DataTable({
-                                "dom": "<'row'<'col-sm-4'l><'col-sm-5' <'datesearchbox'>><'col-sm-3'f>>" +
-                                    "<'row'<'col-sm-12'tr>>" +
-                                    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-                                "order": [
-                                    [2, "desc"]
-                                ] // Sort by the third column (Tanggal Terdaftar) in descending order
-                            });
-
                             $(document).ready(function() {
                                 // DataTables initialization with AJAX
                                 $('#customerTable').DataTable({
@@ -313,10 +303,10 @@
 
                         {{-- @livewire('customers.dashboard') --}}
 
-                        @livewire('customers.dashboard')
                         {{-- @livewire('customers.index') --}}
                     @endsection
                     {{-- page scripts --}}
                     @section('script')
+                        <!-- Include jQuery and DataTables JavaScript -->
 
                     @endsection
