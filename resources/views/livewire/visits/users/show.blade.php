@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app1')
 {{-- page header --}}
 @section('title', 'Visits by ' . $name)
 
@@ -9,13 +9,7 @@
             <div class="row breadcrumbs-top">
                 <div class="col-12">
                     <h2 class="mb-0 content-header-title float-start">Visits by {{ $name }}</h2>
-                    <div class="breadcrumb-wrapper">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('app.dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{!! route('UsersVisits') !!}">{{ $name }}</a></li>
-                            <li class="breadcrumb-item active">List</li>
-                        </ol>
-                    </div>
+                
                 </div>
             </div>
         </div>

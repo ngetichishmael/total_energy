@@ -71,7 +71,7 @@
                 @if ($countOrders)
                     <div class="m-2">
                         <button wire:click.prevent="submit()" type="submit"
-                            class="btn btn-primary mr-1 data-submit">Submit</button>
+                            class="btn btn mr-1 data-submit" style="background-color: #0186f5; color:white" >Submit</button>
                     </div>
                 @else
                     <div class="m-2">

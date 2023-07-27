@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.app1')
 {{-- page header --}}
 @section('title', 'Edit Customer')
 {{-- page styles --}}
 
 {{-- content section --}}
 @section('content')
-    <div class="content-header row">
+    <div class="content-header row"  style="padding-left:5%; padding-right:5%" >
         <div class="mb-2 content-header-left col-md-12 col-12">
             <div class="row breadcrumbs-top">
                 <div class="col-12">
@@ -23,10 +23,10 @@
     </div>
 
     <!-- Basic multiple Column Form section start -->
-    <section id="multiple-column-form">
+    <section id="multiple-column-form"  style="padding-left:5%; padding-right:5%">
         <div class="row">
-            <div class="col-8">
-                c <div class="card">
+            <div class="col-12">
+                <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Customers</h4>
                     </div>
@@ -203,10 +203,11 @@
                                 </div>
                                 @livewire('customers.region')
                             </div>
-                            <div class="my-1 col-sm-9 offset-sm-3">
+                            <div class="my-1 col-sm-6 offset-sm-3 d-flex justify-content-center">
                                 <button type="submit" class="mr-1 btn btn-primary">Update</button>
                                 <a href="{{ route('customer') }}" class="btn btn-outline-secondary">Cancel</a>
                             </div>
+
                         </form>
                     </div>
                 </div>
