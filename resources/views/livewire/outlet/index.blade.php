@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app1')
 {{-- page header --}}
 @section('title', 'Customer Outlets')
 {{-- page styles --}}
@@ -31,7 +31,7 @@
             <div class="card card-default">
                 <div class="card-body">
                     <div class="card-body">
-                        <h4 class="card-title">Add Outlet</h4>
+                        <!-- <h4 class="card-title">Add Outlet</h4> -->
 
                         <form class="form" method="POST" action="{{ route('outlets.store') }}">
                             @method('POST')

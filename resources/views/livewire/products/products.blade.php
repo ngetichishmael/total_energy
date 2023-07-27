@@ -23,10 +23,20 @@
                 </div>
        
 
-             <div class="col-md-3">
+             <!-- <div class="col-md-3">
                  <a href="{!! route('products.create') !!}" class="btn btn-success btn-sm"><i class="fa fa-user-plus"></i> Add New Customer</a>
                  <a href="{!! route('products.import') !!}" class="btn btn-warning btn-sm"><i class="fa fa-file-upload"></i> Import </a>
-             </div>
+             </div> -->
+             <div class="col-md-6 d-flex justify-content-end">
+                    <div class="demo-inline-spacing">
+                        <a href="{!! route('products.create') !!}" class="btn btn-outline-secondary">Add Product</a>
+                        <button type="button" class="btn btn-icon btn-outline-primary" wire:click="export"
+                            wire:loading.attr="disabled" data-toggle="tooltip" data-placement="top" title="Export Excel">
+                            <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="25" height="15"
+                                data-toggle="tooltip" data-placement="top" title="Export Excel">Export
+                        </button>
+                    </div>
+                </div>
              
             </div>
         </div>
@@ -114,3 +124,4 @@
         </div>
     </div>
 </div>
+<br>

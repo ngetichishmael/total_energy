@@ -17,18 +17,23 @@
             </div>
             <div class="col-md-2 user_role">
                 <div class="form-group">
-                    <label for="selectSmall">Region</label>
-                    <select wire:model="perPage" class="form-control form-control-sm" id="selectSmall">
-                        <option value="10"> ----- select -----</option>
+                    <label for="selectRegion">Region</label>
+                    <select wire:model="regionFilter" class="form-control form-control-sm" id="selectRegion">
+                        <option value="">All Regions</option>
+                        @foreach ($regions as $region)
+                            <option value="{{ $region->id }}">{{ $region->name }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
+
             <div class="col-md-2 user_role">
                 <div class="form-group">
-                    <label for="selectSmall">Status</label>
-                    <select class="form-control form-control-sm" id="selectSmall">
-                        <option value="10">Active</option>
-                        <option value="20">Disabled</option>
+                    <label for="selectStatus">Status</label>
+                    <select wire:model="statusFilter" class="form-control form-control-sm" id="selectStatus">
+                        <option value="">All</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Suspended">Disabled</option>
                     </select>
                 </div>
             </div>

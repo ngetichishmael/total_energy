@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app1')
 {{-- page header --}}
 @section('title', 'Edit Product')
 
@@ -171,11 +171,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-2 col-12 d-flex flex-sm-row flex-column" style="gap: 20px;">
+                <div class="mt-2 col-12 d-flex flex-sm-row flex-column justify-content-center" style="gap: 20px;padding-buttom:20px">
                     <button type="submit" class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Save</button>
                     <a href="{{ URL('/products') }}" type="reset" class="btn btn-outline-secondary">Cancel</a>
                 </div>
-            </section>
+
+                            </section>
         </div>
     </form>
 @endsection
