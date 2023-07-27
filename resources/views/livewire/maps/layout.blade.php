@@ -6,5 +6,5 @@
 @section('content')
 
    @livewire('maps.dashboard')
-
+   <br>
 @endsection
