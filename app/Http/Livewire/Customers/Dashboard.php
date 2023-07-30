@@ -2,114 +2,140 @@
 
 namespace App\Http\Livewire\Customers;
 
-use App\Exports\Customers as ExportsCustomers;
-use App\Models\AssignedRegion;
+use App\Exports\CustomersExport;
+
+use App\Models\Area;
 use App\Models\customers;
-use Carbon\Carbon;
+use App\Models\Subregion;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\View;
+use PDF;
+use Carbon\Carbon;
 
 class Dashboard extends Component
 {
-    use WithPagination;
+   use WithPagination;
+   protected $paginationTheme = 'bootstrap';
+   public $perPage = 10;
+   public ?string $search = null;
+   public $regionFilter = null;
+   public $subregionFilter = null;
+   public $areaFilter = null; 
 
-    protected $paginationTheme = 'bootstrap';
-    public $perPage = 10;
-    public $search = null;
-    public $start = null;
-    public $end = null;
-    public $user;
-    public $regionFilter = null;
-    public $statusFilter = null;
+   public $start = null;
+   public $end = null;
 
-    public function mount()
-    {
-        $this->user = Auth::user();
-    }
+   public function render()
+   {
+      $subregions = Subregion::all(); 
 
-    public function render()
-    {
-        $regions = AssignedRegion::where('user_code', $this->user->user_code)->get();
-        $contacts = $this->getCustomer();
+      $areasInSubregion = collect([]);
+      if ($this->subregionFilter) {
+          $areasInSubregion = Area::where('subregion_id', $this->subregionFilter)->get();
+      }
 
-        return view('livewire.customers.dashboard', compact('contacts', 'regions'));
-    }
+      return view('livewire.customers.dashboard', [
+         'contacts' => $this->getCustomer(),
+         'subregions' => $subregions, 
+         'areasInSubregion' => $areasInSubregion,
+      ]);
+   }
 
-    public function export()
-    {
-        return Excel::download(new ExportsCustomers, 'customers.xlsx');
-    }
+   public function export()
+   {
+       return Excel::download(new CustomersExport(), 'customers.xlsx');
+   }
 
-    public function deactivate($id)
-    {
-        Customers::whereId($id)->update([
-            'approval' => "Suspended"
-        ]);
-        return redirect()->to('/customer');
-    }
+   public function exportCSV()
+   {
+       return Excel::download(new CustomersExport(), 'customers.csv');
+   }
 
-    public function activate($id)
-    {
-        Customers::whereId($id)->update([
-            'approval' => "Approved"
-        ]);
+   public function exportPDF()
+   {
+       $data = [
+           'contacts' => $this->getCustomer(),
+       ];
+   
+       $pdf = PDF::loadView('Exports.customer_pdf', $data);
+   
+       // Add the following response headers
+       return response()->streamDownload(function () use ($pdf) {
+           echo $pdf->output();
+       }, 'customers.pdf');
+   }
 
-        return redirect()->to('/customer');
-    }
+   public function deactivate($id)
+   {
+      customers::whereId($id)->update(
+         ['approval' => "Suspended"]
+      );
+      session()->flash('success', 'Disabled successfully.');
+      return redirect()->to('/customer');
+   }
+   public function activate($id)
+   {
+      customers::whereId($id)->update(
+         ['approval' => "Approved"]
+      );
+      session()->flash('success', 'Activated successfully.');
+      return redirect()->to('/customer');
+   }
+ 
 
-    public function areas()
-    {
-        $user_code = $this->user->user_code;
-        $regions = AssignedRegion::where('user_code', $user_code)->pluck('region_id');
-        return $regions->toArray();
-    }
 
-    public function getCustomer()
-    {
-        $searchTerm = '%' . $this->search . '%';
-        $query = Customers::search($searchTerm)->orderBy('id', 'DESC');
+   public function areas()
+   {
+       $user = Auth::user();
+       $subregions = Subregion::where('region_id', $user->route_code)->pluck('id');
 
-        if (Auth::user()->account_type !== 'Admin') {
-            $query->whereIn('region_id', $this->areas());
+       // Apply Subregion filter if selected
+       if ($this->subregionFilter) {
+           $areas = Area::where('subregion_id', $this->subregionFilter)->pluck('id');
+       } else {
+           $areas = Area::whereIn('subregion_id', $subregions)->pluck('id');
+       }
+
+       return $areas;
+   }
+
+
+   public function getCustomer()
+   {
+      $searchTerm = '%' . $this->search . '%';
+      $query = customers::search($searchTerm)->orderBy('id', 'DESC');
+
+  
+        // Apply the date filters if provided
+           // Apply start and end date filters if provided
+           if ($this->start && $this->end) {
+            $query->whereBetween('created_at', [$this->start, $this->end]);
+        } elseif ($this->start) {
+            $query->where('created_at', '>=', $this->start);
+        } elseif ($this->end) {
+            $query->where('created_at', '<=', $this->end);
         }
+      
 
-        if (!is_null($this->regionFilter)) {
-            $query->where('region_id', $this->regionFilter);
-        }
-
-        if (!is_null($this->statusFilter)) {
-            $query->where('approval', $this->statusFilter);
-        }
-
-        if (is_null($this->start) && is_null($this->end)) {
-            $contacts = $query->paginate($this->perPage);
-            return $contacts;
-        }
-
-        if (!is_null($this->start)) {
-            $end = Carbon::now()->endOfMonth()->format('Y-m-d');
-            $query->whereBetween('created_at', [$this->start, $end]);
-        }
-
-        if (!is_null($this->start) && Carbon::parse($this->start)->isSameDay(Carbon::parse($this->end))) {
-            $query->where('created_at', 'LIKE', '%' . $this->start . '%');
-        }
-
-        $contacts = $query->paginate($this->perPage);
-        return $contacts;
-    }
-
-    public function updatedStart()
-    {
-        $this->mount();
-        $this->render();
-    }
-
-    public function updatedEnd()
-    {
-        $this->mount();
-        $this->render();
-    }
+       // Apply Subregion and Area filters if selected
+       if ($this->subregionFilter) {
+           $areasInSubregion = Area::where('subregion_id', $this->subregionFilter)->pluck('id');
+           if ($this->areaFilter) {
+               // Apply the selected Area filter
+               $query->where('unit_id', $this->areaFilter);
+           } else {
+               // Apply the areas belonging to the selected Subregion
+               $query->whereIn('unit_id', $areasInSubregion);
+           }
+       } else {
+           // Apply the default areas based on the user's route code
+           $query->whereIn('unit_id', $this->areas());
+       }
+   
+       $contacts = $query->paginate($this->perPage);
+       return $contacts;
+   }
 }

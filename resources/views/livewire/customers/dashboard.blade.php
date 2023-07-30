@@ -1,10 +1,5 @@
-@php
-    use Illuminate\Support\Str;
-@endphp
-
-
 <div>
-    <div class="card">
+<div class="card">
         <h5 class="card-header"></h5>
         <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50 row">
             <div class="col-md-3 user_role">
@@ -18,40 +13,57 @@
             <div class="col-md-2 user_role">
                 <div class="form-group">
                     <label for="selectRegion">Region</label>
-                    <select wire:model="regionFilter" class="form-control form-control-sm" id="selectRegion">
-                        <option value="">All Regions</option>
-                        @foreach ($regions as $region)
-                            <option value="{{ $region->id }}">{{ $region->name }}</option>
-                        @endforeach
-                    </select>
+                    <select wire:model="subregionFilter" class="form-control form-control-sm" id="selectSubregion">
+                <option value="">All Subregions</option>
+                @foreach ($subregions as $subregion)
+                    <option value="{{ $subregion->id }}">{{ $subregion->name }}</option>
+                @endforeach
+            </select>
                 </div>
             </div>
 
             <div class="col-md-2 user_role">
-                <div class="form-group">
-                    <label for="selectStatus">Status</label>
-                    <select wire:model="statusFilter" class="form-control form-control-sm" id="selectStatus">
-                        <option value="">All</option>
-                        <option value="Approved">Approved</option>
-                        <option value="Suspended">Disabled</option>
-                    </select>
-                </div>
+            <div class="form-group">
+                <label for="selectArea">Area</label>
+                <select wire:model="areaFilter" class="form-control form-control-sm" id="selectArea">
+                    <option value="">All Areas</option>
+                    @if ($subregionFilter)
+                        @foreach ($areasInSubregion as $area)
+                            <option value="{{ $area->id }}">{{ $area->name }}</option>
+                        @endforeach
+                    @endif
+                </select>
             </div>
-            <div class="col-md-3 d-flex justify-content-end">
+        </div>
+     
+
+            <div class="col-md-2 d-flex justify-content-end">
                 <div class="demo-inline-spacing">
-                    <a href="{!! route('customer.create') !!}" class="btn btn-outline-secondary">Add Customer</a>
-                    <button type="button" class="btn btn-icon btn-outline-primary" wire:click="export"
-                        wire:loading.attr="disabled" data-toggle="tooltip" data-placement="top" title="Export Excel">
-                        <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="25" height="15"
-                            data-toggle="tooltip" data-placement="top" title="Export Excel">Export
-                    </button>
+                <a href="{!! route('customer.create') !!}" class="btn btn-outline-secondary">Add Customer</a>
+
                 </div>
             </div>
         </div>
     </div>
 
     <div class="pt-0 pb-2 d-flex justify-content-end align-items-center mx-90 row">
-        <div class="col-md-2">
+    <div class="col-md">
+    <div class="btn-group">
+    <button type="button" class="btn btn-icon btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled" >
+                        <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">
+                        Export
+                    </button>
+                        <div class="dropdown-menu dropdown-menu-left">
+                            <a class="dropdown-item" wire:click="export" id="exportExcelBtn">Excel</a>
+                            <a class="dropdown-item"  wire:click="exportCSV" id="exportPdfBtn"> CSV</a>
+                            <a class="dropdown-item" wire:click="exportPDF" id="exportCsvBtn">PDF</a>
+                            <!-- <a class="dropdown-item" wire:click="printAndRedirect" id="printBtn">Print</a> -->
+                          
+                        </div>
+                    </div>
+        </div>    
+    
+    <div class="col-md-2">
             <div class="form-group">
                 <label for="validationTooltip01">Start Date</label>
                 <input wire:model="start" name="startDate" type="date" class="form-control" id="validationTooltip01"
@@ -67,7 +79,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="">Filter By User: </label>
+                <label for="">Perpage: </label>
                 <select wire:model="perPage" class="form-control">
                     <option value="10">10</option>
                     <option value="20">20</option>
@@ -77,71 +89,57 @@
             </div>
         </div>
     </div>
-
-    <div class="card card-default">
+     <div class="card card-default">
         <div class="card-body">
-            <div class="card-datatable table-responsive">
-                <table class="table table-striped table-bordered">
-                    <thead>
+            <div class="pt-0 card-datatable">
+            <table class="table table-striped table-bordered zero-configuration table-responsive">
+                <thead>
+                    <th width="15%">Name</th>
+                    <th>Number</th>
+                    <th width="15%">Address</th>
+                    <th width="15%">Zone/Region</th>
+                    <th width="15%">Route</th>
+                    <th>Created By</th>
+                    <th>Created At</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+                    @forelse ($contacts as $count => $contact)
+                        <!-- <td>{!! $count + 1 !!}</td> -->
                         <tr>
-                            <th>Name</th>
-                            <th>Phone Number</th>
-                            <th>Address</th>
-                            <th>Zone/Region</th>
-                            <th>Route</th>
-                            <th >Created By</th>
-                            <th>Created At</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($contacts as $count => $contact)
-                            <tr>
                             <td>
-                                <div class="details-container" title="{{ $contact->customer_name ?? null }}" alt="{{ $contact->customer_name ?? null }}">
-                                    {!! Str::limit($contact->customer_name, 15) !!} <br>
-                                    @if ($contact->approval === 'Approved')
-                                        <span class="badge badge-pill badge-light-success mr-1">Approved</span>
-                                    @else
-                                        <span class="badge badge-pill badge-light-warning mr-1">Pending</span>
-                                    @endif
-                                </div>
+                                {!! $contact->customer_name !!} <br>
+                                @if ($contact->approval === 'Approved')
+                                    <span class="badge badge-pill badge-light-success mr-1">Approved</span>
+                                @else
+                                    <span class="badge badge-pill badge-light-warning mr-1">Pending</span>
+                                @endif
                             </td>
                             <td>{!! $contact->phone_number !!}</td>
-                                <td title="{{ $contact->address ?? null }}">
-                                    <div class="details-container">
-                                        {{ Str::limit($contact->address ?? null) }}
-                                       
-                                    </div>
-                                </td>
-                                <td>
+                            <td>
+                                {{ $contact->address }}
+                            </td>
+                            <td>
                                 @if ($contact->Area && $contact->Area->Subregion && $contact->Area->Subregion->Region)
                                     {!! $contact->Area->Subregion->Region->name !!}
                                     @if ($contact->Area->Subregion->name)
-                                    , <br><i>{!! $contact->Area->Subregion->name !!}</i>
+                                        , <br><i>{!! $contact->Area->Subregion->name !!}</i>
                                     @endif
                                 @endif
                             </td>
- 
-                                <td>
+                            <td>
                                 {!! $contact->Area->name ?? '' !!}
                             </td>
-
-                           
-                                <td>
-                                    {!! $contact->Creator->name ?? Auth::user()->name !!}
-                                </td>
-
-                                <td>
-                                    {!! $contact->created_at ?? Auth::user()->name !!}
-                                </td>
-
-                                <td>
-                                   
-
-                                    <div class="dropdown">
-                                    <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color: #0186f5; color:white" >
-                                    <i data-feather="eye"></i>
+                            <td>
+                                {!! $contact->Creator->name ?? '' !!}
+                            </td>
+                            <td>
+                                {!! $contact->created_at ? $contact->created_at->format('Y-m-d h:i A') : '' !!}
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color: #089000; color:white" >
+                                        <i data-feather="eye"></i>
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('make.orders', ['id' => $contact->id]) }}">
@@ -167,15 +165,17 @@
                                                 <span>Approve</span>
                                             </a>
                                         @endif
-                            
                                     </div>
                                 </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                        <td colspan="8" style="text-align: center;"> No Record Found </td>                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
 
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
 
                 <div class="mt-1">
                     {{ $contacts->links() }}
@@ -184,3 +184,4 @@
         </div>
     </div>
 </div>
+<br>
