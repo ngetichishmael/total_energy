@@ -105,10 +105,14 @@ class Dashboard extends Component
 
    public function getCustomer()
    {
-      $searchTerm = '%' . $this->search . '%';
-      $query = customers::search($searchTerm)->orderBy('created_at', 'DESC');
-
-  
+    $searchTerm = '%' . $this->search . '%';
+    $query = customers::orderBy('id', 'DESC')
+        ->where(function ($q) use ($searchTerm) {
+            $q->where('customer_name', 'LIKE', $searchTerm)
+              ->orWhere('address', 'LIKE', $searchTerm)
+              ->orWhere('phone_number', 'LIKE', $searchTerm);
+        });
+    
         // Apply the date filters if provided
            // Apply start and end date filters if provided
            if ($this->start && $this->end) {
