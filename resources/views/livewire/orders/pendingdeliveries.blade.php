@@ -2,50 +2,54 @@
     use Illuminate\Support\Str;
 @endphp
 <div>
-    <div class="col-xl-12 col-md-12 col-12">
-        <div class="card">
-            <div class="pt-0 pb-2 d-flex justify-content-end align-items-center mx-50 row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="fromDate">From:</label>
-                        <input type="date" id="fromDate" wire:model="fromDate" name="startDate" type="date"
-                            class="form-control" placeholder="YYYY-MM-DD HH:MM" required>
+<div class="card">
+            <h5 class="card-header"></h5>
+            <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50 row">
+                <div class="col-md-3 user_role">
+                    <div class="input-group input-group-merge">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i data-feather="search"></i></span>
+                        </div>
+                        <input wire:model="search" type="text" id="fname-icon" class="form-control" name="fname-icon" placeholder="Search" />
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-1 user_role">
                     <div class="form-group">
-                        <label for="validationTooltip01">End Date</label>
-                        <input type="date" id="toDate" wire:model="toDate" name="endDate" type="date"
-                            class="form-control" placeholder="YYYY-MM-DD HH:MM" required />
+                        <label for="selectSmall">Per Page</label>
+                        <select wire:model="perPage" class="form-control form-control-sm" id="selectSmall">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50">
-        <div class="col-md-6">
-            <label for="">Search</label>
-            <input type="text" wire:model="search" class="form-control" placeholder="Enter customer name">
-        </div>
-        <div class="col-md-2">
-            <label for="">Items Per</label>
-            <select wire:model="perPage" class="form-control">`
-                <option value="10" selected>10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="75">75</option>
-                <option value="100">100</option>
-                <option value="100">200</option>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <button type="button" class="btn btn-icon btn-outline-success" wire:click="export"
+                <div class="col-md-2">
+           <div class="form-group">
+               <label for="validationTooltip01">Start Date</label>
+               <input wire:model="start" name="startDate" type="date" class="form-control" id="validationTooltip01"
+                   placeholder="YYYY-MM-DD HH:MM" required />
+           </div>
+       </div>
+       <div class="col-md-2">
+           <div class="form-group">
+               <label for="validationTooltip01">End Date</label>
+               <input wire:model="end" name="startDate" type="date" class="form-control" id="validationTooltip01"
+                   placeholder="YYYY-MM-DD HH:MM" required />
+           </div>
+       </div>
+
+       <div class="col-md-2">
+            <button type="button" class="btn btn-icon btn-outline-primary" wire:click="export"
                 wire:loading.attr="disabled" data-toggle="tooltip" data-placement="top" title="Export Excel">
-                <img src="{{ asset('assets/img/excel.png') }}"alt="Export Excel" width="20" height="20"
-                    data-toggle="tooltip" data-placement="top" title="Export Excel">Export to Excel
+                <img src="{{ asset('assets/img/excel.png') }}"alt="Export Excel" width="25" height="15"
+                    data-toggle="tooltip" data-placement="top" title="Export Excel">Export
             </button>
         </div>
-    </div>
+             
+            </div>
+        </div>
+
     <div class="card card-default">
         <div class="card-body">
             <div class="card-datatable">
@@ -79,27 +83,34 @@
                                 <td>{{ $order->created_at }}</td>
                                 <td>
                                     <div class="dropdown">
-                                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            <i data-feather='settings'></i>
+                                        <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color:#1877F2; color:#ffffff;" >
+                                        <i data-feather="settings"></i>
                                         </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="{!! route('orders.details', $order->order_code) !!}">View</a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{!! route('orders.details', $order->order_code) !!}">
+                                                <i data-feather="eye" class="mr-50"></i>
+                                                <span>View</span>
+                                            </a>
+                                   
                                             @if ($order->order_status === 'CANCELLED')
                                                 <a wire:click.prevent="activate({{ $order->id }})"
-                                                    onclick="confirm('Are you sure you want to REINSTATE this Order by id {{ $order->order_code }}?') || event.stopImmediatePropagation()"
-                                                    type="button" class="dropdown-item btn btn-sm"
-                                                    style="color: lightgreen">Reinstate</a>
+                                                    onclick="confirm('Are you sure you want to REINSTATE this Order by id {{ $order->order_code }}?')||event.stopImmediatePropagation()"
+                                                    class="dropdown-item">
+                                                    <i data-feather='check-circle' class="mr-50"></i>
+                                                    <span>Reinstate</span>
+                                                </a>
                                             @else
                                                 <a wire:click.prevent="deactivate({{ $order->id }})"
-                                                    onclick="confirm('Are you sure you want to CANCEL this Order {{ $order->order_code }}?') || event.stopImmediatePropagation()"
-                                                    type="button" class="dropdown-item btn btn-sm"
-                                                    style="color: orangered">Cancel</a>
+                                                    onclick="confirm('Are you sure you want to CANCEL this Order {{ $order->order_code }}?')||event.stopImmediatePropagation()"
+                                                    class="dropdown-item">
+                                                    <i data-feather='x-circle' class="mr-50"></i>
+                                                    <span>Cancel</span>
+                                                </a>
                                             @endif
+                                    
                                         </div>
                                     </div>
-                                </td>
+                                </td> 
 
                             </tr>
                         @endforeach

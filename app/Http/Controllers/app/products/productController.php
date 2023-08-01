@@ -2,20 +2,28 @@
 
 namespace App\Http\Controllers\app\products;
 
-use App\Models\tax;
+use App\Http\Controllers\Controller;
+use App\Imports\ProductImport;
+use App\Models\activity_log;
 use App\Models\Branches;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+use App\Models\customers;
 use App\Models\products\brand;
 use App\Models\products\category;
-use App\Models\suppliers\suppliers;
-use App\Http\Controllers\Controller;
-use App\Models\customers;
-use Illuminate\Support\Facades\Auth;
-use App\Models\products\product_price;
-use App\Models\products\product_inventory;
 use App\Models\products\product_information;
+use App\Models\products\product_inventory;
+use App\Models\products\product_price;
+use App\Models\products\ProductSku;
+use App\Models\RequisitionProduct;
 use App\Models\suppliers\supplier_address;
+use App\Models\suppliers\suppliers;
+use App\Models\tax;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class productController extends Controller
 {
@@ -41,12 +49,14 @@ class productController extends Controller
     */
    public function create()
    {
-      $categories = category::where('business_code', Auth::user()->business_code)->pluck('name', 'id');
-      $suppliers = suppliers::where('business_code', Auth::user()->business_code)
-         ->pluck('name', 'id');
-      $brands = brand::where('business_code', Auth::user()->business_code)->pluck('name', 'id');
+//      $code1 = $request->query('warehouse_code');
+//      session(['warehouse_code' => $code1]);
+         $code= session('warehouse_code');
+      $categories = category::all()->pluck('name', 'id');
+      $suppliers = suppliers::all()->pluck('name', 'id');
+      $brands = brand::all()->pluck('name', 'id');
 
-      return view('app.products.create', compact('categories', 'suppliers', 'brands'));
+      return view('app.products.create', compact('categories', 'suppliers', 'brands', 'code'));
    }
 
    /**
@@ -58,20 +68,26 @@ class productController extends Controller
    public function store(Request $request)
    {
       $this->validate($request, [
-         'product_name' => 'required',
+         'product_name' => [
+            'required',
+            Rule::unique('product_information', 'product_name')->ignore($request->id),'string',
+         ],
          'buying_price' => 'required',
          'selling_price' => 'required',
+         'distributor_price' => 'required',
          'image' => 'required|mimes:png,jpg,bmp,gif,jpeg|max:5048',
       ]);
+      $code= session('warehouse_code');
       $image_path = $request->file('image')->store('image', 'public');
       $product_code = Str::random(20);
       $product = new product_information;
       $product->product_name = $request->product_name;
-      $product->sku_code = $request->sku_code;
+      $product->sku_code =  Str::random(20);
       $product->url = Str::slug($request->product_name);
       $product->brand = $request->brandID;
       $product->supplierID = $request->supplierID;
       $product->category = $request->category;
+      $product->warehouse_code = $code;
       $product->image = $image_path;
       $product->active = $request->status;
       $product->track_inventory = 'Yes';
@@ -87,6 +103,7 @@ class productController extends Controller
             'product_code' => $product_code,
             'buying_price' => $request->buying_price,
             'selling_price' => $request->selling_price,
+            'distributor_price' => $request->distributor_price,
             'offer_price' => $request->buying_price,
             'setup_fee' => $request->selling_price,
             'taxID' => "1",
@@ -104,9 +121,9 @@ class productController extends Controller
          ],
          [
             'product_code' => $product_code,
-            'current_stock' => $request->current_stock,
-            'reorder_point' => $request->reorder_point,
-            'reorder_qty' => $request->reorder_qty,
+            'current_stock' => 0,
+            'reorder_point' => 0,
+            'reorder_qty' => 0,
             'expiration_date' => "None",
             'default_inventory' => "None",
             'notification' => 0,
@@ -117,8 +134,134 @@ class productController extends Controller
 
       );
       session()->flash('success', 'Product successfully added.');
+         $random=rand(0,9999);
+      $activityLog = new activity_log();
+      $activityLog->activity = 'Creating Product';
+      $activityLog->user_code = auth()->user()->user_code;
+      $activityLog->section = 'Add Product';
+      $activityLog->action = 'Product '.$product->product_name .'added in warehouse'.$code;
+      $activityLog->userID = auth()->user()->id;
+      $activityLog->activityID = $random;
+      $activityLog->ip_address ="";
+      $activityLog->save();
 
-      return redirect()->route('product.index');
+//      return redirect()->route('product.index');
+      return redirect('/warehousing/'.$code.'/products');
+
+
+   }
+
+   public function importProducts(Request $request)
+   {
+      $this->validate($request, [
+         'upload_import' => 'required',
+      ]);
+      $code= session('warehouse_code');
+      $product_code = Str::random(20);
+      $filePath = $request->file('upload_import')->path();
+
+      $spreadsheet = IOFactory::load($filePath);
+      $worksheet = $spreadsheet->getActiveSheet();
+      $rows = $worksheet->toArray();
+
+      // Skip the first two rows as they contain headers
+      for ($i = 2; $i < count($rows); $i++) {
+         $row = $rows[$i];
+
+         if (!empty(array_filter($row))) {
+            $skuCode = (string) $row[0];
+            $batchCode = (string) $row[0];
+            $category = (string) $row[2];
+            $units = (string) $row[3];
+            $measure = (string) $row[3];
+            $productName = (string) $row[4];
+            $distributorPrice = (float) str_replace(',', '', $row[5]);
+            $buyingPrice = (float) str_replace(',', '', $row[6]);
+            $sellingPrice = (float) str_replace(',', '', $row[7]);
+
+         $product = new product_information;
+         $product->product_name = $productName;
+         $product->url = Str::slug($productName);
+         $product->sku_code = $skuCode;
+         $product->batch_code = $batchCode;
+         $product->category = $category;
+         $product->units = $units;
+         $product->measure = $measure;
+         $product->warehouse_code = $code;
+         $product->brand = "Sidai";
+         $product->image = 'image/92Ct1R2936EUcEZ1hxLTFTUldcSetMph6OGsWu50.png';
+         $product->active = "Active";
+         $product->status = "Active";
+         $product->track_inventory = 'Yes';
+         $product->business_code = Auth::user()->business_code;
+         $product->created_by = Auth::user()->user_code;
+         $product->save();
+
+         $productPrice = new product_price;
+         $productPrice -> product_code=$product_code;
+         $productPrice->productID = $product->id;
+         $productPrice->distributor_price = $distributorPrice;
+         $productPrice->buying_price = $buyingPrice;
+         $productPrice->selling_price = $sellingPrice;
+         $productPrice->offer_price = $buyingPrice;
+         $productPrice->setup_fee = $sellingPrice;
+         $productPrice->taxID = "1";
+         $productPrice->tax_rate = "0";
+         $productPrice->default_price = $sellingPrice;
+         $productPrice->business_code = Auth::user()->business_code;
+         $productPrice->created_by = Auth::user()->user_code;
+         $productPrice->save();
+
+         product_inventory::updateOrCreate(
+         [
+
+            'productID' => $product->id,
+         ],
+         [
+            'product_code' => $product_code,
+            'current_stock' => 0,
+            'reorder_point' => 0,
+            'reorder_qty' => 0,
+            'expiration_date' => "None",
+            'default_inventory' => "None",
+            'notification' => 0,
+            'created_by' => Auth::user()->user_code,
+            'updated_by' => Auth::user()->user_code,
+            'business_code' => Auth::user()->business_code,
+         ]
+         );
+      }
+      }
+
+      session()->flash('success', 'Products imported successfully.');
+      $random=rand(0,9999);
+      $activityLog = new activity_log();
+      $activityLog->activity = 'Importing Products';
+      $activityLog->user_code = auth()->user()->user_code;
+      $activityLog->section = 'Imported Products';
+      $activityLog->action = 'Products '.$product->product_name .'added in warehouse'.$code;
+      $activityLog->userID = auth()->user()->id;
+      $activityLog->activityID = $random;
+      $activityLog->ip_address ="";
+      $activityLog->save();
+      return redirect('/warehousing/'.$code.'/products');
+   }
+
+
+
+   public function upload(Request $request)
+   {
+      $this->validate($request, [
+         'excel_file' => 'required|mimes:xls,xlsx',
+      ]);
+
+      $file = $request->file('excel_file');
+      $import = new ProductImport();
+      Excel::import($import, $file);
+
+      session()->flash('success', 'Products successfully imported.');
+
+      return redirect()->route('products.index');
    }
 
    /**
@@ -140,7 +283,7 @@ class productController extends Controller
          ->orderBy('product_information.id', 'desc')
          ->first();
 
-      return $details;
+//      return $details;
 
       return view('app.products.details.show', compact('details'));
    }
@@ -175,6 +318,78 @@ class productController extends Controller
          'product_price' => $product_price,
       ]);
    }
+   public function restock($id)
+   {
+      $categories = category::where('business_code', Auth::user()->business_code)
+         ->pluck('name', 'id');
+      $suppliers = suppliers::where('business_code', Auth::user()->business_code)
+         ->pluck('name', 'id');
+      $brands = brand::where('business_code', Auth::user()->business_code)
+         ->pluck('name', 'id');
+      $product_information = product_information::whereId($id)->first();
+      $product_price = product_price::where('productID', $id)->first();
+      $product_inventory = product_inventory::where('productID', $id)->first();
+      $code=$product_information->warehouse_code;
+
+
+      return view('app.products.restock', [
+         'id' => $id,
+         'brands' => $brands,
+         'categories' => $categories,
+         'brands' => $brands,
+         'suppliers' => $suppliers,
+         'product_information' => $product_information,
+         'product_inventory' => $product_inventory,
+         'product_price' => $product_price,
+         'code'=>$code,
+      ]);
+   }
+   public function singleview($id)
+   {
+      $product_information = product_information::whereId($id)->first();
+      $product_price = product_price::where('productID', $id)->first();
+      $product_inventory = product_inventory::where('productID', $id)->first();
+      $code=$product_information->warehouse_code;
+
+
+      return view('app.products.productview', [
+         'id' => $id,
+         'product_information' => $product_information,
+         'product_inventory' => $product_inventory,
+         'product_price' => $product_price,
+         'code'=>$code,
+      ]);
+   }
+   public function updatesingle(Request $request, $id)
+   {
+      $information = product_information::whereId($id)->first();
+      $this->validate($request, [
+         'buying_price' => 'required',
+         'distributor_price' => 'required'
+      ]);
+      $prices = product_price::where('id',$id)->first();
+      $prices->buying_price = $request->buying_price;
+      $prices->distributor_price = $request->distributor_price;
+      $prices->selling_price = $request->selling_price;
+      $prices->business_code = Auth::user()->business_code;
+      $prices->save();
+   
+
+      session()->flash('success', 'Prices successfully Updated!');
+      $random=Str::random(20);
+      $activityLog = new activity_log();
+      $activityLog->activity = 'Price Updating';
+      $activityLog->user_code = auth()->user()->user_code;
+      $activityLog->section = 'Product update ';
+      $activityLog->action = 'Product '.$request->product_name .' successfully updated ';
+      $activityLog->userID = auth()->user()->id;
+      $activityLog->activityID = $random;
+      $activityLog->ip_address = $request->ip();
+      $activityLog->save();
+
+      
+      return redirect('/warehousing/'.$information->warehouse_code.'/products');
+   }
 
    /**
     * Update the specified resource in storage.
@@ -183,75 +398,164 @@ class productController extends Controller
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
+   public function updatestock(Request $request, $id)
+   {
+      $information = product_information::whereId($id)->first();
+      $this->validate($request, [
+         'sku_codes' => 'required',
+         'quantities' => 'required',
+      ]);
+      $skuCodes = $request->input('sku_codes');
+      $quantities = $request->input('quantities');
+      foreach ($skuCodes as $key => $skuCode) {
+         $productInventory = product_inventory::where('productID', $id)->first();
+
+         if ($productInventory) {
+            $restockQuantity = $quantities[$key];
+            $productInventory->current_stock += $restockQuantity;
+            $productInventory->reorder_qty = $restockQuantity;
+            $productInventory->save();
+
+            $productSku = new ProductSku();
+            $productSku->product_inventory_id = $productInventory->id;
+            $productSku->warehouse_code = $information->warehouse_code;
+            $productSku->sku_code = $skuCode;
+            $productSku->restocked_quantity = $restockQuantity;
+            $productSku->added_by = Auth::user()->user_code;
+            $productSku->restocked_by = Auth::user()->user_code;
+            $productSku->save();
+
+            $information->updated_at = now();
+            $information->save();
+
+         }
+      }
+
+      session()->flash('success', 'Product successfully restocked!');
+      $random=Str::random(20);
+      $activityLog = new activity_log();
+      $activityLog->activity = 'Product updating';
+      $activityLog->user_code = auth()->user()->user_code;
+      $activityLog->section = 'Product update ';
+      $activityLog->action = 'Product '.$request->product_name .' successfully updated ';
+      $activityLog->userID = auth()->user()->id;
+      $activityLog->activityID = $random;
+      $activityLog->ip_address = $request->ip();
+      $activityLog->save();
+
+//      return redirect()->back();
+      return redirect('/warehousing/'.$information->warehouse_code.'/products');
+   }
    public function update(Request $request, $id)
    {
+      $information = product_information::whereId($id)->first();
+      if ($information->image == null) {
+         $this->validate($request, [
+            'product_name' => 'required',
+//            'buying_price' => 'required',
+//            'selling_price' => 'required',
+//            'image' => 'required|mimes:png,jpg,bmp,gif,jpeg|max:5048',
+         ]);
+      }
       $this->validate($request, [
          'product_name' => 'required',
-         'buying_price' => 'required',
-         'selling_price' => 'required',
-         'image' => 'sometimes|required|mimes:png,jpg,bmp,gif,jpeg|max:5048',
+//         'buying_price' => 'required',
+//         'selling_price' => 'required',
+//         'image' => 'sometimes|mimes:png,jpg,bmp,gif,jpeg|max:5048',
       ]);
-
-      $product_inf = product_information::whereId($id)->first();
-      $image_path = $request->file('image') ? $request->file('image')->store('image', 'public') : $product_inf->image;
-
+//      if ($request->has('image')) {
+//         $image_path = $request->file('image')->store('image', 'public');
+//      }
       product_information::updateOrCreate([
          'id' => $id,
          "business_code" => Auth::user()->business_code,
       ], [
-         "product_name" => $request->product_name ?? $product_inf->product_name,
-         "sku_code" => $request->sku_code ?? $product_inf->sku_code,
-         "url" => Str::slug($request->product_name ?? $product_inf->product_name),
-         "brand" => $request->brandID ?? $product_inf->brandID,
-         "supplierID" => $request->supplierID ?? $product_inf->supplierID,
-         "category" => $request->category ?? $product_inf->category,
-         "image" => $image_path ?? $product_inf->image,
-         "active" => $request->status ?? $product_inf->status,
+         "product_name" => $request->product_name,
+         "sku_code" => $request->sku_code,
+//         "url" => Str::slug($request->product_name),
+//         "brand" => $request->brandID,
+         "supplierID" => $request->supplierID,
+//         "category" => $request->category,
+//         "image" => $image_path ?? $information->image,
+//         "active" => $request->status,
          "track_inventory" => 'Yes',
-         "business_code" => Auth::user()->business_code,
-         "created_by" => Auth::user()->user_code,
+//         "business_code" => Auth::user()->business_code,
+         "updated_by" => Auth::user()->user_code,
       ]);
-      $product_price = product_price::whereId($id)->first();
-      product_price::updateOrCreate(
-         [
-            'productID' => $id,
-         ],
-         [
-            'buying_price' => $request->buying_price ?? $product_price->buying_price,
-            'selling_price' => $request->selling_price ?? $product_price->selling_price,
-            'offer_price' => $request->offer_price ?? $product_price->buying_price,
-            'setup_fee' => $request->setup_fee ?? $product_price->selling_price,
-            'taxID' => "1",
-            'tax_rate' => "0",
-            'default_price' => $request->default_price ?? $product_price->selling_price,
-            'business_code' => Auth::user()->business_code,
-            'created_by' => Auth::user()->user_code,
-         ]
-      );
 
 
-      $product_inventory = product_inventory::whereId($id)->first();
+//      product_price::updateOrCreate(
+//         [
+//            'productID' => $id,
+//         ],
+//         [
+//            'buying_price' => $request->buying_price,
+//            'selling_price' => $request->selling_price,
+//            'offer_price' => $request->buying_price,
+//            'setup_fee' => $request->selling_price,
+//            'taxID' => "1",
+//            'tax_rate' => "0",
+//            'default_price' => $request->selling_price,
+//            'business_code' => Auth::user()->business_code,
+//            'created_by' => Auth::user()->user_code,
+//         ]
+//      );
+
       product_inventory::updateOrCreate(
          [
+
             'productID' => $id,
          ],
          [
-            'current_stock' => $request->current_stock ?? $product_inventory->current_stock,
-            'reorder_point' => $request->reorder_point ?? $product_inventory->reorder_point,
-            'reorder_qty' => $request->reorder_qty ?? $product_inventory->reorder_qty,
+            'current_stock' => $request->current_stock,
+            'reorder_point' => $request->reorder_point,
+            'reorder_qty' => $request->reorder_qty,
             'expiration_date' => "None",
             'default_inventory' => "None",
             'notification' => 0,
-            'created_by' => Auth::user()->user_code,
+//            'created_by' => Auth::user()->user_code,
             'updated_by' => Auth::user()->user_code,
             'business_code' => Auth::user()->business_code,
          ]
+
       );
 
+      session()->flash('success', 'Product successfully restocked!');
+      $random=Str::random(20);
+      $activityLog = new activity_log();
+      $activityLog->activity = 'Product updating';
+      $activityLog->user_code = auth()->user()->user_code;
+      $activityLog->section = 'Product update ';
+      $activityLog->action = 'Product '.$request->product_name .' successfully updated ';
+      $activityLog->userID = auth()->user()->id;
+      $activityLog->activityID = $random;
+      $activityLog->ip_address = $request->ip();
+      $activityLog->save();
 
-      session()->flash('success', 'Product successfully updated !');
+      return redirect('/warehousing/'.$information->warehouse_code.'/products');
+   }
 
-      return redirect()->route('product.index');
+   public function approvestock($requisition_id){
+      $requisition_products = RequisitionProduct::where('requisition_id',$requisition_id)->get();
+      foreach ($requisition_products as $requisition_product){
+         $approveproduct = product_information::whereId($requisition_product)->first();
+         $approveproduct->is_approved = "Yes";
+         $approveproduct->save();
+      }
+      session()->flash('success', 'Product successfully Approved !');
+      $random=rand(0, 9999);
+      $activityLog = new activity_log();
+      $activityLog->activity = 'Stock Approval';
+      $activityLog->user_code = auth()->user()->user_code;
+      $activityLog->section = 'Stock Approved ';
+      $activityLog->action = 'Product '.$approveproduct->product_name .' Successfully Approved  ';
+      $activityLog->userID = auth()->user()->id;
+      $activityLog->activityID = $random;
+      $activityLog->ip_address = '';
+      $activityLog->save();
+
+      return redirect()->route('inventory.approval');
+
    }
 
 
@@ -264,7 +568,7 @@ class productController extends Controller
     */
    public function description($id)
    {
-      $product = product_information::where('id', $id)->where('business_code', Auth::user()->business_code)->first();
+      $product = product_information::where('id', $id)->first();
       $productID = $id;
       return view('app.products.description', compact('product', 'productID'));
    }
@@ -280,7 +584,7 @@ class productController extends Controller
    public function description_update(Request $request, $id)
    {
 
-      $product = product_information::where('id', $id)->where('business_code', Auth::user()->business_code)->first();
+      $product = product_information::where('id', $id)->first();
       $product->short_description = $request->short_description;
       $product->description = $request->description;
       $product->business_code = Auth::user()->business_code;
@@ -303,9 +607,9 @@ class productController extends Controller
    public function price($id)
    {
       $mainBranch = branches::where('businessID', Auth::user()->business_code)->first();
-      $product = product_information::where('id', $id)->where('business_code', Auth::user()->business_code)->first();
-      $defaultPrice = product_price::where('productID', $id)->where('business_code', Auth::user()->business_code)->where('default_price', 'Yes')->first();
-      $prices = product_price::where('productID', $id)->where('business_code', Auth::user()->business_code)->get();
+      $product = product_information::where('id', $id)->first();
+      $defaultPrice = product_price::where('productID', $id)->where('default_price', 'Yes')->first();
+      $prices = product_price::where('productID', $id)->get();
       $taxes = tax::where('businessID', Auth::user()->business_code)->get();
       $outlets = branches::where('businessID', Auth::user()->business_code)->get();
       $productID = $id;

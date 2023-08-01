@@ -82,7 +82,7 @@
                             <td>
 
                               <div class="dropdown">
-                                    <button class="btn btn dropdown-toggle mr-2" style="background-color:#4395d1; color:#ffffff; padding: 6px 14px; font-size: 12px;" type="button" id="dropdownMenuButton" data-bs-trigger="click" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                                    <button class="btn btn dropdown-toggle mr-2" style="background-color:#1877F2; color:#ffffff; padding: 6px 14px; font-size: 10px;" type="button" id="dropdownMenuButton" data-bs-trigger="click" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" data-bs-auto-close="outside">
                                         <i data-feather="eye"></i>
                                     </button>
 

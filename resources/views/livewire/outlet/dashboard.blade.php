@@ -25,7 +25,7 @@
 
             <div class="demo-inline-spacing">
            
-            <button type="button" class="btn btn-icon btn-outline-success" wire:click="export"
+            <button type="button" class="btn btn-icon btn-outline-primary" wire:click="export"
                 wire:loading.attr="disabled" data-toggle="tooltip" data-placement="top" title="Export Excel">
                 <img src="{{ asset('assets/img/excel.png') }}"alt="Export Excel" width="25" height="15"
                     data-toggle="tooltip" data-placement="top" title="Export Excel">Export
@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-7">
     <div class="card card-inverse">
         <div class="card-body">
             <div class="card-body">
@@ -55,17 +55,22 @@
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $outlet->outlet_name }}</td>
                                 <td>
-                                    <div class="dropdown" >
-                                        <button class="btn btn-md btn-primary dropdown-toggle mr-2" type="button" id="dropdownMenuButton" data-bs-trigger="click" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                                           <i data-feather="settings"></i>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a href="" type="button" class="dropdown-item btn btn-sm" style="color: #7cc7e0; font-weight: bold"><i data-feather="eye"></i>&nbsp; View</a>
-                                           <a href="{{ route('outlets.edit',$outlet->outlet_code) }}" type="button" class="dropdown-item btn btn-sm" style="color: #6df16d;font-weight: bold"><i data-feather="edit"></i> &nbsp;Edit</a>
-                                          <a href="{{ route('outlets.destroy',$outlet->outlet_code) }}" type="button" class="dropdown-item btn btn-sm me-2" style="color: #e5602f; font-weight: bold"><i data-feather="delete"> </i> &nbsp; Delete</a>
-  
-                                        </div>
-                                     </div>
+
+                                     <div class="dropdown">
+                                    <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color:#1877F2; color:#ffffff;">
+                                        <i data-feather="eye"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{{ route('outlets.edit',$outlet->outlet_code) }}">
+                                            <i data-feather="edit" class="mr-50"></i>
+                                            <span>Edit</span>
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('outlets.destroy',$outlet->outlet_code) }}">
+                                            <i data-feather='trash' class="mr-50"></i>
+                                            <span>Delete</span>
+                                        </a>
+                                    </div>
+                                </div>
                                 </td>
                             </tr>
                         @endforeach

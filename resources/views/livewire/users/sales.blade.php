@@ -1,8 +1,8 @@
 <div>
-    <div class="card">
+<div class="card">
             <h5 class="card-header"></h5>
             <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50 row">
-                <div class="col-md-4 user_role">
+                <div class="col-md-2 user_role">
                     <div class="input-group input-group-merge">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i data-feather="search"></i></span>
@@ -21,16 +21,27 @@
                         </select>
                     </div>
                 </div>
-            
+               
+                <div class="col-md-2 user_role">
+                    <div class="form-group">
+                        <label for="selectSubregion">Subregion</label>
+                        <select wire:model="selectedSubregion" class="form-control form-control-sm" id="selectSubregion">
+                            <option value="">All Subregions</option>
+                            @foreach ($subregions as $subregion)
+                                <option value="{{ $subregion->id }}">{{ $subregion->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>            
              <div class="col-md-2">
-                
-
-                 <a href="{!! route('user.create') !!}" class="btn btn" style="background-color: #4395d1; color:white"> <i data-feather="user-plus" style="padding:2px"></i>  Add User</a>
+             <a href="{!! route('user.create') !!}" class="btn btn" style="background-color:#1877F2; color:#ffffff;"> <i data-feather="user-plus" style="padding:2px"></i>  Add User</a>
 
              </div>
              
             </div>
         </div>
+
+
         
     <div class="card card-default">
         <div class="card-body">
@@ -64,8 +75,8 @@
                 </td>
                 <td>
                     <div class="dropdown">
-                    <button class="btn btn dropdown-toggle mr-2" style="background-color:#4395d1; color:#ffffff; padding: 6px 14px; font-size: 12px;" type="button" id="dropdownMenuButton" data-bs-trigger="click" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                                        <i data-feather="settings"></i>
+                    <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color:#1877F2; color:#ffffff;">
+                                        <i data-feather="eye"></i>
                                     </button>
                         <div class="dropdown-menu">
                             <!-- <a class="dropdown-item" href="{{ route('user.view', $user->id) }}">

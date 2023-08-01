@@ -17,7 +17,7 @@
    </div>
    @include('partials._messages')
    <div class="row" style="padding-left:6%; padding-right:5%">
-    <div class="col-md-12">
+    <div class="col-md-11">
         <div class="card card-inverse">
            <div class="card-body">
               <table id="data-table-default" class="table table-striped table-bordered">
@@ -38,15 +38,15 @@
                        <td>
                           <div class="d-flex" style="gap:10px">
                              @if($list == 'Admin')
-                                <a href="{{ route('users.admins') }}" class="btn btn-primary btn-sm">View</a>
+                                <a href="{{ route('users.admins') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View</a>
                              @elseif($list == 'Lube Sales Executive')
-                                <a href="{{ route('LubeSalesExecutive') }}" class="btn btn-primary btn-sm">View</a>
+                                <a href="{{ route('LubeSalesExecutive') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View</a>
                                 @elseif($list == 'Lube Merchandizers')
-                                <a href="{{ route('lubemerchandizer') }}" class="btn btn-primary btn-sm">View </a>
+                                <a href="{{ route('lubemerchandizer') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View </a>
                              @elseif($list == 'Sales')
-                                <a href="{{ route('sales') }}" class="btn btn-primary btn-sm">View </a>
+                                <a href="{{ route('sales') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View </a>
                                 @elseif($list == 'Distributors')
-                                <a href="{{ route('Distributors') }}" class="btn btn-primary btn-sm">View </a>
+                                <a href="{{ route('Distributors') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View </a>
                              @endif
                           </div>
                        </td>

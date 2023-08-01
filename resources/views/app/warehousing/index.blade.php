@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app1')
 {{-- page header --}}
 @section('title','Warehousing List')
 
@@ -18,8 +18,15 @@
                </div>
             </div>
          </div>
-      </div>
    </div>
+      <!-- <div class="mb-2 row col-12 pe-1 mr-1 pr-0">
+         <center>
+            <a href="{!! route('warehousing.create') !!}" class="btn btn-md" style="background-color: #24B263;color:white">Add Warehouse</a>
+            <a href="{!! route('warehousing.import') !!}" class="btn btn-md" style="background-color: #24B263;color:white">Import Warehouses</a>
+         </center>
+      </div> -->
+   </div>
+
    @include('partials._messages')
    @livewire('warehousing.index')
 @endsection

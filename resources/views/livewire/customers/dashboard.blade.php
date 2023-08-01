@@ -49,7 +49,7 @@
     <div class="pt-0 pb-2 d-flex justify-content-end align-items-center mx-90 row">
     <div class="col-md">
     <div class="btn-group">
-    <button type="button" class="btn btn-icon btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled" >
+    <button type="button" class="btn btn-icon btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled" >
                         <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">
                         Export
                     </button>
@@ -138,7 +138,7 @@
                             </td>
                             <td>
                                 <div class="dropdown">
-                                    <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color: #089000; color:white" >
+                                    <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color: #1877F2; color:white" >
                                         <i data-feather="eye"></i>
                                     </button>
                                     <div class="dropdown-menu">

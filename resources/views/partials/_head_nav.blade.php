@@ -139,6 +139,10 @@
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
+                     <a class="dropdown-item" href="{!! route('settings.account') !!}"><i class="me-50"
+                            data-feather="settings"></i> Setting</a>
+                            
+
                     <a class="dropdown-item" href="{!! url('logout') !!}"><i class="me-50"
                             data-feather="power"></i> Logout</a>
                 </div>

@@ -147,7 +147,7 @@
                 <div class="mt-0 d-flex justify-content-between flex-md-row flex-column invoice-spacing">
                     <div>
                         <div class="logo-wrapper">
-                            <img style="height:50px;" src={{ asset('app-assets/images/bglogo.png') }} alt="Soko Flow" />
+                            <img style="height:50px;" src={{ asset('app-assets/images/small_logo.png') }} alt="Soko Flow" />
                         </div>
                         <p class="card-text mb-25">23 Olenguruone Avenue, Kileleshwa</p>
                         <p class="card-text mb-25">P.O. Box 15478-00100 City Square, Nairobi</p>
@@ -196,7 +196,8 @@
                                     $subtotal = $subtotal + $value->sub_total;
                                 @endphp
                                 <td class="py-1">
-                                    <span class="font-weight-bold">{{ $value->delivery_quantity }}</span>
+                                    <span class="font-weight-bold">{{ $value->allocated_quantity }}</span>
+                                
                                 </td>
                                 @php
                                     $total = $total + $value->total_amount;

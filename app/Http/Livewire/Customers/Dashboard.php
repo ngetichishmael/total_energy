@@ -106,7 +106,7 @@ class Dashboard extends Component
    public function getCustomer()
    {
       $searchTerm = '%' . $this->search . '%';
-      $query = customers::search($searchTerm)->orderBy('id', 'DESC');
+      $query = customers::search($searchTerm)->orderBy('created_at', 'DESC');
 
   
         // Apply the date filters if provided

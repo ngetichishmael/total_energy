@@ -4,18 +4,128 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <meta name="author" content="Devint">
+    <meta name="author" content="Deveint">
     <title>@yield('title') - sokoflow</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
         rel="stylesheet">
 
-    <!-- BEGIN: Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/css/vendors.min.css') !!}">
-    <!-- END: Vendor CSS-->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/css/bootstrap.css') !!}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo/favicon.ico') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
+        rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+
+    <link rel="stylesheet" href="{{ asset('vendors/css/vendors.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('vendors/css/ui/prism.min.css') }}" />
+{{-- Vendor Styles --}}
+
+
+@yield('vendor-style')
+{{-- Theme Styles --}}
+
+<link rel="stylesheet" href="{{ asset('css/core.css') }}" />
+
+<link rel="stylesheet" href="{{ asset('css/base/core/menu/menu-types/vertical-menu.css') }}" />
+
+{{-- Page Styles --}}
+@yield('page-style')
+
+{{-- Laravel Style --}}
+<link rel="stylesheet" href="{{ asset('css/overrides.css') }}" />
+
+
+<link rel="stylesheet" href="{{ asset('css/base/pages/app-chat.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/base/pages/app-chat-list.css') }}">
+
+
+{{-- user custom styles --}}
+<link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+
+
+ @stack('scripts')
+    <style>
+        .dropdown {
+            display: inline-block;
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            color: darkgray;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            display: none;
+            background-color: #fff;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-menu a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+
+
+    <style>
+    /* Custom CSS for responsive design */
+    /* Styles for devices with a maximum width of 767px (e.g., mobile phones) */
+    @media (max-width: 767px) {
+        /* Adjust the logo size and padding */
+        .brand-logo {
+            padding: 20px;
+            max-width: 150px;
+            margin: 0 auto;
+        }
+
+        /* Center align the login form */
+        .auth-inner {
+            justify-content: center;
+        }
+
+        /* Reduce the card padding */
+        .auth-bg {
+            padding: 2rem;
+        }
+    }
+
+    /* Styles for devices with a minimum width of 768px and maximum width of 1199px (e.g., tablets) */
+    @media (min-width: 768px) and (max-width: 1199px) {
+        /* Adjust the logo size and padding */
+        .brand-logo {
+            padding: 30px;
+            max-width: 200px;
+        }
+    }
+
+    /* Styles for devices with a minimum width of 1200px (e.g., desktops) */
+    @media (min-width: 1200px) {
+        /* Increase the card width */
+        .auth-bg {
+            max-width: 500px;
+        }
+    }
+</style>
+
+
+<link rel="stylesheet" type="text/css" href="{!! asset('app-assets/css/bootstrap.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/css/bootstrap-extended.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/css/colors.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/css/components.css') !!}">
@@ -40,9 +150,9 @@
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/fonts/fontawesome/css/all.min.css') !!}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
     @yield('stylesheets')
+
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{!! asset('assets/css/style.css') !!}">
-    <link rel="stylesheet" type="text/css" href="{!! asset('css/core.css') !!}">
     <!-- END: Custom CSS-->
     @livewireStyles
     <style>
@@ -192,4 +302,12 @@
 
         }
     </style>
+    @yield('stylesheets')
+
+  
+    <!-- END: Custom CSS-->
+    @livewireStyles
+   
 </head>
+
+

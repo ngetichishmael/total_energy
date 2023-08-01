@@ -15,6 +15,25 @@ use Illuminate\Support\Str;
 
 class usersController extends Controller
 {
+
+   public function getUsers(Request $request)
+   {
+      $accountType = $request->input('account_type');
+      $users = User::where('account_type', $accountType)->get();
+
+      return response()->json(['users' => $users]);
+   }
+   public function getDistributors(Request $request)
+   {
+      $distributors = suppliers::whereNotIn('name', ['Sidai', 'sidai'])->orWhereNull('name')->orWhere('name', '')
+         ->whereIn('status', ['Active', 'active'])
+         ->orWhereNull('status')
+         ->orWhere('status', '')
+         ->get();
+
+      return response()->json(['users' => $distributors]);
+   }
+   
     //list
     function list() {
         // $lists = User::whereIn('account_type', ['Admin', 'Manager'])

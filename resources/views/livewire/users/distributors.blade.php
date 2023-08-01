@@ -25,7 +25,7 @@
              <div class="col-md-2">
                 
 
-                 <a href="{!! route('user.create') !!}"  class="btn btn" style="background-color: #4395d1; color:white" > <i data-feather="user-plus" style="padding:2px"></i>  Add User</a>
+                 <a href="{!! route('user.create') !!}"  class="btn btn"  style="background-color:#1877F2; color:#ffffff;" > <i data-feather="user-plus" style="padding:2px"></i>  Add User</a>
 
              </div>
              
@@ -64,8 +64,8 @@
                 </td>
                 <td>
                     <div class="dropdown">
-                    <button class="btn btn dropdown-toggle mr-2" style="background-color:#4395d1; color:#ffffff; padding: 6px 14px; font-size: 12px;" type="button" id="dropdownMenuButton" data-bs-trigger="click" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                                        <i data-feather="settings"></i>
+                    <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color:#1877F2; color:#ffffff;">
+                                        <i data-feather="eye"></i>
                                     </button>
                         <div class="dropdown-menu">
                        

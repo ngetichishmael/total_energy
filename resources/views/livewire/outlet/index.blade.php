@@ -1,7 +1,7 @@
 @extends('layouts.app1')
-{{-- page header --}}
+
 @section('title', 'Customer Outlets')
-{{-- page styles --}}
+
 @php
     use Illuminate\Support\Str;
 @endphp
@@ -12,13 +12,13 @@
         <div class="mb-2 content-header-left col-md-12 col-12">
             <div class="row breadcrumbs-top">
                 <div class="col-12">
-                    <h2 class="mb-0 content-header-title float-start">Outlets</h2>
+                    <h2 class="mb-0 content-header-title float-start">Customer Outlets</h2>
                     <div class="breadcrumb-wrapper">
-                        <ol class="breadcrumb">
+                        <!-- <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item"><a href="#">outlets</a></li>
                             <li class="breadcrumb-item active"><a href="#">All</a></li>
-                        </ol>
+                        </ol> -->
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
     <!-- begin card -->
     <div class="row">
         @livewire('outlet.dashboard')
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="card card-default">
                 <div class="card-body">
                     <div class="card-body">
@@ -57,7 +57,7 @@
                             </div>
 
                             <div class="my-1 col-sm-9 offset-sm-3">
-                                <button type="submit" class="mr-1 btn btn-primary">Submit</button>
+                                <button type="submit" class="mr-1 btn btn" style="background-color:#1877F2; color:#ffffff;">Submit</button>
                             </div>
                         </form>
                     </div>

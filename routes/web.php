@@ -260,6 +260,10 @@ Route::group(['middleware' => ['verified']], function () {
    Route::post('products/inventory/settings/{productID}/update', ['uses' => 'app\products\inventoryController@inventory_settings', 'as' => 'products.inventory.settings.update']);
    Route::post('products/inventory/outlet/link', ['uses' => 'app\products\inventoryController@inventory_outlet_link', 'as' => 'products.inventory.outlet.link']);
    Route::get('products/{productID}/inventory/outle/{id}/link/delete', ['uses' => 'app\products\inventoryController@delete_inventroy', 'as' => 'products.inventory.outlet.link.delete']);
+   Route::get('warehousing/{code}/products', ['uses' => 'app\warehousingController@products', 'as' => 'warehousing.products']);
+   Route::get('warehousing/assign', ['uses' => 'app\warehousingController@assign', 'as' => 'warehousing.assign']);
+   Route::post('warehousing/assignwarehouse', ['uses' => 'app\warehousingController@assignwarehouse', 'as' => 'warehousing.assignwarehouse']);
+
 
    /* === product images === */
    Route::get('products/images/{id}/edit', ['uses' => 'app\products\imagesController@edit', 'as' => 'product.images']);
@@ -315,8 +319,13 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('users/sales', ['uses' => 'app\usersController@sales', 'as' => 'sales']);
    Route::get('users/LubeSalesExecutive', ['uses' => 'app\usersController@LubeSalesExecutive', 'as' => 'LubeSalesExecutive']);
    Route::get('users/Distributors', ['uses' => 'app\usersController@Distributors', 'as' => 'Distributors']);
+   Route::get('/get-users', 'app\usersController@getUsers')->name('get.users');
+   Route::get('/get-distributors', 'app\usersController@getDistributors')->name('get.distributors');
+
 
    /* === Route Scheduling === */
+   Route::get('/get-subregions/{regionId}', 'app\warehousingController@getByRegion')->name('get-subregions');;
+
    Route::get('routes', ['uses' => 'app\routesController@index', 'as' => 'routes.index']);
    Route::get('routes/create', ['uses' => 'app\routesController@create', 'as' => 'routes.create']);
    Route::post('routes/store', ['uses' => 'app\routesController@store', 'as' => 'routes.store']);
@@ -330,11 +339,34 @@ Route::group(['middleware' => ['verified']], function () {
 
 
    /* === Warehousing === */
+   // Route::get('warehousing', ['uses' => 'app\warehousingController@index', 'as' => 'warehousing.index']);
+   // Route::get('warehousing/create', ['uses' => 'app\warehousingController@create', 'as' => 'warehousing.create']);
+   // Route::post('warehousing/store', ['uses' => 'app\warehousingController@store', 'as' => 'warehousing.store']);
+   // Route::get('warehousing/{code}/edit', ['uses' => 'app\warehousingController@edit', 'as' => 'warehousing.edit']);
+   // Route::post('warehousing/{code}/update', ['uses' => 'app\warehousingController@update', 'as' => 'warehousing.update']);
    Route::get('warehousing', ['uses' => 'app\warehousingController@index', 'as' => 'warehousing.index']);
    Route::get('warehousing/create', ['uses' => 'app\warehousingController@create', 'as' => 'warehousing.create']);
+   Route::get('warehousing/show', ['uses' => 'app\warehousingController@show', 'as' => 'warehousing.show']);
+   Route::get('warehousing/import', ['uses' => 'app\warehousingController@import', 'as' => 'warehousing.import']);
+   Route::post('warehousing/import/store', ['uses' => 'app\warehousingController@storeWarehouse', 'as' => 'warehousing.import.store']);
    Route::post('warehousing/store', ['uses' => 'app\warehousingController@store', 'as' => 'warehousing.store']);
    Route::get('warehousing/{code}/edit', ['uses' => 'app\warehousingController@edit', 'as' => 'warehousing.edit']);
    Route::post('warehousing/{code}/update', ['uses' => 'app\warehousingController@update', 'as' => 'warehousing.update']);
+
+   Route::get('warehousing/products', ['uses' => 'app\products\productController@index', 'as' => 'product.index']);
+   Route::get('warehousing/products/create', ['uses' => 'app\products\productController@create', 'as' => 'products.create']);
+   Route::post('warehousing/products/store', ['uses' => 'app\products\productController@store', 'as' => 'products.store']);
+   Route::post('warehousing/products/upload', ['uses' => 'app\products\productController@upload', 'as' => 'products.upload']);
+   Route::get('warehousing/products/{id}/edit', ['uses' => 'app\products\productController@edit', 'as' => 'products.edit']);
+   Route::get('warehousing/products/{id}/restock', ['uses' => 'app\products\productController@restock', 'as' => 'products.restock']);
+   Route::get('warehousing/products/{id}/view', ['uses' => 'app\products\productController@singleview', 'as' => 'products.view']);
+   Route::post('warehousing/products/{id}/updateprices', ['uses' => 'app\products\productController@updatesingle', 'as' => 'products.updatesingle']);
+   Route::post('warehousing/products/{id}/update', ['uses' => 'app\products\productController@update', 'as' => 'products.update']);
+   Route::post('warehousing/products/{id}/updatestock', ['uses' => 'app\products\productController@updatestock', 'as' => 'products.updatestock']); 
+   Route::get('warehousing/products/{id}/details', ['uses' => 'app\products\productController@details', 'as' => 'products.details']);
+   Route::get('warehousing/products/{id}/destroy', ['middleware' => ['permission:delete-products'], 'uses' => 'app\products\productController@destroy', 'as' => 'products.destroy']);
+
+
 
    /* ===  inventory === */
 

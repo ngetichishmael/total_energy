@@ -23,33 +23,13 @@
                     </div>
                 </div>
             
-             <div class="col-md-2" >
-                
-
-                 <a  class="btn btn" style="background-color:#4395d1; color:#ffffff;"  href="{!! route('user.create') !!}" > <i data-feather="user-plus" style="padding:2px"></i>  Add User</a>
-
+             <div class="col-md-2" > 
+                 <a  class="btn btn" style="background-color:#1877F2; color:#ffffff;"  href="{!! route('user.create') !!}" > <i data-feather="user-plus" style="padding:2px"></i>  Add User</a>
              </div>
              
             </div>
         </div>
-    <!-- <div class="mb-2 row">
-        <div class="col-md-9">
-            <label for="">Search</label>
-            <input wire:model.debounce.300ms="search" type="text" class="form-control"
-                placeholder="Enter name, email or phone number">
-        </div>
 
-
-        <div class="col-md-3">
-            <label for="">Items Per</label>
-            <select wire:model="perPage" class="form-control">`
-                <option value="10" selected>10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-        </div>
-    </div> -->
     <div class="card card-default">
         <div class="card-body">
             <div class="pt-0 card-datatable">
@@ -85,8 +65,8 @@
 
                                 <td>
                                     <div class="dropdown">
-                                    <button class="btn btn dropdown-toggle mr-2" style="background-color:#4395d1; color:#ffffff; padding: 6px 14px; font-size: 12px;" type="button" id="dropdownMenuButton" data-bs-trigger="click" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                                        <i data-feather="settings"></i>
+                                    <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color:#1877F2; color:#ffffff;">
+                                        <i data-feather="eye"></i>
                                     </button>
 
                                         <div class="dropdown-menu">
