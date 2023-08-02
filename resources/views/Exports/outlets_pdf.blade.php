@@ -42,7 +42,7 @@
 </head>
 <body>
     <div class="logo">
-    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('app-assets/images/logo.png'))) }}" alt="Logo" width="150" height="80">
+    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('app-assets/images/small_logo.png'))) }}" alt="Logo" width="150" height="80">
     </div>
     <div class="subheading">Outlet List</div>
     <table>

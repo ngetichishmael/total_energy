@@ -54,30 +54,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach ($outlets as $key => $outlet)
-                            <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $outlet->outlet_name }}</td>
-                                <td>
-
-                                     <div class="dropdown">
-                                    <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color:#1877F2; color:#ffffff;">
-                                        <i data-feather="eye"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{{ route('outlets.edit',$outlet->outlet_code) }}">
-                                            <i data-feather="edit" class="mr-50"></i>
-                                            <span>Edit</span>
-                                        </a>
-                                        <a class="dropdown-item" href="{{ route('outlets.destroy',$outlet->outlet_code) }}">
-                                            <i data-feather='trash' class="mr-50"></i>
-                                            <span>Delete</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                </td>
-                            </tr>
-                        @endforeach
+                    @forelse ($outlets as $key => $outlet)
+            <tr>
+                <td>{{ $key + 1 }}</td>
+                <td>{{ $outlet->outlet_name }}</td>
+                <td>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm dropdown-toggle show-arrow" data-toggle="dropdown" style="background-color:#1877F2; color:#ffffff;">
+                            <i data-feather="eye"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('outlets.edit',$outlet->outlet_code) }}">
+                                <i data-feather="edit" class="mr-50"></i>
+                                <span>Edit</span>
+                            </a>
+                            <a class="dropdown-item" href="{{ route('outlets.destroy',$outlet->outlet_code) }}">
+                                <i data-feather='trash' class="mr-50"></i>
+                                <span>Delete</span>
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="3" class="text-center">No outlets found.</td>
+            </tr>
+        @endforelse
                     </tbody>
                 </table>
             </div>

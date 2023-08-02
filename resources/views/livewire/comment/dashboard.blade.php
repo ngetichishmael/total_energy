@@ -21,20 +21,23 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-2 d-flex justify-content-end">
-   
+        <div class="col-md-2">
+                <div class="btn-group">
+                    
+                    <button type="button" class="btn btn-icon btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled" >
+                        <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">
+                        Export
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" wire:click="export">Excel</a>
+                        <a class="dropdown-item" wire:click="exportCSV">CSV</a>
+                        <a class="dropdown-item" wire:click="exportPDF">PDF</a>
+                       
+                    </div>
+                </div>
 
-            <div class="demo-inline-spacing">
-           
-            <button type="button" class="btn btn-icon btn-outline-primary" wire:click="export"
-                wire:loading.attr="disabled" data-toggle="tooltip" data-placement="top" title="Export Excel">
-                <img src="{{ asset('assets/img/excel.png') }}"alt="Export Excel" width="25" height="15"
-                    data-toggle="tooltip" data-placement="top" title="Export Excel">Export
-            </button>
-          </div>
-
-
-        </div>
+                
+            </div>
     </div>
 </div>
 
