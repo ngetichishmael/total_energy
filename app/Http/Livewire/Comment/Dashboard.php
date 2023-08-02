@@ -54,6 +54,6 @@ class Dashboard extends Component
 
    public function exportCSV()
    {
-       return Excel::download(new CommentExport(), 'customer_comments.xlsx');
+       return Excel::download(new CommentExport(), 'customer_comments.csv');
    }
 }
