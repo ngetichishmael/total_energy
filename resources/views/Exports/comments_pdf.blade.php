@@ -23,6 +23,7 @@
         }
         th, td {
             padding: 8px;
+            font-size:10px;
             border-bottom: 1px solid #ddd;
         }
         th {
