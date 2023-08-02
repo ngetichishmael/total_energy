@@ -102,44 +102,50 @@ class Dashboard extends Component
        return $areas;
    }
 
-
    public function getCustomer()
    {
-    $searchTerm = '%' . $this->search . '%';
-    $query = customers::orderBy('id', 'DESC')
-        ->where(function ($q) use ($searchTerm) {
-            $q->where('customer_name', 'LIKE', $searchTerm)
-              ->orWhere('address', 'LIKE', $searchTerm)
-              ->orWhere('phone_number', 'LIKE', $searchTerm);
-        });
-    
-        // Apply the date filters if provided
-           // Apply start and end date filters if provided
+       $searchTerm = '%' . $this->search . '%';
+       $query = customers::orderBy('created_at', 'DESC'); // Order by created_at in descending order (most recent first)
+   
+       // Apply the search term filter
+       $query->where(function ($q) use ($searchTerm) {
+           $q->where('customer_name', 'LIKE', $searchTerm)
+             ->orWhere('address', 'LIKE', $searchTerm)
+             ->orWhere('phone_number', 'LIKE', $searchTerm);
+       });
+   
+       // Check if filters are provided from Blade view
+       if ($this->subregionFilter || $this->areaFilter || $this->start || $this->end) {
+           // Apply the date filters if provided
            if ($this->start && $this->end) {
-            $query->whereBetween('created_at', [$this->start, $this->end]);
-        } elseif ($this->start) {
-            $query->where('created_at', '>=', $this->start);
-        } elseif ($this->end) {
-            $query->where('created_at', '<=', $this->end);
-        }
-      
-
-       // Apply Subregion and Area filters if selected
-       if ($this->subregionFilter) {
-           $areasInSubregion = Area::where('subregion_id', $this->subregionFilter)->pluck('id');
-           if ($this->areaFilter) {
-               // Apply the selected Area filter
-               $query->where('unit_id', $this->areaFilter);
-           } else {
-               // Apply the areas belonging to the selected Subregion
-               $query->whereIn('unit_id', $areasInSubregion);
+               $query->whereBetween('created_at', [$this->start, $this->end]);
+           } elseif ($this->start) {
+               $query->where('created_at', '>=', $this->start);
+           } elseif ($this->end) {
+               $query->where('created_at', '<=', $this->end);
            }
-       } else {
-           // Apply the default areas based on the user's route code
-           $query->whereIn('unit_id', $this->areas());
+   
+           // Apply Subregion and Area filters if selected
+           if ($this->subregionFilter) {
+               $areasInSubregion = Area::where('subregion_id', $this->subregionFilter)->pluck('id');
+               if ($this->areaFilter) {
+                   // Apply the selected Area filter
+                   $query->where('unit_id', $this->areaFilter);
+               } else {
+                   // Apply the areas belonging to the selected Subregion
+                   $query->whereIn('unit_id', $areasInSubregion);
+               }
+           } else {
+               // Apply the default areas based on the user's route code
+               $query->whereIn('unit_id', $this->areas());
+           }
        }
    
        $contacts = $query->paginate($this->perPage);
        return $contacts;
    }
+   
+   
+   
+   
 }
