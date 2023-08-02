@@ -1,7 +1,5 @@
 <?php
 
-// app/Exports/CommentExport.php
-
 namespace App\Exports;
 
 use App\Models\CustomerComment;
@@ -14,6 +12,7 @@ class CommentExport implements FromCollection, WithHeadings
     {
         return CustomerComment::with('Customer', 'User')
             ->select('id', 'customers_id', 'user_id', 'date', 'comment')
+            ->orderBy('date', 'desc') // Order by 'date' column in descending order (most recent first)
             ->get()
             ->map(function ($comment) {
                 return [
@@ -35,4 +34,3 @@ class CommentExport implements FromCollection, WithHeadings
         ];
     }
 }
-
