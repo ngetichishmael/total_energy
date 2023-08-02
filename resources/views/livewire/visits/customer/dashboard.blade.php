@@ -41,19 +41,22 @@
 
             <div class="col-md-2">
                 <div class="btn-group">
+                    
                     <button type="button" class="btn btn-icon btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled" >
                         <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">
                         Export
                     </button>
                     <div class="dropdown-menu">
-                        <button class="dropdown-item" wire:click="export(null)">All</button>
-                        <button class="dropdown-item" wire:click="export('today')">Today</button>
-                        <button class="dropdown-item" wire:click="export('yesterday')">Yesterday</button>
-                        <button class="dropdown-item" wire:click="export('this_week')">This Week</button>
-                        <button class="dropdown-item" wire:click="export('this_month')">This Month</button>
-                        <button class="dropdown-item" wire:click="export('this_year')">This Year</button>
+                        <a class="dropdown-item" wire:click="export(null)">All</a>
+                        <a class="dropdown-item" wire:click="export('today')">Today</a>
+                        <a class="dropdown-item" wire:click="export('yesterday')">Yesterday</a>
+                        <a class="dropdown-item" wire:click="export('this_week')">This Week</a>
+                        <a class="dropdown-item" wire:click="export('this_month')">This Month</a>
+                        <a class="dropdown-item" wire:click="export('this_year')">This Year</a>
                     </div>
                 </div>
+
+                
             </div>
             
         </div>
@@ -70,6 +73,7 @@
                         <th>Start/End Time</th>
                         <th>Duration</th>
                         <th>Date</th>
+
                     </thead>
                     <tbody>
                         @forelse ($visits as $count => $visit)
@@ -111,7 +115,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $visit->created_at->format('d-m-Y') }}</td>
-                            
+                           
                             </tr>
                         @empty
                             <tr>

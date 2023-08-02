@@ -1,4 +1,5 @@
-<div class="card">
+<div>
+    <div class="card">
     <h5 class="card-header"></h5>
     <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50 row">
         <div class="col-md-4 user_role">
@@ -20,23 +21,26 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-2 d-flex justify-content-end">
-   
+        <div class="col-md-2">
+                <div class="btn-group">
+                    
+                    <button type="button" class="btn btn-icon btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled" >
+                        <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">
+                        Export
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" wire:click="export">Excel</a>
+                        <a class="dropdown-item" wire:click="exportCSV">CSV</a>
+                        <a class="dropdown-item" wire:click="exportPDF">PDF</a>
+                       
+                    </div>
+                </div>
 
-            <div class="demo-inline-spacing">
-           
-            <button type="button" class="btn btn-icon btn-outline-primary" wire:click="export"
-                wire:loading.attr="disabled" data-toggle="tooltip" data-placement="top" title="Export Excel">
-                <img src="{{ asset('assets/img/excel.png') }}"alt="Export Excel" width="25" height="15"
-                    data-toggle="tooltip" data-placement="top" title="Export Excel">Export
-            </button>
-          </div>
-
-
-        </div>
+                
+            </div>
     </div>
 </div>
-
+<div class="row">
 <div class="col-md-7">
     <div class="card card-inverse">
         <div class="card-body">
@@ -50,7 +54,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($outlets as $key => $outlet)
+                    @foreach ($outlets as $key => $outlet)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $outlet->outlet_name }}</td>
@@ -80,4 +84,43 @@
             {{ $outlets->links() }}
         </div>
     </div>
+</div>
+<div class="col-md-5">
+            <div class="card card-default">
+                <div class="card-body">
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">Add Outlet</h4> -->
+
+                        <form class="form" method="POST" action="{{ route('outlets.store') }}">
+                            @method('POST')
+                            @csrf
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label for="outlet_code">Outlet Name</label>
+                                    <input type="text" id="outlet_name" class="form-control" placeholder="Outlet Name"
+                                        name="outlet_name" required />
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <input type="text" id="outlet_code" class="form-control"
+                                        value="{{ str::random(20) }}" name="outlet_code" hidden readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <input type="text" id="business_code" class="form-control"
+                                        value="{{ Auth::user()->business_code }}" name="business_code" hidden readonly />
+                                </div>
+                            </div>
+
+                            <div class="my-1 col-sm-9 offset-sm-3">
+                                <button type="submit" class="mr-1 btn btn" style="background-color:#1877F2; color:#ffffff;">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
 </div>
