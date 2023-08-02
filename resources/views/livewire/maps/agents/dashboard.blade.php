@@ -71,7 +71,7 @@
 
     /* Style for the customer list container */
     #customer-list-container {
-        max-height: 900px; /* Adjust this value to set the maximum height of the customer list */
+        max-height: 800px; /* Adjust this value to set the maximum height of the customer list */
         max-width: 200px;
         overflow-y: auto;
     }
