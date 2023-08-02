@@ -28,7 +28,6 @@ class CommentExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            '#',
             'Customer Name',
             'User Name',
             'Date',
