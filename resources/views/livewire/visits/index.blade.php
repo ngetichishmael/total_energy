@@ -61,7 +61,7 @@
                                     <td>{{ $visit->account_type }}</td>
                                     <td>{{ $visit->checkings_count }}</td>
                                     <td><a href="" class="btn btn-sm"
-                                            style="background-color: rgb(173, 37, 37);color:white">View</a></td>
+                                    style="background-color: #1877F2; color:white"  >View</a></td>
                                 </tr>
                             @endforeach
 

@@ -174,7 +174,7 @@
                     content: `
           <div id="content">
             <div id="siteNotice"> </div>
-            <img src="{{ asset('app-assets/images/logo2.jpeg') }}" alt="avatar" height="50" />
+            <img src="{{ asset('app-assets/images/small_logo.png') }}" alt="avatar" height="50" />
             <h1 id="firstHeading" class="firstHeading">${markerData.title}</h1>
             <div id="bodyContent">
               <p><b>Location: </b>${markerData.position.lat}, ${markerData.position.lng}</p>
@@ -254,7 +254,7 @@
                                     content: `
                                     <div id="content">
                                         <div id="siteNotice"> </div>
-                                        <img src="{{ asset('app-assets/images/logo2.jpeg') }}" alt="avatar" height="50" />
+                                        <img src="{{ asset('app-assets/images/small_logo.png') }}" alt="avatar" height="50" />
                                         <h1 id="firstHeading" class="firstHeading">${markerData.title}</h1>
                                         <div id="bodyContent">
                                             <p><b>Location: </b>${markerData.lat}, ${markerData.lng}</p>

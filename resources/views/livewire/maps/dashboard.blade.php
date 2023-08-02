@@ -166,7 +166,7 @@
                 <div id="siteNotice"> </div>
 
                 <img
-                    src="{{ asset('app-assets/images/logo2.jpeg') }}"
+                    src="{{ asset('app-assets/images/small_logo.png') }}"
                     alt="avatar"
                     height="50"
                 />
@@ -250,7 +250,7 @@
                 initialMarkers.forEach((markerData, index) => {
                     const customerName = markerData.customer_name.toLowerCase();
 
-                    if (customerName.includes(searchText) && count < 15) {
+                    if (customerName.includes(searchText) && count < 100) {
                         const listItem = document.createElement("li");
                         listItem.classList.add("list-group-item");
                         listItem.textContent = markerData.customer_name;

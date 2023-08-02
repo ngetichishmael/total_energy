@@ -182,6 +182,38 @@ class usersController extends Controller
         ]);
     }
 
+    public function view($user_code)
+    {
+        $edit = User::where('user_code', $user_code)
+            ->where('business_code', FacadesAuth::user()->business_code)
+            ->first();
+
+        $permissions = AppPermission::where('user_code', $user_code)->first();
+        if ($permissions == null) {
+            $permissions = AppPermission::updateOrCreate(
+                [
+                    "user_code" => $edit->user_code,
+
+                ],
+                [
+                    "van_sales" => "NO",
+                    "new_sales" => "NO",
+                    "schedule_visits" => "NO",
+                    "deliveries" => "NO",
+                    "merchanizing" => "NO",
+                ]
+            );
+        }
+        $regions = Region::all();
+
+        return view('app.users.view', [
+            'edit' => $edit,
+            'user_code' => $user_code,
+            'permissions' => $permissions,
+            'regions' => $regions,
+        ]);
+    }
+
     //update
     public function update(Request $request, $user_code)
     {

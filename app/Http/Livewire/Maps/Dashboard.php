@@ -13,6 +13,7 @@ class Dashboard extends Component
       $initialMarkers = [];
       $customers = customers::whereNotNull('latitude')
          ->whereNotNull('longitude')
+         ->orderBy('id', 'desc') 
          ->get();
       foreach ($customers as $data) {
          $array =
