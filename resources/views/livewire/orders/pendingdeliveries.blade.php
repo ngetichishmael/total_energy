@@ -40,7 +40,7 @@
        </div>
 
        <div class="col-md-2">
-            <button type="button" class="btn btn-icon btn-outline-primary" wire:click="export"
+            <button type="button" class="btn btn-icon btn-outline-success" wire:click="export"
                 wire:loading.attr="disabled" data-toggle="tooltip" data-placement="top" title="Export Excel">
                 <img src="{{ asset('assets/img/excel.png') }}"alt="Export Excel" width="25" height="15"
                     data-toggle="tooltip" data-placement="top" title="Export Excel">Export
@@ -55,7 +55,7 @@
             <div class="card-datatable">
                 <table class="table table-striped table-bordered zero-configuration table-responsive">
                     <thead>
-                        <th width="1%">#</th>
+                        <th width="1%">#OrderID</th>
                         <th>Customer</th>
                         <th>Region</th>
                         <th>Route</th>
@@ -69,7 +69,7 @@
                         @foreach ($orders as $count => $order)
                             <tr>
                                 {{-- @dd($order->id) --}}
-                                <td>{{ $count + 1 }}</td>
+                                <td>{{ $order->order_code ?? '' }}</td>
                                 <td title="{{ $order->Customer->customer_name ?? null }}">
                                     {{ Str::limit($order->Customer->customer_name ?? null, 20) }}</td>
                                 <td title="{{ $order->Customer->Region->name ?? null }}">
@@ -83,7 +83,7 @@
                                 <td>{{ $order->created_at }}</td>
                                 <td>
                                     <div class="dropdown">
-                                        <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color:#1877F2; color:#ffffff;" >
+                                        <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color: #089000; color:white" >
                                         <i data-feather="settings"></i>
                                         </button>
                                         <div class="dropdown-menu">

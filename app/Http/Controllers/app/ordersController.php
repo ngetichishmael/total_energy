@@ -381,6 +381,7 @@ class ordersController extends Controller
         Session::flash('success', 'Delivery created and orders allocated to a user');
         return redirect()->route('orders.pendingorders');
     }
+    
     public function reAllocateOrders(Request $request)
     {
         $this->validate($request, [

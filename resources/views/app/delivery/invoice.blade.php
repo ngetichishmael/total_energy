@@ -1,127 +1,19 @@
-@extends('layouts.app')
+@extends('layouts.app1')
 
-@section('stylesheets')
-    <style>
-        .brc-default-l1 {
-            border-color: #dce9f0 !important;
-        }
 
-        .ml-n1,
-        .mx-n1 {
-            margin-left: -.25rem !important;
-        }
-
-        .mr-n1,
-        .mx-n1 {
-            margin-right: -.25rem !important;
-        }
-
-        .mb-4,
-        .my-4 {
-            margin-bottom: 1.5rem !important;
-        }
-
-        hr {
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            border: 0;
-            border-top: 1px solid rgba(0, 0, 0, .1);
-        }
-
-        .text-grey-m2 {
-            color: #888a8d !important;
-        }
-
-        .text-success-m2 {
-            color: #86bd68 !important;
-        }
-
-        .font-bolder,
-        .text-600 {
-            font-weight: 600 !important;
-        }
-
-        .text-110 {
-            font-size: 110% !important;
-        }
-
-        .text-blue {
-            color: #478fcc !important;
-        }
-
-        .pb-25,
-        .py-25 {
-            padding-bottom: .75rem !important;
-        }
-
-        .pt-25,
-        .py-25 {
-            padding-top: .75rem !important;
-        }
-
-        .bgc-default-tp1 {
-            background-color: rgba(121, 169, 197, .92) !important;
-        }
-
-        .bgc-default-l4,
-        .bgc-h-default-l4:hover {
-            background-color: #f3f8fa !important;
-        }
-
-        .page-header .page-tools {
-            -ms-flex-item-align: end;
-            align-self: flex-end;
-        }
-
-        .btn-light {
-            color: #757984;
-            background-color: #f5f6f9;
-            border-color: #dddfe4;
-        }
-
-        .w-2 {
-            width: 1rem;
-        }
-
-        .text-120 {
-            font-size: 120% !important;
-        }
-
-        .text-primary-m1 {
-            color: #4087d4 !important;
-        }
-
-        .text-danger-m1 {
-            color: #dd4949 !important;
-        }
-
-        .text-blue-m2 {
-            color: #68a3d5 !important;
-        }
-
-        .text-150 {
-            font-size: 150% !important;
-        }
-
-        .text-60 {
-            font-size: 60% !important;
-        }
-
-        .text-grey-m1 {
-            color: #7b7d81 !important;
-        }
-
-        .align-bottom {
-            vertical-align: bottom !important;
-        }
-    </style>
-@endsection
 {{-- page header --}}
-@section('title', 'Delivery Details')
+@section('title', 'Order Details')
 
-{{-- content section --}}
+@section('vendor-style')
+<link rel="stylesheet" href="{{asset('vendors/css/pickers/flatpickr/flatpickr.min.css')}}">
+@endsection
+@section('page-style')
+<link rel="stylesheet" href="{{asset('css/base/plugins/forms/pickers/form-flat-pickr.css')}}">
+<link rel="stylesheet" href="{{asset('css/base/pages/app-invoice.css')}}">
+@endsection
+
 @section('content')
-    <div class="content-header row">
+<div class="content-header row">
         <div class="mb-2 content-header-left col-md-12 col-10">
             <div class="row breadcrumbs-top">
                 <div class="col-12">
@@ -138,114 +30,160 @@
             </div>
         </div>
     </div>
-    @include('partials._messages')
+    
+<section class="invoice-preview-wrapper" >
+      @include('partials._messages')
+  <div class="row invoice-preview" >
     <!-- Invoice -->
-    <div class="pr-5 mr-5 col-xl-11 col-md-8 col-12">
-        <div class="card invoice-preview-card">
-            <div class="pb-0 card-body invoice-padding">
-                <!-- Header starts -->
-                <div class="mt-0 d-flex justify-content-between flex-md-row flex-column invoice-spacing">
-                    <div>
-                        <div class="logo-wrapper">
-                            <img style="height:50px;" src={{ asset('app-assets/images/small_logo.png') }} alt="Soko Flow" />
-                        </div>
-                        <p class="card-text mb-25">23 Olenguruone Avenue, Kileleshwa</p>
+    <div class="col-xl-10 col-md-2 col-12" style="padding-left:10%;">
+      <div class="card invoice-preview-card">
+        <div class="card-body invoice-padding pb-0">
+          <!-- Header starts -->
+          <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+            <div>
+            @foreach ($deliveries as $count => $deliver)
+              <div class="logo-wrapper">
+              <img style="height:50px;" src={{ asset('app-assets/images/small_logo.png') }} alt="Soko Flow" />
+              </div>
+
+                    <p class="card-text mb-25"> {{ $deliver->Customer->customer_name ?? ''}}   23 Olenguruone Avenue, Kileleshwa</p>
                         <p class="card-text mb-25">P.O. Box 15478-00100 City Square, Nairobi</p>
                         <p class="mb-0 card-text">+254 748 424 757, +254 724 032 354</p>
                         <p class="mb-0 card-text">info@deveint.com</p>
-                    </div>
-                    <div class="mt-2 mt-md-0">
-
-                        @foreach ($deliveries as $count => $deliver)
-                            <h4 class="invoice-title">
-                                <strong>Delivery Code: </strong>
-                                <span class="invoice-number">{{ $deliver->delivery_code }}</span>
-                            </h4>
-                            <div class="invoice-date-wrapper">
-                                <strong>Delivery Date:</strong>
-                                <span class="invoice-date">{{ $deliver->delivered_time ?? 'Not Set' }}</span>
-                            </div>
-                    </div>
-                </div>
-                <!-- Header ends -->
             </div>
-
-            <hr class="invoice-spacing" />
-
-            <!-- Invoice Description starts -->
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th class="py-1">Product </th>
-                            <th class="py-1">Delivery</th>
-                            <th class="py-1">Quantity</th>
-                            <th class="py-1">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($deliver->DeliveryItems as $key => $value)
-                            <tr>
-                                <td class="py-1">
-                                    <p class="card-text font-weight-bold mb-25">{{ $value->product_name }}</p>
-                                </td>
-                                <td class="py-1">
-                                    <span class="font-weight-bold">{{ $value->note }}</span>
-                                </td>
-                                @php
-                                    $subtotal = $subtotal + $value->sub_total;
-                                @endphp
-                                <td class="py-1">
-                                    <span class="font-weight-bold">{{ $value->allocated_quantity }}</span>
-                                
-                                </td>
-                                @php
-                                    $total = $total + $value->total_amount;
-                                @endphp
-                                <td class="py-1">
-                                    <span class="font-weight-bold">{{ number_format($value->total_amount) }}</span>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="mt-md-0 mt-2">
+      
+              <h4 class="invoice-title">
+                Delivery ID
+                <span class="invoice-number">#{{ $deliver->delivery_code }}</span>
+              </h4>
+              <div class="invoice-date-wrapper">
+                <p class="invoice-date-title">Delivery Date:</p>
+                <p class="invoice-date">{{ optional($deliver->delivered_time)->format('Y-m-d h:i A') ?? 'Not Set' }}</p>
+              </div>
+        
+                <div class="invoice-date-wrapper">
+                <p class="invoice-date-title">Status:</p>
+               
+                <p class="invoice-date"> 
+                @if ($deliver->delivery_status === 'DELIVERED')
+                     <span class="badge badge-pill badge-light-success mr-1"> {{ $deliver->delivery_status ?? '' }} </span>
+                @else
+                     <span class="badge badge-pill badge-light-warning mr-1">{{ $deliver->delivery_status ?? '' }}</span>
+                @endif
+              </div>
             </div>
-            {{-- {{ dd($total) }} --}}
-            <hr class="invoice-spacing" />
-            <div class="pb-0 card-body invoice-padding">
-                <div class="row invoice-sales-total-wrapper">
-                    <div class="order-2 mt-3 col-md-6 order-md-1 mt-md-0">
-                        <p class="mb-0 card-text">
-                            <span class="font-weight-bold"><strong>Salesperson:</strong></span> <span class="ml-75">
-                                {{ $deliver->User->name }}</span>
-                        </p>
-                    </div>
-                    <div class="order-2 col-md-6 d-flex justify-content-end col-md-2">
-                        <div class="col-6">
-                            <div class="invoice-total-item">
-                                <p class="invoice-total-title"><strong>Subtotal:</strong></p>
-                                <p class="invoice-total-amount">KSH {{ number_format($subtotal) }}</p>
-                            </div>
-                            <hr class="my-50" />
-                            <div class="invoice-total-item">
-                                <p class="invoice-total-title"><strong>Total:</strong></p>
-                                <p class="invoice-total-amount">KSH: {{ number_format($total) }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-            <!-- Invoice Description ends -->
-
-            <hr class="invoice-spacing" />
-
-
+          </div>
+          <!-- Header ends -->
         </div>
+
+        <hr class="invoice-spacing" />
+
+        
+
+        <!-- Invoice Description starts -->
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="py-1">Description</th>
+                <th class="py-1">Unit Price</th>
+                <th class="py-1">Qty</th>
+                <th class="py-1">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+            @foreach ($deliver->OrderItems as $key => $value)
+              <tr class="border-bottom">
+                <td class="py-1">
+                  <p class="card-text font-weight-bold mb-25"> {{ $value->product_name ?? ''}} </p>
+                  <p class="card-text text-nowrap">
+                 SKU
+                  </p>
+                </td>
+                        @php
+                           $subtotal=$subtotal+$value->sub_total;
+                        @endphp
+                <td class="py-1">
+                  <span class="font-weight-bold">ksh {{ number_format($value->selling_price) }}</span>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">{{ $value->quantity }}</span>
+                </td>
+                         @php
+                            $total=$total+$value->total_amount;
+                         @endphp
+                <td class="py-1">
+                  <span class="font-weight-bold"> ksh {{ number_format($value->total_amount) }}</span>
+                </td>
+              </tr>
+             @endforeach
+
+     
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card-body invoice-padding pb-0">
+          <div class="row invoice-sales-total-wrapper">
+            <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
+              <p class="card-text mb-0">
+                <span class="font-weight-bold">Salesperson:</span> <span class="ml-75"> {{ $deliver->User->name }}</span>
+              </p>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
+              <div class="invoice-total-wrapper">
+                <div class="invoice-total-item">
+                  <p class="invoice-total-title">Subtotal:</p>
+                  <p class="invoice-total-amount"> Ksh {{ number_format($subtotal) }} </p>
+                </div>
+                <div class="invoice-total-item">
+                  <p class="invoice-total-title">Discount:</p>
+                  <p class="invoice-total-amount">Ksh 0.0</p>
+                </div>
+                <!-- <div class="invoice-total-item">
+                  <p class="invoice-total-title">Tax:</p>
+                  <p class="invoice-total-amount">1%</p>
+                </div> -->
+                <hr class="my-50" />
+                <div class="invoice-total-item">
+                  <p class="invoice-total-title">Total:</p>
+                  <p class="invoice-total-amount"> Ksh {{ number_format($total) }} </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Invoice Description ends -->
+        @endforeach
+        <hr class="invoice-spacing" />
+
+        <!-- Invoice Note starts -->
+        <div class="card-body invoice-padding pt-0">
+          <div class="row">
+            <div class="col-12">
+              <span class="font-weight-bold">Notes:</span>
+              <span> {{ $deliver->delivery_note ?? 'No delivery note !! ...' }}</span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Invoice Note ends -->
+      </div>
     </div>
     <!-- /Invoice -->
-@endsection
-{{-- page scripts --}}
-@section('script')
 
+   
+  </div>
+</section>
+
+@endsection
+
+@section('vendor-script')
+<script src="{{asset('vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
+<script src="{{asset('vendors/js/pickers/flatpickr/flatpickr.min.js')}}"></script>
+@endsection
+
+@section('page-script')
+<script src="{{asset('js/scripts/pages/app-invoice.js')}}"></script>
 @endsection

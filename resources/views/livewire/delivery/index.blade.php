@@ -68,7 +68,7 @@
                              <td>{!! $deliver->User->name??'' !!}</td>
                             <td>{!! $deliver->updated_at??'' !!}</td>
                             <td >
-                                @if ($deliver->delivery_status === 'Delivered')
+                                @if ($deliver->delivery_status === 'DELIVERED')
                                   <span class="badge badge-pill badge-light-success mr-1"> {{ $deliver->delivery_status }} </span>
                                 @else
                                    <span class="badge badge-pill badge-light-warning mr-1">  {{ $deliver->delivery_status }}</span>

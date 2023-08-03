@@ -26,9 +26,10 @@
               <div class="logo-wrapper">
 
               </div>
-              <p class="card-text mb-25">Main Office 149, Kenmeat</p>
+              <p class="card-text mb-25">Main Office, Total Energies</p>
               <p class="card-text mb-25">Nairobi Kenya</p>
-              <p class="card-text mb-0"><i data-feather="phone" class=" fa-flip-horizontal text-secondary"></i> (123) 456 7891 </p>
+              <p class="card-text mb-0">+254 (123) 456 7891 </p>
+              <p class="card-text mb-0"> <b> Order Status </b> :  <span class="badge badge-pill badge-light-success mr-1"> {{ $order->order_status ?? '' }} </span> </p>
             </div>
             <div class="mt-md-0 mt-2">
               <h4 class="invoice-title">
@@ -37,16 +38,21 @@
               </h4>
               <div class="invoice-date-wrapper">
                 <p class="invoice-date-title">Date Issued:</p>
-                <p class="invoice-date">{!! $order->created_at->format('Y-m-d h:i A') !!} </p>
+                <p class="invoice-date">{{ $order->created_at->format('Y-m-d h:i A') }}</p>
               </div>
               <div class="invoice-date-wrapper">
                 <p class="invoice-date-title">Due Date:</p>
-                <p class="invoice-date"> {!! $order->created_at->format('Y-m-d h:i A') !!} </p>
+                <p class="invoice-date">{{ $order->created_at->format('Y-m-d h:i A') }}</p>
               </div>
                 <div class="invoice-date-wrapper">
                 <p class="invoice-date-title">Status:</p>
                
-                <p class="invoice-date">   <span class="badge badge-pill badge-light-warning mr-1"> {!! $order->order_status ?? ''!!} </span> </p>
+                <p class="invoice-date"> 
+                @if ($order->payment_status === 'PAID')
+                     <span class="badge badge-pill badge-light-success mr-1"> {{ $order->payment_status ?? '' }} </span>
+                @else
+                     <span class="badge badge-pill badge-light-warning mr-1">{{ $order->payment_status ?? '' }}</span>
+                @endif
               </div>
             </div>
           </div>
@@ -63,7 +69,7 @@
               <h6 class="mb-25"> {{ $test->customer_name ?? '' }} </h6>
               <p class="card-text mb-25"> {!! $test->contact_person ?? '' !!} </p>
               <p class="card-text mb-25"> {!! $test->address ?? '' !!}</p>
-              <p class="card-text mb-25"><i data-feather="phone" class=" fa-flip-horizontal text-secondary"></i> {!! $test->phone_number ?? '' !!}</p>
+              <p class="card-text mb-25">(+254){!! $test->phone_number ?? '' !!}</p>
               <p class="card-text mb-0"> {!! $test->email ?? '' !!}</p>
             </div>
             <div class="col-xl-4 p-0 mt-xl-0 mt-2">
@@ -190,7 +196,7 @@
     <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
       <div class="card">
         <div class="card-body">
-          <a   href="{!! route('orders.delivery.allocation', $order->order_code) !!}" class="btn btn btn-block mb-75" style="background-color:#1877F2; color:#ffffff;">
+          <a   href="{!! route('orders.delivery.allocation', $order->order_code) !!}" class="btn btn-primary btn-block mb-75" >
           Allocate Delivery
           </a>
           <button class="btn btn-outline-secondary btn-block btn-download-invoice mb-75">Download</button>
