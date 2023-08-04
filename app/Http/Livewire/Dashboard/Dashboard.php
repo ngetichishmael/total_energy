@@ -174,17 +174,18 @@ class Dashboard extends Component
             ->count();
     }
 
-    public function getVanSalesTotal()
+    public function getLatestSales()
     {
-
         return Orders::with('User', 'Customer')
-            ->where('order_type', 'Van sales')
-            ->whereBetween('created_at', [$this->start, $this->end])
             ->where('order_status', 'DELIVERED')
             ->whereHas('Customer')
             ->whereHas('User')
+            ->orderBy('created_at', 'desc') 
+            ->take(10) 
             ->paginate($this->perVansale);
     }
+    
+    
 
     public function getPreOrderTotal()
     {
@@ -218,16 +219,14 @@ class Dashboard extends Component
     }
     public function getOrderFullmentTotal()
     {
-
         return Delivery::with('User', 'Customer')
             ->where('delivery_status', 'LIKE', '%deliver%')
-            ->where(function (Builder $query) {
-                $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
-            })
             ->whereHas('User')
             ->whereHas('Customer')
+            ->latest('updated_at') // Sort by 'updated_at' in descending order (most recent first)
             ->paginate($this->perOrderFulfilment);
     }
+    
 
     public function getVisitsTotal()
     {
@@ -242,11 +241,10 @@ class Dashboard extends Component
     public function getCustomersCountTotal()
     {
         return customers::with('Area', 'Creator', 'Region')
-            ->where(function (Builder $query) {
-                $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
-            })
+            ->orderBy('created_at', 'desc') // Order by the most recent (created_at in descending order)
             ->paginate($this->perBuyingCustomer);
     }
+    
 
     public function getGraphData()
     {
@@ -304,7 +302,7 @@ class Dashboard extends Component
             'activeAll' => $this->getActiveAllCount(),
             'strike' => $this->getStrikeCount(),
             'customersCount' => $this->getCustomersCount(),
-            'vansalesTotal' => $this->getVanSalesTotal(),
+            'sales' => $this->getLatestSales(),
             'preorderTotal' => $this->getPreOrderTotal(),
             'activeUserTotal' => $this->getActiveUserTotal(),
             'getUserTotal' => $this->getUserTotal(),

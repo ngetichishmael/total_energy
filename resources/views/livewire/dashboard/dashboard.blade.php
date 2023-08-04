@@ -36,7 +36,7 @@
 
                         <a href="javascript:void(0);"> Ksh. {{ number_format($sumTotal) }} </a>
                     </h3>
-                    <button type="button" class="btn btn-primary">View Sales</button>
+                    <a href="{!! route('delivery.index') !!}" class="btn btn"  style="background-color:#1877F2; color:#ffffff;" >View Sales</a>
                     <img src="{{ asset('images/illustration/badge.svg') }}" class="congratulation-medal"
                         alt="Medal Pic" />
                 </div>
@@ -152,7 +152,7 @@
                 <div class="mt-0 card-body statistics-body">
                     <div class="row">
                         <div class="mb-2 col-xl-2 col-sm-4 col-12 mb-xl-0">
-                            <a href="#vansalesSection" class="d-flex align-items-center">
+                            <a href="#salesSection" class="d-flex align-items-center">
                                 <div class="avatar bg-light-warning">
                                     <div class="avatar-content">
                                         <span class="material-symbols-outlined">inventory</span>
@@ -168,7 +168,7 @@
                         </div>
 
                         <div class="mb-2 col-xl-2 col-sm-4 col-12 mb-xl-0">
-                            <a href="#preorderSection" class="d-flex align-items-center">
+                            <a href="#salesSection" class="d-flex align-items-center">
                                 <div class="avatar bg-light-primary">
                                     <div class="avatar-content">
                                         <span class="material-symbols-outlined">shopping_cart</span>
