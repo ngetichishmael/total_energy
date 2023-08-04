@@ -20,6 +20,9 @@ class Pendingorders extends Component
    public $orderAsc = false;
    public $customer_name = null;
 
+   public $start;
+   public $end;
+
    public $fromDate;
    public $toDate;
    public function render()

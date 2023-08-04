@@ -23,6 +23,8 @@ class Index extends Component
     public $customer_name = null;
     public $user;
 
+
+
     public function mount()
     {
         $this->user = Auth::user();

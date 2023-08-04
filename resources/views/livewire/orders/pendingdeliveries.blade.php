@@ -66,7 +66,7 @@
                         <th>Actions</th>
                     </thead>
                     <tbody>
-                        @foreach ($orders as $count => $order)
+                        @forelse ($orders as $count => $order)
                             <tr>
                                 {{-- @dd($order->id) --}}
                                 <td>{{ $order->order_code ?? '' }}</td>
@@ -78,12 +78,12 @@
                                     {{ Str::limit($order->Customer->Area->name ?? null, 20) }}</td>
                                 <td title="{{ $order->User->name ?? null }}">
                                     {{ Str::limit($order->User->name ?? null, 10) }}</td>
-                                <td>{{ number_format($order->Order->price_total) }}</td>
-                                <td>{{ number_format($order->Order->balance) }}</td>
+                                <td>{{ isset($order->Order->price_total) ? number_format($order->Order->price_total) : '' }}</td>
+                                <td>{{ isset($order->Order->balance) ? number_format($order->Order->balance) : '' }}</td>
                                 <td>{{ $order->created_at }}</td>
                                 <td>
                                     <div class="dropdown">
-                                        <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color: #089000; color:white" >
+                                        <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color: #1877F2; color:white" >
                                         <i data-feather="settings"></i>
                                         </button>
                                         <div class="dropdown-menu">
@@ -113,7 +113,11 @@
                                 </td> 
 
                             </tr>
-                        @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">No pending orders available.</td>
+                                </tr>
+                            @endforelse
                     </tbody>
                 </table>
             </div>

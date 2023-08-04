@@ -23,6 +23,9 @@ class Distributororders extends Component
    public $statusFilter = '';
 
 
+   public $start;
+   public $end;
+   
    public $fromDate;
    public $toDate;
    public function render()

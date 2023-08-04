@@ -23,6 +23,9 @@ class index extends Component
    public $fromDate;
    public $toDate;
 
+   public $start;
+   public $end;
+
    protected $queryString = ['search', 'fromDate', 'toDate'];
    public $user;
 
