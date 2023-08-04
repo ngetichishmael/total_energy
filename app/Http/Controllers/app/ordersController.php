@@ -34,7 +34,7 @@ class ordersController extends Controller
     {
         return view('app.orders.pendingdeliveries');
     }
-    public function distributororders()
+    public function vansalesorders()
     {
         return view('app.orders.distributororders');
     }

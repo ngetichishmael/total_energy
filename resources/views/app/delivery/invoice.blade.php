@@ -46,8 +46,8 @@
               <img style="height:50px;" src={{ asset('app-assets/images/small_logo.png') }} alt="Soko Flow" />
               </div>
 
-                    <p class="card-text mb-25"> {{ $deliver->Customer->customer_name ?? ''}}   23 Olenguruone Avenue, Kileleshwa</p>
-                        <p class="card-text mb-25">P.O. Box 15478-00100 City Square, Nairobi</p>
+                    <p class="card-text mb-25"> {{ $deliver->Customer->customer_name ?? ''}} </p>
+                        <p class="card-text mb-25">P.O. Box  {{ $deliver->Customer->address ?? ''}}</p>
                         <p class="mb-0 card-text">+254 748 424 757, +254 724 032 354</p>
                         <p class="mb-0 card-text">info@deveint.com</p>
             </div>
