@@ -109,7 +109,7 @@
                         <tr>
                             <td>
                                 {!! $contact->customer_name !!} <br>
-                                @if ($contact->approval === 'Approved')
+                                @if ($contact->status === 'Active')
                                     <span class="badge badge-pill badge-light-success mr-1">Approved</span>
                                 @else
                                     <span class="badge badge-pill badge-light-warning mr-1">Pending</span>
