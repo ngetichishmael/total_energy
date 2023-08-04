@@ -145,7 +145,7 @@
                                         <span class="badge badge-pill badge-light-warning mr-1">Pending</span>
                                     @endif
                                 </td>
-                                <td>{{ $sale->updated_at->format('d-m-Y h:i A') }}</td>
+                                <td>{{ $sale->updated_at->format('d-m-Y h:i A') ?? ''}}</td>
                             </tr>
                         @empty
                             <x-emptyrow>
@@ -168,11 +168,12 @@
                     <thead class="thead-light">
                         <tr>
                             <th>ID</th>
+                            <th>Delivery Code</th>
                             <th>Order Code</th>
                             <th>Sales Associates</th>
                             <th>Customer</th>
-                            <th>Balance </th>
-                            <th>Payment Status</th>
+                            <!-- <th>Balance </th> -->
+                            <th>Status</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -180,10 +181,11 @@
                         @forelse ($orderfullmentTotal as $key=>$sale)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
+                                <td>{{ $sale->delivery_code }}</td>
                                 <td>{{ $sale->order_code }}</td>
                                 <td>{{ $sale->user()->pluck('name')->implode('') }}</td>
                                 <td>{{ $sale->customer()->pluck('customer_name')->implode('') }}</td>
-                                <td>{{ $sale->balance }}</td>
+                                <!-- <td>{{ $sale->balance }}</td> -->
                                 <td>
                                     @if ($sale->delivery_status === 'DELIVERED')
                                         <span class="badge badge-pill badge-light-success mr-1">{{ $sale->delivery_status ?? '' }}</span>
@@ -191,7 +193,7 @@
                                         <span class="badge badge-pill badge-light-warning mr-1">{{ $sale->delivery_status ?? '' }}</span>
                                     @endif
                                 </td>
-                                <td>{{ $sale->updated_at->format('d-m-Y h:i A') }}</td>
+                                <td>{{ $sale->delivered_time }}</td>
                             </tr>
                         @empty
                             <x-emptyrow>
