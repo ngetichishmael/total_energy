@@ -97,7 +97,7 @@ class Order extends Component
                'qty' => $value["quantity"] ?? 1,
                'discount' => "0",
                'checkin_code' => $checkinCode,
-               'order_type' => 'Van sales',
+               'order_type' => 'Pre Order',
                'delivery_date' => now(),
                'business_code' => Auth::user()->business_code,
                'updated_at' => now(),

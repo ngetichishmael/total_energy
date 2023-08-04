@@ -90,7 +90,7 @@
                         <th>Actions</th>
                     </thead>
                     <tbody>
-                        @foreach ($pendingorders as $count => $order)
+                        @forelse ($pendingorders as $count => $order)
 
                             <tr>
                                 {{-- @dd($order->id) --}}
@@ -138,7 +138,11 @@
                                </td>
 
                             </tr>
-                        @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center">No pending orders available.</td>
+                            </tr>
+                            @endforelse
                     </tbody>
                 </table>
             </div>
