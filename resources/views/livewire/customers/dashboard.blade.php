@@ -95,6 +95,7 @@
             <table class="table table-striped table-bordered zero-configuration table-responsive">
                 <thead>
                     <th width="15%">Name</th>
+                    <th>Type</th>
                     <th>Number</th>
                     <th width="15%">Address</th>
                     <th width="15%">Zone/Region</th>
@@ -115,6 +116,7 @@
                                     <span class="badge badge-pill badge-light-warning mr-1">Pending</span>
                                 @endif
                             </td>
+                            <td>{!! $contact->customer_group !!}</td>
                             <td>{!! $contact->phone_number !!}</td>
                             <td>
                                 {{ $contact->address }}

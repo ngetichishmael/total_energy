@@ -21,7 +21,7 @@ class Distributors extends Component
     public function render()
     {
        $searchTerm = '%' . $this->search . '%';
-       $distributors =  User::where('account_type', ['Distributors'])->whereLike([
+       $distributors =  User::where('account_type', ['Managers'])->whereLike([
           'Region.name', 'name', 'email', 'phone_number',
        ], $searchTerm)
           ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc')

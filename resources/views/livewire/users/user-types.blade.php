@@ -43,9 +43,7 @@
                                 <a href="{{ route('LubeSalesExecutive') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View</a>
                                 @elseif($list == 'Lube Merchandizers')
                                 <a href="{{ route('lubemerchandizer') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View </a>
-                             @elseif($list == 'Sales')
-                                <a href="{{ route('sales') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View </a>
-                                @elseif($list == 'Distributors')
+                                @elseif($list == 'Managers')
                                 <a href="{{ route('Distributors') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View </a>
                              @endif
                           </div>

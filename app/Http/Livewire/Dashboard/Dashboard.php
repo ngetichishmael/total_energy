@@ -359,7 +359,7 @@ class Dashboard extends Component
         $this->getActiveAllCount();
         $this->getStrikeCount();
         $this->getCustomersCount();
-        $this->getVanSalesTotal();
+       
         $this->getPreOrderTotal();
         $this->getActiveUserTotal();
         $this->getUserTotal();

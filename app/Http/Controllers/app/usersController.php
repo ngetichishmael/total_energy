@@ -75,7 +75,7 @@ class usersController extends Controller
 
     public function Distributors()
     {
-        $Distributors = User::where('account_type', 'Distributors');
+        $Distributors = User::where('account_type', 'Managers');
         return view('app.users.distributors', compact('Distributors'));
     }
 

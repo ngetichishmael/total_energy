@@ -9,7 +9,7 @@
      <!-- begin breadcrumb -->
      <div class="mb-2 row">
         <div class="col-md-9">
-            <h2 class="page-header"> Distributors </h2>
+            <h2 class="page-header"> Managers </h2>
         </div>
         <div class="col-md-3">
             <center>
