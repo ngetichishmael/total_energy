@@ -104,13 +104,14 @@ class Dashboard extends Component
 
     public function getPreOrderCount()
     {
-
+        // Get the first and last day of the current month
+        $start = Carbon::now()->startOfMonth();
+        $end = Carbon::now()->endOfMonth();
+    
         return Orders::where('order_type', 'Pre Order')
-            ->where(function (Builder $query) {
-                $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+            ->where(function (Builder $query) use ($start, $end) {
+                $this->whereBetweenDate($query, 'created_at', $start, $end);
             })
-            ->whereHas('Customer')
-            ->whereHas('User')
             ->count();
     }
     public function getOrderFullmentByDistributorsCount()
@@ -226,6 +227,16 @@ class Dashboard extends Component
             ->latest('updated_at') // Sort by 'updated_at' in descending order (most recent first)
             ->paginate($this->perOrderFulfilment);
     }
+
+    public function deliveryCount()
+    {
+        $currentMonth = Carbon::now()->format('m');
+        
+        return Orders::where('order_type', 'Pre Order')
+            ->where('order_status', 'DELIVERED')
+            ->whereMonth('delivery_date', $currentMonth)
+            ->count();
+    }
     
 
     public function getVisitsTotal()
@@ -267,7 +278,7 @@ class Dashboard extends Component
             ->groupBy('month')
             ->pluck('count', 'month')
             ->toArray();
-        $deliveryCounts = Delivery::where('delivery_status', 'LIKE', '%deliver%')
+        $deliveryCounts = Delivery::where('delivery_status', 'DELIVERED')
             ->whereYear('updated_at', '=', date('Y'))
             ->selectRaw('MONTH(updated_at) as month, COUNT(*) as count')
             ->groupBy('month')
@@ -309,6 +320,7 @@ class Dashboard extends Component
             'orderfullmentTotal' => $this->getOrderFullmentTotal(),
             'visitsTotal' => $this->getVisitsTotal(),
             'customersCountTotal' => $this->getCustomersCountTotal(),
+            'deliveryCount' => $this->deliveryCount(),
             'graphdata' => $this->getGraphData(),
 
         ];
@@ -359,7 +371,7 @@ class Dashboard extends Component
         $this->getActiveAllCount();
         $this->getStrikeCount();
         $this->getCustomersCount();
-       
+        $this->deliveryCount();
         $this->getPreOrderTotal();
         $this->getActiveUserTotal();
         $this->getUserTotal();

@@ -223,7 +223,7 @@
                                 </div> &nbsp;&nbsp;
                                 <div class="pl-3 my-auto ml-3 media-body">
                                     <h4 class="ml-2 font-weight-bolder" style="font-weight: bolder">
-                                        {{ number_format(count($orderfullmentTotal)) }}</h4>
+                                        {{ number_format($deliveryCount) }}</h4>
                                     <p class="mb-0 card-text font-small-3 font-medium-1"
                                         style="color: rgba(71,75,79,0.76)">Deliveries</p>
                                 </div>
