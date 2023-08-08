@@ -35,15 +35,19 @@
                     <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('customers.*') !!}" href="{{ route('customer') }}"><i
                                 data-feather="circle"></i><span class="menu-item text-truncate">List</span></a>
                     </li>
-                    <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}" href="{{ route('outlets') }}"><i
-                                data-feather="circle"></i><span class="menu-item text-truncate">Customer
-                                OutLets</span></a>
-                    </li>
-                    <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('custom.*') !!}"
-                            href="{{ route('CustomerComment') }}"><i data-feather="circle"></i><span
-                                class="menu-item text-truncate">Customer
-                                Comments</span></a>
-                    </li>
+
+                    @if(Auth::check() && Auth::user()->account_type == 'Admin')
+                        <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}" href="{{ route('outlets') }}"><i
+                                    data-feather="circle"></i><span class="menu-item text-truncate">Customer
+                                    OutLets</span></a>
+                        </li>
+                        <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('custom.*') !!}"
+                                href="{{ route('CustomerComment') }}"><i data-feather="circle"></i><span
+                                    class="menu-item text-truncate">Customer
+                                    Comments</span></a>
+                        </li>
+                    @endif
+
                 </ul>
             </li>
    

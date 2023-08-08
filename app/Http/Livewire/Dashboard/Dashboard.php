@@ -97,23 +97,30 @@ class Dashboard extends Component
         return Orders::where('order_type', 'Van sales')
             ->where(function (Builder $query) {
                 $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
-            })
-            ->where('order_status', 'DELIVERED')
-            ->sum('price_total');
+            })->count();
     }
 
     public function getPreOrderCount()
     {
-        // Get the first and last day of the current month
-        $start = Carbon::now()->startOfMonth();
-        $end = Carbon::now()->endOfMonth();
+        $query = Orders::where('order_type', 'Pre Order');
     
-        return Orders::where('order_type', 'Pre Order')
-            ->where(function (Builder $query) use ($start, $end) {
-                $this->whereBetweenDate($query, 'created_at', $start, $end);
-            })
-            ->count();
+        // If both start and end filters are not applied, consider the current month
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = Carbon::now()->startOfMonth();
+            $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+        } else {
+            // Apply the start and end filters
+            if (!empty($this->start)) {
+                $query->where('updated_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('updated_at', '<=', $this->end);
+            }
+        }
+    
+        return $query->count();
     }
+    
     public function getOrderFullmentByDistributorsCount()
     {
         return Orders::where('order_status', 'LIKE', '%deliver%')
