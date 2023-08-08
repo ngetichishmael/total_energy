@@ -23,9 +23,12 @@ class customerController extends Controller
     {
         return view('app.customers.index');
     }
-    public function show()
+    public function show($id)
     {
-        return view('app.customers.index');
+
+        return view('app.customers.view', [
+            'id' => $id,
+        ]);
     }
 
     public function create()
