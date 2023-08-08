@@ -294,7 +294,7 @@ class Dashboard extends Component
     public function getGraphData()
     {
         $months = [
-            1 => 'January',
+            1 => 'Jan',
             2 => 'February',
             3 => 'March',
             4 => 'April',
@@ -307,7 +307,8 @@ class Dashboard extends Component
             11 => 'November',
             12 => 'December',
         ];
-        $preOrderCounts = Orders::whereYear('updated_at', '=', date('Y'))
+        $preOrderCounts = Orders::where('order_type', 'Pre Order')
+            ->whereYear('updated_at', '=', date('Y'))
             ->selectRaw('MONTH(updated_at) as month, COUNT(*) as count')
             ->groupBy('month')
             ->pluck('count', 'month')
