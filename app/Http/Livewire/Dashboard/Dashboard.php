@@ -93,11 +93,23 @@ class Dashboard extends Component
 
     public function getVanSales()
     {
-
-        return Orders::where('order_type', 'Van sales')
-            ->where(function (Builder $query) {
-                $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
-            })->count();
+        $query = Orders::where('order_type', 'Van sales');
+    
+        // If both start and end filters are not applied, consider the current month
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = Carbon::now()->startOfMonth();
+            $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+        } else {
+            // Apply the start and end filters
+            if (!empty($this->start)) {
+                $query->where('updated_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('updated_at', '<=', $this->end);
+            }
+        }
+    
+        return $query->count();
     }
 
     public function getPreOrderCount()
@@ -120,7 +132,7 @@ class Dashboard extends Component
     
         return $query->count();
     }
-    
+
     public function getOrderFullmentByDistributorsCount()
     {
         return Orders::where('order_status', 'LIKE', '%deliver%')
@@ -178,8 +190,23 @@ class Dashboard extends Component
 
     public function getCustomersCount()
     {
-        return customers::whereBetween('created_at', [$this->start, $this->end])
-            ->count();
+        $query = Customers::query();
+    
+        // If both start and end filters are not applied, consider the current month
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = Carbon::now()->startOfMonth();
+            $query->whereBetween('created_at', [$currentMonth, Carbon::now()]);
+        } else {
+            // Apply the start and end filters
+            if (!empty($this->start)) {
+                $query->where('created_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('created_at', '<=', $this->end);
+            }
+        }
+    
+        return $query->count();
     }
 
     public function getLatestSales()
