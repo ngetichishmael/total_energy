@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\EWallet;
+use App\Models\Orders;
+use App\Models\order_payments;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class EWalletController extends Controller
 {
@@ -28,13 +31,21 @@ class EWalletController extends Controller
      */
     public function store(Request $request)
     {
-        $ewallet = EWallet::UpdateOrCreate(
+
+        $validatedData = $request->validate([
+            'customer_id' => ['required', Rule::exists('customers', 'id')],
+            'amount' => 'required|numeric',
+        ]);
+
+        $ewallet = EWallet::updateOrCreate(
             [
-                'customer_id' => $request->customer_id,
+                'customer_id' => $validatedData['customer_id'],
             ],
             [
-                'amount' => $request->amount,
-            ]);
+                'amount' => $validatedData['amount'],
+            ]
+        );
+
         return response()->json([
             'ewallet' => $ewallet,
         ]);
@@ -49,9 +60,12 @@ class EWalletController extends Controller
      */
     public function show($id)
     {
-        $ewallet = EWallet::whereId($id)->get();
+
+        $orders = Orders::where('customerID', $id)->pluck('order_code');
+
         return response()->json([
-            'ewallet' => $ewallet,
+            'message' => "Transaction",
+            'transaction' => order_payments::whereIn('order_id', $orders)->get(),
         ]);
 
     }

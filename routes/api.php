@@ -176,6 +176,17 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('route/schedule/{id}', ['uses' => 'routeScheduleController@show', 'as' => 'route.schedule']);
 
     /**
+     * API Post EWallet
+     */
+
+    Route::post('/post/wallet', ['uses' => 'EWalletController@store'])->name('post.ewallet');
+
+    /**
+     * API Get all transaction
+     */
+
+    Route::get('/get/transactions/{id}', ['uses' => 'EWalletController@show'])->name('show.ewallet');
+    /**
      * API send image data to customer
      */
     Route::get('/all/products', [CustomersProductsController::class, "getAllProducts"])->middleware('auth:sanctum');
