@@ -93,27 +93,46 @@ class Dashboard extends Component
 
     public function getVanSales()
     {
-
-        return Orders::where('order_type', 'Van sales')
-            ->where(function (Builder $query) {
-                $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
-            })
-            ->where('order_status', 'DELIVERED')
-            ->sum('price_total');
+        $query = Orders::where('order_type', 'Van sales');
+    
+        // If both start and end filters are not applied, consider the current month
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = Carbon::now()->startOfMonth();
+            $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+        } else {
+            // Apply the start and end filters
+            if (!empty($this->start)) {
+                $query->where('updated_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('updated_at', '<=', $this->end);
+            }
+        }
+    
+        return $query->count();
     }
 
     public function getPreOrderCount()
     {
-        // Get the first and last day of the current month
-        $start = Carbon::now()->startOfMonth();
-        $end = Carbon::now()->endOfMonth();
+        $query = Orders::where('order_type', 'Pre Order');
     
-        return Orders::where('order_type', 'Pre Order')
-            ->where(function (Builder $query) use ($start, $end) {
-                $this->whereBetweenDate($query, 'created_at', $start, $end);
-            })
-            ->count();
+        // If both start and end filters are not applied, consider the current month
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = Carbon::now()->startOfMonth();
+            $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+        } else {
+            // Apply the start and end filters
+            if (!empty($this->start)) {
+                $query->where('updated_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('updated_at', '<=', $this->end);
+            }
+        }
+    
+        return $query->count();
     }
+
     public function getOrderFullmentByDistributorsCount()
     {
         return Orders::where('order_status', 'LIKE', '%deliver%')
@@ -171,8 +190,23 @@ class Dashboard extends Component
 
     public function getCustomersCount()
     {
-        return customers::whereBetween('created_at', [$this->start, $this->end])
-            ->count();
+        $query = Customers::query();
+    
+        // If both start and end filters are not applied, consider the current month
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = Carbon::now()->startOfMonth();
+            $query->whereBetween('created_at', [$currentMonth, Carbon::now()]);
+        } else {
+            // Apply the start and end filters
+            if (!empty($this->start)) {
+                $query->where('created_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('created_at', '<=', $this->end);
+            }
+        }
+    
+        return $query->count();
     }
 
     public function getLatestSales()
@@ -260,7 +294,7 @@ class Dashboard extends Component
     public function getGraphData()
     {
         $months = [
-            1 => 'January',
+            1 => 'Jan',
             2 => 'February',
             3 => 'March',
             4 => 'April',
@@ -273,7 +307,8 @@ class Dashboard extends Component
             11 => 'November',
             12 => 'December',
         ];
-        $preOrderCounts = Orders::whereYear('updated_at', '=', date('Y'))
+        $preOrderCounts = Orders::where('order_type', 'Pre Order')
+            ->whereYear('updated_at', '=', date('Y'))
             ->selectRaw('MONTH(updated_at) as month, COUNT(*) as count')
             ->groupBy('month')
             ->pluck('count', 'month')
