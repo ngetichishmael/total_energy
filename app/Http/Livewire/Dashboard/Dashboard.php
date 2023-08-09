@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Models\customers;
+use App\Models\AssignedRegion;
 use App\Models\customer\checkin;
 use App\Models\Delivery;
 use App\Models\Orders;
@@ -100,74 +101,93 @@ class Dashboard extends Component
     public function getVanSales()
     {
         $user = Auth::user();
-
-        if (Auth::check()) {
-  
-           if ($user->account_type == 'Admin') {
-
-            $query = Orders::where('order_type', 'Van sales');
     
-            // If both start and end filters are not applied, consider the current month
-            if (empty($this->start) && empty($this->end)) {
-                $currentMonth = Carbon::now()->startOfMonth();
-                $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+        if (Auth::check()) {
+            if ($user->account_type == 'Admin') {
+                $query = Orders::where('order_type', 'Van sales');
+                
+                if (empty($this->start) && empty($this->end)) {
+                    $currentMonth = Carbon::now()->startOfMonth();
+                    $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+                } else {
+                    if (!empty($this->start)) {
+                        $query->where('updated_at', '>=', $this->start);
+                    }
+                    if (!empty($this->end)) {
+                        $query->where('updated_at', '<=', $this->end);
+                    }
+                }
+                
+                return $query->count();
             } else {
-                // Apply the start and end filters
-                if (!empty($this->start)) {
-                    $query->where('updated_at', '>=', $this->start);
+                $query = Orders::join('customers', 'orders.customerID', '=', 'customers.id')
+                               ->join('assigned_regions', 'customers.region_id', '=', 'assigned_regions.region_id')
+                               ->where('assigned_regions.user_code', $user->user_code)
+                               ->where('order_type', 'Van sales');
+                
+                if (empty($this->start) && empty($this->end)) {
+                    $currentMonth = Carbon::now()->startOfMonth();
+                    $query->whereBetween('orders.updated_at', [$currentMonth, Carbon::now()]);
+                } else {
+                    if (!empty($this->start)) {
+                        $query->where('orders.updated_at', '>=', $this->start);
+                    }
+                    if (!empty($this->end)) {
+                        $query->where('orders.updated_at', '<=', $this->end);
+                    }
                 }
-                if (!empty($this->end)) {
-                    $query->where('updated_at', '<=', $this->end);
-                }
+                
+                return $query->count();
             }
-        
-            return $query->count();
-        
-        } else {
-            $query = Orders::join('customers', 'orders.customerID', '=', 'customers.id')
-            ->where('order_type', 'Van Sales');
-            // If both start and end filters are not applied, consider the current month
-            if (empty($this->start) && empty($this->end)) {
-                $currentMonth = Carbon::now()->startOfMonth();
-                $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
-            } else {
-                // Apply the start and end filters
-                if (!empty($this->start)) {
-                    $query->where('updated_at', '>=', $this->start);
-                }
-                if (!empty($this->end)) {
-                    $query->where('updated_at', '<=', $this->end);
-                }
-            }
-        
-            return $query->count();
         }
-        }
-
-     
     }
+    
+    
 
     public function getPreOrderCount()
     {
-        $query = Orders::where('order_type', 'Pre Order');
+        $user = Auth::user();
     
-        // If both start and end filters are not applied, consider the current month
-        if (empty($this->start) && empty($this->end)) {
-            $currentMonth = Carbon::now()->startOfMonth();
-            $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
-        } else {
-            // Apply the start and end filters
-            if (!empty($this->start)) {
-                $query->where('updated_at', '>=', $this->start);
-            }
-            if (!empty($this->end)) {
-                $query->where('updated_at', '<=', $this->end);
+        if (Auth::check()) {
+            if ($user->account_type == 'Admin') {
+                $query = Orders::where('order_type', 'Pre Order');
+                
+                if (empty($this->start) && empty($this->end)) {
+                    $currentMonth = Carbon::now()->startOfMonth();
+                    $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+                } else {
+                    if (!empty($this->start)) {
+                        $query->where('updated_at', '>=', $this->start);
+                    }
+                    if (!empty($this->end)) {
+                        $query->where('updated_at', '<=', $this->end);
+                    }
+                }
+                
+                return $query->count();
+            } else {
+                $query = Orders::join('customers', 'orders.customerID', '=', 'customers.id')
+                               ->join('assigned_regions', 'customers.region_id', '=', 'assigned_regions.region_id')
+                               ->where('assigned_regions.user_code', $user->user_code)
+                               ->where('order_type', 'Pre Order');
+                
+                if (empty($this->start) && empty($this->end)) {
+                    $currentMonth = Carbon::now()->startOfMonth();
+                    $query->whereBetween('orders.updated_at', [$currentMonth, Carbon::now()]);
+                } else {
+                    if (!empty($this->start)) {
+                        $query->where('orders.updated_at', '>=', $this->start);
+                    }
+                    if (!empty($this->end)) {
+                        $query->where('orders.updated_at', '<=', $this->end);
+                    }
+                }
+                
+                return $query->count();
             }
         }
-    
-        return $query->count();
     }
-
+    
     public function getOrderFullmentByDistributorsCount()
     {
         return Orders::where('order_status', 'LIKE', '%deliver%')
@@ -213,10 +233,9 @@ class Dashboard extends Component
 
     public function getActiveUserCount()
     {
-        return checkin::where(function (Builder $query) {
+        return User::where(function (Builder $query) {
             $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
         })
-            ->distinct('user_code')
             ->count();
     }
 
@@ -237,24 +256,44 @@ class Dashboard extends Component
 
     public function getCustomersCount()
     {
-        $query = Customers::query();
+        $user = Auth::user();
     
-        // If both start and end filters are not applied, consider the current month
-        if (empty($this->start) && empty($this->end)) {
-            $currentMonth = Carbon::now()->startOfMonth();
-            $query->whereBetween('created_at', [$currentMonth, Carbon::now()]);
-        } else {
-            // Apply the start and end filters
-            if (!empty($this->start)) {
-                $query->where('created_at', '>=', $this->start);
+        if (Auth::check()) {
+            $query = Customers::query();
+    
+            if ($user->account_type == 'Admin') {
+                if (empty($this->start) && empty($this->end)) {
+                    $currentMonth = Carbon::now()->startOfMonth();
+                    $query->whereBetween('created_at', [$currentMonth, Carbon::now()]);
+                } else {
+                    if (!empty($this->start)) {
+                        $query->where('created_at', '>=', $this->start);
+                    }
+                    if (!empty($this->end)) {
+                        $query->where('created_at', '<=', $this->end);
+                    }
+                }
+            } else {
+                $query->join('assigned_regions', 'customers.region_id', '=', 'assigned_regions.region_id')
+                    ->where('assigned_regions.user_code', $user->user_code);
+    
+                if (empty($this->start) && empty($this->end)) {
+                    $currentMonth = Carbon::now()->startOfMonth();
+                    $query->whereBetween('customers.created_at', [$currentMonth, Carbon::now()]);
+                } else {
+                    if (!empty($this->start)) {
+                        $query->where('customers.created_at', '>=', $this->start);
+                    }
+                    if (!empty($this->end)) {
+                        $query->where('customers.created_at', '<=', $this->end);
+                    }
+                }
             }
-            if (!empty($this->end)) {
-                $query->where('created_at', '<=', $this->end);
-            }
+    
+            return $query->count();
         }
-    
-        return $query->count();
     }
+    
 
     public function getLatestSales()
     {
@@ -311,13 +350,30 @@ class Dashboard extends Component
 
     public function deliveryCount()
     {
-        $currentMonth = Carbon::now()->format('m');
-        
-        return Orders::where('order_type', 'Pre Order')
-            ->where('order_status', 'DELIVERED')
-            ->whereMonth('delivery_date', $currentMonth)
-            ->count();
+        $user = Auth::user();
+    
+        if (Auth::check()) {
+            if ($user->account_type == 'Admin') {
+                $currentMonth = Carbon::now()->format('m');
+                
+                return Orders::where('order_type', 'Pre Order')
+                    ->where('order_status', 'DELIVERED')
+                    ->whereMonth('delivery_date', $currentMonth)
+                    ->count();
+            } else {
+                $currentMonth = Carbon::now()->format('m');
+                
+                return Orders::join('customers', 'orders.customerID', '=', 'customers.id')
+                    ->join('assigned_regions', 'customers.region_id', '=', 'assigned_regions.region_id')
+                    ->where('assigned_regions.user_code', $user->user_code)
+                    ->where('order_type', 'Pre Order')
+                    ->where('order_status', 'DELIVERED')
+                    ->whereMonth('delivery_date', $currentMonth)
+                    ->count();
+            }
+        }
     }
+    
     
 
     public function getVisitsTotal()

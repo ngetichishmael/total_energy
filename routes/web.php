@@ -388,9 +388,13 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('settings/account', ['uses' => 'app\settingsController@account', 'as' => 'settings.account']);
    Route::post('settings/account/{id}/update', ['uses' => 'app\settingsController@update_account', 'as' => 'settings.account.update']);
 
-   //activity log
+   //activity logs
    Route::get('settings/activity-log', ['uses' => 'app\settingsController@activity_log', 'as' => 'settings.activity.log']);
 
+   Route::get('activity', ['uses' => 'ActivityController@index', 'as' => 'activity.index']);
+   Route::get('activity/show/{id}', ['uses' => 'ActivityController@show', 'as' => 'activity.show']);
+   Route::get('sales/activity', ['uses' => 'ActivityController@sales', 'as' => 'activity.sales']);
+   
    //Territories
    Route::get('territories', ['uses' => 'app\territoriesController@index', 'as' => 'territories.index']);
 

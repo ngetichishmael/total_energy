@@ -31,14 +31,19 @@
                             href="{{ route('customer') }}"><i data-feather="circle"></i><span
                                 class="menu-item text-truncate">List</span></a>
                     </li>
-                    <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}"
-                            href="{{ route('outlets') }}"><i data-feather="circle"></i><span
-                                class="menu-item text-truncate">OutLets</span></a>
-                    </li>
-                    <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('custom.*') !!}"
-                            href="{{ route('CustomerComment') }}"><i data-feather="circle"></i><span
-                                class="menu-item text-truncate">Comments</span></a>
-                    </li>
+
+                    @if (Auth::user()->account_type === 'Admin')
+                        <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}"
+                                href="{{ route('outlets') }}"><i data-feather="circle"></i><span
+                                    class="menu-item text-truncate">OutLets</span></a>
+                        </li>
+                        <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('custom.*') !!}"
+                                href="{{ route('CustomerComment') }}"><i data-feather="circle"></i><span
+                                    class="menu-item text-truncate">Comments</span></a>
+                        </li>
+                    @endif
+
+
                 </ul>
             </li>
 
@@ -164,71 +169,98 @@
                         </li>
                     </ul>
                 </li>
-
-                <li class="nav-item {!! Nav::isResource('target') !!}">
-                    <a class="d-flex align-items-center" href="#"><i data-feather="target"></i><span
-                            class="menu-title text-truncate" data-i18n="Invoice">Target</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href=" {{ route('sales.target') }}"><i
-                                    data-feather="credit-card"></i><span
-                                    class="menu-item text-truncate">Sales</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="{{ route('visit.target') }}"><i
-                                    data-feather="truck"></i><span class="menu-item text-truncate">Visits</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="{{ route('leads.target') }}"><i
-                                    data-feather="compass"></i><span class="menu-item text-truncate">Leads</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="{{ route('order.target') }}"><i
-                                    data-feather="shopping-cart"></i><span
-                                    class="menu-item text-truncate">Orders</span></a>
-                        </li>
-                    </ul>
+        </ul>
+        </li> -->
+        @endif
+        <li class="nav-item {!! Nav::isResource('target') !!}">
+            <a class="d-flex align-items-center" href="#"><i data-feather="target"></i><span
+                    class="menu-title text-truncate" data-i18n="Invoice">Targets</span></a>
+            <ul class="menu-content">
+                <li><a class="d-flex align-items-center" href=" {{ route('sales.target') }}"><i
+                            data-feather="credit-card"></i><span class="menu-item text-truncate">Sales</span></a>
                 </li>
-            @endif
+                <li><a class="d-flex align-items-center" href="{{ route('visit.target') }}"><i
+                            data-feather="truck"></i><span class="menu-item text-truncate">Visits</span></a>
+                </li>
+                <li><a class="d-flex align-items-center" href="{{ route('leads.target') }}"><i
+                            data-feather="compass"></i><span class="menu-item text-truncate">Leads</span></a>
+                </li>
+                <li><a class="d-flex align-items-center" href="{{ route('order.target') }}"><i
+                            data-feather="shopping-cart"></i><span class="menu-item text-truncate">Orders</span></a>
+                </li>
+            </ul>
+        </li>
 
-            <li class="nav-item {!! Nav::isResource('survey') !!}">
-                <a class="d-flex align-items-center" href="#">
-                    <i data-feather='clipboard'></i><span class="menu-title text-truncate">Survey</span>
-                </a>
+
+        <!-- <li class="nav-item {!! Nav::isResource('deliver') !!}">
+            <a class="d-flex align-items-center" href="{!! route('delivery.index') !!}">
+                <i data-feather='truck'></i><span class="menu-title text-truncate" data-i18n="Todo">
+                    Deliveries</span>
+            </a>
+        </li> -->
+        {{-- <li class="nav-item">
+            <a class="d-flex align-items-center" href="#">
+                <i data-feather='calendar'></i><span class="menu-title text-truncate" data-i18n="Todo"> Scheduled
+                    visits</span>
+            </a>
+        </li> --}}
+
+        <!-- <li class="nav-item {!! Nav::isResource('survey') !!}">
+            <a class="d-flex align-items-center" href="#">
+                <i data-feather='clipboard'></i><span class="menu-title text-truncate">Survey</span>
+            </a>
+            <ul class="menu-content">
+                <li>
+                    <a class="d-flex align-items-center" href="{!! route('survey.index') !!}">
+                        <i data-feather="circle">
+                        </i>
+                        <span class="menu-item text-truncate">Survey</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-items-center {!! Nav::isResource('survey') !!}" href="{!! route('SurveryResponses') !!}">
+                        <i data-feather="circle">
+                        </i>
+                        <span class="menu-item text-truncate">Responses</span>
+                    </a>
+                </li>
+            </ul>
+        </li> -->
+
+        <li class="nav-item {!! Nav::isResource('warehousing') !!}">
+            <a class="d-flex align-items-center" href="#"><i data-feather='archive'></i><span
+                    class="menu-title text-truncate" data-i18n="Invoice"> Warehousing</span></a>
+            <ul class="menu-content">
+                <li><a class="d-flex align-items-center" href="{!! route('warehousing.index') !!}"><i
+                            data-feather="circle"></i><span class="menu-item text-truncate">All
+                            Warehouses</span></a></li>
+                <li><a class="d-flex align-items-center" href="{!! route('warehousing.create') !!}"><i
+                            data-feather="circle"></i><span class="menu-item text-truncate">Add
+                            Warehouse</span></a></li>
+            </ul>
+        </li>
+        @if (Auth::user()->account_type === 'Admin')
+            <li class="nav-item {!! Nav::isResource('reports') !!}">
+                <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i
+                        data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Invoice">
+                        All Reports</span></a>
+            </li>
+            <!-- <li class="nav-item {!! Nav::isResource('settings') !!}">
+                <a class="d-flex align-items-center" href="#"><i data-feather='settings'></i><span
+                        class="menu-title text-truncate" data-i18n="Invoice"> Settings</span></a>
                 <ul class="menu-content">
-                    <li>
-                        <a class="d-flex align-items-center" href="{!! route('survey.index') !!}">
-                            <i data-feather="circle">
-                            </i>
-                            <span class="menu-item text-truncate">Survey</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="d-flex align-items-center {!! Nav::isResource('survey') !!}" href="{!! route('SurveryResponses') !!}">
-                            <i data-feather="circle">
-                            </i>
-                            <span class="menu-item text-truncate">Responses</span>
-                        </a>
+                    <li><a class="d-flex align-items-center" href="{!! route('settings.account') !!}"><i
+                                data-feather="circle"></i><span class="menu-item text-truncate">Account</span></a>
                     </li>
                 </ul>
-            </li>
-            <li class="nav-item {!! Nav::isResource('warehousing') !!}">
-                <a class="d-flex align-items-center" href="#"><i data-feather='archive'></i><span
-                        class="menu-title text-truncate" data-i18n="Invoice"> Warehousing</span></a>
-                <ul class="menu-content">
-                    <li style="padding-left: 50px"><a class="d-flex align-items-center"
-                            href="{!! route('warehousing.index') !!}">
-                            <span class="menu-item text-truncate">
-                                Warehouses</span></a></li>
-                    <li style="padding-left: 50px"><a class="d-flex align-items-center"
-                            href="{!! route('inventory.approval') !!}"><span class="menu-item text-truncate">Approve
-                                Stock</span></a>
-                    </li>
-                </ul>
-            </li>
-            @if (Auth::user()->account_type === 'Admin')
-                <li class="nav-item {!! Nav::isResource('reports') !!}">
-                    <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i
-                            data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Invoice">
-                            All Reports</span></a>
-                </li>
-            @endif
+            </li> -->
+        @endif
+
+        <li class="nav-item {!! Nav::isResource('Activity') !!}">
+            <a class="d-flex align-items-center" href="#"><i data-feather='file-text'></i><span
+                    class="menu-title text-truncate" data-i18n="Invoice">Activity Logs</span></a>
+        </li>
+
         </ul>
 
         <br>
