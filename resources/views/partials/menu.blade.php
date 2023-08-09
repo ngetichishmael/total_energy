@@ -51,13 +51,12 @@
                 </ul>
             </li>
    
-            @if (Auth::user()->account_type === 'Admin')
             <li class="nav-item {!! Nav::isResource('users') !!}">
                 <a class="d-flex align-items-center" href="{!! route('users.list') !!}">
                     <i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Todo"> Users</span>
                 </a>
             </li>
-            @endif
+        
             <li class="nav-item {!! Nav::isResource('visits') !!}">
               <a class="d-flex align-items-center" href="#"><i data-feather='truck'></i><span
                     class="menu-title text-truncate" data-i18n="Invoice">Visits</span></a>
@@ -198,7 +197,7 @@
 
   
         @if (Auth::user()->account_type === 'Admin')
-        <li class="nav-item {!! Nav::isResource('supplier') !!}">
+        <!-- <li class="nav-item {!! Nav::isResource('supplier') !!}">
             <a class="d-flex align-items-center" href="#"><i data-feather='refresh-ccw'></i><span
                     class="menu-title text-truncate" data-i18n="Invoice">Suppliers</span></a>
             <ul class="menu-content">
@@ -209,11 +208,11 @@
                             data-feather="circle"></i><span class="menu-item text-truncate">Categories</span></a>
                 </li>
             </ul>
-        </li>
-       
+        </li> -->
+        @endif
         <li class="nav-item {!! Nav::isResource('target') !!}">
             <a class="d-flex align-items-center" href="#"><i data-feather="target"></i><span
-                    class="menu-title text-truncate" data-i18n="Invoice">Target</span></a>
+                    class="menu-title text-truncate" data-i18n="Invoice">Targets</span></a>
             <ul class="menu-content">
                 <li><a class="d-flex align-items-center" href=" {{ route('sales.target') }}"><i
                             data-feather="credit-card"></i><span class="menu-item text-truncate">Sales</span></a>
@@ -229,7 +228,7 @@
                 </li>
             </ul>
         </li>
-        @endif
+      
       
         <!-- <li class="nav-item {!! Nav::isResource('deliver') !!}">
             <a class="d-flex align-items-center" href="{!! route('delivery.index') !!}">
@@ -295,6 +294,12 @@
                 </ul>
             </li> -->
         @endif
+
+        <li class="nav-item {!! Nav::isResource('Activity') !!}">
+                <a class="d-flex align-items-center" href="#"><i
+                        data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Invoice">Activity Logs</span></a>
+            </li>
+
         </ul>
 
         <br>

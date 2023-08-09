@@ -37,15 +37,19 @@
                        <td>{{ $counts[$list] }}</td>
                        <td>
                           <div class="d-flex" style="gap:10px">
-                             @if($list == 'Admin')
+                               @if($list == 'Admin')
+                           @if (Auth::user()->account_type === 'Admin')
                                 <a href="{{ route('users.admins') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View</a>
-                             @elseif($list == 'Lube Sales Executive')
+                                @elseif($list == 'Lube Sales Executive')
                                 <a href="{{ route('LubeSalesExecutive') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View</a>
+                                @elseif($list == 'Distributors')
+                                <a href="{{ route('Distributors') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View</a>
                                 @elseif($list == 'Lube Merchandizers')
                                 <a href="{{ route('lubemerchandizer') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View </a>
                                 @elseif($list == 'Managers')
-                                <a href="{{ route('Distributors') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View </a>
+                                <a href="{{ route('Managers') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View </a>
                              @endif
+                           @endif
                           </div>
                        </td>
                     </tr>
