@@ -206,7 +206,7 @@ Route::group(['namespace' => 'Api'], function () {
 /**
  * Post Sales Reports
  */
-    Route::post('/post/sales/report', ['uses' => 'SaleReportController@store'])->middleware('auth:sanctum')->name('post.store.reports');
+    Route::post('/post/sales/report/{customer_id}', ['uses' => 'SaleReportController@store'])->middleware('auth:sanctum')->name('post.store.reports');
 
     /**
      * API Get all transaction
