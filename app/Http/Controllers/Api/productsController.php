@@ -55,7 +55,7 @@ class productsController extends Controller
    public function index3(Request $request, $businessCode)
    {
       $route_code = $request->user()->route_code;
-      $region_id = $request->user()->region_id;
+      $region_id = $request->user()->route_code;
       $region = Region::whereId($region_id)->first();
       if ($region){
          $warehouses = warehousing::where('region_id', $region->id)->select('warehouse_code')->distinct('warehouse_code')->get();
@@ -119,7 +119,6 @@ class productsController extends Controller
 //            'product_price.selling_price as retail_price',
             DB::raw('CAST(product_price.buying_price AS CHAR) as wholesale_price'),
             DB::raw('CAST(product_price.selling_price AS CHAR) as retail_price'),
-            'product_price.distributor_price as distributor_price',
             'product_information.product_name as product_name',
             'product_inventory.current_stock as stock',
             'product_information.created_at as date',
