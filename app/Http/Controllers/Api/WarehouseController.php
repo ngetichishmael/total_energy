@@ -16,16 +16,10 @@ class WarehouseController extends Controller
      */
    public function index(Request $request)
    {
-      $region_id=$request->user()->region_id;
-      if ($request->user()->account_type === 'NSM'){
-         $warehouse = warehousing::where("status", "Active")
-            ->orderBy('name', 'ASC')
-            ->get();
-      }else
+      $region_id=$request->user()->route_code;
          $warehouse = warehousing::where("status", "Active")->where('region_id', $region_id)
             ->orderBy('name', 'ASC')
             ->get();
-
       return response()->json([
          'status' => 200,
          'success' => true,

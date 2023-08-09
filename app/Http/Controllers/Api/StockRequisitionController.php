@@ -36,7 +36,7 @@ class StockRequisitionController extends Controller
 
         $stockRequisition = StockRequisition::create(
             [
-                "sales_person" => $request->user()->user_code,
+//                "user_id" => $request->user()->user_code,
                 "user_id" => $request->user()->id,
                 "requisition_date" => Carbon::now(),
                 "status" => "Waiting Approval",
@@ -55,7 +55,7 @@ class StockRequisitionController extends Controller
     public function show(Request $request)
     {
         $stockRequisition = StockRequisition::with('RequisitionProducts')
-            ->where('sales_person', $request->user()->user_code)
+            ->where('user_id', $request->user()->id)
             ->get();
 
         $statusAndData = $stockRequisition->map(function ($requisition) {
@@ -80,7 +80,7 @@ class StockRequisitionController extends Controller
         $stockRequisition = StockRequisition::where('id', $request->requisition_id)->with(['RequisitionProducts' => function ($query) {
             $query->where('approval', 1);
         }])
-            ->where('sales_person', $request->user()->user_code)
+            ->where('user_id', $request->user()->id)
             ->get();
         $statusAndData = $stockRequisition->map(function ($requisition) {
             $products = $requisition->RequisitionProducts->map(function ($product) {
