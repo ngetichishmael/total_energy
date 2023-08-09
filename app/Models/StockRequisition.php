@@ -34,4 +34,8 @@ class StockRequisition extends Model
    {
       return $this->belongsTo(User::class, 'user_id', 'id');
    }
+   public function warehouse(): BelongsTo
+   {
+      return $this->belongsTo(warehousing::class, 'warehouse_code', 'warehouse_code');
+   }
 }
