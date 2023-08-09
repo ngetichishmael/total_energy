@@ -66,9 +66,11 @@ class LineChart extends Component
                    ->toArray();
            } else {
                $preOrderCounts = Orders::join('customers', 'orders.customerID', '=', 'customers.id')
+                   ->join('assigned_regions', 'customers.region_id', '=', 'assigned_regions.region_id')
+                   ->where('assigned_regions.user_code', $user->user_code)
                    ->where('order_type', 'Pre Order')
                    ->whereYear('orders.created_at', '=', date('Y'))
-                   ->where('customers.route_code', $user->route_code)
+                   ->where('customers.region_id', $user->route_code)
                    ->selectRaw('MONTH(orders.created_at) as month, COUNT(*) as count')
                    ->groupBy('month')
                    ->pluck('count', 'month')

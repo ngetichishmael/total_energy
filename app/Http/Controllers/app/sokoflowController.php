@@ -45,8 +45,7 @@ class sokoflowController extends Controller
             ->sum('price_total');
         $orderfullment = Orders::where('order_status', 'DELIVERED')
             ->count();
-        $activeUser = DB::table('customer_checkin')
-            ->distinct('user_code')
+        $activeUser = DB::table('users')
             ->whereDate('created_at', Carbon::today())
             ->count();
         $activeAll = User::where('account_type', 'Sales')->count();
