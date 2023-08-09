@@ -186,6 +186,7 @@ Route::group(['namespace' => 'Api'], function () {
      */
 
     Route::get('/get/transactions/{id}', ['uses' => 'EWalletController@show'])->name('show.ewallet');
+    Route::get('/get/wallet/{id}', ['uses' => 'EWalletController@showId'])->name('showId.ewallet');
     /**
      * API send image data to customer
      */

@@ -69,6 +69,14 @@ class EWalletController extends Controller
         ]);
 
     }
+    public function showId($id)
+    {
+        return response()->json([
+            'message' => "Customer Wallet",
+            'wallet' => EWallet::where('customer_id', $id)->first(),
+        ]);
+
+    }
 
     /**
      * Update the specified resource in storage.
