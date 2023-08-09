@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\EWallet;
 use App\Models\EWalletTransaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class EWalletTransactionController extends Controller
@@ -36,6 +38,11 @@ class EWalletTransactionController extends Controller
             'phone_number' => 'required',
         ]);
 
+        $ewalletData = EWallet::updateOrCreate(
+            ['customer_id' => $validatedData['customer_id']],
+            ['amount' => DB::raw("amount + " . $validatedData['amount'])]
+        );
+
         $ewallet = EWalletTransaction::create(
             [
                 'customer_id' => $validatedData['customer_id'],
@@ -47,6 +54,7 @@ class EWalletTransactionController extends Controller
             ]
         );
         return response()->json([
+            'EWallet' => $ewalletData,
             'EwalletTransacation' => $ewallet,
         ]);
 

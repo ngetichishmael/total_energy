@@ -59,6 +59,7 @@ class EWalletController extends Controller
      */
     public function show($id)
     {
+
         return response()->json([
             'message' => "Transaction",
             'transaction' => EWalletTransaction::where('customer_id', $id)->get(),
