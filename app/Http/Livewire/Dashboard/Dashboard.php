@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Models\customers;
+use App\Models\products\product_information;
 use App\Models\AssignedRegion;
 use App\Models\customer\checkin;
 use App\Models\Delivery;
@@ -392,6 +393,20 @@ class Dashboard extends Component
             ->orderBy('created_at', 'desc') // Order by the most recent (created_at in descending order)
             ->paginate($this->perBuyingCustomer);
     }
+
+    public function  getTopDeliveredProducts()
+    {
+        return product_information::select(
+            'product_information.product_name',
+            'product_information.sku_code',
+            DB::raw('SUM(delivery_items.delivery_quantity) as total_quantity')
+        )
+        ->leftJoin('delivery_items', 'product_information.id', '=', 'delivery_items.productID')
+        ->groupBy('product_information.id')
+        ->orderByDesc('total_quantity')
+        ->take(6)
+        ->get();
+    }
     
 
     public function getGraphData()
@@ -460,6 +475,7 @@ class Dashboard extends Component
             'customersCountTotal' => $this->getCustomersCountTotal(),
             'deliveryCount' => $this->deliveryCount(),
             'graphdata' => $this->getGraphData(),
+            'topproducts' => $this->getTopDeliveredProducts(),
 
         ];
 
@@ -517,5 +533,6 @@ class Dashboard extends Component
         $this->getVisitsTotal();
         $this->getCustomersCountTotal();
         $this->getGraphData();
+        $this->getTopDeliveredProducts();
     }
 }

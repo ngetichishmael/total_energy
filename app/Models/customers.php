@@ -27,16 +27,18 @@ class customers extends Model
     public function scopeFilterCustomers($query)
     {
         $user = Auth::user();
-
+    
         if (Auth::check()) {
-
             if ($user->account_type == 'Admin') {
                 return $query;
             } else {
-                return $query->where('route_code', $user->route_code);
+                return $query->whereHas('Area.Subregion.Region', function ($subquery) use ($user) {
+                    $subquery->whereIn('regions.id', $user->assignedRegions->pluck('id'));
+                });
             }
         }
     }
+    
 
     public function newQuery()
     {
