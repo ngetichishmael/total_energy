@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
+
 
 class Dashboard extends Component
 {
@@ -91,25 +93,58 @@ class Dashboard extends Component
             ->sum('amount');
     }
 
+
+
+    
+
     public function getVanSales()
     {
-        $query = Orders::where('order_type', 'Van sales');
+        $user = Auth::user();
+
+        if (Auth::check()) {
+  
+           if ($user->account_type == 'Admin') {
+
+            $query = Orders::where('order_type', 'Van sales');
     
-        // If both start and end filters are not applied, consider the current month
-        if (empty($this->start) && empty($this->end)) {
-            $currentMonth = Carbon::now()->startOfMonth();
-            $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+            // If both start and end filters are not applied, consider the current month
+            if (empty($this->start) && empty($this->end)) {
+                $currentMonth = Carbon::now()->startOfMonth();
+                $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+            } else {
+                // Apply the start and end filters
+                if (!empty($this->start)) {
+                    $query->where('updated_at', '>=', $this->start);
+                }
+                if (!empty($this->end)) {
+                    $query->where('updated_at', '<=', $this->end);
+                }
+            }
+        
+            return $query->count();
+        
         } else {
-            // Apply the start and end filters
-            if (!empty($this->start)) {
-                $query->where('updated_at', '>=', $this->start);
+            $query = Orders::join('customers', 'orders.customerID', '=', 'customers.id')
+            ->where('order_type', 'Van Sales');
+            // If both start and end filters are not applied, consider the current month
+            if (empty($this->start) && empty($this->end)) {
+                $currentMonth = Carbon::now()->startOfMonth();
+                $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+            } else {
+                // Apply the start and end filters
+                if (!empty($this->start)) {
+                    $query->where('updated_at', '>=', $this->start);
+                }
+                if (!empty($this->end)) {
+                    $query->where('updated_at', '<=', $this->end);
+                }
             }
-            if (!empty($this->end)) {
-                $query->where('updated_at', '<=', $this->end);
-            }
+        
+            return $query->count();
         }
-    
-        return $query->count();
+        }
+
+     
     }
 
     public function getPreOrderCount()
@@ -142,6 +177,18 @@ class Dashboard extends Component
             })
             ->count();
     }
+
+
+
+
+
+
+
+
+
+
+
+
     public function getOrderFullmentByDistributorsPage()
     {
 

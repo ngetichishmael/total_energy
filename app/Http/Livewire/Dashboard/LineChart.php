@@ -3,8 +3,12 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Models\Orders;
+use App\Models\Customers; 
+
 use App\Models\suppliers\suppliers;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+
 
 class LineChart extends Component
 {
@@ -34,29 +38,63 @@ class LineChart extends Component
         12 => 'December',
        ];
    
-       // Retrieve the data for pre-orders, deliveries, and van sales
-       $preOrderCounts = Orders::where('order_type', 'Pre Order')
-           ->whereYear('created_at', '=', date('Y'))
-           ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-           ->groupBy('month')
-           ->pluck('count', 'month')
-           ->toArray();
-   
-       $deliveryCounts = Orders::where('order_type', 'Pre Order')
-           ->where('order_status', 'DELIVERED')
-           ->whereYear('created_at', '=', date('Y'))
-           ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-           ->groupBy('month')
-           ->pluck('count', 'month')
-           ->toArray();
-   
-       $vanSalesCounts = Orders::where('order_type', 'Van Sales')
-           ->whereYear('created_at', '=', date('Y'))
-           ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-           ->groupBy('month')
-           ->pluck('count', 'month')
-           ->toArray();
-   
+
+       $user = Auth::user();
+
+       if (Auth::check()) {
+           if ($user->account_type == 'Admin') {
+               $preOrderCounts = Orders::where('order_type', 'Pre Order')
+                   ->whereYear('created_at', '=', date('Y'))
+                   ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+                   ->groupBy('month')
+                   ->pluck('count', 'month')
+                   ->toArray();
+
+               $deliveryCounts = Orders::where('order_type', 'Pre Order')
+                   ->where('order_status', 'DELIVERED')
+                   ->whereYear('created_at', '=', date('Y'))
+                   ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+                   ->groupBy('month')
+                   ->pluck('count', 'month')
+                   ->toArray();
+
+               $vanSalesCounts = Orders::where('order_type', 'Van Sales')
+                   ->whereYear('created_at', '=', date('Y'))
+                   ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+                   ->groupBy('month')
+                   ->pluck('count', 'month')
+                   ->toArray();
+           } else {
+               $preOrderCounts = Orders::join('customers', 'orders.customerID', '=', 'customers.id')
+                   ->where('order_type', 'Pre Order')
+                   ->whereYear('orders.created_at', '=', date('Y'))
+                   ->where('customers.route_code', $user->route_code)
+                   ->selectRaw('MONTH(orders.created_at) as month, COUNT(*) as count')
+                   ->groupBy('month')
+                   ->pluck('count', 'month')
+                   ->toArray();
+
+               $deliveryCounts = Orders::join('customers', 'orders.customerID', '=', 'customers.id')
+                   ->where('order_type', 'Pre Order')
+                   ->where('order_status', 'DELIVERED')
+                   ->where('customers.route_code', $user->route_code)
+                   ->whereYear('orders.created_at', '=', date('Y'))
+                   ->selectRaw('MONTH(orders.created_at) as month, COUNT(*) as count')
+                   ->groupBy('month')
+                   ->pluck('count', 'month')
+                   ->toArray();
+
+               $vanSalesCounts = Orders::join('customers', 'orders.customerID', '=', 'customers.id')
+                   ->where('order_type', 'Van Sales')
+                   ->whereYear('orders.created_at', '=', date('Y'))
+                   ->where('customers.route_code', $user->route_code)
+                   ->selectRaw('MONTH(orders.created_at) as month, COUNT(*) as count')
+                   ->groupBy('month')
+                   ->pluck('count', 'month')
+                   ->toArray();
+           }
+       }
+
        $graphdata = [];
        for ($month = 1; $month <= 12; $month++) {
            $graphdata[] = [
@@ -66,9 +104,7 @@ class LineChart extends Component
                'vanSalesCount' => $vanSalesCounts[$month] ?? 0,
            ];
        }
-   
+
        return $graphdata;
    }
-   
-   
 }
