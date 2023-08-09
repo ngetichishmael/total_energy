@@ -20,7 +20,6 @@ class WarehouseController extends Controller
          $warehouse = warehousing::where("status", "Active")->where('region_id', $region_id)
             ->orderBy('name', 'ASC')
             ->get();
-
       return response()->json([
          'status' => 200,
          'success' => true,
