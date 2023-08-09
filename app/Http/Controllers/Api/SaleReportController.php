@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class SaleReportController extends Controller
 {
-    public function store(Request $request, $customer_id)
+    public function store(Request $request, $customer_id, $checking_code)
     {
 
         $result = SaleReport::create([
