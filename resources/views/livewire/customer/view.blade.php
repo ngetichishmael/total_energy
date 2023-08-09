@@ -28,7 +28,7 @@
                          </li>
                          <li class="mb-2 pt-1">
                              <span class="fw-semibold me-1">E Wallet:</span>
-                             <span>{{ number_format($customer->wallet->amount, 2) }}</span>
+                             <span>{{ number_format($customer->wallet?->amount ?? 0, 2) }}</span>
                          </li>
                          <li class="mb-2 pt-1">
                              <span class="fw-semibold me-1">Email:</span>

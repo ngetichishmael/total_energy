@@ -5,5 +5,4 @@
     @livewire('customer.view', [
         'customer_id' => $id,
     ])
-    <!-- /Modal -->
 @endsection
