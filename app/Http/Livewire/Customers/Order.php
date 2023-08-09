@@ -17,7 +17,7 @@ class Order extends Component
    public $customer_id;
    public $Orders;
    public $orderOne;
-   public bool $countOrders = true;
+   public $countOrders = true;
    protected $rules = [
       'Orders.*.id' => 'required',
       'Orders.*.quantity' => 'required',
