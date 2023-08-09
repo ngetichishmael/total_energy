@@ -36,6 +36,8 @@
   'payment.paid.dashboard' => 'App\\Http\\Livewire\\Payment\\Paid\\Dashboard',
   'payment.pending.dashboard' => 'App\\Http\\Livewire\\Payment\\Pending\\Dashboard',
   'picking-sheet.index' => 'App\\Http\\Livewire\\PickingSheet\\Index',
+  'productapproval.approval' => 'App\\Http\\Livewire\\Productapproval\\Approval',
+  'productapproval.approve_item' => 'App\\Http\\Livewire\\Productapproval\\approve_item',
   'products.products' => 'App\\Http\\Livewire\\Products\\Products',
   'regional.index' => 'App\\Http\\Livewire\\Regional\\Index',
   'reports.customers' => 'App\\Http\\Livewire\\Reports\\Customers',
