@@ -203,6 +203,11 @@ Route::group(['namespace' => 'Api'], function () {
      */
     Route::post('/post/transaction/wallet', ['uses' => 'EWalletTransactionController@store'])->middleware('auth:sanctum')->name('post.transaction.ewallet');
 
+/**
+ * Post Sales Reports
+ */
+    Route::post('/post/sales/report', ['uses' => 'SaleReportController@store'])->middleware('auth:sanctum')->name('post.store.reports');
+
     /**
      * API Get all transaction
      */

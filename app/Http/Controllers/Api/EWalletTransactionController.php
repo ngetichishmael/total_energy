@@ -31,6 +31,7 @@ class EWalletTransactionController extends Controller
             'customer_id' => ['required', Rule::exists('customers', 'id')],
             'amount' => 'required|numeric',
             'payment_type' => 'required',
+            'phone_number' => 'required',
         ]);
 
         $ewallet = EWalletTransaction::create(
@@ -38,6 +39,7 @@ class EWalletTransactionController extends Controller
                 'customer_id' => $validatedData['customer_id'],
                 'amount' => $validatedData['amount'],
                 'payment_type' => $validatedData['payment_type'],
+                'phone_number' => $validatedData['phone_number'],
                 'transaction_id' => $request->transaction_id,
                 'user_id' => $request->user()->id,
             ]
