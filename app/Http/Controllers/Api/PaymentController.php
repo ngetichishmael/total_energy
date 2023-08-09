@@ -72,6 +72,8 @@ class PaymentController extends Controller
                 $orderID,
                 'Payment for order ' . $orderID
             );
+            info('Payment Controller results');
+            info(json_encode($results));
             if ($results['response_code'] != null) {
                 ModelsMpesaPayment::create([
                     'account' => $orderID,
