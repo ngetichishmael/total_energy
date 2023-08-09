@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\zone;
 use Livewire\WithPagination;
 
-class Distributors extends Component
+class Managers extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -21,21 +21,21 @@ class Distributors extends Component
     public function render()
     {
        $searchTerm = '%' . $this->search . '%';
-       $distributors =  User::where('account_type', ['Distributors'])->whereLike([
+       $distributors =  User::where('account_type', ['Managers'])->whereLike([
           'Region.name', 'name', 'email', 'phone_number',
        ], $searchTerm)
           ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc')
           ->paginate($this->perPage);
  
-       return view('livewire.users.distributors', compact('distributors'));
+       return view('livewire.users.managers', compact('distributors'));
     }
     public function deactivate($id)
     {
        User::whereId($id)->update(
           ['status' => "Suspended"]
        );
-       session()->flash('success', 'Distributor Disabled Successfully');
-       return redirect()->to('/users/Distributors');
+       session()->flash('success', 'Manager Disabled Successfully');
+       return redirect()->to('/users/Managers');
     }
     
     public function activate($id)
@@ -43,8 +43,8 @@ class Distributors extends Component
        User::whereId($id)->update(
           ['status' => "Active"]
        );
-       session()->flash('success', 'Distributor Activated Successfully');
-       return redirect()->to('/users/Distributors');
+       session()->flash('success', 'Manager Activated Successfully');
+       return redirect()->to('/users/Managers');
     }
 
     public function destroy($id)
@@ -52,9 +52,10 @@ class Distributors extends Component
         if ($id) {
             $user = User::where('id', $id);
             $user ->delete();
-            session()->flash('success', 'Distributor Deleted Successfully');
-            return redirect()->to('/users/Distributors');
+            session()->flash('success', 'Manager Deleted Successfully');
+            return redirect()->to('/users/Managers');
         }
     }
+
 
 }

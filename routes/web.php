@@ -319,6 +319,7 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('users/sales', ['uses' => 'app\usersController@sales', 'as' => 'sales']);
    Route::get('users/LubeSalesExecutive', ['uses' => 'app\usersController@LubeSalesExecutive', 'as' => 'LubeSalesExecutive']);
    Route::get('users/Distributors', ['uses' => 'app\usersController@Distributors', 'as' => 'Distributors']);
+   Route::get('users/Managers', ['uses' => 'app\usersController@Managers', 'as' => 'Managers']);
    Route::get('/get-users', 'app\usersController@getUsers')->name('get.users');
    Route::get('/get-distributors', 'app\usersController@getDistributors')->name('get.distributors');
 
