@@ -26,7 +26,7 @@ class StockRequisitionController extends Controller
         return response()->json($stockRequisitions);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $warehouse_code)
     {
         $requisitionData = $request->validate([
             'requisition_products' => 'required|array',
@@ -39,6 +39,7 @@ class StockRequisitionController extends Controller
 //                "user_id" => $request->user()->user_code,
                 "user_id" => $request->user()->id,
                 "requisition_date" => Carbon::now(),
+                "warehouse_code" => $warehouse_code,
                 "status" => "Waiting Approval",
 
             ]

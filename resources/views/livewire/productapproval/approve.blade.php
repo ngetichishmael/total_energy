@@ -25,7 +25,6 @@
                                 <th>Product Name</th>
                                 <th>Quantity</th>
                                 <th>SKU Code</th>
-                                <th>Warehouse</th>
                                 <th>Action</th>
                             </thead>
                             <tbody>
@@ -35,7 +34,7 @@
                                   <td>{!! $product->ProductInformation->product_name??'' !!}</td>
                                   <td>{!! $product->quantity??'' !!}</td>
                                   <td>{!! $product->ProductInformation->sku_code??'' !!}</td>
-                                  <td>{!! $product->ProductInformation->warehouse->name??'' !!}</td>
+{{--                                  <td>{!! $product->ProductInformation->warehouse->name??'' !!}</td>--}}
                                   @if ($product->approval === 1)
                                   <td style="color: green">Approved</td>
                                   @else
