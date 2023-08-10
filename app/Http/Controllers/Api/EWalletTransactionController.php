@@ -37,7 +37,6 @@ class EWalletTransactionController extends Controller
             'payment_type' => 'required',
             'phone_number' => 'required',
         ]);
-
         $ewalletData = EWallet::updateOrCreate(
             ['customer_id' => $validatedData['customer_id']],
             ['amount' => DB::raw("amount + " . $validatedData['amount'])]

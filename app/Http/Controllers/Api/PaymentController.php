@@ -9,7 +9,9 @@ use App\Models\customer\customers;
 use App\Models\EWallet;
 use App\Models\MpesaPayment as ModelsMpesaPayment;
 use App\Models\Orders;
+use App\Models\Order_items;
 use App\Models\order_payments;
+use App\Models\products\product_information;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -59,7 +61,7 @@ class PaymentController extends Controller
             ]);
         DB::table('sales_targets')
             ->where('user_code', $user_code)
-            ->increment('AchievedSalesTarget', $amount);
+            ->increment('AchievedSalesTarget', $this->getProductSKL($orderID));
 
         if ($route_code === 2) {
             (new MKOOrder())($request);
@@ -94,6 +96,20 @@ class PaymentController extends Controller
 
         ]);
     }
+    public function getProductSKL($order_code): int
+    {
+        $count = 0;
+        $productIds = Order_items::where('order_code', $order_code)->pluck('productID');
+
+        if ($productIds->isEmpty()) {
+            return $count;
+        }
+
+        return product_information::whereIn('id', $productIds)
+            ->select(DB::raw("SUM(CAST(SUBSTRING_INDEX(sku_code, '_', -1) AS UNSIGNED)) AS total_sum"))
+            ->value('total_sum');
+    }
+
     public function stkPushCallback(Request $request)
     {
         $callbackJSONData = file_get_contents('php://input');
