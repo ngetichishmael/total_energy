@@ -101,10 +101,7 @@ class Dashboard extends Component
 
     public function getVanSales()
     {
-        $user = Auth::user();
-    
-        if (Auth::check()) {
-            if ($user->account_type == 'Admin') {
+      
                 $query = Orders::where('order_type', 'Van sales');
                 
                 if (empty($this->start) && empty($this->end)) {
@@ -120,37 +117,15 @@ class Dashboard extends Component
                 }
                 
                 return $query->count();
-            } else {
-                $query = Orders::join('customers', 'orders.customerID', '=', 'customers.id')
-                               ->join('assigned_regions', 'customers.region_id', '=', 'assigned_regions.region_id')
-                               ->where('assigned_regions.user_code', $user->user_code)
-                               ->where('order_type', 'Van sales');
-                
-                if (empty($this->start) && empty($this->end)) {
-                    $currentMonth = Carbon::now()->startOfMonth();
-                    $query->whereBetween('orders.updated_at', [$currentMonth, Carbon::now()]);
-                } else {
-                    if (!empty($this->start)) {
-                        $query->where('orders.updated_at', '>=', $this->start);
-                    }
-                    if (!empty($this->end)) {
-                        $query->where('orders.updated_at', '<=', $this->end);
-                    }
-                }
-                
-                return $query->count();
-            }
-        }
+           
+  
     }
     
     
 
     public function getPreOrderCount()
     {
-        $user = Auth::user();
-    
-        if (Auth::check()) {
-            if ($user->account_type == 'Admin') {
+
                 $query = Orders::where('order_type', 'Pre Order');
                 
                 if (empty($this->start) && empty($this->end)) {
@@ -166,27 +141,9 @@ class Dashboard extends Component
                 }
                 
                 return $query->count();
-            } else {
-                $query = Orders::join('customers', 'orders.customerID', '=', 'customers.id')
-                               ->join('assigned_regions', 'customers.region_id', '=', 'assigned_regions.region_id')
-                               ->where('assigned_regions.user_code', $user->user_code)
-                               ->where('order_type', 'Pre Order');
-                
-                if (empty($this->start) && empty($this->end)) {
-                    $currentMonth = Carbon::now()->startOfMonth();
-                    $query->whereBetween('orders.updated_at', [$currentMonth, Carbon::now()]);
-                } else {
-                    if (!empty($this->start)) {
-                        $query->where('orders.updated_at', '>=', $this->start);
-                    }
-                    if (!empty($this->end)) {
-                        $query->where('orders.updated_at', '<=', $this->end);
-                    }
-                }
-                
-                return $query->count();
-            }
-        }
+          
+    
+   
     }
     
     public function getOrderFullmentByDistributorsCount()
@@ -257,12 +214,9 @@ class Dashboard extends Component
 
     public function getCustomersCount()
     {
-        $user = Auth::user();
-    
-        if (Auth::check()) {
+       
             $query = Customers::query();
     
-            if ($user->account_type == 'Admin') {
                 if (empty($this->start) && empty($this->end)) {
                     $currentMonth = Carbon::now()->startOfMonth();
                     $query->whereBetween('created_at', [$currentMonth, Carbon::now()]);
@@ -274,25 +228,10 @@ class Dashboard extends Component
                         $query->where('created_at', '<=', $this->end);
                     }
                 }
-            } else {
-                $query->join('assigned_regions', 'customers.region_id', '=', 'assigned_regions.region_id')
-                    ->where('assigned_regions.user_code', $user->user_code);
-    
-                if (empty($this->start) && empty($this->end)) {
-                    $currentMonth = Carbon::now()->startOfMonth();
-                    $query->whereBetween('customers.created_at', [$currentMonth, Carbon::now()]);
-                } else {
-                    if (!empty($this->start)) {
-                        $query->where('customers.created_at', '>=', $this->start);
-                    }
-                    if (!empty($this->end)) {
-                        $query->where('customers.created_at', '<=', $this->end);
-                    }
-                }
-            }
+ 
     
             return $query->count();
-        }
+
     }
     
 
@@ -341,8 +280,8 @@ class Dashboard extends Component
     }
     public function getOrderFullmentTotal()
     {
-        return Delivery::with('User', 'Customer')
-            ->where('delivery_status', 'LIKE', '%deliver%')
+        return Orders::with('User', 'Customer','deliveries')
+            ->where('order_status', 'DELIVERED')
             ->whereHas('User')
             ->whereHas('Customer')
             ->latest('updated_at') // Sort by 'updated_at' in descending order (most recent first)
@@ -351,28 +290,14 @@ class Dashboard extends Component
 
     public function deliveryCount()
     {
-        $user = Auth::user();
-    
-        if (Auth::check()) {
-            if ($user->account_type == 'Admin') {
+ 
                 $currentMonth = Carbon::now()->format('m');
                 
                 return Orders::where('order_type', 'Pre Order')
                     ->where('order_status', 'DELIVERED')
                     ->whereMonth('delivery_date', $currentMonth)
                     ->count();
-            } else {
-                $currentMonth = Carbon::now()->format('m');
-                
-                return Orders::join('customers', 'orders.customerID', '=', 'customers.id')
-                    ->join('assigned_regions', 'customers.region_id', '=', 'assigned_regions.region_id')
-                    ->where('assigned_regions.user_code', $user->user_code)
-                    ->where('order_type', 'Pre Order')
-                    ->where('order_status', 'DELIVERED')
-                    ->whereMonth('delivery_date', $currentMonth)
-                    ->count();
-            }
-        }
+
     }
     
     

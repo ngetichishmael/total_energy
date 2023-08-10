@@ -126,19 +126,21 @@
                         @forelse ($orderfullmentTotal as $key=>$sale)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $sale->delivery_code }}</td>
+                                <td>    @foreach ($sale->deliveries as $delivery)
+                {{ $delivery->delivery_code }}
+            @endforeach </td>
                                 <td>{{ $sale->order_code }}</td>
                                 <td>{{ $sale->user()->pluck('name')->implode('') }}</td>
                                 <td>{{ $sale->customer()->pluck('customer_name')->implode('') }}</td>
                                 <!-- <td>{{ $sale->balance }}</td> -->
                                 <td>
-                                    @if ($sale->delivery_status === 'DELIVERED')
-                                        <span class="badge badge-pill badge-light-success mr-1">{{ $sale->delivery_status ?? '' }}</span>
+                                    @if ($sale->order_status === 'DELIVERED')
+                                        <span class="badge badge-pill badge-light-success mr-1">{{ $sale->order_status ?? '' }}</span>
                                     @else
-                                        <span class="badge badge-pill badge-light-warning mr-1">{{ $sale->delivery_status ?? '' }}</span>
+                                        <span class="badge badge-pill badge-light-warning mr-1">{{ $sale->order_status ?? '' }}</span>
                                     @endif
                                 </td>
-                                <td>{{ $sale->delivered_time }}</td>
+                                <td>{{ $sale->delivery_date }}</td>
                             </tr>
                         @empty
                             <x-emptyrow>
