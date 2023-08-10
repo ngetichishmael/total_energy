@@ -10,8 +10,8 @@
       </div>
          <!-- <div class="col-md-4">
             <center>
-               <a href="{!! route('products.create') !!}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Add New Products</a>
-               <a href="{!! route('products.import') !!}" class="btn btn-success btn-sm"><i class="fas fa-sync-alt"></i> Import Products</a>
+{{--               <a href="{!! route('products.create') !!}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Add New Products</a>--}}
+{{--               <a href="{!! route('products.import') !!}" class="btn btn-success btn-sm"><i class="fas fa-sync-alt"></i> Import Products</a>--}}
 
             </center>
          </div> -->
@@ -49,26 +49,26 @@
 
             <div class="col-md-4 d-flex justify-content-end">
                 <div class="demo-inline-spacing">
-                    <a href="{!! route('products.create') !!}" class="btn btn-outline-secondary">Add Product</a>
+{{--                    <a href="{!! route('products.create') !!}" class="btn btn-outline-secondary">Add Product</a>--}}
 
-                    <div class="btn-group">
-                    
-                    <button type="button" class="btn btn-icon btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled" >
-                        <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">
-                        Export
-                    </button>
-                    <div class="dropdown-menu">
-                            <a class="dropdown-item" wire:click="export" id="exportExcelBtn">Excel</a>
-                            <a class="dropdown-item"  wire:click="exportCSV" id="exportPdfBtn"> CSV</a>
-                            <a class="dropdown-item" wire:click="exportPDF" id="exportCsvBtn">PDF</a>
-                    </div>
+{{--                    <div class="btn-group">--}}
+
+{{--                    <button type="button" class="btn btn-icon btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled" >--}}
+{{--                        <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">--}}
+{{--                        Export--}}
+{{--                    </button>--}}
+{{--                    <div class="dropdown-menu">--}}
+{{--                            <a class="dropdown-item" wire:click="export" id="exportExcelBtn">Excel</a>--}}
+{{--                            <a class="dropdown-item"  wire:click="exportCSV" id="exportPdfBtn"> CSV</a>--}}
+{{--                            <a class="dropdown-item" wire:click="exportPDF" id="exportCsvBtn">PDF</a>--}}
+{{--                    </div>--}}
                 </div>
                 </div>
             </div>
         </div>
     </div>
 
-      
+
       <div class="card card-default">
          <div class="card-body">
             <table class="table table-striped table-bordered" style="font-size: small">
@@ -77,11 +77,10 @@
                     <th width="1%">#</th>
                     <th>Name</th>
                     <th>Wholesale Price</th>
-                    <th>Distributor Price</th>
                     <th>Retail Price</th>
                     <th>Current Stock</th>
                     <th>Date</th>
-                     <th>Actions</th>
+{{--                     <th>Actions</th>--}}
                 </tr>
                </thead>
                <tbody>
@@ -95,11 +94,6 @@
                         @else
                             <td>{{ number_format((float) $product->ProductPrice->buying_price) }}</td>
                         @endif
-
-                        <td>
-                            {{ number_format((float) $product->ProductPrice()->pluck('distributor_price')->implode('')) }}
-                        </td>
-
                         <td>
                             {{ number_format((float) $product->ProductPrice()->pluck('selling_price')->implode('')) }}
                         </td>
@@ -107,26 +101,26 @@
                         <td>{{ $product->Inventory()->pluck('current_stock')->implode('') }}</td>
                         <td>{{ $product->updated_at->format('d/m/Y h:i A') }}</td>
 
-                     
 
-                        <td>
-                            <div class="dropdown">
-                                <button type="button" class="btn btn-sm dropdown-toggle show-arrow" data-toggle="dropdown"
-                                    style="background-color: #089000; color:white">
-                                    <i data-feather="settings"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('products.restock', $product->id) }}">
-                                        <i data-feather="plus-circle" class="mr-50"></i>
-                                        <span>Re Stock</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
+
+{{--                        <td>--}}
+{{--                            <div class="dropdown">--}}
+{{--                                <button type="button" class="btn btn-sm dropdown-toggle show-arrow" data-toggle="dropdown"--}}
+{{--                                    style="background-color: #089000; color:white">--}}
+{{--                                    <i data-feather="settings"></i>--}}
+{{--                                </button>--}}
+{{--                                <div class="dropdown-menu">--}}
+{{--                                    <a class="dropdown-item" href="{{ route('products.restock', $product->id) }}">--}}
+{{--                                        <i data-feather="plus-circle" class="mr-50"></i>--}}
+{{--                                        <span>Re Stock</span>--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </td>--}}
                     </tr>
                 @empty
                     <tr>
-                    <td colspan="8" class="text-center">No result found</td>
+                    <td colspan="8" class="text-center">No product(s) found</td>
                     </tr>
                 @endforelse
 

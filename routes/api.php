@@ -12,10 +12,12 @@ use App\Http\Controllers\Api\productCategoriesController;
 use App\Http\Controllers\Api\ReconcilationController;
 use App\Http\Controllers\Api\ReconciledProductsController;
 use App\Http\Controllers\Api\ReportsController;
+use App\Http\Controllers\Api\StockRequisitionController;
 use App\Http\Controllers\Api\SurveryAnswersController;
 use App\Http\Controllers\Api\surveyController;
 use App\Http\Controllers\Api\TargetsController;
 use App\Http\Controllers\Api\TargetsUIController;
+use App\Http\Controllers\Api\WarehouseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -129,11 +131,26 @@ Route::group(['namespace' => 'Api'], function () {
 
     //End
 
+    //products
+    Route::get('products/{businessCode}', 'productsController@index')->middleware('auth:sanctum');
+    Route::get('products/warehouse/{warehouseCode}', 'productsController@index2')->middleware('auth:sanctum');
+    Route::get('products/regional', 'productsController@index3')->middleware('auth:sanctum');
+//warehouses
+    Route::get('/get/warehouses', [WarehouseController::class, 'index'])->middleware('auth:sanctum');
+
     Route::post('/scheduleVisit/{CustomerAccountNumber}', 'VisitScheduleController@NewVisit')->middleware('auth:sanctum');
     Route::get('/scheduleVisit/checkAll', 'AddNewRouteController@index')->middleware('auth:sanctum');
     Route::post('/payment', 'PaymentController@index')->middleware('auth:sanctum');
     Route::post('/stkpush', 'PaymentController@stkPushCallback')->name('mpesa.stkpush');
     Route::post('/initial/stkpush', 'STKPushController@index')->name('mpesa.test.stkpush');
+
+    //stock requisition
+    Route::get('stock/requisitions', [StockRequisitionController::class, "show"])->middleware('auth:sanctum');
+    Route::post('/stock/create/request/{warehouse_code}', [StockRequisitionController::class, "store"])->middleware('auth:sanctum');
+    Route::post('/stock/cancel', [StockRequisitionController::class, "cancel"])->middleware('auth:sanctum');
+    Route::post('/stock/update', [StockRequisitionController::class, "update"])->middleware('auth:sanctum');
+    Route::get('stock/requisitions/approved', [StockRequisitionController::class, "approved"])->middleware('auth:sanctum');
+    Route::post('/stock/accept', [StockRequisitionController::class, "accept"])->middleware('auth:sanctum');
 
     //Stock Lift
 
@@ -170,7 +187,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('/get/count/{customerID}', [CustomerVisitsOrders::class, 'getCounts'])->middleware('auth:sanctum');
 
     /**
-     * Routess schedules
+     * Routes schedules
      */
     Route::post('/AddNewRoute', 'AddNewRouteController@store')->middleware('auth:sanctum');
     Route::get('route/schedule/{id}', ['uses' => 'routeScheduleController@show', 'as' => 'route.schedule']);
@@ -180,6 +197,16 @@ Route::group(['namespace' => 'Api'], function () {
      */
 
     Route::post('/post/wallet', ['uses' => 'EWalletController@store'])->name('post.ewallet');
+
+    /**
+     * Routess schedules
+     */
+    Route::post('/post/transaction/wallet', ['uses' => 'EWalletTransactionController@store'])->middleware('auth:sanctum')->name('post.transaction.ewallet');
+
+/**
+ * Post Sales Reports
+ */
+    Route::post('/post/sales/report/{customer_id}/{checking_code}', ['uses' => 'SaleReportController@store'])->middleware('auth:sanctum')->name('post.store.reports');
 
     /**
      * API Get all transaction

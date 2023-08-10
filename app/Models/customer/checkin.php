@@ -3,12 +3,17 @@
 namespace App\Models\customer;
 
 use App\Models\User;
-use App\Models\AssignedRegion;
 use App\Traits\Searchable;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Models\Area; 
+use App\Models\Subregion; 
+use App\Models\Region; 
+
 
 class checkin extends Model
 {
@@ -28,18 +33,30 @@ class checkin extends Model
     public function scopeFilterVisits($query)
     {
         $user = Auth::user();
-
+    
         if (Auth::check() && $user->account_type != 'Admin') {
-            $userRegionIds = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
-            return $query->whereIn('customer_id', function ($subquery) use ($userRegionIds) {
+            return $query->whereIn('customer_id', function ($subquery) use ($user) {
                 $subquery->select('id')
                          ->from('customers')
-                         ->whereIn('region_id', $userRegionIds);
+                         ->whereIn('route_code', function ($subsubquery) use ($user) {
+                             $subsubquery->select('id')
+                                         ->from('areas')
+                                         ->whereIn('subregion_id', function ($subsubsubquery) use ($user) {
+                                             $subsubsubquery->select('id')
+                                                            ->from('subregions')
+                                                            ->whereIn('region_id', function ($subsubsubsubquery) use ($user) {
+                                                                $subsubsubsubquery->select('region_id')
+                                                                                  ->from('assigned_regions')
+                                                                                  ->where('user_code', $user->user_code);
+                                                            });
+                                         });
+                         });
             });
         }
-
+    
         return $query;
     }
+    
 
     public function newQuery()
     {
@@ -50,10 +67,11 @@ class checkin extends Model
         return parent::newQuery();
     }
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_code', 'user_code');
-    }
+    
+   public function user(): BelongsTo
+   {
+      return $this->belongsTo(User::class, 'user_code', 'user_code');
+   }
    /**
     * Get the Customer that owns the checkin
     *

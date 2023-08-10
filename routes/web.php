@@ -322,8 +322,6 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('users/Managers', ['uses' => 'app\usersController@Managers', 'as' => 'Managers']);
    Route::get('/get-users', 'app\usersController@getUsers')->name('get.users');
    Route::get('/get-distributors', 'app\usersController@getDistributors')->name('get.distributors');
-
-
    /* === Route Scheduling === */
    Route::get('/get-subregions/{regionId}', 'app\warehousingController@getByRegion')->name('get-subregions');;
 
@@ -363,7 +361,7 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('warehousing/products/{id}/view', ['uses' => 'app\products\productController@singleview', 'as' => 'products.view']);
    Route::post('warehousing/products/{id}/updateprices', ['uses' => 'app\products\productController@updatesingle', 'as' => 'products.updatesingle']);
    Route::post('warehousing/products/{id}/update', ['uses' => 'app\products\productController@update', 'as' => 'products.update']);
-   Route::post('warehousing/products/{id}/updatestock', ['uses' => 'app\products\productController@updatestock', 'as' => 'products.updatestock']); 
+   Route::post('warehousing/products/{id}/updatestock', ['uses' => 'app\products\productController@updatestock', 'as' => 'products.updatestock']);
    Route::get('warehousing/products/{id}/details', ['uses' => 'app\products\productController@details', 'as' => 'products.details']);
    Route::get('warehousing/products/{id}/destroy', ['middleware' => ['permission:delete-products'], 'uses' => 'app\products\productController@destroy', 'as' => 'products.destroy']);
 
@@ -375,6 +373,20 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('inventory/allocated', ['uses' => 'app\inventoryController@allocated', 'as' => 'inventory.allocated']);
    Route::post('inventory/allocate/user', ['uses' => 'app\inventoryController@allocate_user', 'as' => 'inventory.allocate.user']);
    Route::get('inventory/allocate/{code}/items', ['uses' => 'app\inventoryController@allocate_items', 'as' => 'inventory.allocate.items']);
+   //stock allocation
+   Route::post('warehousing/approve', ['uses' => 'app\inventoryController@handleApproval', 'as' => 'inventory.handleApproval']);
+   Route::get('warehousing/approve/{id}', ['uses' => 'app\inventoryController@approve', 'as' => 'inventory.approve']);
+   Route::get('warehousing/inventory/allocated', ['uses' => 'app\inventoryController@allocated', 'as' => 'inventory.allocated']);
+   Route::post('inventory/allocate/user', ['uses' => 'app\inventoryController@allocate_user', 'as' => 'inventory.allocate.user']);
+   Route::get('inventory/allocate/{code}/items', ['uses' => 'app\inventoryController@allocate_items', 'as' => 'inventory.allocate.items']);
+   //stock approval
+   Route::get('warehousing/all/stock-requisition', ['uses' => 'app\inventoryController@approval', 'as' => 'inventory.approval']);
+   Route::get('warehousing/approved/{requisition_id}', ['uses' => 'app\products\productController@approvestock', 'as' => 'product.approvestock']);
+   //products
+   Route::get('warehousing/{code}/products', ['uses' => 'app\warehousingController@products', 'as' => 'warehousing.products']);
+   Route::get('warehousing/assign', ['uses' => 'app\warehousingController@assign', 'as' => 'warehousing.assign']);
+   Route::post('warehousing/assignwarehouse', ['uses' => 'app\warehousingController@assignwarehouse', 'as' => 'warehousing.assignwarehouse']);
+
 
 
    /* === settings === */
@@ -388,7 +400,7 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('activity', ['uses' => 'ActivityController@index', 'as' => 'activity.index']);
    Route::get('activity/show/{id}', ['uses' => 'ActivityController@show', 'as' => 'activity.show']);
    Route::get('sales/activity', ['uses' => 'ActivityController@sales', 'as' => 'activity.sales']);
-   
+
    //Territories
    Route::get('territories', ['uses' => 'app\territoriesController@index', 'as' => 'territories.index']);
 

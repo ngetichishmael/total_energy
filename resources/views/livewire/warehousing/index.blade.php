@@ -28,7 +28,7 @@
                     <a href="{!! route('warehousing.create') !!}" class="btn btn-outline-secondary">Add Warehouse</a>
 
                     <div class="btn-group">
-                    
+
                     <button type="button" class="btn btn-icon btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled" >
                         <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">
                         Export
@@ -46,7 +46,7 @@
 
     <div class="card card-default">
         <div class="card-body">
-            <table class="table table-striped table-bordered table-responsive" style="font-size: small">
+            <table class="table table-striped table-bordered" style="font-size: small">
                 <thead>
                     <tr>
                         <th width="1%">#</th>
@@ -66,7 +66,7 @@
                         <td>{{ $warehouse->region->name ?? '' }}</td>
                         <td>{{ $warehouse->subregion->name ?? '' }}</td>
                         <td>{{ $warehouse->product_information_count ?? 0 }}</td>
-                        <td>     
+                        <td>
                             @if ($warehouse->status === 'Active')
                                     <span class="badge badge-pill badge-light-success mr-1">Active</span>
                                 @else
@@ -85,11 +85,11 @@
                                         <i data-feather="eye" class="mr-50"></i>
                                         <span>View</span>
                                     </a>
-                                    <a class="dropdown-item"
-                                        href="{{ route('warehousing.edit', $warehouse->warehouse_code) }}">
-                                        <i data-feather="edit" class="mr-50"></i>
-                                        <span>Edit</span>
-                                    </a>
+{{--                                    <a class="dropdown-item"--}}
+{{--                                        href="{{ route('warehousing.edit', $warehouse->warehouse_code) }}">--}}
+{{--                                        <i data-feather="edit" class="mr-50"></i>--}}
+{{--                                        <span>Edit</span>--}}
+{{--                                    </a>--}}
                                     <a class="dropdown-item"
                                         href="{{ route('warehousing.products', $warehouse->warehouse_code) }}">
                                         <i data-feather="arrow-right-circle" class="mr-50"></i>
