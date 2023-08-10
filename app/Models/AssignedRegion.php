@@ -11,9 +11,10 @@ class AssignedRegion extends Model
     protected $table = "assigned_regions";
     protected $guarded = [''];
 
-    public function assignedRegions()
+
+    public function user()
     {
-        return $this->hasMany(AssignedRegion::class, 'user_code', 'user_code');
+        return $this->belongsTo(User::class, 'user_code', 'user_code');
     }
 
 }

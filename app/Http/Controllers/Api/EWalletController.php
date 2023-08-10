@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\EWallet;
-use App\Models\Orders;
-use App\Models\order_payments;
+use App\Models\EWalletTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -61,11 +60,9 @@ class EWalletController extends Controller
     public function show($id)
     {
 
-        $orders = Orders::where('customerID', $id)->pluck('order_code');
-
         return response()->json([
             'message' => "Transaction",
-            'transaction' => order_payments::whereIn('order_id', $orders)->get(),
+            'transaction' => EWalletTransaction::where('customer_id', $id)->get(),
         ]);
 
     }

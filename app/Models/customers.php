@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\Area; 
+use App\Models\Subregion; 
+use App\Models\Region; 
 
 class customers extends Model
 {
@@ -27,17 +30,25 @@ class customers extends Model
     public function scopeFilterCustomers($query)
     {
         $user = Auth::user();
-
+    
         if (Auth::check()) {
-
             if ($user->account_type == 'Admin') {
                 return $query;
             } else {
-                return $query->where('route_code', $user->route_code);
+                $userAreaIds = Area::whereHas('subregion', function ($query) use ($user) {
+                    $query->whereIn('region_id', function ($query) use ($user) {
+                        return $query->select('region_id')
+                            ->from('assigned_regions')
+                            ->where('user_code', $user->user_code);
+                    });
+                })->pluck('id');
+    
+                return $query->whereIn('route_code', $userAreaIds);
             }
         }
     }
-
+    
+    
     public function newQuery()
     {
         if (Route::current() && in_array('web', Route::current()->middleware())) {

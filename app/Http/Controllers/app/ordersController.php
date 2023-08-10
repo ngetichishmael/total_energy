@@ -22,9 +22,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class ordersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     //orders
     public function index()
     {
@@ -63,6 +69,20 @@ class ordersController extends Controller
         $payment = order_payments::where('order_id', $order->order_code)->first();
         // dd($payment);
         return view('app.orders.details', compact('order', 'items', 'test', 'payment', 'sub', 'total'));
+    }
+    public function detail($code)
+    {
+        $order = Orders::where('order_code', $code)->first();
+        $items = Order_items::where('order_code', $order->order_code)->get();
+        $sub = Order_items::select('sub_total')->where('order_code', $order->order_code)->get();
+        $total = Order_items::select('total_amount')->where('order_code', $order->order_code)->get();
+        $Customer_id = Orders::select('customerID')->where('order_code', $code)->first();
+        $id = $Customer_id->customerID;
+        $test = customers::where('id', $id)->first();
+        // dd($test->id);
+        $payment = order_payments::where('order_id', $order->order_code)->first();
+        // dd($payment);
+        return view('app.orders.detail', compact('order', 'items', 'test', 'payment', 'sub', 'total'));
     }
     public function distributordetails($code)
     {
