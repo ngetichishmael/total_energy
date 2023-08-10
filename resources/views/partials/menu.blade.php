@@ -272,19 +272,11 @@
                         data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Invoice">
                         All Reports</span></a>
             </li>
-            <!-- <li class="nav-item {!! Nav::isResource('settings') !!}">
-                <a class="d-flex align-items-center" href="#"><i data-feather='settings'></i><span
-                        class="menu-title text-truncate" data-i18n="Invoice"> Settings</span></a>
-                <ul class="menu-content">
-                    <li><a class="d-flex align-items-center" href="{!! route('settings.account') !!}"><i
-                                data-feather="circle"></i><span class="menu-item text-truncate">Account</span></a>
-                    </li>
-                </ul>
-            </li> -->
+
 
              <li class="nav-item {!! Nav::isResource('Activity') !!}">
                 <a class="d-flex align-items-center" href="{!! route('activity.index') !!}"><i
-                        data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Invoice">Activity Logs</span></a>
+                        data-feather='activity'></i><span class="menu-title text-truncate" data-i18n="Invoice">Activity Logs</span></a>
             </li>
             @endif
         </ul>
