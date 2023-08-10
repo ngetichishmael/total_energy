@@ -159,14 +159,16 @@
             </li>
 
             @if (Auth::user()->account_type === 'Admin')
+            <li><a class="d-flex align-items-center{!! Nav::isResource('route-schedulw') !!}"
+                            href="{!! route('routes.index') !!}"><i data-feather="compass"></i><span
+                                class="menu-item text-truncate">Route Scheduling</span></a>
+                </li>
+
             <li class="nav-item {!! Nav::isResource('regions') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather="map-pin"></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Regions</span></a>
                 <ul class="menu-content">
-                    <li><a class="d-flex align-items-center{!! Nav::isResource('route-schedulw') !!}"
-                            href="{!! route('routes.index') !!}"><i data-feather="map-pin"></i><span
-                                class="menu-item text-truncate">Route Scheduling</span></a>
-                    </li>
+                 
                     <li><a class="d-flex align-items-center{!! Nav::isResource('areas') !!}" href="{{ route('areas') }}"><i
                                 data-feather="map-pin"></i><span class="menu-item text-truncate">Routes</span></a>
                     </li>
