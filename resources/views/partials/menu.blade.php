@@ -220,6 +220,16 @@
                             href="{!! route('inventory.warehouses') !!}"><span class="menu-item text-truncate">Approve
                                 Stock</span></a>
                     </li>
+                   <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{!! route('stock.lifts') !!}">
+                      <i data-feather="layers"></i>
+                      <span class="menu-title text-truncate" data-i18n="Invo">Stock Lifts</span>
+                   </a>
+                   </li>
+                   <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{{ route('stock.recon') }}">
+                      <i data-feather="book"></i>
+                      <span class="menu-title text-truncate" data-i18n="voice">Stock Reconciliation</span>
+                   </a>
+                   </li>
                 </ul>
             </li>
             @if (Auth::user()->account_type === 'Admin')
