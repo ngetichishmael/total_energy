@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\TestingController;
+use App\Http\Controllers\app\inventoryController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -380,13 +381,23 @@ Route::group(['middleware' => ['verified']], function () {
    Route::post('inventory/allocate/user', ['uses' => 'app\inventoryController@allocate_user', 'as' => 'inventory.allocate.user']);
    Route::get('inventory/allocate/{code}/items', ['uses' => 'app\inventoryController@allocate_items', 'as' => 'inventory.allocate.items']);
    //stock approval
-   Route::get('warehousing/all/stock-requisition', ['uses' => 'app\inventoryController@approval', 'as' => 'inventory.approval']);
+//   Route::get('warehousing/all/requisitions/{warehouse_code}', ['uses' => 'app\inventoryController@approval', 'as' => 'inventory.approval']);
+   Route::get('warehousing/all/requisitions/{warehouse_code}', [InventoryController::class, 'approval'])
+      ->name('inventory.approval');
+   Route::get('warehousing/approved/requisitions/{warehouse_code}', ['uses' => 'app\inventoryController@approved', 'as' => 'inventory.approved']);
+   Route::get('warehousing/all', ['uses' => 'app\inventoryController@warehouses', 'as' => 'inventory.warehouses']);
    Route::get('warehousing/approved/{requisition_id}', ['uses' => 'app\products\productController@approvestock', 'as' => 'product.approvestock']);
    //products
    Route::get('warehousing/{code}/products', ['uses' => 'app\warehousingController@products', 'as' => 'warehousing.products']);
    Route::get('warehousing/assign', ['uses' => 'app\warehousingController@assign', 'as' => 'warehousing.assign']);
    Route::post('warehousing/assignwarehouse', ['uses' => 'app\warehousingController@assignwarehouse', 'as' => 'warehousing.assignwarehouse']);
 
+   //stock lifts
+   Route::get('stock-lifts', ['uses' => 'app\products\StockLiftController@lifted', 'as' => 'stock.lifts']);
+   Route::get('lifted/items/{allocation_code}', ['uses' => 'app\products\StockLiftController@items', 'as' => 'lifted.items']);
+   //stock Reconciliations
+   Route::get('stock-Reconciliations', ['uses' => 'app\products\inventoryController@stockrecon', 'as' => 'stock.recon']);
+   Route::get('products/reconciled/{warehouse_code}', ['uses' => 'app\products\inventoryController@reconciled', 'as' => 'stock.reconciled']);
 
 
    /* === settings === */

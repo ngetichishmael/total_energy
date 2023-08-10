@@ -9,7 +9,6 @@
                         <thead>
                             <th>#</th>
                             <th>Sales Name</th>
-                            <th>Warehouse</th>
                             <th>Status</th>
                             <th>Created On</th>
                             <th>Action</th>
@@ -19,7 +18,7 @@
                                 <tr>
                                     <td>{!! $count + 1 !!}</td>
                                     <td>{{ $requisition->user->name ?? '' }}</td>
-                                    <td>{{ $requisition->warehouse->name ?? '' }}</td>
+{{--                                    <td>{{ $requisition->warehouse->name ?? '' }}</td>--}}
                                     @if (isset($requisition->requisition_products_count, $requisition->approved_requisition_products_count) &&
                                             $requisition->requisition_products_count > 0)
                                         @php
