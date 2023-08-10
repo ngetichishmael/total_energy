@@ -11,13 +11,7 @@ class Dashboard extends Component
 
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $perPage = 5;
-    public $search = '';
-    public $orderBy = 'delivery.id';
-    public $orderAsc = true;
-    public $customer_name = null;
-    public $name = null;
-    public $order_code = null;
+
     public $paymentMethod = 'PaymentMethods.Mpesa';
 
     public function render()
