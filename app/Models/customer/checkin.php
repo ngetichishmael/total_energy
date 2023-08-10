@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Area; 
 use App\Models\Subregion; 
 use App\Models\Region; 
+use App\Models\AssignedRegion; 
 
 
 class checkin extends Model
@@ -38,24 +39,28 @@ class checkin extends Model
             return $query->whereIn('customer_id', function ($subquery) use ($user) {
                 $subquery->select('id')
                          ->from('customers')
-                         ->whereIn('route_code', function ($subsubquery) use ($user) {
-                             $subsubquery->select('id')
-                                         ->from('areas')
-                                         ->whereIn('subregion_id', function ($subsubsubquery) use ($user) {
-                                             $subsubsubquery->select('id')
-                                                            ->from('subregions')
-                                                            ->whereIn('region_id', function ($subsubsubsubquery) use ($user) {
-                                                                $subsubsubsubquery->select('region_id')
-                                                                                  ->from('assigned_regions')
-                                                                                  ->where('user_code', $user->user_code);
-                                                            });
-                                         });
+                         ->whereIn('route_code', function ($routeSubquery) use ($user) {
+                             $routeSubquery->select('id')
+                                          ->from('areas')
+                                          ->whereIn('subregion_id', function ($subregionSubquery) use ($user) {
+                                              $subregionSubquery->select('id')
+                                                               ->from('subregions')
+                                                               ->whereIn('region_id', function ($regionSubquery) use ($user) {
+                                                                   $regionSubquery->select('region_id')
+                                                                                 ->from('assigned_regions')
+                                                                                 ->where('user_code', $user->user_code);
+                                                               });
+                                          });
                          });
             });
         }
     
         return $query;
     }
+    
+    
+    
+    
     
 
     public function newQuery()

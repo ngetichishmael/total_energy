@@ -107,23 +107,9 @@
                                     <td>{{ number_format($order->price_total ?? '') }}</td>
 {{--                                <td>{{ number_format($order->balance) ?? ''}}</td>--}}
                                <td>{{$order->created_at}}</td>
-                               @php
-                                  $orderStatus = strtolower($order->order_status);
-                               @endphp
+                   
+                                  <td class="pending-order">{{ $order->payment_status ?? ''}}</td>
 
-                               @if ($orderStatus == 'pending delivery')
-                                  <td class="pending-order">Pending Order</td>
-                               @elseif ($orderStatus == 'complete delivery')
-                                  <td class="delivered-order">{{ $order->order_status }}</td>
-                               @elseif ($orderStatus == 'waiting acceptance')
-                                  <td class="waiting-acceptance">{{ $order->order_status }}</td>
-                               @elseif ($orderStatus == 'partially delivery')
-                                  <td class="partial-delivery">{{ $order->order_status }}</td>
-                               @elseif ($orderStatus == 'not delivered')
-                                  <td class="not-delivered">{{ $order->order_status }}</td>
-                               @else
-                                  <td>{{ $order->order_status }}</td>
-                               @endif
 
                                <td>
                                   <div class="dropdown">
@@ -131,7 +117,7 @@
                                         <i data-feather='settings'></i>
                                      </button>
                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="{!! route('orders.details', $order->order_code) !!}">View</a>
+                                        <a class="dropdown-item" href="{!! route('order.detail', $order->order_code) !!}">View</a>
 
                                      </div>
                                   </div>
