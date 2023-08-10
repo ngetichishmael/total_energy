@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\User;
+use App\Models\customers;
 use App\Models\AssignedRegion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,13 +40,24 @@ class Orders extends Model
     
         if (Auth::check() && $user->account_type != 'Admin') {
             $userRegionIds = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
-            return $query->whereHas('Customer', function ($subquery) use ($userRegionIds) {
-                $subquery->whereIn('region_id', $userRegionIds);
+    
+            $userSubregionIds = Subregion::whereIn('region_id', $userRegionIds)->pluck('id');
+    
+            $userAreaIds = Area::whereIn('subregion_id', $userSubregionIds)->pluck('id');
+    
+            return $query->whereIn('customerID', function ($subquery) use ($userAreaIds) {
+                $subquery->select('id')
+                         ->from('customers')
+                         ->whereIn('route_code', $userAreaIds);
             });
         }
     
         return $query;
     }
+    
+    
+    
+    
     
 
     public function newQuery()

@@ -20,4 +20,27 @@ class customers extends Model
    {
       return $this->belongsTo(Area::class, 'route_code', 'id');
    }
+
+   public function Region(): BelongsTo
+   {
+       return $this->belongsTo(Region::class, 'route_code', 'id');
+   }
+   /**
+    * Get the Creator associated with the customers
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
+   public function Creator(): HasOne
+   {
+       return $this->hasOne(User::class, 'id', 'created_by');
+   }
+   /**
+    * Get all of the Orders for the customers
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+   public function Orders(): HasMany
+   {
+       return $this->hasMany(Orders::class, 'id', 'customerID');
+   }
 }

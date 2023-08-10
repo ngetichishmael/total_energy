@@ -29,7 +29,7 @@
               <p class="card-text mb-25">Main Office, Total Energies</p>
               <p class="card-text mb-25">Nairobi Kenya</p>
               <p class="card-text mb-0">+254 (123) 456 7891 </p>
-              <p class="card-text mb-0"> <b> Order Status </b> :  <span class="badge badge-pill badge-light-success mr-1"> {{ $order->order_status ?? '' }} </span> </p>
+              <p class="card-text mb-0"> <b> Order Status </b> :  <span class="badge badge-pill badge-light-success mr-1"> Completed </span> </p>
             </div>
             <div class="mt-md-0 mt-2">
               <h4 class="invoice-title">
@@ -127,14 +127,14 @@
                   </p>
                 </td>
                 <td class="py-1">
-                <span class="font-weight-bold">ksh {!! number_format($item->selling_price) !!}</span>
-              </td>
+                  <span class="font-weight-bold">ksh {!! number_format($item->selling_price) !!}</span>
+                </td>
                 <td class="py-1">
                   <span class="font-weight-bold">{!! $item->quantity !!}</span>
                 </td>
                 <td class="py-1">
-                     <span class="font-weight-bold"> ksh {!! number_format($item->selling_price * $item->quantity) !!} </span>
-              </td>
+                <span class="font-weight-bold"> ksh {!! number_format($item->selling_price * $item->quantity) !!} </span>
+                </td>
               </tr>
              @endforeach
 
@@ -196,12 +196,14 @@
     <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
       <div class="card">
         <div class="card-body">
-          <a   href="{!! route('orders.delivery.allocation', $order->order_code) !!}" class="btn btn-primary btn-block mb-75" >
-          Allocate Delivery
-          </a>
+    
           <button class="btn btn-outline-secondary btn-block btn-download-invoice mb-75">Download</button>
           <a class="btn btn-outline-secondary btn-block mb-75" href="#" target="_blank">
             Print
+          </a>
+
+          <a class="btn btn-outline-secondary btn-block mb-75" href="/vansalesorders" target="_blank">
+            Back
           </a>
    
         </div>

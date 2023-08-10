@@ -69,7 +69,7 @@
                     <tbody>
                         @forelse ($orders as $count => $order)
                             <tr>
-                                {{-- @dd($order->id) --}}
+
                                 <td>{{ $order->order_code ?? '' }}</td>
                                 <td title="{{ $order->Customer->customer_name ?? null }}">
                                     {{ Str::limit($order->Customer->customer_name ?? null, 20) }}</td>
@@ -128,5 +128,5 @@
             {!! $orders->links() !!}
         </div>
     </div>
-    @section('scripts')
-    @endsection
+
+<br>
