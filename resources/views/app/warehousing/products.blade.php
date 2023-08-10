@@ -4,18 +4,33 @@
 
 @section('content')
    <!-- begin breadcrumb -->
-   <div class="row mb-2">
-      <div class="col-md-8">
-         <h2 class="page-header"> Inventory for Warehouse : <b> {!! $warehouse->name !!} </b></h2>
+   <div class="content-header row">
+      <div class="content-header-left col-md-12 col-12 mb-2">
+         <div class="row breadcrumbs-top">
+            <div class="col-12">
+               <h2 class="content-header-title float-start mb-0">Inventory for Warehouse : <b> {!! $warehouse->name !!} </h2>
+               <div class="breadcrumb-wrapper">
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                     <li class="breadcrumb-item"><a href="{{route('warehousing.index')}}">Warehousing</a></li>
+                     <li class="breadcrumb-item active">Product List</li>
+                  </ol>
+               </div>
+            </div>
+         </div>
       </div>
-         <!-- <div class="col-md-4">
-            <center>
+{{--   <div class="row mb-2">--}}
+{{--      <div class="col-md-8">--}}
+{{--         <h2 class="page-header"> Inventory for Warehouse : <b> {!! $warehouse->name !!} </b></h2>--}}
+{{--      </div>--}}
+{{--         <!-- <div class="col-md-4">--}}
+{{--            <center>--}}
 {{--               <a href="{!! route('products.create') !!}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Add New Products</a>--}}
 {{--               <a href="{!! route('products.import') !!}" class="btn btn-success btn-sm"><i class="fas fa-sync-alt"></i> Import Products</a>--}}
 
-            </center>
-         </div> -->
-   </div>
+{{--            </center>--}}
+{{--         </div> -->--}}
+{{--   </div>--}}
    <!-- end breadcrumb -->
    <!-- begin page-header -->
 
