@@ -15,6 +15,7 @@ class Pendingdeliveries extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $perPage = 25;
+
     public $search = null;
     public $orderBy = 'delivery.id';
     public $orderAsc = false;
