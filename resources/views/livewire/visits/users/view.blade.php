@@ -55,6 +55,7 @@
                             <th>Start/Stop Time</th>
                             <th>Duration</th>
                             <th>Date</th>
+                            <th>Order Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,7 +73,8 @@
                             </td>
                             
                             <td>{{ $visit->formatted_date }}</td>
-                       
+                            <td> </td>
+
                         </tr>
                         @empty
                             <tr>

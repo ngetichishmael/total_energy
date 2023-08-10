@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Delivery;
 
 use App\Models\Region;
+use App\Models\Orders;
 use Livewire\Component;
 use App\Models\Delivery;
 use App\Models\customers;
@@ -37,7 +38,7 @@ class index extends Component
    {
 
       $searchTerm = '%' . $this->search . '%';
-      $deliveries = Delivery::whereIn('delivery_status', ['Delivered', 'Partial delivery'])->with('User', 'Customer')
+      $deliveries = Orders::whereIn('order_status', ['Delivered', 'Partial delivery'])->with('User', 'Customer')
          ->when($this->fromDate, function ($query) {
             return $query->whereDate('created_at', '>=', $this->fromDate);
          })

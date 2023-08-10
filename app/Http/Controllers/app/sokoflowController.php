@@ -4,6 +4,7 @@ namespace App\Http\Controllers\app;
 
 use App\Http\Controllers\Controller;
 use App\Models\Orders;
+use App\Models\products\product_information;
 use App\Models\order_payments as OrderPayment;
 use App\Models\User;
 use Carbon\Carbon;
@@ -60,7 +61,10 @@ class sokoflowController extends Controller
         $strike = DB::table('customer_checkin')->whereDate('created_at', Carbon::today())->count();
         $customersCount = Orders::distinct('customerID')->whereDate('created_at', Carbon::today())->count();
 
+        
+
         return view('app.dashboard.dashboard', [
+        
             'Cash' => $cash,
             'Mpesa' => $mpesa,
             'Cheque' => $cheque,

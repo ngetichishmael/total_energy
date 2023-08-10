@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\User;
+use App\Models\AssignedRegion;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 
 class Orders extends Model
 {
@@ -27,6 +32,30 @@ class Orders extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasOne
     */
+
+    public function scopeFilterOrders($query)
+    {
+        $user = Auth::user();
+    
+        if (Auth::check() && $user->account_type != 'Admin') {
+            $userRegionIds = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
+            return $query->whereHas('Customer', function ($subquery) use ($userRegionIds) {
+                $subquery->whereIn('region_id', $userRegionIds);
+            });
+        }
+    
+        return $query;
+    }
+    
+
+    public function newQuery()
+    {
+        if (Route::current() && in_array('web', Route::current()->middleware())) {
+            return parent::newQuery()->FilterOrders();
+        }
+
+        return parent::newQuery();
+    }
    public function OrderItem(): HasOne
    {
       return $this->hasOne(Order_items::class, 'order_code', 'order_code');
@@ -67,5 +96,10 @@ class Orders extends Model
    public function Customer(): BelongsTo
    {
       return $this->belongsTo(customers::class, 'customerID', 'id');
+   }
+
+   public function deliveries()
+   {
+       return $this->hasMany(Delivery::class, 'order_code','order_code');
    }
 }
