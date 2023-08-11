@@ -32,18 +32,18 @@
                         Customers</span>
                 </a>
                 <ul class="menu-content">
-                    <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('customers.*') !!}"
+                    <li><a class="d-flex align-items-center {!! Nav::isRoute('customers.*') !!}"
                             href="{{ route('customer') }}"><i data-feather="circle"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">List</span></a>
                     </li>
                   
                     @if (Auth::user()->account_type === 'Admin')
 
-                        <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}"
+                        <li><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}"
                                 href="{{ route('outlets') }}"><i data-feather="circle"  style="color:#ffffff;"></i><span
                                     class="menu-item text-truncate">OutLets</span></a>
                         </li>
-                        <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('custom.*') !!}"
+                        <li><a class="d-flex align-items-center {!! Nav::isRoute('custom.*') !!}"
                                 href="{{ route('CustomerComment') }}"><i data-feather="circle"  style="color:#ffffff;"></i><span
                                     class="menu-item text-truncate">Comments</span></a>
                         </li>
@@ -98,23 +98,23 @@
                         Orders</span>
                 </a>
                 <ul class="menu-content">
-                    <li style="padding-left: 20px"><a class="d-flex align-items-center"
+                    <li><a class="d-flex align-items-center"
                             href="{{ route('orders.pendingorders') }}">
                             <i data-feather="circle"  style="color:#ffffff;"></i> <span class="menu-item text-truncate">Pending
                                 Orders</span></a>
                     </li>
-                    <li style="padding-left: 20px"><a class="d-flex align-items-center"
+                    <li><a class="d-flex align-items-center"
                             href="{{ route('orders.pendingdeliveries') }}">
                             <i data-feather="circle"  style="color:#ffffff;"></i> <span class="menu-item text-truncate">Pending
                                 Deliveries</span></a>
                     </li>
-                    <li style="padding-left: 20px"><a class="d-flex align-items-center"
+                    <li><a class="d-flex align-items-center"
                             href="{!! route('delivery.index') !!}">
                             <i data-feather="circle"  style="color:#ffffff;"></i> <span class="menu-title text-truncate" data-i18n="Todo">
                                 Delivery History</span>
                         </a>
                     </li>
-                    <li style="padding-left: 20px"><a class="d-flex align-items-center"
+                    <li><a class="d-flex align-items-center"
                             href="{!! route('orders.vansalesorders') !!}">
                             <i data-feather="circle"  style="color:#ffffff;"></i> <span class="menu-title text-truncate" data-i18n="Todo">
                                 Vansales Orders</span>
