@@ -214,11 +214,13 @@
                 <ul class="menu-content">
                     <li style="padding-left: 50px"><a class="d-flex align-items-center"
                             href="{!! route('warehousing.index') !!}">
+                          <i data-feather="box"></i>
                             <span class="menu-item text-truncate">
                                 Warehouses</span></a></li>
                     <li style="padding-left: 50px"><a class="d-flex align-items-center"
-                            href="{!! route('inventory.warehouses') !!}"><span class="menu-item text-truncate">Approve
-                                Stock</span></a>
+                            href="{!! route('inventory.warehouses') !!}">
+                          <i data-feather="check-square"></i>
+                       <span class="menu-item text-truncate">Approve Stock</span></a>
                     </li>
                    <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{!! route('stock.lifts') !!}">
                       <i data-feather="layers"></i>
