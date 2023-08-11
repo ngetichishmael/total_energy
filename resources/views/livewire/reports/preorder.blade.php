@@ -41,6 +41,21 @@
 </div>
 <br>
 <br>
+
+<div class="row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary">Button 1</button>
+        <button type="button" class="btn btn-primary">Button 2</button>
+        <button type="button" class="btn btn-primary">Button 3</button>
+        <button type="button" class="btn btn-primary">Button 4</button>
+        <button type="button" class="btn btn-primary">Button 5</button>
+        <button type="button" class="btn btn-primary">Button 6</button>
+        <button type="button" class="btn btn-primary">Button 7</button>
+        <button type="button" class="btn btn-primary">Button 8</button>
+        <button type="button" class="btn btn-primary">Button 9</button>
+        <button type="button" class="btn btn-primary">Button 10</button>
+    </div>
+</div>
 <div class="row">
     @include('partials.stickymenu')
     <div class="col-md-10">
