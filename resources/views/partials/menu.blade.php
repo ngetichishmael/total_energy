@@ -33,18 +33,18 @@
                 </a>
                 <ul class="menu-content">
                     <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('customers.*') !!}"
-                            href="{{ route('customer') }}"><i data-feather="circle"></i><span
+                            href="{{ route('customer') }}"><i data-feather="circle"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">List</span></a>
                     </li>
                   
                     @if (Auth::user()->account_type === 'Admin')
 
                         <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}"
-                                href="{{ route('outlets') }}"><i data-feather="circle"></i><span
+                                href="{{ route('outlets') }}"><i data-feather="circle"  style="color:#ffffff;"></i><span
                                     class="menu-item text-truncate">OutLets</span></a>
                         </li>
                         <li style="padding-left: 20px"><a class="d-flex align-items-center {!! Nav::isRoute('custom.*') !!}"
-                                href="{{ route('CustomerComment') }}"><i data-feather="circle"></i><span
+                                href="{{ route('CustomerComment') }}"><i data-feather="circle"  style="color:#ffffff;"></i><span
                                     class="menu-item text-truncate">Comments</span></a>
                         </li>
                     @endif
@@ -64,11 +64,11 @@
                         class="menu-title text-truncate" data-i18n="Invoice">Visits</span></a>
                 <ul class="menu-content">
                     <li><a class="nav-item {!! Nav::isResource('UsersVisits') !!} d-flex align-items-center"
-                            href="{!! route('UsersVisits') !!}"><i data-feather="user"></i><span
+                            href="{!! route('UsersVisits') !!}"><i data-feather="user"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">Users</span></a>
                     </li>
                     <li><a class="d-flex align-items-center" href="{!! route('CustomerVisits') !!}"><i
-                                data-feather="users"></i><span class="menu-item text-truncate">Customers</span></a>
+                                data-feather="users"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Customers</span></a>
                     </li>
                 </ul>
             </li>
@@ -78,14 +78,14 @@
                 <ul class="menu-content">
                     <li class="nav-item {!! Nav::isResource('maps') !!}">
                         <a class="d-flex align-items-center" href="{!! route('maps') !!}">
-                            <i data-feather='users'></i>
+                            <i data-feather='users'  style="color:#ffffff;"></i>
                             <span class="menu-title text-truncate" data-i18n="Todo">
                                 Customers</span>
                         </a>
                     </li>
                     <li class="nav-item {!! Nav::isResource('current-information') !!}">
                         <a class="d-flex align-items-center" href="{!! route('current-information') !!}">
-                            <i data-feather='globe'></i>
+                            <i data-feather='globe'  style="color:#ffffff;"></i>
                             <span class="menu-title text-truncate" data-i18n="Todo">
                                 Sales Agents</span>
                         </a>
@@ -100,23 +100,23 @@
                 <ul class="menu-content">
                     <li style="padding-left: 20px"><a class="d-flex align-items-center"
                             href="{{ route('orders.pendingorders') }}">
-                            <i data-feather="circle"></i> <span class="menu-item text-truncate">Pending
+                            <i data-feather="circle"  style="color:#ffffff;"></i> <span class="menu-item text-truncate">Pending
                                 Orders</span></a>
                     </li>
                     <li style="padding-left: 20px"><a class="d-flex align-items-center"
                             href="{{ route('orders.pendingdeliveries') }}">
-                            <i data-feather="circle"></i> <span class="menu-item text-truncate">Pending
+                            <i data-feather="circle"  style="color:#ffffff;"></i> <span class="menu-item text-truncate">Pending
                                 Deliveries</span></a>
                     </li>
                     <li style="padding-left: 20px"><a class="d-flex align-items-center"
                             href="{!! route('delivery.index') !!}">
-                            <i data-feather="circle"></i> <span class="menu-title text-truncate" data-i18n="Todo">
+                            <i data-feather="circle"  style="color:#ffffff;"></i> <span class="menu-title text-truncate" data-i18n="Todo">
                                 Delivery History</span>
                         </a>
                     </li>
                     <li style="padding-left: 20px"><a class="d-flex align-items-center"
                             href="{!! route('orders.vansalesorders') !!}">
-                            <i data-feather="circle"></i> <span class="menu-title text-truncate" data-i18n="Todo">
+                            <i data-feather="circle"  style="color:#ffffff;"></i> <span class="menu-title text-truncate" data-i18n="Todo">
                                 Vansales Orders</span>
                         </a>
                     </li>
@@ -129,11 +129,11 @@
                 </a>
                 <ul class="menu-content">
                     <li><a class="d-flex align-items-center {!! Nav::isRoute('PaidPayment') !!}"
-                            href="{{ route('PaidPayment') }}"><i data-feather="circle"></i><span
+                            href="{{ route('PaidPayment') }}"><i data-feather="circle"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">Paid</span></a>
                     </li>
                     <li><a class="d-flex align-items-center {!! Nav::isRoute('customer*') !!}"
-                            href="{{ route('PendingPayment') }}"><i data-feather="circle"></i><span
+                            href="{{ route('PendingPayment') }}"><i data-feather="circle"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">Pending</span></a>
                     </li>
                 </ul>
@@ -143,16 +143,16 @@
                         class="menu-title text-truncate" data-i18n="Invoice">Products</span></a>
                 <ul class="menu-content">
                     <li><a class="d-flex align-items-center" href="{!! route('product.index') !!}"><i
-                                data-feather="circle"></i><span class="menu-item text-truncate">Products</span></a>
+                                data-feather="circle"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Products</span></a>
                     </li>
 
                     @if (Auth::user()->account_type === 'Admin')
                         <li><a class="d-flex align-items-center" href="{!! route('product.category') !!}"><i
-                                    data-feather="circle"></i><span
+                                    data-feather="circle"  style="color:#ffffff;"></i><span
                                     class="menu-item text-truncate">Categories</span></a>
                         </li>
                         <li><a class="d-flex align-items-center" href="{!! route('product.brand') !!}"><i
-                                    data-feather="circle"></i><span class="menu-item text-truncate">Brands</span></a>
+                                    data-feather="circle"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Brands</span></a>
                         </li>
                     @endif
                 </ul>
@@ -170,13 +170,13 @@
                 <ul class="menu-content">
                  
                     <li><a class="d-flex align-items-center{!! Nav::isResource('areas') !!}" href="{{ route('areas') }}"><i
-                                data-feather="map-pin"></i><span class="menu-item text-truncate">Routes</span></a>
+                                data-feather="map-pin"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Routes</span></a>
                     </li>
                     <li><a class="d-flex align-items-center nav-item {!! Nav::isResource('regions') !!}"
-                            href="{{ route('regions') }}"><i data-feather="map-pin"></i><span
+                            href="{{ route('regions') }}"><i data-feather="map-pin"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">Zone</span></a></li>
                     <li><a class="d-flex align-items-center {!! Nav::isResource('subregions') !!}"
-                            href="{{ route('subregions') }}"><i data-feather="map-pin"></i><span
+                            href="{{ route('subregions') }}"><i data-feather="map-pin"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">Region</span></a>
                     </li>
 
@@ -206,16 +206,16 @@
                     class="menu-title text-truncate" data-i18n="Invoice">Targets</span></a>
             <ul class="menu-content">
                 <li><a class="d-flex align-items-center" href=" {{ route('sales.target') }}"><i
-                            data-feather="credit-card"></i><span class="menu-item text-truncate">Volumes</span></a>
+                            data-feather="credit-card"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Volumes</span></a>
                 </li>
                 <li><a class="d-flex align-items-center" href="{{ route('visit.target') }}"><i
-                            data-feather="truck"></i><span class="menu-item text-truncate">Visits</span></a>
+                            data-feather="truck"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Visits</span></a>
                 </li>
                 <li><a class="d-flex align-items-center" href="{{ route('leads.target') }}"><i
-                            data-feather="compass"></i><span class="menu-item text-truncate">Leads</span></a>
+                            data-feather="compass"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Leads</span></a>
                 </li>
                 <li><a class="d-flex align-items-center" href="{{ route('order.target') }}"><i
-                            data-feather="shopping-cart"></i><span class="menu-item text-truncate">Orders</span></a>
+                            data-feather="shopping-cart"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Orders</span></a>
                 </li>
             </ul>
         </li>
@@ -261,10 +261,10 @@
                     class="menu-title text-truncate" data-i18n="Invoice"> Warehousing</span></a>
             <ul class="menu-content">
                 <li><a class="d-flex align-items-center" href="{!! route('warehousing.index') !!}"><i
-                            data-feather="circle"></i><span class="menu-item text-truncate">All
+                            data-feather="circle"  style="color:#ffffff;"></i><span class="menu-item text-truncate">All
                             Warehouses</span></a></li>
                 <li><a class="d-flex align-items-center" href="{!! route('warehousing.create') !!}"><i
-                            data-feather="circle"></i><span class="menu-item text-truncate">Add
+                            data-feather="circle" style="color:#ffffff;"></i><span class="menu-item text-truncate">Add
                             Warehouse</span></a></li>
             </ul>
         </li>
