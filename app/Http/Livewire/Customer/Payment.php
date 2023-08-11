@@ -16,14 +16,15 @@ class Payment extends Component
         ]);
     }
 
-    public function data(): array
+    public function data()
     {
         $array = [];
         $orders = Orders::where('customerID', $this->customer_id)->pluck('order_code');
         if ($orders->isEmpty()) {
             return $array;
         }
-        return order_payments::whereIn('order_code', $orders)->toArray();
+        return order_payments::whereIn('order_id', $orders)->get();
+
     }
     public function pluckLastPart($string)
     {
