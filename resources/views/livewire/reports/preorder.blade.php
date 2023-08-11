@@ -42,7 +42,7 @@
 <br>
 <br>
 
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-12">
         <button type="button" class="btn btn-primary">Button 1</button>
         <button type="button" class="btn btn-primary">Button 2</button>
@@ -55,7 +55,7 @@
         <button type="button" class="btn btn-primary">Button 9</button>
         <button type="button" class="btn btn-primary">Button 10</button>
     </div>
-</div>
+</div> -->
 <div class="row">
     @include('partials.stickymenu')
     <div class="col-md-10">
