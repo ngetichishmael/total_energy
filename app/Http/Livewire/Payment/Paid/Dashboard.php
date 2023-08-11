@@ -11,6 +11,8 @@ class Dashboard extends Component
 
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
+    public $fromDate;
+    public $toDate;
 
     public $paymentMethod = 'PaymentMethods.Mpesa';
 
@@ -28,6 +30,14 @@ class Dashboard extends Component
                 'users.name as name',
                 'customers.customer_name as customer_name',
             )
+            ->when($this->fromDate, function ($query) {
+                return $query->whereDate('order_payments.created_at', '>=', $this->fromDate);
+            })
+            ->when($this->toDate, function ($query) {
+                return $query->whereDate('order_payments.created_at', '<=', $this->toDate);
+            })
+            ->orderBy('order_payments.updated_at', 'desc')
+            ->groupBy('amount')
             ->get();
 
         return view('livewire.payment.paid.dashboard', [

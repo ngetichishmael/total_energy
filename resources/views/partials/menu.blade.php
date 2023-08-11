@@ -196,7 +196,7 @@
                     class="menu-title text-truncate" data-i18n="Invoice">Targets</span></a>
             <ul class="menu-content">
                 <li><a class="d-flex align-items-center" href=" {{ route('sales.target') }}"><i
-                            data-feather="credit-card"></i><span class="menu-item text-truncate">Sales</span></a>
+                            data-feather="credit-card"></i><span class="menu-item text-truncate">Volumes</span></a>
                 </li>
                 <li><a class="d-flex align-items-center" href="{{ route('visit.target') }}"><i
                             data-feather="truck"></i><span class="menu-item text-truncate">Visits</span></a>
