@@ -15,8 +15,10 @@ class MKOOrder
     {
         $this->request = $request;
         $this->order_code = $request->get('orderID');
-        Http::withBody($this->encodeData(), 'application/json')
+        $result = Http::withBody($this->encodeData(), 'application/json')
             ->post(env('MKO_BASE_URL') . '/order');
+        info(json_encode($result));
+
         (new STKPush())($request);
     }
     public function getOrderItems()
