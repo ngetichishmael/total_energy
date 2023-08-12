@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app1')
 {{-- page header --}}
 @section('title','Leads Target')
 
@@ -17,5 +17,5 @@
    @include('partials._messages')
    {{-- @livewire('products.products') --}}
    @livewire('target.lead')
-   
+   <br>
 @endsection

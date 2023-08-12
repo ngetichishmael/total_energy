@@ -7,7 +7,7 @@
     <!-- begin breadcrumb -->
     <div class="row mb-2">
         <div class="col-md-8">
-            <h2 class="page-header"><i data-feather="list"></i> Active Sales Target </h2>
+            <h2 class="page-header"><i data-feather="list"></i> Active Volume Target </h2>
         </div>
     </div>
     <!-- end breadcrumb -->
