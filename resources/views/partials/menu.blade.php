@@ -36,7 +36,7 @@
                             href="{{ route('customer') }}"><i data-feather="circle"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">List</span></a>
                     </li>
-
+                  
                     @if (Auth::user()->account_type === 'Admin')
 
                         <li><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}"
@@ -52,13 +52,13 @@
 
                 </ul>
             </li>
-
+   
             <li class="nav-item {!! Nav::isResource('users') !!}">
                 <a class="d-flex align-items-center" href="{!! route('users.list') !!}">
                     <i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Todo"> Users</span>
                 </a>
             </li>
-
+        
             <li class="nav-item {!! Nav::isResource('visits') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather='truck'></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Visits</span></a>
@@ -168,7 +168,7 @@
                 <a class="d-flex align-items-center" href="#"><i data-feather="map-pin"></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Regions</span></a>
                 <ul class="menu-content">
-
+                 
                     <li><a class="d-flex align-items-center{!! Nav::isResource('areas') !!}" href="{{ route('areas') }}"><i
                                 data-feather="map-pin"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Routes</span></a>
                     </li>
@@ -182,8 +182,7 @@
 
 
             </li>
-
-
+        
 
         </ul>
         </li>
@@ -195,7 +194,6 @@
             <ul class="menu-content">
                 <li><a class="d-flex align-items-center" href="{!! route('supplier') !!}"><i
                             data-feather="circle"></i><span class="menu-item text-truncate">Suppliers</span></a>
-
                 </li>
                 <li><a class="d-flex align-items-center" href="{!! route('supplier.category.index') !!}"><i
                             data-feather="circle"></i><span class="menu-item text-truncate">Categories</span></a>
@@ -221,8 +219,8 @@
                 </li>
             </ul>
         </li>
-
-
+      
+      
         <!-- <li class="nav-item {!! Nav::isResource('deliver') !!}">
             <a class="d-flex align-items-center" href="{!! route('delivery.index') !!}">
                 <i data-feather='truck'></i><span class="menu-title text-truncate" data-i18n="Todo">
