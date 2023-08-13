@@ -26,7 +26,7 @@
             <div class="content-body">
                 @include('partials._messages')
                 @yield('content')
-                </div>
+            </div>
         </div>
     </div>
     <!-- END: Content-->
@@ -35,7 +35,7 @@
     <div class="drag-target"></div>
 
     @include('partials._javascripts')
-    </body>
+</body>
 <!-- END: Body-->
 
 </html>

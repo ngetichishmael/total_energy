@@ -17,6 +17,7 @@ class CreateSaleReportsTable extends Migration
             $table->id();
             $table->string('user_id');
             $table->string('customer_id');
+            $table->string('checking_code');
             $table->enum('customer_ordered', ['Yes', 'No'])->default('No');
             $table->enum('outlet_has_stock', ['Yes', 'No'])->nullable();
             $table->string('competitor_supplier')->nullable();

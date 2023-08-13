@@ -19,7 +19,9 @@
          </div>
       </div>
    </div>
-   @livewire('productapproval.approval')
+{{--   @livewire('productapproval.approval')--}}
+{{--   @livewire('productapproval.approval', :warehouse_code=$warehouse_code)--}}
+   @livewire('productapproval.approval', ['warehouse_code' => $warehouse_code])
 
 @endsection
 {{-- page scripts --}}

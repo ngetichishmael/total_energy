@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Visits\Users;
 
 use App\Exports\CustomerViewVisitExport;
+use App\Models\SaleReport;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -66,7 +67,8 @@ class View extends Component
             ->where('customers.customer_name', 'LIKE', '%' . $this->search . '%')
             ->whereRaw('customer_checkin.start_time <= customer_checkin.stop_time') // Condition to ensure start_time <= stop_time
             ->select(
-                'customer_checkin.id as id', 
+                'customer_checkin.id as id',
+                'customer_checkin.code as code',
                 'users.name as name',
                 'customers.customer_name AS customer_name',
                 DB::raw("DATE_FORMAT(customer_checkin.start_time, '%h:%i %p') AS start_time"),
@@ -89,6 +91,17 @@ class View extends Component
 
         $visits = $query->paginate($this->perPage);
         return $visits;
+    }
+    public function getChecking($checking_code)
+    {
+        $result = SaleReport::where('checking_code', $checking_code)->first();
+        return [
+            "customer_ordered" => $result->customer_ordered,
+            "outlet_has_stock" => $result->outlet_has_stock,
+            "competitor_supplier" => $result->competitor_supplier,
+            "likely_ordered_products" => $result->likely_ordered_products,
+            "highest_sale_products" => $result->highest_sale_products,
+        ];
     }
 
     public function export()
@@ -126,6 +139,5 @@ class View extends Component
 
         return Excel::download(new CustomerViewVisitExport($exportData, $this->username), 'Visits_' . $this->username . '.xlsx');
     }
-    
-    
+
 }

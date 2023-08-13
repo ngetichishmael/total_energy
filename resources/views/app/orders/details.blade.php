@@ -127,14 +127,14 @@
                   </p>
                 </td>
                 <td class="py-1">
-                  <span class="font-weight-bold">ksh {!! $item->selling_price !!}</span>
-                </td>
+                <span class="font-weight-bold">ksh {!! number_format($item->selling_price) !!}</span>
+              </td>
                 <td class="py-1">
                   <span class="font-weight-bold">{!! $item->quantity !!}</span>
                 </td>
                 <td class="py-1">
-                  <span class="font-weight-bold"> ksh {!! $item->selling_price * $item->quantity !!} </span>
-                </td>
+                     <span class="font-weight-bold"> ksh {!! number_format($item->selling_price * $item->quantity) !!} </span>
+              </td>
               </tr>
              @endforeach
 
@@ -154,7 +154,7 @@
               <div class="invoice-total-wrapper">
                 <div class="invoice-total-item">
                   <p class="invoice-total-title">Subtotal:</p>
-                  <p class="invoice-total-amount"> Ksh {!! $sub->sum('sub_total') !!} </p>
+                  <p class="invoice-total-amount"> Ksh {!! number_format($sub->sum('sub_total')) !!} </p>
                 </div>
                 <div class="invoice-total-item">
                   <p class="invoice-total-title">Discount:</p>
@@ -167,7 +167,7 @@
                 <hr class="my-50" />
                 <div class="invoice-total-item">
                   <p class="invoice-total-title">Total:</p>
-                  <p class="invoice-total-amount"> Ksh {!! $total->sum('total_amount') !!} </p>
+                  <p class="invoice-total-amount"> Ksh {!! number_format($total->sum('total_amount')) !!} </p>
                 </div>
               </div>
             </div>

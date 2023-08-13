@@ -6,7 +6,8 @@ use App\Models\products\product_information;
 use App\Models\products\product_inventory;
 use App\Models\products\product_price;
 use App\Models\Branches;
-use Session;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Hr;
 use Illuminate\Support\Facades\Auth ;
 
@@ -48,6 +49,23 @@ class inventoryController extends Controller{
       Session::flash('success','Item inventory successfully updated');
 
       return redirect()->back();
+   }
+
+   public function stockrecon(){
+
+      return view('app.stocks.reconciliation');
+   }
+
+   public function reconciled($warehouse_code)
+   {
+      $reconciled = DB::table('reconciled_products')
+         ->join('product_information', 'reconciled_products.productID', '=', 'product_information.id')
+         ->where('reconciled_products.warehouse_code', $warehouse_code)
+         ->select('product_information.product_name as name',
+            'reconciled_products.amount as amount')
+         ->get();
+
+      return view('app.items.reconciledproducts', ['reconciled' => $reconciled]);
    }
 
    /**

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 {{-- page header --}}
-@section('title', 'Leads Target')
+@section('title', 'Volume Target')
 
 {{-- content section --}}
 @section('content')

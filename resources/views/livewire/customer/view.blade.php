@@ -48,7 +48,7 @@
                          </li>
                          <li class="mb-2 pt-1">
                              <span class="fw-semibold me-1">Creator:</span>
-                             <span>{{ $customer->Creator->name??'' }}</span>
+                             <span>{{ $customer->Creator?->name }}</span>
                          </li>
                      </ul>
                  </div>
