@@ -15,7 +15,7 @@
 
                          <img class="img-fluid rounded mb-3 pt-1 mt-4" src="{{ $imageUrl }}" height="100"
                              width="100" alt="User avatar">
-                         <h4 class="mb-2">{{ Str::upper($customer->customer_name) }}</h4>
+                         <h4 class="mb-2">{{ Str::upper($customer->customer_name??'') }}</h4>
 
                      </div>
                  </div>
@@ -48,7 +48,7 @@
                          </li>
                          <li class="mb-2 pt-1">
                              <span class="fw-semibold me-1">Creator:</span>
-                             <span>{{ $customer->Creator->name }}</span>
+                             <span>{{ $customer->Creator->name??'' }}</span>
                          </li>
                      </ul>
                  </div>
