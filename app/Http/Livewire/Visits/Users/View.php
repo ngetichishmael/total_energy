@@ -95,14 +95,27 @@ class View extends Component
     public function getChecking($checking_code)
     {
         $result = SaleReport::where('checking_code', $checking_code)->first();
-        return [
-            "customer_ordered" => $result->customer_ordered,
-            "outlet_has_stock" => $result->outlet_has_stock,
-            "competitor_supplier" => $result->competitor_supplier,
-            "likely_ordered_products" => $result->likely_ordered_products,
-            "highest_sale_products" => $result->highest_sale_products,
-        ];
+    
+        if ($result) {
+            return [
+                "customer_ordered" => $result->customer_ordered,
+                "outlet_has_stock" => $result->outlet_has_stock,
+                "competitor_supplier" => $result->competitor_supplier,
+                "likely_ordered_products" => $result->likely_ordered_products,
+                "highest_sale_products" => $result->highest_sale_products,
+            ];
+        } else {
+            // Handle the case when no matching record is found
+            return [
+                "customer_ordered" => null,
+                "outlet_has_stock" => null,
+                "competitor_supplier" => null,
+                "likely_ordered_products" => null,
+                "highest_sale_products" => null,
+            ];
+        }
     }
+    
 
     public function export()
     {
