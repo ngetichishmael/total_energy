@@ -37,7 +37,7 @@ class CustomerCreation
                 'type' => $request->type,
                 'street' => $request->address,
                 'address' => $request->address,
-                'customer_group' => $request->customer_group,
+                'customer_group' => $request->outlet,
                 'city' => $request->address,
                 'postal_code' => $request->address,
                 'province' => $request->address,
