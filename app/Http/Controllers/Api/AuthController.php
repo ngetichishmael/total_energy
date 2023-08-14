@@ -49,6 +49,7 @@ class AuthController extends Controller
 
       $random = Str::random(20);
       $activityLog = new activity_log();
+      $activityLog->source = 'Mobile App';
       $activityLog->activity = 'Login in Mobile Device';
       $activityLog->user_code = auth()->user()->user_code;
       $activityLog->section = 'Mobile Login';
