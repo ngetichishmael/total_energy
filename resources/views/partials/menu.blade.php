@@ -287,7 +287,7 @@
                 <a class="d-flex align-items-center" href="{!! route('activity.index') !!}"><i
                         data-feather='activity'></i><span class="menu-title text-truncate" data-i18n="Invoice">Activity Logs</span></a>
              </li>
-            @endif
+
         </ul>
 
         <br>
