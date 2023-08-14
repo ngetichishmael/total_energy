@@ -90,40 +90,49 @@
                                     <span class="expand-row" data-toggle="collapse"
                                         data-target="#details{{ $visit->code }}">
                                         <span class="material-symbols-outlined">
-                                            visibility
+                                            @if ($checkingData['customer_ordered'] === 'Yes')
+                                                visibility_off
+                                            @else
+                                                visibility
+                                            @endif
                                         </span>
                                     </span>
                                 </td>
                             </tr>
                             <tr id="details{{ $visit->code }}" class="collapse">
                                 <td colspan="8">
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <td>Customer Ordered:</td>
-                                            <td>{{ $checkingData['customer_ordered'] }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Outlet Has Stock:</td>
-                                            <td>{{ $checkingData['outlet_has_stock'] }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Competitor Supplier:</td>
-                                            <td>{{ $checkingData['competitor_supplier'] }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Likely Ordered Products:</td>
-                                            <td>{{ implode(', ', $checkingData['likely_ordered_products'] ?? []) }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Highest Sale Products:</td>
-                                            <td>{{ implode(', ', $checkingData['highest_sale_products'] ?? []) }}</td>
-                                        </tr>
-                                    </table>
+                                    @if ($checkingData['customer_ordered'] === 'No')
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <td>Customer Ordered:</td>
+                                                <td>{{ $checkingData['customer_ordered'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Outlet Has Stock:</td>
+                                                <td>{{ $checkingData['outlet_has_stock'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Competitor Supplier:</td>
+                                                <td>{{ $checkingData['competitor_supplier'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Likely Ordered Products:</td>
+                                                <td>{{ implode(', ', $checkingData['likely_ordered_products'] ?? []) }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Highest Sale Products:</td>
+                                                <td>{{ implode(', ', $checkingData['highest_sale_products'] ?? []) }}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    @endif
                                 </td>
                             </tr>
+
                         @empty
                             <tr>
+                                <td colspan="8" style="text-align: center;">No Record found.</td>
                                 <td colspan="8" style="text-align: center;">No Record found.</td>
                             </tr>
                         @endforelse
