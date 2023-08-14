@@ -14,6 +14,7 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Str;
 
 /**
  * @group Authentication Api's
@@ -47,17 +48,29 @@ class AuthController extends Controller
 
       $token = $user->createToken('auth_token')->plainTextToken;
 
-      $random = Str::random(20);
-      $activityLog = new activity_log();
-      $activityLog->source = 'Mobile App';
-      $activityLog->activity = 'Login in Mobile Device';
-      $activityLog->user_code = auth()->user()->user_code;
-      $activityLog->section = 'Mobile Login';
-      $activityLog->action = 'User ' . auth()->user()->name . ' Logged in in mobile appication';
-      $activityLog->userID = auth()->user()->id;
-      $activityLog->activityID = $random;
-      $activityLog->ip_address = "";
-      $activityLog->save();
+
+   //    $random = Str::random(20);
+
+   //    activity_log::create([
+   //       'source' => 'App',
+   //       'activity' => 'Login Attempt',
+   //       'section' => 'Authentication',
+   //       'action' => 'Failed Login',
+   //       'user_code' => $request->email,
+   //       'ip_address' => $request->ip(),
+   //   ]);
+      
+     $random = Str::random(20);
+     $activityLog = new activity_log();
+     $activityLog->source = 'Mobile App';
+     $activityLog->activity = 'Login in Mobile Device';
+     $activityLog->user_code = auth()->user()->user_code;
+     $activityLog->section = 'Mobile Login';
+     $activityLog->action = 'User ' . auth()->user()->name . ' Logged in in mobile appication';
+     $activityLog->userID = auth()->user()->id;
+     $activityLog->activityID = $random;
+     $activityLog->ip_address = "";
+     $activityLog->save();
 
       return response()->json([
          "success" => true,
@@ -97,9 +110,22 @@ class AuthController extends Controller
     *
     *
     **/
+
    public function logout(Request $request)
    {
-      $request->user()->currentAccessToken()->delete();
+      $user = $request->user();
+      $user->currentAccessToken()->delete();
+
+      $activityLog = new ActivityLog();
+      $activityLog->source = 'Mobile App';
+      $activityLog->activity = 'Logout from Mobile Device';
+      $activityLog->user_code = $user->user_code;
+      $activityLog->section = 'Mobile Logout';
+      $activityLog->action = 'User ' . $user->name . ' Logged out from mobile application';
+      $activityLog->userID = $user->id;
+      $activityLog->activityID = Str::random(20);
+      $activityLog->ip_address = $request->ip();
+      $activityLog->save();
 
       return [
          'message' => 'You have successfully logged out'
