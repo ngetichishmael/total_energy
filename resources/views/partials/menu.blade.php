@@ -286,6 +286,7 @@
              <li class="nav-item {!! Nav::isResource('Activity') !!}">
                 <a class="d-flex align-items-center" href="{!! route('activity.index') !!}"><i
                         data-feather='activity'></i><span class="menu-title text-truncate" data-i18n="Invoice">Activity Logs</span></a>
+<<<<<<< HEAD
             <li class="nav-item {!! Nav::isResource('survey') !!}">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='clipboard'></i><span class="menu-title text-truncate">Survey</span>
@@ -308,6 +309,9 @@
 {{--                </ul>--}}
             </li>
         
+=======
+            @endif
+>>>>>>> origin/steven
         </ul>
 
         <br>
