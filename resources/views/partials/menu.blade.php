@@ -215,7 +215,6 @@
             </ul>
         </li>
 
-
         <!-- <li class="nav-item {!! Nav::isResource('deliver') !!}">
             <a class="d-flex align-items-center" href="{!! route('delivery.index') !!}">
                 <i data-feather='truck'></i><span class="menu-title text-truncate" data-i18n="Todo">
@@ -263,6 +262,16 @@
                                                    href="{!! route('inventory.warehouses') !!}"><span class="menu-item text-truncate">Approve
                                 Stock</span></a>
                  </li>
+                 <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{!! route('stock.lifts') !!}">
+                       <i data-feather="layers"></i>
+                       <span class="menu-title text-truncate" data-i18n="Invo">Stock Lifts</span>
+                    </a>
+                 </li>
+                 <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{{ route('stock.recon') }}">
+                       <i data-feather="book"></i>
+                       <span class="menu-title text-truncate" data-i18n="voice">Stock Reconciliation</span>
+                    </a>
+                 </li>
               </ul>
            </li>
         @if (Auth::user()->account_type === 'Admin')
@@ -276,6 +285,26 @@
              <li class="nav-item {!! Nav::isResource('Activity') !!}">
                 <a class="d-flex align-items-center" href="{!! route('activity.index') !!}"><i
                         data-feather='activity'></i><span class="menu-title text-truncate" data-i18n="Invoice">Activity Logs</span></a>
+            <li class="nav-item {!! Nav::isResource('survey') !!}">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather='clipboard'></i><span class="menu-title text-truncate">Survey</span>
+                </a>
+                <ul class="menu-content">
+                    <li>
+                        <a class="d-flex align-items-center" href="{!! route('survey.index') !!}">
+                            <i data-feather="circle">
+                            </i>
+                            <span class="menu-item text-truncate">Survey</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="d-flex align-items-center {!! Nav::isResource('survey') !!}" href="{!! route('SurveryResponses') !!}">
+                            <i data-feather="circle">
+                            </i>
+                            <span class="menu-item text-truncate">Responses</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             @endif
         </ul>
