@@ -58,5 +58,4 @@ class warehousing extends Model
    {
       return $this->hasMany(StockRequisition::class, 'warehouse_code', 'warehouse_code');
    }
-
 }

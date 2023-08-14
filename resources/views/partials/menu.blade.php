@@ -179,11 +179,6 @@
                             href="{{ route('subregions') }}"><i data-feather="map-pin"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">Region</span></a>
                     </li>
-
-
-
-
-
         </ul>
         </li>
         @endif
@@ -256,18 +251,20 @@
             </ul>
         </li> -->
 
-        <li class="nav-item {!! Nav::isResource('warehousing') !!}">
-            <a class="d-flex align-items-center" href="#"><i data-feather='archive'></i><span
+           <li class="nav-item {!! Nav::isResource('warehousing') !!}">
+              <a class="d-flex align-items-center" href="#"><i data-feather='archive'></i><span
                     class="menu-title text-truncate" data-i18n="Invoice"> Warehousing</span></a>
-            <ul class="menu-content">
-                <li><a class="d-flex align-items-center" href="{!! route('warehousing.index') !!}"><i
-                            data-feather="circle"  style="color:#ffffff;"></i><span class="menu-item text-truncate">All
-                            Warehouses</span></a></li>
-                <li><a class="d-flex align-items-center" href="{!! route('warehousing.create') !!}"><i
-                            data-feather="circle" style="color:#ffffff;"></i><span class="menu-item text-truncate">Add
-                            Warehouse</span></a></li>
-            </ul>
-        </li>
+              <ul class="menu-content">
+                 <li style="padding-left: 50px"><a class="d-flex align-items-center"
+                                                   href="{!! route('warehousing.index') !!}">
+                            <span class="menu-item text-truncate">
+                                Warehouses</span></a></li>
+                 <li style="padding-left: 50px"><a class="d-flex align-items-center"
+                                                   href="{!! route('inventory.warehouses') !!}"><span class="menu-item text-truncate">Approve
+                                Stock</span></a>
+                 </li>
+              </ul>
+           </li>
         @if (Auth::user()->account_type === 'Admin')
             <li class="nav-item {!! Nav::isResource('reports') !!}">
                 <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i
