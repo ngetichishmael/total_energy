@@ -11,7 +11,9 @@ class UserTypes extends Component
 {
     public function render()
     {
-        $userRole = Auth::user()->account_type; // Get the logged-in user's role
+        $user = Auth::user(); // Get the logged-in user
+
+        $userRole = $user->account_type; // Get the logged-in user's role
 
         $accountTypes = Role::pluck('name')->toArray();
 
@@ -22,7 +24,15 @@ class UserTypes extends Component
             $listsQuery->where('account_type', '!=', 'Admin');
         }
 
-        $lists = $listsQuery->pluck('account_type')->unique(); // Renamed variable back to $lists
+        // If the user's role is not "Admin", include route_code related to the logged-in user
+        if ($userRole !== 'Admin') {
+            $listsQuery->where(function ($query) use ($user) {
+                $query->where('route_code', $user->route_code)
+                    ->orWhereNull('route_code');
+            });
+        }
+
+        $lists = $listsQuery->pluck('account_type')->unique();
 
         $countsQuery = Role::leftJoin('users', 'roles.name', '=', 'users.account_type')
             ->whereIn('roles.name', $accountTypes)
@@ -33,12 +43,20 @@ class UserTypes extends Component
             $countsQuery->where('roles.name', '!=', 'Admin');
         }
 
+        // If the user's role is not "Admin", include route_code related to the logged-in user
+        if ($userRole !== 'Admin') {
+            $countsQuery->where(function ($query) use ($user) {
+                $query->where('users.route_code', $user->route_code)
+                    ->orWhereNull('users.route_code');
+            });
+        }
+
         $counts = $countsQuery->groupBy('roles.name')
             ->selectRaw('roles.name, count(users.id) as count')
             ->pluck('count', 'roles.name');
 
         $count = 1;
 
-        return view('livewire.users.user-types', compact('lists', 'counts', 'count')); // Updated variable name here
+        return view('livewire.users.user-types', compact('lists', 'counts', 'count'));
     }
 }

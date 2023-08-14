@@ -18,17 +18,29 @@ class Merchandizers extends Component
     public $orderAsc = true;
     public ?string $search = null;
  
+
     public function render()
-    {
-       $searchTerm = '%' . $this->search . '%';
-       $merchandizer =  User::where('account_type', ['Lube Merchandizers'])->whereLike([
-          'Region.name', 'name', 'email', 'phone_number',
-       ], $searchTerm)
-          ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc')
-          ->paginate($this->perPage);
- 
-       return view('livewire.users.merchandizers', compact('merchandizer'));
-    }
+      {
+         $user = auth()->user(); // Get the authenticated user
+
+         $searchTerm = '%' . $this->search . '%';
+         $query = User::whereLike([
+            'Region.name', 'name', 'email', 'phone_number',
+         ], $searchTerm)
+         ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc');
+
+         if ($user->account_type == 'Admin') {
+            $merchandizer = $query->where('account_type', 'Lube Merchandizers')->paginate($this->perPage);
+         } else {
+            $merchandizer = $query->where('account_type', 'Lube Merchandizers')
+                  ->where('route_code', $user->route_code)
+                  ->paginate($this->perPage);
+         }
+
+         return view('livewire.users.merchandizers', compact('merchandizer'));
+      }
+
+
     public function deactivate($id)
     {
        User::whereId($id)->update(
