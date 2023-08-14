@@ -290,22 +290,22 @@
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='clipboard'></i><span class="menu-title text-truncate">Survey</span>
                 </a>
-                <ul class="menu-content">
-                    <li>
-                        <a class="d-flex align-items-center" href="{!! route('survey.index') !!}">
-                            <i data-feather="circle">
-                            </i>
-                            <span class="menu-item text-truncate">Survey</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="d-flex align-items-center {!! Nav::isResource('survey') !!}" href="{!! route('SurveryResponses') !!}">
-                            <i data-feather="circle">
-                            </i>
-                            <span class="menu-item text-truncate">Responses</span>
-                        </a>
-                    </li>
-                </ul>
+{{--                <ul class="menu-content">--}}
+{{--                    <li>--}}
+{{--                        <a class="d-flex align-items-center" href="{!! route('survey.index') !!}">--}}
+{{--                            <i data-feather="circle">--}}
+{{--                            </i>--}}
+{{--                            <span class="menu-item text-truncate">Survey</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                    <li>--}}
+{{--                        <a class="d-flex align-items-center {!! Nav::isResource('survey') !!}" href="{!! route('SurveryResponses') !!}">--}}
+{{--                            <i data-feather="circle">--}}
+{{--                            </i>--}}
+{{--                            <span class="menu-item text-truncate">Responses</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
             </li>
             @endif
         </ul>

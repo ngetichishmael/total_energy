@@ -21,7 +21,7 @@ class ReportsController extends Controller
    {
       $routeName = $request->route()->getName();
       $middleware = $request->route()->middleware();
-
+      $userAccountType = auth()->user()->account_type;
       if (in_array('web', $middleware)) {
          switch ($routeName) {
             case 'users.reports':
@@ -35,7 +35,9 @@ class ReportsController extends Controller
             case 'sidai.reports':
                return view('app.Reports.users');
             case 'warehouse.reports':
-               return view('app.Reports.warehouse');
+               if ($userAccountType !== 'manager') {
+                  return view('app.Reports.warehouse');
+               }
             case 'supplier.reports':
                return view('app.Reports.supplier');
             case 'visitation.reports':
