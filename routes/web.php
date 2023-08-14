@@ -288,6 +288,13 @@ Route::group(['middleware' => ['verified']], function () {
    Route::get('stock/{id}/mail', ['middleware' => ['permission:update-stockcontrol'], 'uses' => 'app\products\stockcontrolController@mail', 'as' => 'stock.mail']);
    Route::post('stock/mail/send', ['middleware' => ['permission:update-stockcontrol'], 'uses' => 'app\products\stockcontrolController@send', 'as' => 'stock.mail.send']);
    Route::post('stock/attach/files', ['middleware' => ['permission:update-stockcontrol'], 'uses' => 'app\products\stockcontrolController@attachment_files', 'as' => 'stock.attach']);
+   //stock-lift
+   Route::get('stock-lifts', ['uses' => 'app\products\StockLiftController@lifted', 'as' => 'stock.lifts']);
+   Route::get('lifted/items/{allocation_code}', ['uses' => 'app\products\StockLiftController@items', 'as' => 'lifted.items']);
+   //stock Reconciliations
+   Route::get('stock-Reconciliations', ['uses' => 'app\products\inventoryController@stockrecon', 'as' => 'stock.recon']);
+   Route::get('salesperson/reconciled/{warehouse_code}', ['uses' => 'app\products\inventoryController@salesperson', 'as' => 'stock.salesperson']);
+   Route::get('products/reconciled/{warehouse_code}', ['uses' => 'app\products\inventoryController@reconciled', 'as' => 'stock.reconciled']);
 
    /* === product category === */
    Route::get('products/category', ['uses' => 'app\products\categoryController@index', 'as' => 'product.category']);

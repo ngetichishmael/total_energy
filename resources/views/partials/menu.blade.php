@@ -254,12 +254,13 @@
               <a class="d-flex align-items-center" href="#"><i data-feather='archive'></i><span
                     class="menu-title text-truncate" data-i18n="Invoice"> Warehousing</span></a>
               <ul class="menu-content">
-                 <li style="padding-left: 50px"><a class="d-flex align-items-center"
-                                                   href="{!! route('warehousing.index') !!}">
-                            <span class="menu-item text-truncate">
+                 <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{!! route('warehousing.index') !!}">
+                       <i data-feather="list"></i>
+                       <span class="menu-item text-truncate">
                                 Warehouses</span></a></li>
-                 <li style="padding-left: 50px"><a class="d-flex align-items-center"
-                                                   href="{!! route('inventory.warehouses') !!}"><span class="menu-item text-truncate">Approve
+                 <li style="padding-left: 50px"><a class="d-flex align-items-center"href="{!! route('inventory.warehouses') !!}">
+                       <i data-feather="check-square"></i>
+                       <span class="menu-item text-truncate">Approve
                                 Stock</span></a>
                  </li>
                  <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{!! route('stock.lifts') !!}">
