@@ -22,6 +22,7 @@ class activity_log extends Model
        // Check if the user is logged in
        if (Auth::check()) {
            $user = Auth::user();
+           
    
            // Check if the user is an Admin
            if ($user->account_type == 'Admin') {
