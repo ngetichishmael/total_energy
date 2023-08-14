@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route; 
 use Maatwebsite\Excel\Facades\Excel;
 
 class Dashboard extends Component
@@ -16,7 +18,7 @@ class Dashboard extends Component
    use WithPagination;
 
    protected $paginationTheme = 'bootstrap';
-   public $perPage = 25;
+   public $perPage = 20;
    public $sortField = 'created_at';
    public $sortAsc = true;
    public $search = null;
@@ -68,18 +70,30 @@ class Dashboard extends Component
    {
       return Excel::download(new ActivityExport($this->data()), 'activities.xlsx');
    }
+
    public function data()
    {
-      $searchTerm = '%' . $this->search . '%';
-      $userCode = '%' . $this->userCode . '%';
-      $query = activity_log::with('user')
-         ->search($searchTerm)
-         ->where(function (Builder $query) {
-            $this->whereBetweenDate($query, 'updated_at', $this->startDate, $this->endDate);
-         })
-         ->where('user_code', 'LIKE', $userCode)
-         ->orderBy($this->sortField, $this->sortAsc ? 'desc' : 'asc');
-
-      return $query->paginate($this->perPage);
+       $searchTerm = '%' . $this->search . '%';
+       $userCode = '%' . $this->userCode . '%';
+       $user = auth()->user(); // Get the currently authenticated user
+   
+       $query = activity_log::with('user')
+           ->search($searchTerm)
+           ->where(function (Builder $query) use ($user) {
+               $this->whereBetweenDate($query, 'updated_at', $this->startDate, $this->endDate);
+               
+               if ($user->account_type !== 'Admin') {
+                   $query->whereHas('user', function (Builder $query) use ($user) {
+                       $query->where('route_code', $user->route_code);
+                   });
+               }
+           })
+           ->where('user_code', 'LIKE', $userCode)
+           ->orderBy($this->sortField, $this->sortAsc ? 'desc' : 'asc');
+   
+       return $query->paginate($this->perPage);
    }
+   
+
+   
 }
