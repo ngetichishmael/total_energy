@@ -6,9 +6,15 @@ use App\Models\activity_log;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class ActivityController extends Controller
 {
+
    use WithPagination;
 
    protected $paginationTheme = 'bootstrap';
@@ -18,6 +24,12 @@ class ActivityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+     {
+         $this->middleware('auth');
+     }
+
    public function index()
    {
       return view('livewire.activity.layout');
