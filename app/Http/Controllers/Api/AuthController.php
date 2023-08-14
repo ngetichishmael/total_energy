@@ -67,7 +67,7 @@ class AuthController extends Controller
      $activityLog->action = 'User ' . auth()->user()->name . ' Logged in in mobile appication';
      $activityLog->userID = auth()->user()->id;
      $activityLog->activityID = $random;
-     $activityLog->ip_address = "";
+     $activityLog->ip_address = "127.0.0.1";
      $activityLog->save();
 
       return response()->json([
