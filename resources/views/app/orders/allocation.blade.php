@@ -103,6 +103,12 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="">Delivery Date</label>
+                                    <input type="date" name="delivery_date[]" class="form-control" required>
+                                </div>
+                            </div>
                             <div class="form-group ml-0 pe-0 col-md-3">
                                 <label for="noteText">Note</label>
                                 <textarea name="note" class="form-control" id="noteTxt" rows="3"
