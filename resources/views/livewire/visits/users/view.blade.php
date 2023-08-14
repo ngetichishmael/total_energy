@@ -47,7 +47,6 @@
         </div>
     </div>
 
-
     <div class="card card-default">
         <div class="card-body">
             <div class="pt-0 card-datatable">
@@ -85,23 +84,30 @@
                                         {{ $this->formatDuration($visit->duration_seconds) ?? '' }}</div>
                                 </td>
                                 <td>{{ $visit->formatted_date }}</td>
-                                <td>{{ $checkingData['customer_ordered'] ?? 'No' }}</td>
-                                <td class="control" style="" tabindex="0">
-                                    <span class="expand-row" data-toggle="collapse"
-                                        data-target="#details{{ $visit->code }}">
-                                        <span class="material-symbols-outlined">
-                                            @if ($checkingData['customer_ordered'] === 'Yes')
-                                                visibility_off
-                                            @else
+                                <td>{{ $checkingData['customer_ordered'] === 'Yes' ? 'No' : 'Yes' }}</td>
+                                @if ($checkingData['customer_ordered'] === 'Yes')
+                                    <td class="control" style="" tabindex="0">
+                                        <span class="expand-row" data-toggle="collapse"
+                                            data-target="#details{{ $visit->code }}">
+                                            <span class="material-symbols-outlined" style="color:#fc0103">
                                                 visibility
-                                            @endif
+                                            </span>
                                         </span>
-                                    </span>
-                                </td>
+                                    </td>
+                                @else
+                                    <td class="control" style="" tabindex="0">
+                                        <span class="expand-row" data-toggle="collapse"
+                                            data-target="#details{{ $visit->code }}">
+                                            <span class="material-symbols-outlined" style="color:#fc0103">
+                                                visibility_off
+                                            </span>
+                                        </span>
+                                    </td>
+                                @endif
                             </tr>
-                            <tr id="details{{ $visit->code }}" class="collapse">
-                                <td colspan="8">
-                                    @if ($checkingData['customer_ordered'] === 'No')
+                            @if ($checkingData['customer_ordered'] === 'Yes')
+                                <tr id="details{{ $visit->code }}" class="collapse">
+                                    <td colspan="8">
                                         <table class="table table-bordered">
                                             <tr>
                                                 <td>Customer Ordered:</td>
@@ -126,13 +132,23 @@
                                                 </td>
                                             </tr>
                                         </table>
-                                    @endif
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            @else
+                                <tr id="details{{ $visit->code }}" class="collapse">
+                                    <td colspan="8">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <td colspan="8" style="text-align: center;">No information collected.
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            @endif
 
                         @empty
                             <tr>
-                                <td colspan="8" style="text-align: center;">No Record found.</td>
                                 <td colspan="8" style="text-align: center;">No Record found.</td>
                             </tr>
                         @endforelse
@@ -148,6 +164,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>"
+
 </div>
 <br>
