@@ -48,6 +48,28 @@ class AuthController extends Controller
       $token = $user->createToken('auth_token')->plainTextToken;
 
 
+   //    $random = Str::random(20);
+
+   //    activity_log::create([
+   //       'source' => 'App',
+   //       'activity' => 'Login Attempt',
+   //       'section' => 'Authentication',
+   //       'action' => 'Failed Login',
+   //       'user_code' => $request->email,
+   //       'ip_address' => $request->ip(),
+   //   ]);
+      
+     $random = Str::random(20);
+     $activityLog = new activity_log();
+     $activityLog->activity = 'Login in Mobile Device';
+     $activityLog->user_code = auth()->user()->user_code;
+     $activityLog->section = 'Mobile Login';
+     $activityLog->action = 'User ' . auth()->user()->name . ' Logged in in mobile appication';
+     $activityLog->userID = auth()->user()->id;
+     $activityLog->activityID = $random;
+     $activityLog->ip_address = "";
+     $activityLog->save();
+
       return response()->json([
          "success" => true,
          "token_type" => 'Bearer',
