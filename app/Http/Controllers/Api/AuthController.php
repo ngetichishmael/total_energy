@@ -110,9 +110,22 @@ class AuthController extends Controller
     *
     *
     **/
+
    public function logout(Request $request)
    {
-      $request->user()->currentAccessToken()->delete();
+      $user = $request->user();
+      $user->currentAccessToken()->delete();
+
+      $activityLog = new ActivityLog();
+      $activityLog->source = 'Mobile App';
+      $activityLog->activity = 'Logout from Mobile Device';
+      $activityLog->user_code = $user->user_code;
+      $activityLog->section = 'Mobile Logout';
+      $activityLog->action = 'User ' . $user->name . ' Logged out from mobile application';
+      $activityLog->userID = $user->id;
+      $activityLog->activityID = Str::random(20);
+      $activityLog->ip_address = $request->ip();
+      $activityLog->save();
 
       return [
          'message' => 'You have successfully logged out'
