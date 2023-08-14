@@ -20,15 +20,25 @@ class Managers extends Component
  
     public function render()
     {
-       $searchTerm = '%' . $this->search . '%';
-       $distributors =  User::where('account_type', ['Managers'])->whereLike([
-          'Region.name', 'name', 'email', 'phone_number',
-       ], $searchTerm)
-          ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc')
-          ->paginate($this->perPage);
- 
-       return view('livewire.users.managers', compact('distributors'));
+        $user = auth()->user(); // Get the authenticated user
+    
+        $searchTerm = '%' . $this->search . '%';
+        $query = User::whereLike([
+            'Region.name', 'name', 'email', 'phone_number',
+        ], $searchTerm)
+        ->orderBy($this->orderBy, $this->orderAsc ? 'desc' : 'asc');
+    
+        if ($user->account_type == 'Admin') {
+            $distributors = $query->where('account_type', 'Managers')->paginate($this->perPage);
+        } else {
+            $distributors = $query->where('account_type', 'Managers')
+                ->where('route_code', $user->route_code)
+                ->paginate($this->perPage);
+        }
+    
+        return view('livewire.users.managers', compact('distributors'));
     }
+    
     public function deactivate($id)
     {
        User::whereId($id)->update(

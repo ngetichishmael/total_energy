@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Activity;
+use App\Models\activity_log;
 use App\Helpers\SMS;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -44,6 +46,17 @@ class AuthController extends Controller
       $user = User::where('phone_number', $request['email'])->firstOrFail();
 
       $token = $user->createToken('auth_token')->plainTextToken;
+
+      $random = Str::random(20);
+      $activityLog = new activity_log();
+      $activityLog->activity = 'Login in Mobile Device';
+      $activityLog->user_code = auth()->user()->user_code;
+      $activityLog->section = 'Mobile Login';
+      $activityLog->action = 'User ' . auth()->user()->name . ' Logged in in mobile appication';
+      $activityLog->userID = auth()->user()->id;
+      $activityLog->activityID = $random;
+      $activityLog->ip_address = "";
+      $activityLog->save();
 
       return response()->json([
          "success" => true,
