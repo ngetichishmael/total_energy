@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Stocks;
 
-use Livewire\Component;
 use App\Models\warehousing;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Reconciliation extends Component

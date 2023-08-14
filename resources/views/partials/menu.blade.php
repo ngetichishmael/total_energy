@@ -36,7 +36,7 @@
                             href="{{ route('customer') }}"><i data-feather="circle"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">List</span></a>
                     </li>
-                  
+
                     @if (Auth::user()->account_type === 'Admin')
 
                         <li><a class="d-flex align-items-center {!! Nav::isRoute('customer.*') !!}"
@@ -52,13 +52,13 @@
 
                 </ul>
             </li>
-   
+
             <li class="nav-item {!! Nav::isResource('users') !!}">
                 <a class="d-flex align-items-center" href="{!! route('users.list') !!}">
                     <i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Todo"> Users</span>
                 </a>
             </li>
-        
+
             <li class="nav-item {!! Nav::isResource('visits') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather='truck'></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Visits</span></a>
@@ -168,7 +168,7 @@
                 <a class="d-flex align-items-center" href="#"><i data-feather="map-pin"></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Regions</span></a>
                 <ul class="menu-content">
-                 
+
                     <li><a class="d-flex align-items-center{!! Nav::isResource('areas') !!}" href="{{ route('areas') }}"><i
                                 data-feather="map-pin"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Routes</span></a>
                     </li>
@@ -179,11 +179,6 @@
                             href="{{ route('subregions') }}"><i data-feather="map-pin"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">Region</span></a>
                     </li>
-
-
-            </li>
-        
-
         </ul>
         </li>
         @endif
@@ -219,8 +214,7 @@
                 </li>
             </ul>
         </li>
-      
-      
+
         <!-- <li class="nav-item {!! Nav::isResource('deliver') !!}">
             <a class="d-flex align-items-center" href="{!! route('delivery.index') !!}">
                 <i data-feather='truck'></i><span class="menu-title text-truncate" data-i18n="Todo">
@@ -256,18 +250,31 @@
             </ul>
         </li> -->
 
-        <li class="nav-item {!! Nav::isResource('warehousing') !!}">
-            <a class="d-flex align-items-center" href="#"><i data-feather='archive'></i><span
+           <li class="nav-item {!! Nav::isResource('warehousing') !!}">
+              <a class="d-flex align-items-center" href="#"><i data-feather='archive'></i><span
                     class="menu-title text-truncate" data-i18n="Invoice"> Warehousing</span></a>
-            <ul class="menu-content">
-                <li><a class="d-flex align-items-center" href="{!! route('warehousing.index') !!}"><i
-                            data-feather="circle"  style="color:#ffffff;"></i><span class="menu-item text-truncate">All
-                            Warehouses</span></a></li>
-                <li><a class="d-flex align-items-center" href="{!! route('warehousing.create') !!}"><i
-                            data-feather="circle" style="color:#ffffff;"></i><span class="menu-item text-truncate">Add
-                            Warehouse</span></a></li>
-            </ul>
-        </li>
+              <ul class="menu-content">
+                 <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{!! route('warehousing.index') !!}">
+                       <i data-feather="list"></i>
+                       <span class="menu-item text-truncate">
+                                Warehouses</span></a></li>
+                 <li style="padding-left: 50px"><a class="d-flex align-items-center"href="{!! route('inventory.warehouses') !!}">
+                       <i data-feather="check-square"></i>
+                       <span class="menu-item text-truncate">Approve
+                                Stock</span></a>
+                 </li>
+                 <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{!! route('stock.lifts') !!}">
+                       <i data-feather="layers"></i>
+                       <span class="menu-title text-truncate" data-i18n="Invo">Stock Lifts</span>
+                    </a>
+                 </li>
+                 <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{{ route('stock.recon') }}">
+                       <i data-feather="book"></i>
+                       <span class="menu-title text-truncate" data-i18n="voice">Stock Reconciliation</span>
+                    </a>
+                 </li>
+              </ul>
+           </li>
         @if (Auth::user()->account_type === 'Admin')
             <li class="nav-item {!! Nav::isResource('reports') !!}">
                 <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i
@@ -279,8 +286,7 @@
              <li class="nav-item {!! Nav::isResource('Activity') !!}">
                 <a class="d-flex align-items-center" href="{!! route('activity.index') !!}"><i
                         data-feather='activity'></i><span class="menu-title text-truncate" data-i18n="Invoice">Activity Logs</span></a>
-            </li>
-        
+      
         </ul>
 
         <br>

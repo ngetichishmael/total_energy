@@ -62,6 +62,7 @@
   'stocks.index' => 'App\\Http\\Livewire\\Stocks\\Index',
   'stocks.lifted-stock' => 'App\\Http\\Livewire\\Stocks\\LiftedStock',
   'stocks.lifted-stock.index' => 'App\\Http\\Livewire\\Stocks\\LiftedStock\\Index',
+  'stocks.reconciledproducts' => 'App\\Http\\Livewire\\Stocks\\Reconciledproducts',
   'stocks.reconciliation' => 'App\\Http\\Livewire\\Stocks\\Reconciliation',
   'supplier.dashboard' => 'App\\Http\\Livewire\\Supplier\\Dashboard',
   'supplier.index' => 'App\\Http\\Livewire\\Supplier\\Index',
