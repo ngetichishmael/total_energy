@@ -116,10 +116,10 @@ class DeliveryController extends Controller
       $activityLog = new activity_log();
       $activityLog->source = 'Mobile App';
       $activityLog->activity = 'Partial Delivery';
-      $activityLog->user_code = $user_code;
+      $activityLog->user_code = auth()->user()->user_code;
       $activityLog->section = 'Delivery';
-      $activityLog->action = 'User ' . $user->name . ' performed a partial delivery';
-      $activityLog->userID = $user->id;
+      $activityLog->action = 'User ' . auth()->user()->name . ' performed a partial delivery';
+      $activityLog->userID = auth()->user()->id;
       $activityLog->activityID = Str::random(20);
       $activityLog->ip_address = $request->ip() ?? '127.0.0.1';
       $activityLog->save();
@@ -244,6 +244,19 @@ class DeliveryController extends Controller
       $order_code = Delivery::where('delivery_code', $delivery_code)->first();
       Order_items::where('order_code', $order_code->order_code)
          ->update(["delivery_quantity" => "0"]);
+
+      
+         $activityLog = new activity_log();
+         $activityLog->source = 'Mobile App';
+         $activityLog->activity = 'Cancel Delivery';
+         $activityLog->user_code = auth()->user()->user_code;
+         $activityLog->section = 'Delivery';
+         $activityLog->action = 'User '  . auth()->user()->name . ' cancelled a delivery';
+         $activityLog->userID = auth()->user()->id;
+         $activityLog->activityID = Str::random(20);
+         $activityLog->ip_address = $request->ip() ?? '127.0.0.1';
+         $activityLog->save();
+
       return response()->json([
          "success" => true,
          "message" => "Delivery Cancelled Successfully",
