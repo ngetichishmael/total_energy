@@ -113,7 +113,7 @@ class Dashboard extends Component
     public function getSalesAmount()
     {
         return OrderPayment::where(function (Builder $query) {
-            $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+            $this->whereBetweenDate($query, 'created_at', $this->start, $this->end);
         })
             ->select('id', 'amount', 'balance', 'payment_method', 'isReconcile', 'user_id')
             ->sum('balance');
@@ -125,13 +125,13 @@ class Dashboard extends Component
     
         if (empty($this->start) && empty($this->end)) {
             $currentMonth = now()->startOfMonth();
-            $query->whereBetween('updated_at', [$currentMonth, now()]);
+            $query->whereBetween('created_at', [$currentMonth, now()]);
         } else {
             if (!empty($this->start)) {
-                $query->where('updated_at', '>=', $this->start);
+                $query->where('created_at', '>=', $this->start);
             }
             if (!empty($this->end)) {
-                $query->where('updated_at', '<=', $this->end);
+                $query->where('created_at', '<=', $this->end);
             }
         }
     
@@ -153,10 +153,10 @@ class Dashboard extends Component
                     $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
                 } else {
                     if (!empty($this->start)) {
-                        $query->where('updated_at', '>=', $this->start);
+                        $query->where('created_at', '>=', $this->start);
                     }
                     if (!empty($this->end)) {
-                        $query->where('updated_at', '<=', $this->end);
+                        $query->where('created_at', '<=', $this->end);
                     }
                 }
                 
@@ -174,13 +174,13 @@ class Dashboard extends Component
                 
                 if (empty($this->start) && empty($this->end)) {
                     $currentMonth = Carbon::now()->startOfMonth();
-                    $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+                    $query->whereBetween('created_at', [$currentMonth, Carbon::now()]);
                 } else {
                     if (!empty($this->start)) {
-                        $query->where('updated_at', '>=', $this->start);
+                        $query->where('created_at', '>=', $this->start);
                     }
                     if (!empty($this->end)) {
-                        $query->where('updated_at', '<=', $this->end);
+                        $query->where('created_at', '<=', $this->end);
                     }
                 }
                 
@@ -195,7 +195,7 @@ class Dashboard extends Component
         return Orders::where('order_status', 'LIKE', '%deliver%')
             ->where('order_type', 'Pre Order')
             ->where(function (Builder $query) {
-                $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
+                $this->whereBetweenDate($query, 'created_at', $this->start, $this->end);
             })
             ->count();
     }
