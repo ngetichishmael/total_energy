@@ -176,12 +176,12 @@ class DeliveryController extends Controller
       $activityLog = new activity_log();
       $activityLog->source = 'Mobile App';
       $activityLog->activity = 'Full Delivery';
-      $activityLog->user_code = $user_code;
+      $activityLog->user_code = auth()->user()->user_code;
       $activityLog->section = 'Delivery';
-      $activityLog->action = 'User ' . $user->name . ' performed a full delivery';
-      $activityLog->userID = $user->id;
+      $activityLog->action = 'User '  . auth()->user()->name . ' performed a full delivery';
+      $activityLog->userID = auth()->user()->id;
       $activityLog->activityID = Str::random(20);
-      $activityLog->ip_address = '127.0.0.1';
+      $activityLog->ip_address = $request->ip() ?? '127.0.0.1';
       $activityLog->save();
 
       return response()->json([
