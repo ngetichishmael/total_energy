@@ -52,30 +52,63 @@ class Dashboard extends Component
     }
     public function getCashAmount()
     {
-        return OrderPayment::where('payment_method', 'PaymentMethods.Cash')
-            ->where(function (Builder $query) {
-                $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
-            })
-            ->sum('amount');
+        $query = OrderPayment::where('payment_method', 'PaymentMethods.Cash');
+
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = now()->startOfMonth();
+            $query->whereBetween('updated_at', [$currentMonth, now()]);
+        } else {
+            if (!empty($this->start)) {
+                $query->where('updated_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('updated_at', '<=', $this->end);
+            }
+        }
+
+        return $query->sum('amount');
     }
+
 
     public function getMpesaAmount()
     {
-        return OrderPayment::where('payment_method', 'PaymentMethods.Mpesa')
-            ->where(function (Builder $query) {
-                $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
-            })
-            ->sum('amount');
+        $query = OrderPayment::where('payment_method', 'PaymentMethods.Mpesa');
+    
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = now()->startOfMonth();
+            $query->whereBetween('updated_at', [$currentMonth, now()]);
+        } else {
+            if (!empty($this->start)) {
+                $query->where('updated_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('updated_at', '<=', $this->end);
+            }
+        }
+    
+        return $query->sum('amount');
     }
+    
 
     public function getChequeAmount()
     {
-        return OrderPayment::where('payment_method', 'PaymentMethods.Cheque')
-            ->where(function (Builder $query) {
-                $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
-            })
-            ->sum('amount');
+        $query = OrderPayment::where('payment_method', 'PaymentMethods.Cheque');
+    
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = now()->startOfMonth();
+            $query->whereBetween('updated_at', [$currentMonth, now()]);
+        } else {
+            if (!empty($this->start)) {
+                $query->where('updated_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('updated_at', '<=', $this->end);
+            }
+        }
+    
+        return $query->sum('amount');
     }
+    
 
     public function getSalesAmount()
     {
@@ -88,12 +121,23 @@ class Dashboard extends Component
 
     public function getTotalAmount()
     {
-        return OrderPayment::where('payment_method', 'PaymentMethods.BankTransfer')
-            ->where(function (Builder $query) {
-                $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
-            })
-            ->sum('amount');
+        $query = OrderPayment::where('payment_method', 'PaymentMethods.BankTransfer');
+    
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = now()->startOfMonth();
+            $query->whereBetween('updated_at', [$currentMonth, now()]);
+        } else {
+            if (!empty($this->start)) {
+                $query->where('updated_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('updated_at', '<=', $this->end);
+            }
+        }
+    
+        return $query->sum('amount');
     }
+    
 
 
 
