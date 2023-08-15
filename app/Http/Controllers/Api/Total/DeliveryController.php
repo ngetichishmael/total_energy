@@ -181,7 +181,7 @@ class DeliveryController extends Controller
       $activityLog->action = 'User ' . $user->name . ' performed a full delivery';
       $activityLog->userID = $user->id;
       $activityLog->activityID = Str::random(20);
-      $activityLog->ip_address = $request->ip() ?? '127.0.0.1';
+      $activityLog->ip_address = '127.0.0.1';
       $activityLog->save();
 
       return response()->json([
