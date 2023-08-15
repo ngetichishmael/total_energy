@@ -12,6 +12,12 @@ use App\Models\activity_log;
 use App\Models\products\product_price;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\Hash;
+
 
 class DeliveryController extends Controller
 {
