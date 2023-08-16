@@ -18,6 +18,13 @@ class Vansales extends Component
    protected $paginationTheme = 'bootstrap';
    public $start;
    public $end;
+
+   public $perPage;
+
+   public function __construct($perPage)
+   {
+      $this->perPage = $perPage;
+   }
    public function render()
    {
       $count = 1;
@@ -48,7 +55,7 @@ class Vansales extends Component
       $array = [];
       $user = Auth::user();
       $user_code = $user->route_code;
-      if (!$user->account_type === 'RSM') {
+      if (!$user->account_type === 'Managers') {
          return $array;
       }
       $subregions = Subregion::where('region_id', $user_code)->pluck('id');
