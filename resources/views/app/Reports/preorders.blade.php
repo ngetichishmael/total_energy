@@ -1,8 +1,7 @@
-@extends('layouts.app')
-{{-- page header --}}
+@extends('layouts.app1')
+
 @section('title','Pre orders')
 
-{{-- content section --}}
 @section('content')
    <div class="content-header row">
       <div class="content-header-left col-md-12 col-12 mb-2">
@@ -21,8 +20,5 @@
    @include('partials._messages')
    @livewire('reports.preorder')
 @endsection
-{{-- page scripts --}}
-@section('script')
 
-@endsection
 

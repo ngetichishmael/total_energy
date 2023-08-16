@@ -47,6 +47,7 @@
   'productapproval.approve_item' => 'App\\Http\\Livewire\\Productapproval\\approve_item',
   'products.products' => 'App\\Http\\Livewire\\Products\\Products',
   'regional.index' => 'App\\Http\\Livewire\\Regional\\Index',
+  'reports.customer' => 'App\\Http\\Livewire\\Reports\\Customer',
   'reports.customers' => 'App\\Http\\Livewire\\Reports\\Customers',
   'reports.delivery' => 'App\\Http\\Livewire\\Reports\\Delivery',
   'reports.distributor' => 'App\\Http\\Livewire\\Reports\\Distributor',
