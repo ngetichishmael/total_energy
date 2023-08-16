@@ -13,14 +13,14 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label for="validationTooltip01">Start Date</label>
-                <input wire:model="start" name="startDate" type="date" class="form-control" id="validationTooltip01"
+                <input  name="startDate" type="date" class="form-control" id="validationTooltip01"
                     placeholder="YYYY-MM-DD HH:MM" required />
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
                 <label for="validationTooltip01">End Date</label>
-                <input wire:model="end" name="endDate" type="date" class="form-control" id="validationTooltip01"
+                <input name="endDate" type="date" class="form-control" id="validationTooltip01"
                     placeholder="YYYY-MM-DD HH:MM" required />
             </div>
         </div>
@@ -43,9 +43,9 @@
                     Export
                 </button>
                 <div class="dropdown-menu dropdown-menu-left">
-                    <a class="dropdown-item" wire:click="export" id="exportExcelBtn">Excel</a>
-                    <a class="dropdown-item" wire:click="exportCSV" id="exportCsvBtn">CSV</a>
-                    <a class="dropdown-item" wire:click="exportPDF" id="exportPdfBtn">PDF</a>
+                    <a class="dropdown-item"  id="exportExcelBtn">Excel</a>
+                    <a class="dropdown-item"  id="exportCsvBtn">CSV</a>
+                    <a class="dropdown-item"  id="exportPdfBtn">PDF</a>
                     <!-- <a class="dropdown-item" wire:click="printAndRedirect" id="printBtn">Print</a> -->
                 </div>
             </div>
@@ -54,39 +54,42 @@
 </div>
 @include('partials.stickymenu')
 <br>
+
 <div class="row">
     <div class="col-md-12">
         <div class="card card-inverse">
             <div class="card-body">
-                <div class="card-datatable table-responsive">
+                <div class="d-flex flex-row flex-nowrap overflow-auto">
                     <table id="data-table-default" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Order Code</th>
                                 <th>Customer Name</th>
-                                <th>Amount</th>
-                                <th>Customer Category</th>
-                                <th>Date</th>
-                                <th>Action</th>
+                                <th>Phone Number</th>
+                                <th>Order Count</th>
+                                <th>Last Order Date</th>
                             </tr>
                         </thead>
                         <tbody>
-
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-
-
+                            @foreach ($contacts as $contact)
+                                <tr>
+                                    <td>{{ $count++ }}</td>
+                                    <td>{{ $contact->customer_name }}</td>
+                                    <td>{{ $contact->phone_number }}</td>
+                                    <td>{{ $contact->order_count }}</td>
+                                    <td>{{ $contact->last_order_date }}</td>
+                                </tr>
+                            @endforeach
+                            @if ($contacts->isEmpty())
+                                <tr>
+                                    <td colspan="5">No data found.</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
+                <div class="mt-1">  {{ $contacts->links() }}</div>
+
             </div>
         </div>
     </div>

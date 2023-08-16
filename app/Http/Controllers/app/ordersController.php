@@ -192,6 +192,7 @@ class ordersController extends Controller
 
                 $random = Str::random(20);
                 $activityLog = new activity_log();
+                $activityLog->source = 'Web App';
                 $activityLog->activity = 'Allocate an order to a Distributor';
                 $activityLog->user_code = auth()->user()->user_code;
                 $activityLog->section = 'Order Allocation';
@@ -269,6 +270,7 @@ class ordersController extends Controller
         }
         $random = Str::random(20);
         $activityLog = new activity_log();
+        $activityLog->source = 'Web App';
         $activityLog->activity = 'Allocate an order to a User';
         $activityLog->user_code = auth()->user()->user_code;
         $activityLog->section = 'Order Allocation';
@@ -314,6 +316,7 @@ class ordersController extends Controller
 
                 $random = Str::random(20);
                 $activityLog = new activity_log();
+                $activityLog->source = 'Web App';
                 $activityLog->activity = 'Allocate an order to a Distributor';
                 $activityLog->user_code = auth()->user()->user_code;
                 $activityLog->section = 'Order Allocation';
@@ -390,6 +393,7 @@ class ordersController extends Controller
         }
         $random = Str::random(20);
         $activityLog = new activity_log();
+        $activityLog->source = 'Web App';
         $activityLog->activity = 'Allocate an order to a User';
         $activityLog->user_code = auth()->user()->user_code;
         $activityLog->section = 'Order Allocation';
@@ -435,6 +439,7 @@ class ordersController extends Controller
 
                 $random = Str::random(20);
                 $activityLog = new activity_log();
+                $activityLog->source = 'Web App';
                 $activityLog->activity = 'Re-allocate an order to a Distributor';
                 $activityLog->user_code = auth()->user()->user_code;
                 $activityLog->section = 'Order Re-allocation';
@@ -549,6 +554,7 @@ class ordersController extends Controller
         }
         $random = Str::random(20);
         $activityLog = new activity_log();
+        $activityLog->source = 'Web App';
         $activityLog->activity = 'Re-Allocate an order to a User';
         $activityLog->user_code = auth()->user()->user_code;
         $activityLog->section = 'Order Re-Allocation';

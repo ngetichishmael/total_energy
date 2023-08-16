@@ -8,8 +8,16 @@ use App\Models\Delivery;
 use App\Models\Delivery_items;
 use App\Models\Order_items;
 use App\Models\Orders;
+use App\Models\activity_log;
 use App\Models\products\product_price;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\Hash;
+
 
 class DeliveryController extends Controller
 {
@@ -104,6 +112,18 @@ class DeliveryController extends Controller
          }
          $total += product_price::whereId($value["productID"])->pluck('buying_price')->implode("") * $value["qty"];
       }
+
+      $activityLog = new activity_log();
+      $activityLog->source = 'Mobile App';
+      $activityLog->activity = 'Partial Delivery';
+      $activityLog->user_code = auth()->user()->user_code;
+      $activityLog->section = 'Delivery';
+      $activityLog->action = 'User ' . auth()->user()->name . ' performed a partial delivery';
+      $activityLog->userID = auth()->user()->id;
+      $activityLog->activityID = Str::random(20);
+      $activityLog->ip_address = $request->ip() ?? '127.0.0.1';
+      $activityLog->save();
+
       return response()->json([
          "success" => true,
          "message" => "Partial delivery was successful",
@@ -152,6 +172,18 @@ class DeliveryController extends Controller
             ]);
          $total += product_price::whereId($value["productID"])->pluck('buying_price')->implode(" ") * $value["qty"];
       }
+
+      $activityLog = new activity_log();
+      $activityLog->source = 'Mobile App';
+      $activityLog->activity = 'Full Delivery';
+      $activityLog->user_code = auth()->user()->user_code;
+      $activityLog->section = 'Delivery';
+      $activityLog->action = 'User '  . auth()->user()->name . ' performed a full delivery';
+      $activityLog->userID = auth()->user()->id;
+      $activityLog->activityID = Str::random(20);
+      $activityLog->ip_address = $request->ip() ?? '127.0.0.1';
+      $activityLog->save();
+
       return response()->json([
          "success" => true,
          "message" => "Delivery Successful",
@@ -212,6 +244,19 @@ class DeliveryController extends Controller
       $order_code = Delivery::where('delivery_code', $delivery_code)->first();
       Order_items::where('order_code', $order_code->order_code)
          ->update(["delivery_quantity" => "0"]);
+
+      
+         $activityLog = new activity_log();
+         $activityLog->source = 'Mobile App';
+         $activityLog->activity = 'Cancel Delivery';
+         $activityLog->user_code = auth()->user()->user_code;
+         $activityLog->section = 'Delivery';
+         $activityLog->action = 'User '  . auth()->user()->name . ' cancelled a delivery';
+         $activityLog->userID = auth()->user()->id;
+         $activityLog->activityID = Str::random(20);
+         $activityLog->ip_address = $request->ip() ?? '127.0.0.1';
+         $activityLog->save();
+
       return response()->json([
          "success" => true,
          "message" => "Delivery Cancelled Successfully",

@@ -11,55 +11,7 @@
                         name="fname-icon" placeholder="Search" />
                 </div>
             </div>
-            <div class="col-md-2 user_role">
-                <div class="form-group">
-                    <label for="selectRegion">Region</label>
-                    <select wire:model="subregionFilter" class="form-control form-control-sm" id="selectSubregion">
-                        <option value="">All Subregions</option>
-                    
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-md-2 user_role">
-                <div class="form-group">
-                    <label for="selectArea">Area</label>
-                    <select wire:model="areaFilter" class="form-control form-control-sm" id="selectArea">
-                        <option value="">All Areas</option>
-                 
-                    </select>
-                </div>
-            </div>
-
-
-            <div class="col-md-2 d-flex justify-content-end">
-                <div class="demo-inline-spacing">
-                    <a href="{!! route('customer.create') !!}" class="btn btn-outline-secondary">Add Customer</a>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="pt-0 pb-2 d-flex justify-content-end align-items-center mx-90 row">
-        <div class="col-md">
-            <div class="btn-group">
-                <button type="button" class="btn btn-icon btn-outline-primary dropdown-toggle" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled">
-                    <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">
-                    Export
-                </button>
-                <div class="dropdown-menu dropdown-menu-left">
-                    <a class="dropdown-item" wire:click="export" id="exportExcelBtn">Excel</a>
-                    <a class="dropdown-item" wire:click="exportCSV" id="exportPdfBtn"> CSV</a>
-                    <a class="dropdown-item" wire:click="exportPDF" id="exportCsvBtn">PDF</a>
-                    <!-- <a class="dropdown-item" wire:click="printAndRedirect" id="printBtn">Print</a> -->
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-2">
+            <div class="col-md-2">
             <div class="form-group">
                 <label for="validationTooltip01">Start Date</label>
                 <input wire:model="start" name="startDate" type="date" class="form-control" id="validationTooltip01"
@@ -84,6 +36,27 @@
                 </select>
             </div>
         </div>
+        <div class="col-md-2">
+            <div class="btn-group">
+                <button type="button" class="btn btn-icon btn-outline-primary dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled">
+                    <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">
+                    Export
+                </button>
+                <div class="dropdown-menu dropdown-menu-left">
+                    <a class="dropdown-item" wire:click="export" id="exportExcelBtn">Excel</a>
+                    <a class="dropdown-item" wire:click="exportCSV" id="exportPdfBtn"> CSV</a>
+                    <a class="dropdown-item" wire:click="exportPDF" id="exportCsvBtn">PDF</a>
+                    <!-- <a class="dropdown-item" wire:click="printAndRedirect" id="printBtn">Print</a> -->
+
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+   
     </div>
 
 

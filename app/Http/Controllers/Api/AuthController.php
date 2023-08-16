@@ -69,7 +69,7 @@ class AuthController extends Controller
      $activityLog->action = 'User ' . auth()->user()->name . ' Logged in in mobile appication';
      $activityLog->userID = auth()->user()->id;
      $activityLog->activityID = $random;
-     $activityLog->ip_address = "";
+     $activityLog->ip_address = $request->ip() ?? '127.0.0.1';
      $activityLog->save();
 
       return response()->json([
@@ -116,7 +116,7 @@ class AuthController extends Controller
       $user = $request->user();
       $user->currentAccessToken()->delete();
 
-      $activityLog = new ActivityLog();
+      $activityLog = new activity_log();
       $activityLog->source = 'Mobile App';
       $activityLog->activity = 'Logout from Mobile Device';
       $activityLog->user_code = $user->user_code;

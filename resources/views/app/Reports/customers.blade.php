@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app1')
 {{-- page header --}}
 @section('title','Customers')
 
@@ -21,7 +21,7 @@
       </div>
    </div>
    @include('partials._messages')
-   @livewire('reports.customers')
+   @livewire('reports.customer')
 
    @else
    <div class="misc-inner p-2 p-sm-3">
