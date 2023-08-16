@@ -59,7 +59,7 @@ class AuthController extends Controller
    //       'user_code' => $request->email,
    //       'ip_address' => $request->ip(),
    //   ]);
-      
+
      $random = Str::random(20);
      $activityLog = new activity_log();
      $activityLog->source = 'Mobile App';
@@ -154,7 +154,7 @@ class AuthController extends Controller
                'user_id' => $user->id,
                'code' => $code
             ]);
-            $message = "Your reset OTP is  " . $code;
+            $message = "Your total reset OTP is  " . $code;
             info($message);
             (new SMS())($user->phone_number, $message);
 
