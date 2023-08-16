@@ -144,7 +144,7 @@ class warehousingController extends Controller
    {
       $code = $request->query('warehouse_code');
       $warehouse = warehousing::where('warehouse_code', $code)->first();
-      $shopattendee = User::where('status', 'Active')->get();
+      $shopattendee = User::where('account_type', 'Managers')->where('status', 'Active')->get();
 
       return view('livewire.warehousing.assign-shop-attendee',  compact('warehouse', 'shopattendee', 'code'));
    }

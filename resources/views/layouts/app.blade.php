@@ -35,6 +35,7 @@
     <div class="drag-target"></div>
 
     @include('partials._javascripts')
+
 </body>
 <!-- END: Body-->
 
