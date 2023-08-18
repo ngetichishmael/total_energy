@@ -74,7 +74,6 @@ class productController extends Controller
          ],
          'buying_price' => 'required',
          'selling_price' => 'required',
-         'distributor_price' => 'required',
          'image' => 'required|mimes:png,jpg,bmp,gif,jpeg|max:5048',
       ]);
       $code= session('warehouse_code');
@@ -82,7 +81,7 @@ class productController extends Controller
       $product_code = Str::random(20);
       $product = new product_information;
       $product->product_name = $request->product_name;
-      $product->sku_code =  Str::random(20);
+      $product->sku_code =  $request->sku_code ?? Str::random(20);
       $product->url = Str::slug($request->product_name);
       $product->brand = $request->brandID;
       $product->supplierID = $request->supplierID;
@@ -103,7 +102,7 @@ class productController extends Controller
             'product_code' => $product_code,
             'buying_price' => $request->buying_price,
             'selling_price' => $request->selling_price,
-            'distributor_price' => $request->distributor_price,
+//            'distributor_price' => $request->distributor_price,
             'offer_price' => $request->buying_price,
             'setup_fee' => $request->selling_price,
             'taxID' => "1",
@@ -114,7 +113,7 @@ class productController extends Controller
          ]
       );
 
-      product_inventory::updateOrCreate(
+      $pi= product_inventory::updateOrCreate(
          [
 
             'productID' => $product->id,
@@ -133,6 +132,18 @@ class productController extends Controller
          ]
 
       );
+//      ProductSku()::createOrUpdate([
+//         'product_inventory_id'=>$pi,
+//         'sku_code'=>$product->sku_code,
+//      ],
+//      [
+//         'warehouse_code'=>$code,
+//         'restocked_quantity'=>,
+//         'added_by' = Auth::user()->user_code,
+//
+//
+//      ]
+//      );
       session()->flash('success', 'Product successfully added.');
          $random=rand(0,9999);
       $activityLog = new activity_log();
@@ -373,7 +384,7 @@ class productController extends Controller
       $prices->selling_price = $request->selling_price;
       $prices->business_code = Auth::user()->business_code;
       $prices->save();
-   
+
 
       session()->flash('success', 'Prices successfully Updated!');
       $random=Str::random(20);
@@ -387,7 +398,7 @@ class productController extends Controller
       $activityLog->ip_address = $request->ip();
       $activityLog->save();
 
-      
+
       return redirect('/warehousing/'.$information->warehouse_code.'/products');
    }
 
