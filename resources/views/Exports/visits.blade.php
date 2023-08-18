@@ -53,7 +53,7 @@
 <body>
     <div class="header">
         <div class="logo">
-        <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('app-assets/images/small_logo.png'))) }}" alt="Logo" width="100" height="50">
+        <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('app-assets/images/small_logo.png'))) }}" alt="Logo" width="140" height="50">
         </div>
     </div>
     <div class="subheader">
