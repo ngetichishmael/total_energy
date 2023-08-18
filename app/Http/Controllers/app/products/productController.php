@@ -463,6 +463,7 @@ class productController extends Controller
       if ($information->image == null) {
          $this->validate($request, [
             'product_name' => 'required',
+            'sku_code' => 'required',
 //            'buying_price' => 'required',
 //            'selling_price' => 'required',
 //            'image' => 'required|mimes:png,jpg,bmp,gif,jpeg|max:5048',
@@ -485,11 +486,11 @@ class productController extends Controller
          "sku_code" => $request->sku_code,
 //         "url" => Str::slug($request->product_name),
 //         "brand" => $request->brandID,
-         "supplierID" => $request->supplierID,
+//         "supplierID" => $request->supplierID,
 //         "category" => $request->category,
 //         "image" => $image_path ?? $information->image,
 //         "active" => $request->status,
-         "track_inventory" => 'Yes',
+//         "track_inventory" => 'Yes',
 //         "business_code" => Auth::user()->business_code,
          "updated_by" => Auth::user()->user_code,
       ]);
@@ -512,24 +513,24 @@ class productController extends Controller
 //         ]
 //      );
 
-      product_inventory::updateOrCreate(
-         [
-
-            'productID' => $id,
-         ],
-         [
-            'current_stock' => $request->current_stock,
-            'reorder_point' => $request->reorder_point,
-            'reorder_qty' => $request->reorder_qty,
-            'expiration_date' => "None",
-            'default_inventory' => "None",
-            'notification' => 0,
-//            'created_by' => Auth::user()->user_code,
-            'updated_by' => Auth::user()->user_code,
-            'business_code' => Auth::user()->business_code,
-         ]
-
-      );
+//      product_inventory::updateOrCreate(
+//         [
+//
+//            'productID' => $id,
+//         ],
+//         [
+//            'current_stock' => $request->current_stock,
+//            'reorder_point' => $request->reorder_point,
+//            'reorder_qty' => $request->reorder_qty,
+//            'expiration_date' => "None",
+//            'default_inventory' => "None",
+//            'notification' => 0,
+////            'created_by' => Auth::user()->user_code,
+//            'updated_by' => Auth::user()->user_code,
+//            'business_code' => Auth::user()->business_code,
+//         ]
+//
+//      );
 
       session()->flash('success', 'Product successfully restocked!');
       $random=Str::random(20);
