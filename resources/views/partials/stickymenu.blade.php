@@ -1,7 +1,7 @@
 <div class="row" style="padding-left:6%;">
     <div class="col-md-12" style="padding:10px">
-        <a href="{{ route('clients.reports') }}" class="btn btn-primary" style="font-size: 12px;">Customers</a>
-        <a href="{{ route('preorders.reports') }}" class="btn btn-primary" style="font-size: 12px;">Preorders</a>
+        <a href="{{ route('clients.reports') }}" class="btn btn-primary{{ request()->is('clients/reports*') ? ' active' : '' }}" style="font-size: 12px;">Customers</a>
+        <a href="{{ route('preorders.reports') }}" class="btn btn-primary{{ request()->is('preorders/reports*') ? ' active' : '' }}" style="font-size: 12px;">Preorders</a>
         <a href="{{ route('vansales.reports') }}" class="btn btn-primary" style="font-size: 12px;">Vansales</a>
         <a href="{{ route('delivery.reports') }}" class="btn btn-primary" style="font-size: 12px;">Delivery</a>
         <!-- <a href="{{ route('supplier.reports') }}" class="btn btn-primary" style="font-size: 12px;">Suppliers</a> -->
