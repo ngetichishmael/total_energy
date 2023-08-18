@@ -81,7 +81,7 @@ class productController extends Controller
       $product_code = Str::random(20);
       $product = new product_information;
       $product->product_name = $request->product_name;
-      $product->sku_code =  $request->sku_code ?? Str::random(20);
+      $product->sku_code =  $request->sku_code;
       $product->url = Str::slug($request->product_name);
       $product->brand = $request->brandID;
       $product->supplierID = $request->supplierID;
@@ -102,7 +102,6 @@ class productController extends Controller
             'product_code' => $product_code,
             'buying_price' => $request->buying_price,
             'selling_price' => $request->selling_price,
-//            'distributor_price' => $request->distributor_price,
             'offer_price' => $request->buying_price,
             'setup_fee' => $request->selling_price,
             'taxID' => "1",
@@ -316,7 +315,7 @@ class productController extends Controller
       $product_information = product_information::whereId($id)->first();
       $product_price = product_price::where('productID', $id)->first();
       $product_inventory = product_inventory::where('productID', $id)->first();
-
+      $code= session('warehouse_code');
 
       return view('app.products.edit', [
          'id' => $id,
@@ -327,6 +326,7 @@ class productController extends Controller
          'product_information' => $product_information,
          'product_inventory' => $product_inventory,
          'product_price' => $product_price,
+         'code'=>$code,
       ]);
    }
    public function restock($id)
