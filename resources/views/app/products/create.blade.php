@@ -10,7 +10,7 @@
                     <div class="breadcrumb-wrapper">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Products</a></li>
+                            <li class="breadcrumb-item"><a href="{{ url('warehousing/'.$code.'/products') }}">Products</a></li>
                             <li class="breadcrumb-item active">Create</li>
                         </ol>
                     </div>
@@ -66,15 +66,15 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="mb-2 form-group">
-                                    <label for="select-country1">Suppliers </label>
-                                    <select name="supplierID" id="brandID" class="form-control select2" required>
-                                        <option value="">-- Please choose the supplier--</option>
-                                        @foreach ($suppliers as $key => $supplier)
-                                            <option value='{{ $key + 1 }}'>{{ $supplier }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+{{--                                <div class="mb-2 form-group">--}}
+{{--                                    <label for="select-country1">Suppliers </label>--}}
+{{--                                    <select name="supplierID" id="brandID" class="form-control select2" required>--}}
+{{--                                        <option value="">-- Please choose the supplier--</option>--}}
+{{--                                        @foreach ($suppliers as $key => $supplier)--}}
+{{--                                            <option value='{{ $key + 1 }}'>{{ $supplier }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
                                 <div class="mb-2 form-group">
                                     <label for="select-country1">Product Catergory</label>
                                     <select name="category" id="category" class="form-control select2">
@@ -116,35 +116,35 @@
 
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Inventory</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label class="form-label" for="basic-default-name">Available Stock</label>
-                                    <input type="text" pattern="[0-9]+" min="10" max="100000"
-                                        class="form-control" id="basic-default-name" name="current_stock"
-                                        placeholder="Available Quantity"
-                                        title="Please enter a valid number (10-100000)" />
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="basic-default-email">Reorder Point</label>
-                                    <input type="text" pattern="[0-9]+" min="10" max="100000"
-                                        id="basic-default-email" name="reorder_point" class="form-control"
-                                        placeholder="Reorder Point" title="Please enter a valid number (10-100000)" />
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="basic-default-email">Reorder Quantity</label>
-                                    <input type="text" pattern="[0-9]+" min="10" max="100000"
-                                        id="basic-default-email" name="reorder_qty" class="form-control"
-                                        placeholder="Reorder Quantity" title="Please enter a valid number (10-100000)" />
-                                </div>
-                            </div>
+{{--                    <div class="col-md-6 col-lg-4">--}}
+{{--                        <div class="card">--}}
+{{--                            <div class="card-header">--}}
+{{--                                <h4 class="card-title">Inventory</h4>--}}
+{{--                            </div>--}}
+{{--                            <div class="card-body">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="form-label" for="basic-default-name">Available Stock</label>--}}
+{{--                                    <input type="text" pattern="[0-9]+" min="10" max="100000"--}}
+{{--                                        class="form-control" id="basic-default-name" name="current_stock"--}}
+{{--                                        placeholder="Available Quantity"--}}
+{{--                                        title="Please enter a valid number (10-100000)" />--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="form-label" for="basic-default-email">Reorder Point</label>--}}
+{{--                                    <input type="text" pattern="[0-9]+" min="10" max="100000"--}}
+{{--                                        id="basic-default-email" name="reorder_point" class="form-control"--}}
+{{--                                        placeholder="Reorder Point" title="Please enter a valid number (10-100000)" />--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="form-label" for="basic-default-email">Reorder Quantity</label>--}}
+{{--                                    <input type="text" pattern="[0-9]+" min="10" max="100000"--}}
+{{--                                        id="basic-default-email" name="reorder_qty" class="form-control"--}}
+{{--                                        placeholder="Reorder Quantity" title="Please enter a valid number (10-100000)" />--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                        </div>
-                    </div>
+{{--                        </div>--}}
+{{--                    </div>--}}
                     <div class="col-md-6 col-lg-4">
                         <div class="card match-height">
                             <img id="output" class="card-img-top"

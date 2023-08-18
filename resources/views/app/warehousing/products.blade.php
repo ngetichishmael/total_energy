@@ -64,7 +64,7 @@
 
             <div class="col-md-4 d-flex justify-content-end">
                 <div class="demo-inline-spacing">
-{{--                    <a href="{!! route('products.create') !!}" class="btn btn-outline-secondary">Add Product</a>--}}
+                    <a href="{!! route('products.create') !!}" class="btn btn-outline-secondary">Add Product</a>
 
 {{--                    <div class="btn-group">--}}
 
@@ -82,8 +82,6 @@
             </div>
         </div>
     </div>
-
-
       <div class="card card-default">
          <div class="card-body">
             <table class="table table-striped table-bordered" style="font-size: small">
