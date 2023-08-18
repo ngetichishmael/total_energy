@@ -41,23 +41,56 @@
 
             <div class="col-md-2">
                 <div class="btn-group">
-                    
-                    <button type="button" class="btn btn-icon btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled" >
-                        <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">
-                        Export
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" wire:click="export(null)">All</a>
-                        <a class="dropdown-item" wire:click="export('today')">Today</a>
-                        <a class="dropdown-item" wire:click="export('yesterday')">Yesterday</a>
-                        <a class="dropdown-item" wire:click="export('this_week')">This Week</a>
-                        <a class="dropdown-item" wire:click="export('this_month')">This Month</a>
-                        <a class="dropdown-item" wire:click="export('this_year')">This Year</a>
-                    </div>
+                <button type="button" class="btn btn-icon btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled" >
+                    <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">
+                    Export
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item dropdown-toggle" data-toggle="collapse" href="#pdfOptions" role="button" aria-expanded="false" aria-controls="pdfOptions">
+                    PDF
+                </a>
+
+                <div class="collapse" id="pdfOptions">
+                <a class="dropdown-item" wire:click="exportPDF('today')">Today</a>
+                            <a class="dropdown-item" wire:click.prevent="exportPDF('yesterday')">Yesterday</a>
+                            <a class="dropdown-item" wire:click.prevent="exportPDF('this_week')">This Week</a>
+                            <a class="dropdown-item" wire:click.prevent="exportPDF('this_month')">This Month</a>
+                            <a class="dropdown-item" wire:click.prevent="exportPDF('this_year')">This Year</a>
                 </div>
 
-                
-            </div>
+                <a class="dropdown-item dropdown-toggle" data-toggle="collapse" href="#csvOptions" role="button" aria-expanded="false" aria-controls="csvOptions">
+                    CSV
+                </a>
+                <div class="collapse" id="csvOptions">
+                <a class="dropdown-item" wire:click="exportCSV('today')">Today</a>
+                            <a class="dropdown-item" wire:click.prevent="exportCSV('yesterday')">Yesterday</a>
+                            <a class="dropdown-item" wire:click.prevent="exportCSV('this_week')">This Week</a>
+                            <a class="dropdown-item" wire:click.prevent="exportCSV('this_month')">This Month</a>
+                            <a class="dropdown-item" wire:click.prevent="exportCSV('this_year')">This Year</a>
+                </div>
+
+                <a class="dropdown-item dropdown-toggle" data-toggle="collapse" href="#excelOptions" role="button" aria-expanded="false" aria-controls="excelOptions">
+                    EXCEL
+                </a>
+                <div class="collapse" id="excelOptions">
+                <a class="dropdown-item" wire:click="exportExcel('today')">Today</a>
+                            <a class="dropdown-item" wire:click.prevent="exportExcel('yesterday')">Yesterday</a>
+                            <a class="dropdown-item" wire:click.prevent="exportExcel('this_week')">This Week</a>
+                            <a class="dropdown-item" wire:click.prevent="exportExcel('this_month')">This Month</a>
+                            <a class="dropdown-item" wire:click.prevent="exportExcel('this_year')">This Year</a>
+
+                </div>
+                </div>
+                </div>
+
+                <script>
+                // Close the dropdown when an item is clicked
+                $(".dropdown-item").on("click", function() {
+                $(".btn-group").removeClass("show");
+                });
+                </script>
+                </div>
+
             
         </div>
     </div>
