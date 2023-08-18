@@ -82,6 +82,7 @@
             </div>
         </div>
     </div>
+
       <div class="card card-default">
          <div class="card-body">
             <table class="table table-striped table-bordered" style="font-size: small">
@@ -91,6 +92,7 @@
                     <th>Name</th>
                     <th>Wholesale Price</th>
                     <th>Retail Price</th>
+                    <th>SKU Volume</th>
                     <th>Current Stock</th>
                     <th>Date</th>
                      <th>Actions</th>
@@ -110,7 +112,7 @@
                         <td>
                             {{ number_format((float) $product->ProductPrice()->pluck('selling_price')->implode('')) }}
                         </td>
-
+                        <td>{{$product->sku_code}}</td>
                         <td>{{ $product->Inventory()->pluck('current_stock')->implode('') }}</td>
                         <td>{{ $product->updated_at->format('d/m/Y h:i A') }}</td>
 
@@ -124,6 +126,10 @@
                                     <a class="dropdown-item" href="{{ route('products.restock', $product->id) }}">
                                         <i data-feather="plus-circle" class="mr-50"></i>
                                         <span>Re Stock</span>
+                                    </a>
+                                   <a class="dropdown-item" href="{{ route('products.edit', $product->id) }}">
+                                        <i data-feather="edit" class="mr-50"></i>
+                                        <span>Edit</span>
                                     </a>
                                 </div>
                             </div>
