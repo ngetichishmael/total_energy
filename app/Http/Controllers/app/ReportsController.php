@@ -35,7 +35,7 @@ class ReportsController extends Controller
             case 'sidai.reports':
                return view('app.Reports.users');
             case 'warehouse.reports':
-               if ($userAccountType !== 'manager') {
+               if ($userAccountType == 'Managers') {
                   return view('app.Reports.warehouse');
                }
             case 'supplier.reports':
@@ -53,7 +53,9 @@ class ReportsController extends Controller
             case 'clients.reports':
                return view('app.Reports.customers');
             case 'inventory.reports':
-               return view('app.Reports.inventory');
+               if ($userAccountType == 'Managers') {
+                  return view('app.Reports.inventory');
+               }
             default:
                return view('app.users.reports');
          }

@@ -35,63 +35,63 @@
                                         value="{{ $product_information->sku_code }}" placeholder="SKU CODE" name="sku_code"
                                         required />
                                 </div>
-                                <div class="mb-2 form-group">
-                                    <label for="select-country1">Is currently Available?</label>
-                                    <select class="form-control select" id="select-country1" name="status" required>
-                                        <option value="Active"
-                                            {{ $product_information->active === 'Active' ? 'selected' : '' }}>Active
-                                        </option>
-                                        <option value="No"
-                                            {{ $product_information->active === 'No' ? 'selected' : '' }}>No</option>
-                                    </select>
-                                </div>
+{{--                                <div class="mb-2 form-group">--}}
+{{--                                    <label for="select-country1">Is currently Available?</label>--}}
+{{--                                    <select class="form-control select" id="select-country1" name="status" required>--}}
+{{--                                        <option value="Active"--}}
+{{--                                            {{ $product_information->active === 'Active' ? 'selected' : '' }}>Active--}}
+{{--                                        </option>--}}
+{{--                                        <option value="No"--}}
+{{--                                            {{ $product_information->active === 'No' ? 'selected' : '' }}>No</option>--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Additional Information</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-2 form-group">
-                                    <label for="select-country1">Brands </label>
-                                    <select class="select2 form-control"name="brandID" id="brandID" required>
-                                        <option value="">--Please choose the Brand--</option>
-                                        @foreach ($brands as $brand)
-                                            <option value="{{ $brand }}"
-                                                {{ $product_information->brand == $brand ? 'selected' : '' }}>
-                                                {{ $brand }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-2 form-group">
-                                    <label for="select-country1">Suppliers </label>
-                                    <select name="supplierID" id="brandID" class="form-control select2" required>
-                                        @foreach ($suppliers as $id => $supplier)
-                                            <option value="{{ $supplier }}"
-                                                {{ $product_information->supplierID == $id ? 'selected' : '' }}>
-                                                {{ $supplier }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-2 form-group">
-                                    <label for="select-country1">Product Catergory</label>
-                                    <select name="category" id="category" class="form-control select2">
-                                        <option value="">--Please choose the catergory--</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category }}"
-                                                {{ $product_information->category == $category ? 'selected' : '' }}>
-                                                {{ $category }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+{{--                    <div class="col-md-6 col-12">--}}
+{{--                        <div class="card">--}}
+{{--                            <div class="card-header">--}}
+{{--                                <h4 class="card-title">Additional Information</h4>--}}
+{{--                            </div>--}}
+{{--                            <div class="card-body">--}}
+{{--                                <div class="mb-2 form-group">--}}
+{{--                                    <label for="select-country1">Brands </label>--}}
+{{--                                    <select class="select2 form-control"name="brandID" id="brandID" required>--}}
+{{--                                        <option value="">--Please choose the Brand--</option>--}}
+{{--                                        @foreach ($brands as $brand)--}}
+{{--                                            <option value="{{ $brand }}"--}}
+{{--                                                {{ $product_information->brand == $brand ? 'selected' : '' }}>--}}
+{{--                                                {{ $brand }}--}}
+{{--                                            </option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                                <div class="mb-2 form-group">--}}
+{{--                                    <label for="select-country1">Suppliers </label>--}}
+{{--                                    <select name="supplierID" id="brandID" class="form-control select2" required>--}}
+{{--                                        @foreach ($suppliers as $id => $supplier)--}}
+{{--                                            <option value="{{ $supplier }}"--}}
+{{--                                                {{ $product_information->supplierID == $id ? 'selected' : '' }}>--}}
+{{--                                                {{ $supplier }}--}}
+{{--                                            </option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                                <div class="mb-2 form-group">--}}
+{{--                                    <label for="select-country1">Product Catergory</label>--}}
+{{--                                    <select name="category" id="category" class="form-control select2">--}}
+{{--                                        <option value="">--Please choose the catergory--</option>--}}
+{{--                                        @foreach ($categories as $category)--}}
+{{--                                            <option value="{{ $category }}"--}}
+{{--                                                {{ $product_information->category == $category ? 'selected' : '' }}>--}}
+{{--                                                {{ $category }}--}}
+{{--                                            </option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div>
             </section>
             <section id="card-demo-example">
@@ -121,59 +121,59 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Inventory</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label class="form-label" for="basic-default-name">Available Stock</label>
-                                    <input type="text" pattern="[0-9]+" min="10" max="100000"
-                                        class="form-control" value="{{ $product_inventory->current_stock }}"
-                                        id="basic-default-name" name="current_stock" placeholder="Available Quantity"
-                                        title="Please enter a valid number (0-9)" />
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="basic-default-email">Reorder Point</label>
-                                    <input type="text" pattern="[0-9]+" min="10" max="100000"
-                                        id="basic-default-email" value="{{ $product_inventory->reorder_point }}"
-                                        name="reorder_point" class="form-control" placeholder="Reorder Point"
-                                        title="Please enter a valid number (0-9)" />
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="basic-default-email">Reorder Quantity</label>
-                                    <input type="text" pattern="[0-9]+" min="10" max="100000"
-                                        id="basic-default-email" value="{{ $product_inventory->reorder_qty }}"
-                                        name="reorder_qty" class="form-control" placeholder="Reorder Quantity"
-                                        title="Please enter a valid number (0-9)" />
-                                </div>
-                            </div>
+{{--                    <div class="col-md-6 col-lg-4">--}}
+{{--                        <div class="card">--}}
+{{--                            <div class="card-header">--}}
+{{--                                <h4 class="card-title">Inventory</h4>--}}
+{{--                            </div>--}}
+{{--                            <div class="card-body">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="form-label" for="basic-default-name">Available Stock</label>--}}
+{{--                                    <input type="text" pattern="[0-9]+" min="10" max="100000"--}}
+{{--                                        class="form-control" value="{{ $product_inventory->current_stock }}"--}}
+{{--                                        id="basic-default-name" name="current_stock" placeholder="Available Quantity"--}}
+{{--                                        title="Please enter a valid number (0-9)" />--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="form-label" for="basic-default-email">Reorder Point</label>--}}
+{{--                                    <input type="text" pattern="[0-9]+" min="10" max="100000"--}}
+{{--                                        id="basic-default-email" value="{{ $product_inventory->reorder_point }}"--}}
+{{--                                        name="reorder_point" class="form-control" placeholder="Reorder Point"--}}
+{{--                                        title="Please enter a valid number (0-9)" />--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="form-label" for="basic-default-email">Reorder Quantity</label>--}}
+{{--                                    <input type="text" pattern="[0-9]+" min="10" max="100000"--}}
+{{--                                        id="basic-default-email" value="{{ $product_inventory->reorder_qty }}"--}}
+{{--                                        name="reorder_qty" class="form-control" placeholder="Reorder Quantity"--}}
+{{--                                        title="Please enter a valid number (0-9)" />--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card match-height">
-                            <img id="output" class="card-img-top"
-                                src="{{ Storage::url('public/' . $product_information->image) ?? asset('/app-assets/images/slider/04.jpg') }}"
-                                alt="Card image cap" />
-                            <div class="card-body">
-                                <h4 class="card-title">Upload Product Image</h4>
-                                <label class="mb-0 btn btn-primary mr-75" for="change-picture">
-                                    <span class="d-none d-sm-block">Upload</span>
-                                    <input class="form-control" type="file" id="change-picture" name="image" hidden
-                                        accept="image/png, image/jpeg, image/jpg" onchange="loadImage(event)" />
-                                    <span class="d-block d-sm-none">
-                                        <i class="mr-0" data-feather="edit"></i>
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-md-6 col-lg-4">--}}
+{{--                        <div class="card match-height">--}}
+{{--                            <img id="output" class="card-img-top"--}}
+{{--                                src="{{ Storage::url('public/' . $product_information->image) ?? asset('/app-assets/images/slider/04.jpg') }}"--}}
+{{--                                alt="Card image cap" />--}}
+{{--                            <div class="card-body">--}}
+{{--                                <h4 class="card-title">Upload Product Image</h4>--}}
+{{--                                <label class="mb-0 btn btn-primary mr-75" for="change-picture">--}}
+{{--                                    <span class="d-none d-sm-block">Upload</span>--}}
+{{--                                    <input class="form-control" type="file" id="change-picture" name="image" hidden--}}
+{{--                                        accept="image/png, image/jpeg, image/jpg" onchange="loadImage(event)" />--}}
+{{--                                    <span class="d-block d-sm-none">--}}
+{{--                                        <i class="mr-0" data-feather="edit"></i>--}}
+{{--                                    </span>--}}
+{{--                                </label>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div>
                 <div class="mt-2 col-12 d-flex flex-sm-row flex-column justify-content-center" style="gap: 20px;padding-buttom:20px">
                     <button type="submit" class="mb-1 mr-0 btn btn-primary mb-sm-0 mr-sm-1">Save</button>
-                    <a href="{{ URL('/products') }}" type="reset" class="btn btn-outline-secondary">Cancel</a>
+                    <a href="{{ URL('/warehousing/'.$code.'/products') }}" type="reset" class="btn btn-outline-secondary">Cancel</a>
                 </div>
 
                             </section>

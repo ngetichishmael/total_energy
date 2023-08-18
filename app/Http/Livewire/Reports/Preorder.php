@@ -20,6 +20,13 @@ class Preorder extends Component
    public $start;
    public $end;
    public $search = null;
+
+   public $perPage; // Define the perPage property
+
+   public function __construct($perPage)
+   {
+      $this->perPage = $perPage;
+   }
    public function render()
    {
       $count = 1;
@@ -43,7 +50,7 @@ class Preorder extends Component
          }
       }
 
-      return $query->paginate(7);
+      return $query->paginate(15);
    }
    public function filter(): array
    {
@@ -51,7 +58,7 @@ class Preorder extends Component
       $array = [];
       $user = Auth::user();
       $user_code = $user->route_code;
-      if (!$user->account_type === 'RSM') {
+      if (!$user->account_type === 'Managers') {
          return $array;
       }
       $subregions = Subregion::where('region_id', $user_code)->pluck('id');

@@ -42,7 +42,7 @@ class CustomerVisitExport implements FromView
  
          $checkin = $query->get();
  
-         return view('Exports.visits', [
+         return view('Exports.visit', [
              'visits' => $checkin,
          ]);
      }

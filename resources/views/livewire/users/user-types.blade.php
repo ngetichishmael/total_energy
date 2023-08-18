@@ -11,7 +11,7 @@
                   </ol>
                </div>
             </div>
-       
+
          </div>
       </div>
    </div>
@@ -30,6 +30,7 @@
                     </tr>
                  </thead>
                  <tbody>
+
                     @foreach ($lists as $list)
                     <tr>
                        <td>{!! $count++ !!}</td>
@@ -47,7 +48,7 @@
                                 <a href="{{ route('lubemerchandizer') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View </a>
                                 @elseif($list == 'Managers')
                                 <a href="{{ route('Managers') }}" class="btn btn btn-sm" style="background-color:#1877F2; color:#ffffff;">View </a>
-                           
+
                            @endif
                           </div>
                        </td>

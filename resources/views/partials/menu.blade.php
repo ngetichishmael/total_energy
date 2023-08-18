@@ -138,25 +138,25 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item {!! Nav::isResource('product') !!}">
-                <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span
-                        class="menu-title text-truncate" data-i18n="Invoice">Products</span></a>
-                <ul class="menu-content">
-                    <li><a class="d-flex align-items-center" href="{!! route('product.index') !!}"><i
-                                data-feather="circle"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Products</span></a>
-                    </li>
+{{--            <li class="nav-item {!! Nav::isResource('product') !!}">--}}
+{{--                <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span--}}
+{{--                        class="menu-title text-truncate" data-i18n="Invoice">Products</span></a>--}}
+{{--                <ul class="menu-content">--}}
+{{--                    <li><a class="d-flex align-items-center" href="{!! route('product.index') !!}"><i--}}
+{{--                                data-feather="circle"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Products</span></a>--}}
+{{--                    </li>--}}
 
-                    @if (Auth::user()->account_type === 'Admin')
-                        <li><a class="d-flex align-items-center" href="{!! route('product.category') !!}"><i
-                                    data-feather="circle"  style="color:#ffffff;"></i><span
-                                    class="menu-item text-truncate">Categories</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="{!! route('product.brand') !!}"><i
-                                    data-feather="circle"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Brands</span></a>
-                        </li>
-                    @endif
-                </ul>
-            </li>
+{{--                    @if (Auth::user()->account_type === 'Admin')--}}
+{{--                        <li><a class="d-flex align-items-center" href="{!! route('product.category') !!}"><i--}}
+{{--                                    data-feather="circle"  style="color:#ffffff;"></i><span--}}
+{{--                                    class="menu-item text-truncate">Categories</span></a>--}}
+{{--                        </li>--}}
+{{--                        <li><a class="d-flex align-items-center" href="{!! route('product.brand') !!}"><i--}}
+{{--                                    data-feather="circle"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Brands</span></a>--}}
+{{--                        </li>--}}
+{{--                    @endif--}}
+{{--                </ul>--}}
+{{--            </li>--}}
 
             @if (Auth::user()->account_type === 'Admin')
             <li><a class="d-flex align-items-center{!! Nav::isResource('route-schedulw') !!}"
