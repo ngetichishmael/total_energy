@@ -21,7 +21,7 @@
 
     </div>
 
-    @if(Auth::check() && Auth::user()->account_type == 'Admin')
+    @if(Auth::check() && Auth::user()->account_type == 'Distributors')
     <div class="row match-height">
         <!-- Medal Card -->
         <div class="col-xl-4 col-md-6 col-12">
