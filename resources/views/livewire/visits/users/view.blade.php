@@ -111,11 +111,23 @@
                                             <td>{{ $checkingData['competitor_supplier'] ?? ''}}</td>
                                         </tr>
                                         <td>Likely Ordered Products:</td>
-                                            <td>{{ implode(', ', $checkingData['likely_ordered_products'] ?? []) }}</td>
+                                            <td>
+                                                @if (is_array($checkingData['likely_ordered_products'] ?? null))
+                                                    {{ implode(', ', $checkingData['likely_ordered_products']) }}
+                                                @else
+                                                    No data available
+                                                @endif
+                                            </td>
                                             </tr>
                                             <tr>
                                             <td>Highest Sale Products:</td>
-                                            <td>{{ implode(', ', $checkingData['highest_sale_products'] ?? []) }}</td>
+                                            <td>
+                                                @if (is_array($checkingData['highest_sale_products'] ?? null))
+                                                    {{ implode(', ', $checkingData['highest_sale_products']) }}
+                                                @else
+                                                    No data available
+                                                @endif
+                                            </td>
                                             </tr>
 
                                     </table>
