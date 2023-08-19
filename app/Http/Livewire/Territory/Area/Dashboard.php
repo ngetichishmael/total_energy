@@ -38,9 +38,11 @@ class Dashboard extends Component
             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
             ->paginate($this->perPage);
 
+        $subregions = Subregion::all();
+
         return view('livewire.territory.area.dashboard', [
             'areas' => $areas,
-
+            'subregions' => $subregions,
         ]);
     }
     public function region(): array
