@@ -172,10 +172,10 @@
                     <li><a class="d-flex align-items-center{!! Nav::isResource('areas') !!}" href="{{ route('areas') }}"><i
                                 data-feather="map-pin"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Routes</span></a>
                     </li>
-                    <li><a class="d-flex align-items-center nav-item {!! Nav::isResource('regions') !!}"
+                    <li><a class="d-flex align-items-center nav-item {!! Nav::isResource('zone') !!}"
                             href="{{ route('regions') }}"><i data-feather="map-pin"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">Zone</span></a></li>
-                    <li><a class="d-flex align-items-center {!! Nav::isResource('subregions') !!}"
+                    <li><a class="d-flex align-items-center {!! Nav::isResource('sub-regions') !!}"
                             href="{{ route('subregions') }}"><i data-feather="map-pin"  style="color:#ffffff;"></i><span
                                 class="menu-item text-truncate">Region</span></a>
                     </li>
