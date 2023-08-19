@@ -14,11 +14,13 @@ class Dashboard extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    public $perPage = 40;
+    public $perPage = 20;
     public $sortField = 'id';
     public $sortAsc = true;
 
     public $user;
+    public $search = ''; // Search input
+
 
     public function mount()
     {
@@ -33,7 +35,12 @@ class Dashboard extends Component
             $query->whereIn('id', $this->region());
         }
 
-        $regions = $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')->paginate($this->perPage);
+        $regions = $query
+            ->when($this->search, function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%');
+            })
+            ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+            ->paginate($this->perPage);
 
         return view('livewire.territory.region.dashboard', [
             'regions' => $regions,
