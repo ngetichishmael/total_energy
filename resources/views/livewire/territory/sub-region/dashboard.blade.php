@@ -54,14 +54,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($subregions as $key => $subregion)
+                        @forelse ($subregions as $key => $subregion)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $subregion->name }}</td>
                                 <td>{{ $subregion->Region->name }}</td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="3">No subregions found.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
+
                 </table>
             </div>
             {{ $subregions->links() }}
