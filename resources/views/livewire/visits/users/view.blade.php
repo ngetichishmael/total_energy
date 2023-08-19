@@ -100,25 +100,24 @@
                                     <table class="table table-bordered">
                                         <tr>
                                             <td>Customer Ordered:</td>
-                                            <td>{{ $checkingData['customer_ordered'] }}</td>
+                                            <td>{{ $checkingData['customer_ordered'] ?? ''}}</td>
                                         </tr>
                                         <tr>
                                             <td>Outlet Has Stock:</td>
-                                            <td>{{ $checkingData['outlet_has_stock'] }}</td>
+                                            <td>{{ $checkingData['outlet_has_stock'] ?? ''}}</td>
                                         </tr>
                                         <tr>
                                             <td>Competitor Supplier:</td>
-                                            <td>{{ $checkingData['competitor_supplier'] }}</td>
+                                            <td>{{ $checkingData['competitor_supplier'] ?? ''}}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Likely Ordered Products:</td>
-                                            <td>{{ implode(', ', $checkingData['likely_ordered_products'] ?? []) }}
-                                            </td>
-                                        </tr>
-                                        <tr>
+                                        <td>Likely Ordered Products:</td>
+                                            <td>{{ implode(', ', $checkingData['likely_ordered_products'] ?? []) }}</td>
+                                            </tr>
+                                            <tr>
                                             <td>Highest Sale Products:</td>
                                             <td>{{ implode(', ', $checkingData['highest_sale_products'] ?? []) }}</td>
-                                        </tr>
+                                            </tr>
+
                                     </table>
                                 </td>
                             </tr>
