@@ -51,13 +51,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($regions as $key => $region)
+                        @forelse ($regions as $key => $region)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $region->name }}</td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="2" class="text-center">No zone found.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
+
                 </table>
             </div>
             {{ $regions->links() }}
