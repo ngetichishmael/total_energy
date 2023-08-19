@@ -115,7 +115,7 @@
                                                 @if (is_array($checkingData['likely_ordered_products'] ?? null))
                                                     {{ implode(', ', $checkingData['likely_ordered_products']) }}
                                                 @else
-                                                    No data available
+                                                    
                                                 @endif
                                             </td>
                                             </tr>
@@ -125,7 +125,7 @@
                                                 @if (is_array($checkingData['highest_sale_products'] ?? null))
                                                     {{ implode(', ', $checkingData['highest_sale_products']) }}
                                                 @else
-                                                    No data available
+                                                    
                                                 @endif
                                             </td>
                                             </tr>
