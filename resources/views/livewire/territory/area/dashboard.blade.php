@@ -50,15 +50,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($areas as $key => $area)
+                                @forelse ($areas as $key => $area)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $area->name }}</td>
                                         <td>{{ $area->Subregion->name }}</td>
                                         <td>{{ $area->Subregion->Region->name }}</td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center">No Route found.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
+
                         </table>
                     </div>
                     {{ $areas->links() }}
