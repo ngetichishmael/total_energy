@@ -90,10 +90,14 @@
                                                     <select class="form-control select2" id="select-country"
                                                         name="subregion" required>
                                                         <option value="">Select Regions</option>
-                                                        @foreach ($subregions as $subregion)
+                                                        @forelse ($subregions as $subregion)
                                                             <option value="{{ $subregion->id }}">{{ $subregion->name }}
                                                             </option>
-                                                        @endforeach
+                                                            @empty
+                                                                <tr>
+                                                                    <td colspan="3" class="text-center">No subregions found.</td>
+                                                                </tr>
+                                                            @endforelse
                                                     </select>
                                                 </div>
                                             </div>
