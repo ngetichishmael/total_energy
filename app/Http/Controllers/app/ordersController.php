@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
+use App\Helpers\SMS;
 
 class ordersController extends Controller
 {
@@ -224,6 +225,7 @@ class ordersController extends Controller
                 "created_by" => Auth::user()->user_code,
             ]
         );
+
         for ($i = 0; $i < count($request->allocate); $i++) {
             $pricing = product_price::whereId($request->item_code[$i])->first();
             $totalSum += $request->price[$i];
@@ -268,6 +270,25 @@ class ordersController extends Controller
                 "updated_qty" => $quantity,
             ]);
         }
+
+
+        $user = User::where('user_code', $request->user)->first();
+
+        if ($user) {
+            $phone_number = $user->phone_number;
+            
+            try {
+                $message = "An order (Reference Number: $request->order_code) from Total Energies has been allocated to you and awaits your acceptance. Kindly check your account for further details.";
+                info($message);
+                (new SMS())($phone_number, $message);
+            } catch (Exception $e) {
+                return response()->json(['message' => 'Error occurred while trying to send the notification']);
+            }
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    
+
         $random = Str::random(20);
         $activityLog = new activity_log();
         $activityLog->source = 'Web App';
@@ -552,6 +573,7 @@ class ordersController extends Controller
                 ->where('user_code', $user_code)
                 ->increment('AchievedOrdersTarget', $request->allocate[$i]);
         }
+
         $random = Str::random(20);
         $activityLog = new activity_log();
         $activityLog->source = 'Web App';
