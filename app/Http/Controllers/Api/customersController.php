@@ -10,7 +10,6 @@ use App\Helpers\Helper;
 use App\Helpers\MKOCustomer;
 use App\Helpers\MKOEditCustomer;
 use App\Http\Controllers\Controller;
-use App\Models\AssignedRegion;
 use App\Models\Cart;
 use App\Models\customers;
 use App\Models\customer\checkin;
@@ -46,7 +45,7 @@ class customersController extends Controller
         // $assigned_regions = AssignedRegion::where('user_code', $user->user_code)
         //     ->distinct()
         //     ->pluck('region_id');
-        $query = customers::with('Wallet')->whereIn('region_id', $user->user_code)->get();
+        $query = customers::with('Wallet')->where('region_id', $user->user_code)->get();
 
         return response()->json([
             "user" => $user,
