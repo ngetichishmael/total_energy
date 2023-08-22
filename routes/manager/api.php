@@ -27,8 +27,13 @@ Route::group(['namespace' => 'Api'], function () {
    |--------------------------------------------------------------------------
    */
    Route::post('/manager/login',  [AuthenticationController::class, 'login']);
+   
    Route::post('signup', 'AuthController@userSignUp');
+
+
    Route::middleware(['auth:sanctum'])->group(function () {
+      Route::get('/manager/{phonenumber}/details',  [AuthenticationController::class, 'user_details']);
+      
       Route::get('/manager/customers', [CustomerController::class, 'getCustomers']);
       Route::get('/manager/users', [UsersController::class, 'getUsers']);
       Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
