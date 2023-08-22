@@ -4,6 +4,15 @@ namespace App\Http\Controllers\api\manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\MKOCustomer;
+use App\Models\customers;
+use App\Models\Region;
+use App\Models\Routes;
+use App\Models\Area;
+use App\Models\Route_customer;
+use App\Models\Subregion;
+use App\Models\AssignedRegion;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -11,12 +20,40 @@ class CustomerController extends Controller
 {
    public function getCustomers()
    {
+          // Get the authenticated user
+    $user = Auth::user();
+    
+    // Retrieve the user's assigned regions
+    $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
+    
+    // Retrieve customers assigned to the regions of the authenticated user
+    $customers = customers::whereIn('route_code', function ($query) use ($assignedRegions) {
+        $query->select('areas.id')
+            ->from('areas')
+            ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+            ->whereIn('subregions.region_id', $assignedRegions);
+    })->get();
+    
+   //  return response()->json($customers);
+
+      // $user = Auth::user(); // Fetch the authenticated user
+
+      // $route_code = $user->route_code;
+      // $region = Region::whereId($route_code)->first();
+      // $subregion = Subregion::where('region_id', $region->id)->pluck('id');
+      // $areas = Area::whereIn('subregion_id', $subregion)->pluck('id');
+
+      // $query = customers::whereIn('route_code', $areas)->get();
+
       return response()->json([
          "success" => true,
+         "message" => "Customer List",
          "status" => 200,
-         "data" => User::where('account_type', 'Customer')->get(),
+         "data" => $customers,
       ]);
    }
+
+   
    public function searchExternalCustomer(Request $request)
    {
       $route_code = $request->user()->route_code;

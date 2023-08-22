@@ -37,7 +37,7 @@ Route::group(['namespace' => 'Api'], function () {
        Route::get('/manager/{phonenumber}/details', [AuthenticationController::class, 'user_details']);
        Route::post('/manager/logout', [AuthenticationController::class, 'logout']);
 
-       Route::get('/manager/customers', [CustomerController::class, 'getCustomers']);
+       Route::get('/manager/customers/list', [CustomerController::class, 'getCustomers']);
        Route::get('/manager/users', [UsersController::class, 'getUsers']);
        Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
        Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
