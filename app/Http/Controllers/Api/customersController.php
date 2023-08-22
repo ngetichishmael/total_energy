@@ -10,7 +10,7 @@ use App\Helpers\Helper;
 use App\Helpers\MKOCustomer;
 use App\Helpers\MKOEditCustomer;
 use App\Http\Controllers\Controller;
-use App\Models\Area;
+use App\Models\AssignedRegion;
 use App\Models\Cart;
 use App\Models\customers;
 use App\Models\customer\checkin;
@@ -19,10 +19,8 @@ use App\Models\Delivery_items;
 use App\Models\Orders;
 use App\Models\Order_items;
 use App\Models\order_payments;
-use App\Models\Region;
 use App\Models\Routes;
 use App\Models\Route_customer;
-use App\Models\Subregion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,12 +43,10 @@ class customersController extends Controller
     {
         $user = $request->user();
 
-        $route_code = $request->user()->route_code;
-        $region = Region::whereId($route_code)->first();
-        $subregion = Subregion::where('region_id', $region->id)->pluck('id');
-        $areas = Area::whereIn('subregion_id', $subregion)->pluck('id');
-
-        $query = customers::with('Wallet')->whereIn('route_code', $areas)->get();
+        $assigned_regions = AssignedRegion::where('user_code', $user->user_code)
+            ->pluck('region_id')
+            ->toArray();
+        $query = customers::with('Wallet')->whereIn('route_code', $assigned_regions)->get();
 
         return response()->json([
             "user" => $user,

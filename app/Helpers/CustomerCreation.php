@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class CustomerCreation
 {
-    public static function createCustomer($request, $source)
+    public static function createCustomer($request, $source, $approved = "Approved")
     {
         $image_path = $request->file('image')->store('image', 'public');
         $emailData = $request->email == null ? strtolower(str_replace(' ', '', $request->customer_name)) . '@totalenergies.com' : $request->email;
@@ -53,6 +53,7 @@ class CustomerCreation
                 'unit_id' => $request->route_code,
                 'branch' => $request->branch,
                 'created_by' => $request->user()->id,
+                'approval' => $approved,
                 'business_code' => $request->business_code,
             ]
         );
