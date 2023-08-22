@@ -43,10 +43,10 @@ class customersController extends Controller
     {
         $user = $request->user();
 
-        $assigned_regions = AssignedRegion::where('user_code', $user->user_code)
-            ->distinct()
-            ->pluck('region_id');
-        $query = customers::with('Wallet')->whereIn('region_id', $assigned_regions)->get();
+        // $assigned_regions = AssignedRegion::where('user_code', $user->user_code)
+        //     ->distinct()
+        //     ->pluck('region_id');
+        $query = customers::with('Wallet')->whereIn('region_id', $user->user_code)->get();
 
         return response()->json([
             "user" => $user,
