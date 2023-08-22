@@ -120,8 +120,11 @@ class AuthenticationController extends Controller
                     ->first();
     
                 if ($recentCode) {
-                    return response()->json(['message' => 'Try again after 5 minutes to request a new OTP.'], 400);
-
+                    return response()->json([
+                        'message' => 'An OTP has already been sent. Try again after 5 minutes to request a new OTP.',
+                        'data' => $user,
+                        'recent_otp' => $recentCode->code,
+                    ], 400);
                 }
     
                 $code = rand(100000, 999999);
@@ -136,14 +139,14 @@ class AuthenticationController extends Controller
                 (new SMS())($user->phone_number, $message);
     
                 return response()->json(['data' => $user, 'otp' => $code]);
-            } catch (ExceptionHandler $e) {
+            } catch (Exception $e) {
                 return response()->json(['message' => 'Error occurred while trying to send OTP code'], 500);
             }
         } else {
             return response()->json(['message' => 'User not found!'], 404);
         }
     }
-
+    
     
    // public function sendOTP($number)
    // {
