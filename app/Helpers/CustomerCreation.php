@@ -5,7 +5,6 @@ namespace App\Helpers;
 use App\Models\Area;
 use App\Models\customers;
 use App\Models\MKOCustomer;
-use App\Models\Subregion;
 use Illuminate\Support\Str;
 
 class CustomerCreation
@@ -16,8 +15,11 @@ class CustomerCreation
         $emailData = $request->email == null ? strtolower(str_replace(' ', '', $request->customer_name)) . '@totalenergies.com' : $request->email;
 
         $area = Area::whereId($request->route_code)->firstOrFail();
-        $subregion = $area->subregion ?? 1;
-        $region = $subregion->region ?? 1;
+        $subregion = $area->subregion_id ?? 1;
+        $region = $subregion->region_id ?? 1;
+        info('area :' . json_encode($area->id));
+        info('subregion :' . json_encode($subregion));
+        info('region :' . json_encode($region));
 
         $customer = customers::updateOrCreate(
             [
