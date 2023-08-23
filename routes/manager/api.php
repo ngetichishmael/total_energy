@@ -38,10 +38,11 @@ Route::group(['namespace' => 'Api'], function () {
        Route::post('/manager/logout', [AuthenticationController::class, 'logout']);
 
        Route::get('/manager/customers/list', [CustomerController::class, 'getCustomers']);
+       Route::get('/manager/dashboard/data', [DashboardAppController::class, 'dashboard']);
+
        Route::get('/manager/users', [UsersController::class, 'getUsers']);
        Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
        Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
        Route::get('/manager/all/orders', [OrdersController::class, 'allOrders']);
-       Route::get('/manager/dashboard/data', [DashboardAppController::class, 'dashboard']);
    });
 });
