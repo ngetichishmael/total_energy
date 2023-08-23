@@ -69,8 +69,9 @@ class customersController extends Controller
                 "data" => array(),
             ]);
         }
+        info(json_encode($areas));
 
-        $query = customers::with('Wallet')->where('route_code', $areas->toArray())->get();
+        $query = customers::with('Wallet')->whereIn('route_code', $areas->toArray())->get();
 
         return response()->json([
             "user" => $user,
