@@ -3,20 +3,17 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Models\customers;
-use App\Models\products\product_information;
-use App\Models\AssignedRegion;
 use App\Models\customer\checkin;
 use App\Models\Delivery;
 use App\Models\Orders;
 use App\Models\order_payments as OrderPayment;
+use App\Models\products\product_information;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Auth;
-
 
 class Dashboard extends Component
 {
@@ -69,11 +66,10 @@ class Dashboard extends Component
         return $query->sum('amount');
     }
 
-
     public function getMpesaAmount()
     {
         $query = OrderPayment::where('payment_method', 'PaymentMethods.Mpesa');
-    
+
         if (empty($this->start) && empty($this->end)) {
             $currentMonth = now()->startOfMonth();
             $query->whereBetween('updated_at', [$currentMonth, now()]);
@@ -85,15 +81,14 @@ class Dashboard extends Component
                 $query->where('updated_at', '<=', $this->end);
             }
         }
-    
+
         return $query->sum('amount');
     }
-    
 
     public function getChequeAmount()
     {
         $query = OrderPayment::where('payment_method', 'PaymentMethods.Cheque');
-    
+
         if (empty($this->start) && empty($this->end)) {
             $currentMonth = now()->startOfMonth();
             $query->whereBetween('updated_at', [$currentMonth, now()]);
@@ -105,10 +100,9 @@ class Dashboard extends Component
                 $query->where('updated_at', '<=', $this->end);
             }
         }
-    
+
         return $query->sum('amount');
     }
-    
 
     public function getSalesAmount()
     {
@@ -122,7 +116,7 @@ class Dashboard extends Component
     public function getTotalAmount()
     {
         $query = OrderPayment::where('payment_method', 'PaymentMethods.BankTransfer');
-    
+
         if (empty($this->start) && empty($this->end)) {
             $currentMonth = now()->startOfMonth();
             $query->whereBetween('created_at', [$currentMonth, now()]);
@@ -134,62 +128,52 @@ class Dashboard extends Component
                 $query->where('created_at', '<=', $this->end);
             }
         }
-    
+
         return $query->sum('amount');
     }
-    
-
-
-
-    
 
     public function getVanSales()
     {
-      
-                $query = Orders::where('order_type', 'Van sales');
-                
-                if (empty($this->start) && empty($this->end)) {
-                    $currentMonth = Carbon::now()->startOfMonth();
-                    $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
-                } else {
-                    if (!empty($this->start)) {
-                        $query->where('created_at', '>=', $this->start);
-                    }
-                    if (!empty($this->end)) {
-                        $query->where('created_at', '<=', $this->end);
-                    }
-                }
-                
-                return $query->count();
-           
-  
+
+        $query = Orders::where('order_type', 'Van sales');
+
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = Carbon::now()->startOfMonth();
+            $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+        } else {
+            if (!empty($this->start)) {
+                $query->where('created_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('created_at', '<=', $this->end);
+            }
+        }
+
+        return $query->count();
+
     }
-    
-    
 
     public function getPreOrderCount()
     {
 
-                $query = Orders::where('order_type', 'Pre Order');
-                
-                if (empty($this->start) && empty($this->end)) {
-                    $currentMonth = Carbon::now()->startOfMonth();
-                    $query->whereBetween('created_at', [$currentMonth, Carbon::now()]);
-                } else {
-                    if (!empty($this->start)) {
-                        $query->where('created_at', '>=', $this->start);
-                    }
-                    if (!empty($this->end)) {
-                        $query->where('created_at', '<=', $this->end);
-                    }
-                }
-                
-                return $query->count();
-          
-    
-   
+        $query = Orders::where('order_type', 'Pre Order');
+
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = Carbon::now()->startOfMonth();
+            $query->whereBetween('created_at', [$currentMonth, Carbon::now()]);
+        } else {
+            if (!empty($this->start)) {
+                $query->where('created_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('created_at', '<=', $this->end);
+            }
+        }
+
+        return $query->count();
+
     }
-    
+
     public function getOrderFullmentByDistributorsCount()
     {
         return Orders::where('order_status', 'LIKE', '%deliver%')
@@ -199,17 +183,6 @@ class Dashboard extends Component
             })
             ->count();
     }
-
-
-
-
-
-
-
-
-
-
-
 
     public function getOrderFullmentByDistributorsPage()
     {
@@ -258,26 +231,24 @@ class Dashboard extends Component
 
     public function getCustomersCount()
     {
-       
-            $query = Customers::query();
-    
-                if (empty($this->start) && empty($this->end)) {
-                    $currentMonth = Carbon::now()->startOfMonth();
-                    $query->whereBetween('created_at', [$currentMonth, Carbon::now()]);
-                } else {
-                    if (!empty($this->start)) {
-                        $query->where('created_at', '>=', $this->start);
-                    }
-                    if (!empty($this->end)) {
-                        $query->where('created_at', '<=', $this->end);
-                    }
-                }
- 
-    
-            return $query->count();
+
+        $query = Customers::query();
+
+        if (empty($this->start) && empty($this->end)) {
+            $currentMonth = Carbon::now()->startOfMonth();
+            $query->whereBetween('created_at', [$currentMonth, Carbon::now()]);
+        } else {
+            if (!empty($this->start)) {
+                $query->where('created_at', '>=', $this->start);
+            }
+            if (!empty($this->end)) {
+                $query->where('created_at', '<=', $this->end);
+            }
+        }
+
+        return $query->count();
 
     }
-    
 
     public function getLatestSales()
     {
@@ -285,12 +256,10 @@ class Dashboard extends Component
             ->where('order_status', 'DELIVERED')
             ->whereHas('Customer')
             ->whereHas('User')
-            ->orderBy('created_at', 'desc') 
-            ->take(10) 
+            ->orderBy('created_at', 'desc')
+            ->take(10)
             ->paginate($this->perVansale);
     }
-    
-    
 
     public function getPreOrderTotal()
     {
@@ -324,7 +293,7 @@ class Dashboard extends Component
     }
     public function getOrderFullmentTotal()
     {
-        return Orders::with('User', 'Customer','deliveries')
+        return Orders::with('User', 'Customer', 'deliveries')
             ->where('order_status', 'DELIVERED')
             ->whereHas('User')
             ->whereHas('Customer')
@@ -334,17 +303,15 @@ class Dashboard extends Component
 
     public function deliveryCount()
     {
- 
-                $currentMonth = Carbon::now()->format('m');
-                
-                return Orders::where('order_type', 'Pre Order')
-                    ->where('order_status', 'DELIVERED')
-                    ->whereMonth('delivery_date', $currentMonth)
-                    ->count();
+
+        $currentMonth = Carbon::now()->format('m');
+
+        return Orders::where('order_type', 'Pre Order')
+            ->where('order_status', 'DELIVERED')
+            ->whereMonth('delivery_date', $currentMonth)
+            ->count();
 
     }
-    
-    
 
     public function getVisitsTotal()
     {
@@ -358,25 +325,26 @@ class Dashboard extends Component
 
     public function getCustomersCountTotal()
     {
-        return customers::with('Area', 'Creator', 'Region')
+        return customers::with('Area', 'Creator')
+            ->whereHas('Area')
+            ->whereHas('Creator')
             ->orderBy('created_at', 'desc') // Order by the most recent (created_at in descending order)
             ->paginate($this->perBuyingCustomer);
     }
 
-    public function  getTopDeliveredProducts()
+    public function getTopDeliveredProducts()
     {
         return product_information::select(
             'product_information.product_name',
             'product_information.sku_code',
             DB::raw('SUM(delivery_items.delivery_quantity) as total_quantity')
         )
-        ->leftJoin('delivery_items', 'product_information.id', '=', 'delivery_items.productID')
-        ->groupBy('product_information.id')
-        ->orderByDesc('total_quantity')
-        ->take(6)
-        ->get();
+            ->leftJoin('delivery_items', 'product_information.id', '=', 'delivery_items.productID')
+            ->groupBy('product_information.id')
+            ->orderByDesc('total_quantity')
+            ->take(6)
+            ->get();
     }
-    
 
     public function getGraphData()
     {
@@ -424,7 +392,6 @@ class Dashboard extends Component
             'Cash' => $this->getCashAmount(),
             'Mpesa' => $this->getMpesaAmount(),
             'Cheque' => $this->getChequeAmount(),
-            'sales' => $this->getSalesAmount(),
             'total' => $this->getTotalAmount(),
             'vansales' => $this->getVanSales(),
             'preorder' => $this->getPreOrderCount(),
