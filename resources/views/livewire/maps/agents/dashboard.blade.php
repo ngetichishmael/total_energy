@@ -320,25 +320,40 @@
                                         map: map
                                     });
 
-                                    const waypoints = markerPositions.slice(1, -1).map(position =>
-                                        ({
-                                            location: position,
-                                            stopover: true
-                                        }));
+                                    const maxWaypoints = 25;
+                                    const numSegments = Math.ceil((markerPositions.length - 2) /
+                                        maxWaypoints);
 
-                                    const request = {
-                                        origin: markerPositions[0],
-                                        destination: markerPositions[markerPositions.length -
-                                            1],
-                                        waypoints: waypoints,
-                                        travelMode: google.maps.TravelMode.DRIVING
-                                    };
+                                    for (let i = 0; i < numSegments; i++) {
+                                        const start = i * maxWaypoints;
+                                        const end = start + maxWaypoints;
 
-                                    directionsService.route(request, function(result, status) {
-                                        if (status === google.maps.DirectionsStatus.OK) {
-                                            directionsDisplay.setDirections(result);
-                                        }
-                                    });
+                                        // Determine the origin, destination, and waypoints for this segment
+                                        const origin = (i === 0) ? markerPositions[0] :
+                                            markerPositions[start];
+                                        const destination = (i === numSegments - 1) ?
+                                            markerPositions[markerPositions.length - 1] :
+                                            markerPositions[end];
+                                        const waypoints = markerPositions.slice(start + 1, end).map(
+                                            position => ({
+                                                location: position,
+                                                stopover: true
+                                            }));
+
+                                        const request = {
+                                            origin: origin,
+                                            destination: destination,
+                                            waypoints: waypoints,
+                                            travelMode: google.maps.TravelMode.DRIVING
+                                        };
+
+                                        directionsService.route(request, function(result, status) {
+                                            if (status === google.maps.DirectionsStatus
+                                                .OK) {
+                                                directionsDisplay.setDirections(result);
+                                            }
+                                        });
+                                    }
                                 }
                             })
                             .catch(error => {
