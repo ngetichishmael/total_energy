@@ -24,9 +24,9 @@ class UsersController extends Controller
        $users = $usersQuery->where('id', '!=', Auth::id()) // Exclude the logged-in user
            ->get();
 
-       $message = "List of users fetched.";
+       $message = "";
        if ($loggedInAccountType == 'Managers') {
-           $message .= " Filtered by manager's route code.";
+           $message .= "User List Filtered by manager's route code.";
        }
 
        $message .= " The list also includes sales, leads, orders, and visits targets for each user.";
