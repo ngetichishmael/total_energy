@@ -259,7 +259,10 @@
                                 markers = [];
                                 if (markerPositions.length > 1) {
                                     markerPositions.forEach(markerPosition => {
-                                        markerPosition.setMap(null);
+                                        //  markerPosition.setMap(null);
+                                        // Clear previous markers
+                                        markers.forEach(marker => marker.setMap(null));
+
                                     });
                                 }
 
@@ -276,24 +279,22 @@
 
                                     const infowindow = new google.maps.InfoWindow({
                                         content: `
-        <div id="content">
-            <div id="siteNotice"> </div>
-            <img src="{{ asset('app-assets/images/small_logo.png') }}" alt="avatar" height="50" />
-            <h1 id="firstHeading" class="firstHeading">${markerData.title}</h1>
-            <div id="bodyContent">
-                <p><b>Location: </b>${markerData.lat}, ${markerData.lng}</p>
-                <p><b>Name: </b>${markerData.title}</p>
-                <p><b>Battery Level: </b>${markerData.battery}</p>
-                <p><b>Android Version: </b>${markerData.android_version}</p>
-                <p><b>IMEI: </b>${markerData.IMEI}</p>
-                <p><b>Time: </b>${markerData.description}</p>
-                <p><b>More info: </b><a href="{{ URL('/users/${markerData.user_code}/edit') }}">${markerData.title}</a>
-                </p>
-            </div>
-        </div>
-        `
+                                             <div id="content">
+                                                   <div id="siteNotice"> </div>
+                                                   <img src="{{ asset('app-assets/images/small_logo.png') }}" alt="avatar" height="50" />
+                                                   <h1 id="firstHeading" class="firstHeading">${markerData.title}</h1>
+                                                   <div id="bodyContent">
+                                                      <p><b>Location: </b>${markerData.lat}, ${markerData.lng}</p>
+                                                      <p><b>Name: </b>${markerData.title}</p>
+                                                      <p><b>Battery Level: </b>${markerData.battery}</p>
+                                                      <p><b>Android Version: </b>${markerData.android_version}</p>
+                                                      <p><b>IMEI: </b>${markerData.IMEI}</p>
+                                                      <p><b>Time: </b>${markerData.description}</p>
+                                                      <p><b>More info: </b><a href="{{ URL('/users/${markerData.user_code}/edit') }}">${markerData.title}</a>
+                                                      </p>
+                                                   </div>
+                                             </div>`
                                     });
-
                                     marker.addListener("click", () => {
                                         if (activeInfoWindow) {
                                             activeInfoWindow.close();
@@ -307,7 +308,7 @@
                                     });
 
                                     // Store the marker position in the array
-                                    markerPositions.push(marker.getPosition());
+                                    markerPositions.push(marker.position);
                                 });
 
                                 // Draw routes for markers if we have more than one marker
