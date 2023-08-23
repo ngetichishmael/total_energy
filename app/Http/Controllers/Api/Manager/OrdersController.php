@@ -18,6 +18,9 @@ use App\Models\products\product_inventory;
 use App\Models\products\product_price;
 use App\Models\suppliers\suppliers;
 use App\Models\User;
+use App\Models\Subregion;
+use App\Models\AssignedRegion;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,18 +30,34 @@ use Illuminate\Support\Str;
 
 class OrdersController extends Controller
 {
+
    public function allOrders(Request $request)
    {
-       $region_id = $request->user()->route_code;
+       // Get the authenticated user
+       $user = Auth::user();
+       
+       // Retrieve the user's assigned regions
+       $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
+       
+       // Retrieve customer orders assigned to the regions of the authenticated user
+       $orders = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+           $query->select('customers.id')
+               ->from('customers')
+               ->join('areas', 'customers.route_code', '=', 'areas.id')
+               ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+               ->whereIn('subregions.region_id', $assignedRegions);
+       })
+       ->with('customer', 'user','orderitems') // Eager load relationships
+       ->get();
+       
        return response()->json([
            'status' => 200,
            'success' => true,
-           'message' => 'Orders with the Order items, the Sales associate, and the customer',
-           'Data' => Orders::with('OrderItem', 'User', 'Customer')
-               ->whereIn('id', $this->filter($region_id))
-               ->get(),
+           'message' => 'Filtered Orders based on the Managers Assigned Routes ,with the Order items, the Sales associate, and the customer',
+           'Data' => $orders
        ]);
    }
+   
 
     public function filter($region_id): array
     {
