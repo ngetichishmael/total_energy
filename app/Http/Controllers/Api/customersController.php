@@ -71,7 +71,7 @@ class customersController extends Controller
         }
         info(json_encode($areas));
 
-        $query = customers::with('Wallet')->whereIn('route_code', $areas->toArray())->get();
+        $query = customers::with('Wallet')->whereIn('route_code', $areas->toArray())->orderBy('id', 'DESC')->get();
 
         return response()->json([
             "user" => $user,
