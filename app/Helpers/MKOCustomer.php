@@ -26,7 +26,6 @@ class MKOCustomer
         $customer = CustomerCreation::createCustomer(
             $request,
             'odoo',
-            $request->outlet === "Wholesalers" ? "Not Approved" : "Approved"
         );
         $response = Self::addCustomerToOdoo($request, $customer);
         if ($response->ok()) {

@@ -97,6 +97,7 @@ class customersController extends Controller
     {
         $route_code = $request->user()->route_code;
         info("route_code=" . $route_code);
+
         switch ($route_code) {
             case 2:
                 $customerModel = MKOCustomer::class;
