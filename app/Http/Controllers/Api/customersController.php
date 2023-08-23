@@ -55,10 +55,9 @@ class customersController extends Controller
                 "user" => $user,
                 "success" => true,
                 "message" => "Customer List",
-                "data" => array(),
+                "data" => [],
             ]);
         }
-        info(json_encode($subregions));
         $areas = Area::whereIn('subregion_id', $subregions->toArray())
             ->pluck('id');
         if ($areas->isEmpty()) {
@@ -66,11 +65,9 @@ class customersController extends Controller
                 "user" => $user,
                 "success" => true,
                 "message" => "Customer List",
-                "data" => array(),
+                "data" => [],
             ]);
         }
-        info(json_encode($areas));
-
         $query = customers::with('Wallet')->whereIn('route_code', $areas->toArray())->orderBy('id', 'DESC')->get();
 
         return response()->json([
