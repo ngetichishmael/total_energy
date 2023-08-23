@@ -8,9 +8,9 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
-    public string $typeMap = 'roadmap';
-    public bool $customerListVisible = true;
-    public array $mapMarkers = [];
+    public $typeMap = 'roadmap';
+    public $customerListVisible = true;
+    public $mapMarkers = [];
     public function render()
     {
         $initialMarkers = [];
