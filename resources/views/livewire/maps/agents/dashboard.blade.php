@@ -209,8 +209,7 @@
                 <p><b>More info: </b><a href="{{ URL('/users/${markerData.user_code}/edit') }}">${markerData.title}</a>
                 </p>
             </div>
-        </div>
-        `
+        </div> `
                     });
 
                     marker.addListener("click", () => {
