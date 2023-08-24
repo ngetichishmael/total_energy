@@ -1,7 +1,7 @@
 <div class="mt-0">
     <section class="app-user-list" id="salesSection">
         <div class="card">
-            <h5 class="card-header">Recent Sales</h5>
+            <h5 class="card-header">Recent Volumes</h5>
 
         </div>
 
