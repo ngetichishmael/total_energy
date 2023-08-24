@@ -29,7 +29,7 @@
 
                                             <div class="card">
                                                 <h5 class="mb-1">Source <span
-                                                        class="badge badge-light-secondary">{{ $activity->source ?? '' }}
+                                                        class="badge badge-light-secondary">{{ $activity->source ?? 'Web App' }}
                                                         <span class="nextYear"></span></span>
                                                 </h5>
 
