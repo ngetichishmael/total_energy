@@ -98,7 +98,7 @@
                 <div style="position: relative; background-color: transparent;" class="ml-2">
                     <div class="form-group" style="padding:8px">
                         <input id="search-input" class="form-control form-control-sm" type="text"
-                            placeholder="Search customer" />
+                            placeholder="Search Agents" />
 
                         <!-- <span id="customer-counter"></span> -->
                     </div>
