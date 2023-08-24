@@ -118,11 +118,9 @@
                     <thead class="thead-light">
                         <tr>
                             <th>ID</th>
-                            <th>Delivery Code</th>
                             <th>Order Code</th>
                             <th>Sales Associates</th>
                             <th>Customer</th>
-                            <!-- <th>Balance </th> -->
                             <th>Status</th>
                             <th>Date</th>
                         </tr>
@@ -131,11 +129,6 @@
                         @forelse ($orderfullmentTotal as $key=>$sale)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>
-                                    @foreach ($sale->deliveries as $delivery)
-                                        {{ $delivery->delivery_code }}
-                                    @endforeach
-                                </td>
                                 <td>{{ $sale->order_code }}</td>
                                 <td>{{ $sale->user()->pluck('name')->implode('') }}</td>
                                 <td>{{ $sale->customer()->pluck('customer_name')->implode('') }}</td>
