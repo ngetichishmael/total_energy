@@ -172,4 +172,9 @@ class User extends Authenticatable implements MustVerifyEmail
       return $this->belongsToMany(Region::class, 'user_assigned_regions', 'user_code', 'region_id');
    }
 
+   public function Customers(): HasMany
+   {
+      return $this->hasMany(customers::class, 'created_by', 'id');
+   }
+
 }
