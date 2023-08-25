@@ -4,7 +4,7 @@
 
 {{-- content section --}}
 @section('content')
-@if(Auth::check() && Auth::user()->account_type == 'Admin')
+   @if(Auth::check() && (Auth::user()->account_type == 'Admin' || Auth::user()->account_type == 'Managers'))
 
    <div class="content-header row">
       <div class="content-header-left col-md-12 col-12 mb-2">
