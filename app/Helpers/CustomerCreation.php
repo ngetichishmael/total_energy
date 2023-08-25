@@ -57,7 +57,7 @@ class CustomerCreation
                 'created_by' => $request->user()->id,
                 'approval' => ($request->outlet === "Wholesalers" ? (
                     in_array($request->user_code, [1, 5, 6, 7, 9, 10, 11]) ?
-                    "Not Approved" : "Approved") : "Not Approved"),
+                    "Not Approved" : "Approved") : "Approved"),
                 'business_code' => $request->business_code,
             ]
         );
