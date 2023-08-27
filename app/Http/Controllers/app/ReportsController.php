@@ -49,7 +49,9 @@ class ReportsController extends Controller
             case 'distributor.reports':
                return view('app.Reports.distributor');
             case 'regional.reports':
-               return view('app.Reports.regional');
+               if ($userAccountType == 'Managers') {
+                  return view('app.Reports.regional');
+               }
             case 'clients.reports':
                return view('app.Reports.customers');
             case 'inventory.reports':
