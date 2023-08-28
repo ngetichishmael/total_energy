@@ -624,33 +624,39 @@ class ReportsController extends Controller
          ]);
       }
 
-   public function orderFulfillmentToday()
+   public function orderFulfillment()
    {
+      $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
+
       return response()->json([
          'status' => 200,
          'success' => true,
-         "message" => "Order fulfillment for today",
-         'data' => Orders::where('order_type', 'DELIVERED')->today()->get(),
+         'message' => "Completed Orders or Deliveries",
+         'data' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+               $query->select('customers.id')
+                  ->from('customers')
+                  ->join('areas', 'customers.route_code', '=', 'areas.id')
+                  ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                  ->whereIn('subregions.region_id', $assignedRegions);
+         })
+         ->where('order_status', 'DELIVERED')
+         ->where('order_type', 'Pre Order')
+         ->with([
+            'OrderItems' => function ($query) {
+                $query->select('id', 'order_code', 'productID', 'product_name', 'quantity', 'selling_price', 'total_amount');
+            },
+            'Customer' => function ($query) {
+                $query->select('id', 'customer_name', 'email', 'phone_number', 'image', 'address', 'customer_group', 'route_code');
+            },
+            'User' => function ($query) {
+                $query->select('user_code', 'name', 'email', 'phone_number');
+            },
+        ])
+        ->get(),
       ]);
+
    }
-   public function orderFulfillmentWeek()
-   {
-      return response()->json([
-         'status' => 200,
-         'success' => true,
-         "message" => "Order fulfillment for last week",
-         'data' => Orders::where('order_type', 'DELIVERED')->lastWeek()->get(),
-      ]);
-   }
-   public function orderFulfillmentMonth()
-   {
-      return response()->json([
-         'status' => 200,
-         'success' => true,
-         "message" => "Order fulfillment for last month",
-         'data' => Orders::where('order_type', 'DELIVERED')->lastMonth()->get(),
-      ]);
-   }
+
    public function visitsToday()
    {
       return response()->json([
