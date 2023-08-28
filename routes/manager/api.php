@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Manager\OrdersController;
 use App\Http\Controllers\Api\Manager\SendNotificationController;
 use App\Http\Controllers\Api\Manager\TerritoryInformationsController;
 use App\Http\Controllers\Api\Manager\UsersController;
+use App\Http\Controllers\Api\Manager\RoutesController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -38,12 +39,18 @@ Route::group(['namespace' => 'Api'], function () {
        Route::post('/manager/logout', [AuthenticationController::class, 'logout']);
 
        Route::get('/manager/customers/list', [CustomerController::class, 'getCustomers']);
+
        Route::get('/manager/dashboard/data', [DashboardAppController::class, 'dashboard']);
-       Route::get('/manager/dashboard/custom', [DashboardAppController::class, 'custom']);
+       Route::post('/manager/dashboard/data/custom', [DashboardAppController::class, 'custom']);
 
        Route::get('/manager/users', [UsersController::class, 'getUsers']);
        Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
        Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
+
        Route::get('/manager/all/orders', [OrdersController::class, 'allOrders']);
+
+       Route::get('/manager/routes/data', [RoutesController::class, 'getRoutes']);
+
+
    });
 });

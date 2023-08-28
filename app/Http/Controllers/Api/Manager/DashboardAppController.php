@@ -331,7 +331,7 @@ class DashboardAppController extends Controller
              $query->where('route_code', auth()->user()->route_code)
                    ->where('id', '!=', auth()->user()->id); // Exclude the logged-in user's ID
          })
-         ->count(),
+         ->count(),  
      
      
 
@@ -351,27 +351,147 @@ class DashboardAppController extends Controller
       return response()->json($data, 200);
    }
 
-   public function custom(Request $request)
-   {
-      $start_date = $request->start_date;
-      $end_date = $request->end_date;
-      $checking = checkin::select('user_code')->period($start_date, $end_date)->groupBy('user_code');
-      $today = User::joinSub($checking, 'customer_checkin', function ($join) {
-         $join->on('users.user_code', '=', 'customer_checkin.user_code');
-      })->count();
-      $data = [
-//         'status' => 200,
-//         'success' => true,
-         'active_users' => $today,
-         'new_customers_visits' => checkin::select('customer_id', 'updated_at')->period($start_date, $end_date)->groupBy('customer_id')->count(),
-         'new_customers_added' =>  customers::period($start_date, $end_date)->count(),
-         'pre_sales_value' => Orders::where('order_type', 'Pre Order')->period($start_date, $end_date)->count(),
-         'existing_customer_visit' => customers::period($start_date, $end_date)->count(),
-         'pending_approval' => allocations::where('status', 'Waiting acceptance')->period($start_date, $end_date)->count(),
-         'completed_forms' => survey::where('status', 'Completed')->period($start_date, $end_date)->count(),
-      ];
-      return response()->json($data, 200);
+//    public function custom(Request $request)
+//    {
+//       $start_date = $request->start_date;
+//       $end_date = $request->end_date;
+//       $checking = checkin::select('user_code')->period($start_date, $end_date)->groupBy('user_code');
+//       $today = User::joinSub($checking, 'customer_checkin', function ($join) {
+//          $join->on('users.user_code', '=', 'customer_checkin.user_code');
+//       })->count();
+//       $data = [
+// //         'status' => 200,
+// //         'success' => true,
+//          'active_users' => $today,
+//          'new_customers_visits' => checkin::select('customer_id', 'updated_at')->period($start_date, $end_date)->groupBy('customer_id')->count(),
+//          'new_customers_added' =>  customers::period($start_date, $end_date)->count(),
+//          'pre_sales_value' => Orders::where('order_type', 'Pre Order')->period($start_date, $end_date)->count(),
+//          'existing_customer_visit' => customers::period($start_date, $end_date)->count(),
+//          'pending_approval' => allocations::where('status', 'Waiting acceptance')->period($start_date, $end_date)->count(),
+//          'completed_forms' => survey::where('status', 'Completed')->period($start_date, $end_date)->count(),
+//       ];
+//       return response()->json($data, 200);
 
-   }
+//    }
+
+public function custom(Request $request)
+{
+    $loggedInUserId = auth()->user()->id; // Get the logged-in user's ID
+
+    $start_date = $request->start_date;
+    $end_date = $request->end_date;
+    
+    $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
+    
+    $checking = Checkin::whereIn('customer_id', function ($query) use ($assignedRegions) {
+        $query->select('customers.id')
+            ->from('customers')
+            ->join('areas', 'customers.route_code', '=', 'areas.id')
+            ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+            ->whereIn('subregions.region_id', $assignedRegions);
+    })
+    ->period($start_date, $end_date)
+    ->groupBy('user_code');
+
+    // $activeUsers = User::joinSub($checking, 'customer_checkin', function ($join) {
+    //     $join->on('users.user_code', '=', 'customer_checkin.user_code');
+    // })->count();
+
+    $activeUsers = User::where('route_code', auth()->user()->route_code)
+    ->joinSub(
+        Checkin::select('user_code')
+            ->whereBetween('created_at', [$start_date, $end_date])
+            ->groupBy('user_code'),
+        'customer_checkin',
+        function ($join) {
+            $join->on('users.user_code', '=', 'customer_checkin.user_code');
+        }
+    )
+    ->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+    ->distinct('users.id')
+    ->count();
+
+
+
+    $newCustomersVisits = Checkin::whereIn('customer_id', function ($query) use ($assignedRegions) {
+        $query->select('customers.id')
+            ->from('customers')
+            ->join('areas', 'customers.route_code', '=', 'areas.id')
+            ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+            ->whereIn('subregions.region_id', $assignedRegions);
+    })
+    ->period($start_date, $end_date)
+    ->distinct('code')
+    ->count();
+
+    $newCustomersAdded = customers::whereIn('route_code', function ($query) use ($assignedRegions) {
+        $query->select('areas.id')
+            ->from('areas')
+            ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+            ->whereIn('subregions.region_id', $assignedRegions);
+    })
+    ->whereBetween('created_at', [$start_date, $end_date])
+    ->count();
+
+    $preSalesValue = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+        $query->select('customers.id')
+            ->from('customers')
+            ->join('areas', 'customers.route_code', '=', 'areas.id')
+            ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+            ->whereIn('subregions.region_id', $assignedRegions);
+    })
+    ->where('order_type', 'Pre Order')
+    ->whereBetween('created_at', [$start_date, $end_date])
+    ->count();
+
+    $vanSalesValue = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+        $query->select('customers.id')
+            ->from('customers')
+            ->join('areas', 'customers.route_code', '=', 'areas.id')
+            ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+            ->whereIn('subregions.region_id', $assignedRegions);
+    })
+    ->where('order_type', 'Van sales')
+    ->whereBetween('created_at', [$start_date, $end_date])
+    ->count();
+
+    $pendingApproval = allocations::where('status', 'Waiting acceptance')
+    ->whereHas('user', function ($query) use ($start_date, $end_date) {
+        $query->where('route_code', auth()->user()->route_code)
+            ->where('id', '!=', auth()->user()->id) // Exclude the logged-in user's ID
+            ->whereBetween('created_at', [$start_date, $end_date]); // Apply date filter
+    })
+    ->count();
+
+    $completedDeliveries = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+        $query->select('customers.id')
+            ->from('customers')
+            ->join('areas', 'customers.route_code', '=', 'areas.id')
+            ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+            ->whereIn('subregions.region_id', $assignedRegions);
+    })
+    ->where('order_status', 'DELIVERED')
+    ->where('order_type', 'Pre Order')
+    ->whereBetween('created_at', [$start_date, $end_date])
+    ->count();
+
+    $data = [
+        'status' => 200,
+        'success' => true,
+        'message' => 'Filtered data based on the date range',
+        'data' => [
+            'active_users' => $activeUsers,
+            'new_customers_visits' => $newCustomersVisits,
+            'new_customers_added' => $newCustomersAdded,
+            'pre_sales_value' => $preSalesValue,
+            'van_sales_value' => $vanSalesValue,
+            'pending_approval' => $pendingApproval,
+            'completed_deliveries' => $completedDeliveries,
+            // Add more data points as needed
+        ]
+    ];
+
+    return response()->json($data, 200);
+}
 
 }
