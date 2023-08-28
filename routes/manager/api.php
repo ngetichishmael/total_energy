@@ -52,7 +52,7 @@ Route::group(['namespace' => 'Api'], function () {
 
        Route::get('/manager/routes/data', [RoutesController::class, 'getRoutes']);
 
-       Route::get('/manager/filtered-reports/data', [ReportsController::class, 'reports']);
+       Route::get('/manager/reports/data', [ReportsController::class, 'reports']);
 
    });
 });
