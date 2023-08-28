@@ -29,7 +29,7 @@ class RoutesController extends Controller
            $data["Type"] = $value["Type"];
            $data["start_date"] = $value["start_date"];
            $data["end_date"] = $value["end_date"];
-           $data["created_by_route_code"] = $value->user->route_code; 
+           $data["created_by_route_code"] = (int) $value->user->route_code; // Convert to integer
            $data["users_count"] = 0;
            $data["users"] = [];
    

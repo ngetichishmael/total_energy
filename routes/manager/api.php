@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Manager\SendNotificationController;
 use App\Http\Controllers\Api\Manager\TerritoryInformationsController;
 use App\Http\Controllers\Api\Manager\UsersController;
 use App\Http\Controllers\Api\Manager\RoutesController;
+use App\Http\Controllers\Api\Manager\ReportsController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,7 @@ Route::group(['namespace' => 'Api'], function () {
 
        Route::get('/manager/routes/data', [RoutesController::class, 'getRoutes']);
 
+       Route::get('/manager/reports/data', [ReportsController::class, 'reports']);
 
    });
 });

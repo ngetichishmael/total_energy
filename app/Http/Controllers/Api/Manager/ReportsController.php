@@ -6,7 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\customer\checkin;
 use App\Models\Orders;
 use App\Models\User;
+use App\Models\Region;
+use App\Models\Routes;
+use App\Models\Subregion;
+use App\Models\AssignedRegion;
+use App\Models\Area;
+use App\Models\customer\customers;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ReportsController extends Controller
 {
@@ -14,105 +22,196 @@ class ReportsController extends Controller
    public function reports(Request $request)
    {
 
+      $todayDate = Carbon::today()->toDateString();
+
+          // Calculate date ranges
+          $todayStart = Carbon::now()->startOfDay();
+          $todayEnd = Carbon::now()->endOfDay();
+          $yesterdayStart = Carbon::yesterday()->startOfDay();
+          $yesterdayEnd = Carbon::yesterday()->endOfDay();
+          $thisWeekStart = Carbon::now()->startOfWeek();
+          $thisWeekEnd = Carbon::now()->endOfWeek();
+          $lastWeekStart = Carbon::now()->subWeek()->startOfWeek();
+          $lastWeekEnd = Carbon::now()->subWeek()->endOfWeek();
+          $currentMonthStart = Carbon::now()->startOfMonth();
+          $currentMonthEnd = Carbon::now()->endOfMonth();
+          $lastMonthStart = Carbon::now()->subMonth()->startOfMonth();
+          $lastMonthEnd = Carbon::now()->subMonth()->endOfMonth();
+      
+          $loggedInUserId = auth()->user()->id;
+
+
+            // Get the authenticated user
+            $user = Auth::user();
+        
+            // Retrieve the user's assigned regions
+            $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
+            
+            // Get the IDs of customers assigned to the assigned regions
+            $assignedCustomerIds = customers::whereHas('area.subregion.region', function ($query) use ($assignedRegions) {
+                $query->whereIn('regions.id', $assignedRegions);
+            })->pluck('id');
+
+
       //Active Users
       $checking = checkin::select('user_code')
-         ->groupBy('user_code');
-      $all = User::joinSub($checking, 'customer_checkin', function ($join) {
-         $join->on('users.user_code', '=', 'customer_checkin.user_code');
-      })->count();
-      $checking = checkin::select('user_code')
-         ->today()
-         ->groupBy('user_code');
-      $today = User::joinSub($checking, 'customer_checkin', function ($join) {
-         $join->on('users.user_code', '=', 'customer_checkin.user_code');
-      })->count();
-      $checking = checkin::select('user_code')
-         ->yesterday()
-         ->groupBy('user_code');
-      $yesterday = User::joinSub($checking, 'customer_checkin', function ($join) {
-         $join->on('users.user_code', '=', 'customer_checkin.user_code');
-      })->count();
-      $checking = checkin::select('user_code')
-         ->currentWeek()
-         ->groupBy('user_code');
-      $this_week = User::joinSub($checking, 'customer_checkin', function ($join) {
-         $join->on('users.user_code', '=', 'customer_checkin.user_code');
-      })->count();
-      $lchecking = checkin::select('user_code')
-         ->lastWeek()
-         ->groupBy('user_code');
-      $last_week = User::joinSub($lchecking, 'customer_checkin', function ($join) {
-         $join->on('users.user_code', '=', 'customer_checkin.user_code');
-      })->count();
+      ->groupBy('user_code');
+  
+      $currentUserRouteCode = auth()->user()->route_code;
+      $currentUserCode = auth()->user()->user_code;
+      
+      $all = User::where('route_code', $currentUserRouteCode)
+            ->joinSub($checking, 'customer_checkin', function ($join) {
+               $join->on('users.user_code', '=', 'customer_checkin.user_code');
+            })
+            ->where('users.user_code', '!=', $currentUserCode) // Exclude the logged-in user
+            ->count();
+      
+ 
 
-      $checking = checkin::select('user_code')
-         ->currentMonth()
-         ->groupBy('user_code');
-      $month = User::joinSub($checking, 'customer_checkin', function ($join) {
-         $join->on('users.user_code', '=', 'customer_checkin.user_code');
-      })->count();
-      $lmchecking = checkin::select('user_code')
-         ->lastMonth()
-         ->groupBy('user_code');
-      $last_month = User::joinSub($lmchecking, 'customer_checkin', function ($join) {
-         $join->on('users.user_code', '=', 'customer_checkin.user_code');
-      })->count();
+      $today = User::where('route_code', auth()->user()->route_code)->joinSub(
+         checkin::select('user_code')
+             ->whereBetween('created_at', [$todayStart, $todayEnd])
+             ->groupBy('user_code'),
+         'customer_checkin',
+         function ($join) {
+             $join->on('users.user_code', '=', 'customer_checkin.user_code');
+         }
+     )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+     ->distinct('users.id')->count();
+
+      $yesterday = User::where('route_code', auth()->user()->route_code)->joinSub(
+            checkin::select('user_code')
+                ->whereBetween('created_at', [$yesterdayStart, $yesterdayEnd])
+                ->groupBy('user_code'),
+            'customer_checkin',
+            function ($join) {
+                $join->on('users.user_code', '=', 'customer_checkin.user_code');
+            }
+        )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+        ->distinct('users.id')->count();
+
+ 
+      $this_week =  User::where('route_code', auth()->user()->route_code)->joinSub(
+               checkin::select('user_code')
+                  ->whereBetween('created_at', [$thisWeekStart, $thisWeekEnd])
+                  ->groupBy('user_code'),
+               'customer_checkin',
+               function ($join) {
+                  $join->on('users.user_code', '=', 'customer_checkin.user_code');
+               }
+         )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+         ->distinct('users.id')->count();
+         
+         
+
+      $last_week = User::where('route_code', auth()->user()->route_code)->joinSub(
+         checkin::select('user_code')
+             ->whereBetween('created_at', [$lastWeekStart, $lastWeekEnd])
+             ->groupBy('user_code'),
+         'customer_checkin',
+         function ($join) {
+             $join->on('users.user_code', '=', 'customer_checkin.user_code');
+         }
+     )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+     ->distinct('users.id')->count();
+
+      $this_month = User::where('route_code', auth()->user()->route_code)->joinSub(
+         checkin::select('user_code')
+             ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
+             ->groupBy('user_code'),
+         'customer_checkin',
+         function ($join) {
+             $join->on('users.user_code', '=', 'customer_checkin.user_code');
+         }
+     )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+     ->distinct('users.id')->count();
+
+
+      $last_month =  User::where('route_code', auth()->user()->route_code)->joinSub(
+         checkin::select('user_code')
+             ->whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])
+             ->groupBy('user_code'),
+         'customer_checkin',
+         function ($join) {
+             $join->on('users.user_code', '=', 'customer_checkin.user_code');
+         }
+     )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+     ->distinct('users.id')->count();
 
       (object)$data = [
          'status' => 200,
          'success' => true,
+         "message" => "Reports data",
          "data" => (object)[
-            'van_sales' =>
-               [
-                  'today' => Orders::where('order_type', 'Van sales')->today()->sum('price_total'),
-                  'yesterday' => Orders::where('order_type', 'Van sales')->yesterday()->sum('price_total'),
-                  'this_week' => Orders::where('order_type', 'Van sales')->currentWeek()->sum('price_total'),
-                  'last_week' => Orders::where('order_type', 'Van sales')->lastWeek()->sum('price_total'),
-                  'this_month' => Orders::where('order_type', 'Van sales')->currentMonth()->sum('price_total'),
-                  'last_month' => Orders::where('order_type', 'Van sales')->lastMonth()->sum('price_total'),
+            'van_sales' => [
+               'today' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Van sales')->whereDate('created_at', $todayDate)->sum('price_total'),
+               'yesterday' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Van sales')->whereDate('created_at', Carbon::yesterday())->sum('price_total'),
+               'this_week' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Van sales')->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('price_total'),
+               'last_week' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Van sales')->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])->sum('price_total'),
+               'this_month' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Van sales')->whereMonth('created_at', Carbon::now()->month)->sum('price_total'),
+               'last_month' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Van sales')->whereMonth('created_at', Carbon::now()->subMonth()->month)->sum('price_total'),
+           ],
+           'pre_orders' => [
+               'today' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Pre Order')->whereDate('created_at', $todayDate)->sum('price_total'),
+               'yesterday' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Pre Order')->whereDate('created_at', Carbon::yesterday())->sum('price_total'),
+               'this_week' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Pre Order')->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('price_total'),
+               'last_week' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Pre Order')->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])->sum('price_total'),
+               'this_month' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Pre Order')->whereMonth('created_at', Carbon::now()->month)->sum('price_total'),
+               'last_month' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Pre Order')->whereMonth('created_at', Carbon::now()->subMonth()->month)->sum('price_total'),
+           ],
+           'order_fulfillment' => [
+               'today' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_status', 'DELIVERED')->whereDate('created_at', $todayDate)->sum('price_total'),
+               'yesterday' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_status', 'DELIVERED')->whereDate('created_at', Carbon::yesterday())->sum('price_total'),
+               'this_week' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_status', 'DELIVERED')->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('price_total'),
+               'last_week' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_status', 'DELIVERED')->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])->sum('price_total'),
+               'this_month' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_status', 'DELIVERED')->whereMonth('created_at', Carbon::now()->month)->sum('price_total'),
+               'last_month' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_status', 'DELIVERED')->whereMonth('created_at', Carbon::now()->subMonth()->month)->sum('price_total'),
+           ],
 
-               ],
-            'pre_orders' => [
-               'today' => Orders::where('order_type', 'Pre Order')->today()->sum('price_total'),
-               'yesterday' => Orders::where('order_type', 'Pre Order')->yesterday()->sum('price_total'),
-               'this_week' => Orders::where('order_type', 'Pre Order')->currentWeek()->sum('price_total'),
-               'last_week' => Orders::where('order_type', 'Pre Order')->lastWeek()->sum('price_total'),
-               'this_month' => Orders::where('order_type', 'Pre Order')->currentMonth()->sum('price_total'),
-               'last_month' => Orders::where('order_type', 'Pre Order')->lastMonth()->sum('price_total'),
-
-            ],
-            'order_fulfillment' => [
-               'today' => Orders::where('order_status', 'DELIVERED')->today()->sum('price_total'),
-               'yesterday' => Orders::where('order_status', 'DELIVERED')->yesterday()->sum('price_total'),
-               'this_week' => Orders::where('order_status', 'DELIVERED')->currentWeek()->sum('price_total'),
-               'last_week' => Orders::where('order_type', 'DELIVERED')->lastWeek()->sum('price_total'),
-               'this_month' => Orders::where('order_type', 'DELIVERED')->currentMonth()->sum('price_total'),
-               'last_month' => Orders::where('order_type', 'DELIVERED')->lastMonth()->sum('price_total'),
-
-            ],
             'active_users' => [
                'today' => $today,
                'yesterday' => $yesterday,
                'this_week' => $this_week,
                'last_week' => $last_week,
-               'this_month' => $month,
+               'this_month' => $this_month,
                'last_month' => $last_month,
                "user_count" => $all,
 
             ],
             'customers_visits' => [
-               'today' => checkin::select('customer_id', 'updated_at')->today()->groupBy('customer_id')->count(),
-               'yesterday' => checkin::select('customer_id', 'updated_at')->yesterday()->groupBy('customer_id')->count(),
-               'this_week' => checkin::select('customer_id', 'updated_at')->currentWeek()->groupBy('customer_id')->count(),
-               'last_week' => checkin::select('customer_id', 'updated_at')->lastWeek()->groupBy('customer_id')->count(),
-               'this_month' => checkin::select('customer_id', 'updated_at')->currentMonth()->groupBy('customer_id')->count(),
-               'last_month' => checkin::select('customer_id', 'updated_at')->lastMonth()->groupBy('customer_id')->count(),
-
-            ],
+               'today' => checkin::whereIn('customer_id', $assignedCustomerIds)->select('customer_id', 'updated_at')
+                   ->whereDate('updated_at', $todayDate)
+                   ->groupBy('customer_id')
+                   ->count(),
+                   
+               'yesterday' => checkin::whereIn('customer_id', $assignedCustomerIds)->select('customer_id', 'updated_at')
+                   ->whereDate('updated_at', Carbon::yesterday())
+                   ->groupBy('customer_id')
+                   ->count(),
+               'this_week' => checkin::whereIn('customer_id', $assignedCustomerIds)->select('customer_id', 'updated_at')
+                   ->whereBetween('updated_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                   ->groupBy('customer_id')
+                   ->count(),
+               'last_week' => checkin::whereIn('customer_id', $assignedCustomerIds)->select('customer_id', 'updated_at')
+                   ->whereBetween('updated_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
+                   ->groupBy('customer_id')
+                   ->count(),
+               'this_month' => checkin::whereIn('customer_id', $assignedCustomerIds)->select('customer_id', 'updated_at')
+                   ->whereMonth('updated_at', Carbon::now()->month)
+                   ->groupBy('customer_id')
+                   ->count(),
+               'last_month' => checkin::whereIn('customer_id', $assignedCustomerIds)->select('customer_id', 'updated_at')
+                   ->whereMonth('updated_at', Carbon::now()->subMonth()->month)
+                   ->groupBy('customer_id')
+                   ->count(),
+           ],
          ]
       ];
       return response()->json($data, 200);
    }
+
+
    public function vanSalesToday()
    {
       return response()->json([
