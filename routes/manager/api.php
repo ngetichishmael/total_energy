@@ -54,5 +54,20 @@ Route::group(['namespace' => 'Api'], function () {
 
        Route::get('/manager/reports/data', [ReportsController::class, 'reports']);
 
+       Route::get('/manager/vansales/today', [ReportsController::class, 'vanSalesToday']);
+       Route::get('/manager/vansales/last-week', [ReportsController::class, 'vanSalesWeek']);
+       Route::get('/manager/vansales/last-month', [ReportsController::class, 'vanSalesMonth']);
+ 
+       Route::get('/manager/preorder/today', [ReportsController::class, 'preOrderToday']);
+       Route::get('/manager/preorder/yesterday', [ReportsController::class, 'preOrderYesterday']);
+       Route::get('/manager/preorder/current-week', [ReportsController::class, 'preOrderThisWeek']);
+       Route::get('/manager/preorder/last-week', [ReportsController::class, 'preOrderLastWeek']);
+       Route::get('/manager/preorder/current-month', [ReportsController::class, 'preOrderThisMonth']);
+       Route::get('/manager/preorder/last-month', [ReportsController::class, 'preOrderLastMonth']);
+ 
+       Route::get('/manager/order-fulfillment/today', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'orderFulfillmentToday']);
+       Route::get('/manager/order-fulfillment/last-week', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'orderFulfillmentWeek']);
+       Route::get('/manager/order-fulfillment/last-month', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'orderFulfillmentMonth']);
+
    });
 });
