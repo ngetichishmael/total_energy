@@ -212,66 +212,286 @@ class ReportsController extends Controller
    }
 
 
+   
    public function vanSalesToday()
    {
-      return response()->json([
-         'status' => 200,
-         'success' => true,
-         "message" => "Van Sales for Today",
-         'data' => Orders::where('order_type', 'Van sales')->today()->get(),
-      ]);
+       $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
+       $todayStart = Carbon::now()->startOfDay();
+       $todayEnd = Carbon::now()->endOfDay();
+       
+       return response()->json([
+           'status' => 200,
+           'success' => true,
+           'message' => "Van Sales for Today",
+           'data' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+               $query->select('customers.id')
+                   ->from('customers')
+                   ->join('areas', 'customers.route_code', '=', 'areas.id')
+                   ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                   ->whereIn('subregions.region_id', $assignedRegions);
+           })
+           ->where('order_type', 'Van sales')
+           ->whereBetween('created_at', [$todayStart, $todayEnd])
+           ->with(['OrderItems', 'Customer', 'User'])
+           ->get(),
+       ]);
    }
+   
    public function vanSalesWeek()
    {
-      return response()->json([
-         'status' => 200,
-         'success' => true,
-         "message" => "Van Sales for last week",
-         'data' => Orders::where('order_type', 'Van sales')->lastWeek()->get(),
-      ]);
+       $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
+       $lastWeekStart = Carbon::now()->subWeek()->startOfWeek();
+       $lastWeekEnd = Carbon::now()->subWeek()->endOfWeek();
+       
+       return response()->json([
+           'status' => 200,
+           'success' => true,
+           'message' => "Van Sales for last week",
+           'data' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+               $query->select('customers.id')
+                   ->from('customers')
+                   ->join('areas', 'customers.route_code', '=', 'areas.id')
+                   ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                   ->whereIn('subregions.region_id', $assignedRegions);
+           })
+           ->where('order_type', 'Van sales')
+           ->whereBetween('created_at', [$lastWeekStart, $lastWeekEnd])
+           ->with(['OrderItems', 'Customer', 'User'])
+           ->get(),
+       ]);
    }
+   
    public function vanSalesMonth()
    {
-      return response()->json([
-         'status' => 200,
-         'success' => true,
-         "message" => "Van Sales for last month",
-         'data' => Orders::where('order_type', 'Van sales')->lastMonth()->get(),
-      ]);
+       $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
+       $lastMonthStart = Carbon::now()->subMonth()->startOfMonth();
+       $lastMonthEnd = Carbon::now()->subMonth()->endOfMonth();
+       
+       return response()->json([
+           'status' => 200,
+           'success' => true,
+           'message' => "Van Sales for last month",
+           'data' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+               $query->select('customers.id')
+                   ->from('customers')
+                   ->join('areas', 'customers.route_code', '=', 'areas.id')
+                   ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                   ->whereIn('subregions.region_id', $assignedRegions);
+           })
+           ->where('order_type', 'Van sales')
+           ->whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])
+           ->with(['OrderItems', 'Customer', 'User'])
+           ->get(),
+       ]);
    }
-   public function preOrderToday()
-   {
-      return response()->json([
-         'status' => 200,
-         'success' => true,
-         "message" => "Preorder for today",
-         'data' => Orders::where('order_type', 'Pre Order')->with(['OrderItems',
-            'Customer'=>function ($query) { $query->select('id','customer_name', 'user_code');
-            }])->today()->get(),
-      ]);
-   }
-   public function preOrderWeek()
-   {
-      return response()->json([
-         'status' => 200,
-         'success' => true,
-         "message" => "Preorder for last week",
-         'data' => Orders::where('order_type', 'Pre Order')->with(['OrderItems',
-            'Customer'=>function ($query) { $query->select('id','customer_name', 'user_code');
-            }])->lastWeek()->get(),
-      ]);
-   }
-   public function preOrderMonth()
-   {
-      return response()->json([
-         'status' => 200,
-         'success' => true,
-         "message" => "Preorder for last month",
-         'data' => Orders::where('order_type', 'Pre Order')->with(['OrderItems',
-            'Customer'=>function ($query) { $query->select('id','customer_name', 'user_code');
-            }])->lastMonth()->get()
-      ]);
-   }
+   
+   
+   
+
+      public function preOrderToday()
+      {
+         $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
+         $todayStart = Carbon::now()->startOfDay();
+         $todayEnd = Carbon::now()->endOfDay();
+         
+         return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => "Preorder for today",
+            'data' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+                  $query->select('customers.id')
+                     ->from('customers')
+                     ->join('areas', 'customers.route_code', '=', 'areas.id')
+                     ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                     ->whereIn('subregions.region_id', $assignedRegions);
+            })
+            ->where('order_type', 'Pre Order')
+            ->whereBetween('created_at', [$todayStart, $todayEnd])
+            ->with([
+                  'OrderItems' => function ($query) {
+                     $query->select('id', 'order_code', 'productID', 'product_name', 'quantity', 'selling_price', 'total_amount');
+                  },
+                  'Customer' => function ($query) {
+                     $query->select('id', 'customer_name', 'email', 'phone_number', 'image', 'address', 'customer_group', 'route_code');
+                  },
+                  'User' => function ($query) {
+                     $query->select('user_code', 'name', 'email', 'phone_number');
+                  },
+            ])
+            ->get(),
+         ]);
+      }
+
+      public function preOrderYesterday()
+      {
+         $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
+         $yesterdayStart = Carbon::now()->subDay()->startOfDay();
+         $yesterdayEnd = Carbon::now()->subDay()->endOfDay();
+         
+         return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => "Preorder for yesterday",
+            'data' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+                  $query->select('customers.id')
+                     ->from('customers')
+                     ->join('areas', 'customers.route_code', '=', 'areas.id')
+                     ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                     ->whereIn('subregions.region_id', $assignedRegions);
+            })
+            ->where('order_type', 'Pre Order')
+            ->whereBetween('created_at', [$yesterdayStart, $yesterdayEnd])
+            ->with([
+                  'OrderItems' => function ($query) {
+                     $query->select('id', 'order_code', 'productID', 'product_name', 'quantity', 'selling_price', 'total_amount');
+                  },
+                  'Customer' => function ($query) {
+                     $query->select('id', 'customer_name', 'email', 'phone_number', 'image', 'address', 'customer_group', 'route_code');
+                  },
+                  'User' => function ($query) {
+                     $query->select('user_code', 'name', 'email', 'phone_number');
+                  },
+            ])
+            ->get(),
+         ]);
+      }
+
+      public function preOrderThisWeek()
+      {
+         $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
+         $thisWeekStart = Carbon::now()->startOfWeek();
+         $thisWeekEnd = Carbon::now()->endOfWeek();
+         
+         return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => "Preorder for this week",
+            'data' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+                  $query->select('customers.id')
+                     ->from('customers')
+                     ->join('areas', 'customers.route_code', '=', 'areas.id')
+                     ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                     ->whereIn('subregions.region_id', $assignedRegions);
+            })
+            ->where('order_type', 'Pre Order')
+            ->whereBetween('created_at', [$thisWeekStart, $thisWeekEnd])
+            ->with([
+                  'OrderItems' => function ($query) {
+                     $query->select('id', 'order_code', 'productID', 'product_name', 'quantity', 'selling_price', 'total_amount');
+                  },
+                  'Customer' => function ($query) {
+                     $query->select('id', 'customer_name', 'email', 'phone_number', 'image', 'address', 'customer_group', 'route_code');
+                  },
+                  'User' => function ($query) {
+                     $query->select('user_code', 'name', 'email', 'phone_number');
+                  },
+            ])
+            ->get(),
+         ]);
+      }
+
+      public function preOrderLastWeek()
+      {
+         $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
+         $lastWeekStart = Carbon::now()->subWeek()->startOfWeek();
+         $lastWeekEnd = Carbon::now()->subWeek()->endOfWeek();
+         
+         return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => "Preorder for Last week",
+            'data' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+                  $query->select('customers.id')
+                     ->from('customers')
+                     ->join('areas', 'customers.route_code', '=', 'areas.id')
+                     ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                     ->whereIn('subregions.region_id', $assignedRegions);
+            })
+            ->where('order_type', 'Pre Order')
+            ->whereBetween('created_at', [$lastWeekStart, $lastWeekEnd])
+            ->with([
+               'OrderItems' => function ($query) {
+                   $query->select('id', 'order_code', 'productID', 'product_name', 'quantity', 'selling_price', 'total_amount');
+               },
+               'Customer' => function ($query) {
+                   $query->select('id', 'customer_name', 'email', 'phone_number', 'image', 'address', 'customer_group', 'route_code');
+               },
+               'User' => function ($query) {
+                   $query->select('user_code', 'name', 'email', 'phone_number');
+               },
+           ])
+           ->get(),
+         ]);
+      }
+
+      public function preOrderThisMonth()
+      {
+         $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
+         $thisMonthStart = Carbon::now()->startOfMonth();
+         $thisMonthEnd = Carbon::now()->endOfMonth();
+         
+         return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => "Preorder for this month",
+            'data' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+                  $query->select('customers.id')
+                     ->from('customers')
+                     ->join('areas', 'customers.route_code', '=', 'areas.id')
+                     ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                     ->whereIn('subregions.region_id', $assignedRegions);
+            })
+            ->where('order_type', 'Pre Order')
+            ->whereBetween('created_at', [$thisMonthStart, $thisMonthEnd])
+            ->with([
+                  'OrderItems' => function ($query) {
+                     $query->select('id', 'order_code', 'productID', 'product_name', 'quantity', 'selling_price', 'total_amount');
+                  },
+                  'Customer' => function ($query) {
+                     $query->select('id', 'customer_name', 'email', 'phone_number', 'image', 'address', 'customer_group', 'route_code');
+                  },
+                  'User' => function ($query) {
+                     $query->select('user_code', 'name', 'email', 'phone_number');
+                  },
+            ])
+            ->get(),
+         ]);
+      }
+
+      public function preOrderLastMonth()
+      {
+         $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
+         $lastMonthStart = Carbon::now()->subMonth()->startOfMonth();
+         $lastMonthEnd = Carbon::now()->subMonth()->endOfMonth();
+         
+         return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => "Preorder for last month",
+            'data' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+                  $query->select('customers.id')
+                     ->from('customers')
+                     ->join('areas', 'customers.route_code', '=', 'areas.id')
+                     ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                     ->whereIn('subregions.region_id', $assignedRegions);
+            })
+            ->where('order_type', 'Pre Order')
+            ->whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])
+            ->with([
+               'OrderItems' => function ($query) {
+                   $query->select('id', 'order_code', 'productID', 'product_name', 'quantity', 'selling_price', 'total_amount');
+               },
+               'Customer' => function ($query) {
+                   $query->select('id', 'customer_name', 'email', 'phone_number', 'image', 'address', 'customer_group', 'route_code');
+               },
+               'User' => function ($query) {
+                   $query->select('user_code', 'name', 'email', 'phone_number');
+               },
+           ])
+           ->get(),
+         ]);
+      }
+
    public function orderFulfillmentToday()
    {
       return response()->json([
