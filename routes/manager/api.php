@@ -68,9 +68,8 @@ Route::group(['namespace' => 'Api'], function () {
        Route::get('/manager/preorder/current-month', [ReportsController::class, 'preOrderThisMonth']);
        Route::get('/manager/preorder/last-month', [ReportsController::class, 'preOrderLastMonth']);
  
-       Route::get('/manager/order-fulfillment/today', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'orderFulfillmentToday']);
-       Route::get('/manager/order-fulfillment/last-week', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'orderFulfillmentWeek']);
-       Route::get('/manager/order-fulfillment/last-month', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'orderFulfillmentMonth']);
+       Route::get('/manager/orders/completed', [ReportsController::class, 'orderFulfillment']);
+
 
    });
 });
