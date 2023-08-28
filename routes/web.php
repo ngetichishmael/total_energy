@@ -31,6 +31,8 @@ Auth::routes(['verify' => true]);
 Route::group(['middleware' => ['verified']], function () {
    Route::get('dashboard', 'app\sokoflowController@dashboard')->name('app.dashboard');
    Route::get('dashboard/users-summary', 'app\sokoflowController@user_summary')->name('app.dashboard.user.summary');
+   Route::get('dashboard/allocated', ['uses' => 'app\sokoflowController@allocated', 'as' => 'dashboard.allocated']);
+   Route::get('dashboard/allocated/users', ['uses' => 'app\sokoflowController@allocatedusers', 'as' => 'dashboard.allocated.users']);
 
 
    Route::resource('regions', Territory\RegionController::class)->names([

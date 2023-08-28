@@ -91,11 +91,11 @@
                   <i class="ti ti-lock ti-xs me-1"></i>Orders
                </a>
             </li>
-            <li class="nav-item">
-               <a class="nav-link" data-bs-toggle="tab" href="#payments-tab">
-                  <i class="ti ti-currency-dollar ti-xs me-1"></i>Payments
-               </a>
-            </li>
+{{--            <li class="nav-item">--}}
+{{--               <a class="nav-link" data-bs-toggle="tab" href="#payments-tab">--}}
+{{--                  <i class="ti ti-currency-dollar ti-xs me-1"></i>Payments--}}
+{{--               </a>--}}
+{{--            </li>--}}
          </ul>
 
          <div class="tab-content">
