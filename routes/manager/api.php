@@ -55,8 +55,11 @@ Route::group(['namespace' => 'Api'], function () {
        Route::get('/manager/reports/data', [ReportsController::class, 'reports']);
 
        Route::get('/manager/vansales/today', [ReportsController::class, 'vanSalesToday']);
-       Route::get('/manager/vansales/last-week', [ReportsController::class, 'vanSalesWeek']);
-       Route::get('/manager/vansales/last-month', [ReportsController::class, 'vanSalesMonth']);
+       Route::get('/manager/vansales/yesterday', [ReportsController::class, 'vanSalesYesterday']);
+       Route::get('/manager/vansales/current-week', [ReportsController::class, 'vanSalesThisWeek']);
+       Route::get('/manager/vansales/last-week', [ReportsController::class, 'vanSalesLastWeek']);
+       Route::get('/manager/vansales/current-month', [ReportsController::class, 'vanSalesThisMonth']);
+       Route::get('/manager/vansales/last-month', [ReportsController::class, 'vanSalesLastMonth']);
  
        Route::get('/manager/preorder/today', [ReportsController::class, 'preOrderToday']);
        Route::get('/manager/preorder/yesterday', [ReportsController::class, 'preOrderYesterday']);
