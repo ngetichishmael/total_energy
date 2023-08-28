@@ -12,6 +12,8 @@
   'customers.index' => 'App\\Http\\Livewire\\Customers\\Index',
   'customers.order' => 'App\\Http\\Livewire\\Customers\\Order',
   'customers.region' => 'App\\Http\\Livewire\\Customers\\Region',
+  'dashboard.allocatedusers' => 'App\\Http\\Livewire\\Dashboard\\Allocatedusers',
+  'dashboard.allocations' => 'App\\Http\\Livewire\\Dashboard\\Allocations',
   'dashboard.brand-chart' => 'App\\Http\\Livewire\\Dashboard\\BrandChart',
   'dashboard.catergory-chart' => 'App\\Http\\Livewire\\Dashboard\\CatergoryChart',
   'dashboard.dashboard' => 'App\\Http\\Livewire\\Dashboard\\Dashboard',

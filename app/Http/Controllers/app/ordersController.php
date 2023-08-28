@@ -13,6 +13,7 @@ use App\Models\Orders as Order;
 use App\Models\Order_items;
 use App\Models\order_payments;
 use App\Models\products\product_information;
+use App\Models\products\product_inventory;
 use App\Models\products\product_price;
 use App\Models\suppliers\suppliers;
 use App\Models\User;
@@ -20,6 +21,7 @@ use App\Models\warehousing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
@@ -209,7 +211,13 @@ class ordersController extends Controller
                 return redirect()->route('orders.pendingorders');
             }
         }
-
+       for ($i = 0; $i < count($request->allocate); $i++) {
+          $check = product_inventory::where('productID', $request->item_code[$i])->first();
+          if ($check->current_stock < $request->allocate[$i]) {
+             Session()->flash('error', 'Current stock ' . $check->current_stock . ' is less than your allocation quantity of ' .$request->allocate[$i]);
+             return Redirect::back();
+          }
+       }
         $delivery = Delivery::updateOrCreate(
             [
                 "business_code" => Str::random(20),
@@ -276,7 +284,7 @@ class ordersController extends Controller
 
         if ($user) {
             $phone_number = $user->phone_number;
-            
+
             try {
                 $message = "An order (Reference Number: $request->order_code) from Total Energies has been allocated to you and awaits your acceptance. Kindly check your account for further details.";
                 info($message);
@@ -287,7 +295,7 @@ class ordersController extends Controller
         } else {
             return response()->json(['message' => 'User not found'], 404);
         }
-    
+
 
         $random = Str::random(20);
         $activityLog = new activity_log();
@@ -426,7 +434,7 @@ class ordersController extends Controller
         Session::flash('success', 'Delivery created and orders allocated to a user');
         return redirect()->route('orders.pendingorders');
     }
-    
+
     public function reAllocateOrders(Request $request)
     {
         $this->validate($request, [
