@@ -24,11 +24,25 @@ class DashboardAppController extends Controller
    {
         $currentUserRouteCode = auth()->user()->route_code;
 
-        $all = User::where('route_code', $currentUserRouteCode)
-            ->where('id', '<>', auth()->user()->id) 
-            ->count();
-        
-        
+        // $all = User::where('route_code', $currentUserRouteCode)
+        //     ->where('id', '<>', auth()->user()->id) 
+        //     ->count();
+             //Active Users
+        $checking = checkin::select('user_code')
+             ->groupBy('user_code');
+         
+         $currentUserRouteCode = auth()->user()->route_code;
+         $currentUserCode = auth()->user()->user_code;
+         
+         $all = User::where('route_code', $currentUserRouteCode)
+             ->joinSub($checking, 'customer_checkin', function ($join) {
+                 $join->on('users.user_code', '=', 'customer_checkin.user_code');
+             })
+             ->where('users.user_code', '!=', $currentUserCode) // Exclude the logged-in user
+             ->count();
+         
+         
+                
         // Calculate date ranges
         $todayStart = Carbon::now()->startOfDay();
         $todayEnd = Carbon::now()->endOfDay();
