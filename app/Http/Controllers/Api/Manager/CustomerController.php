@@ -71,11 +71,14 @@ class CustomerController extends Controller
         if ($imagePath && file_exists(public_path($imagePath))) {
             $imageUrl = asset($imagePath);
         }
-        
+
    
        // Return the customer details along with the image URL
        return response()->json([
-           'customer' => [
+            'status' => 200,
+            'success' => true,
+            'message' => 'Customer details retrieved successfully',
+            'customer' => [
                'id' => $customer->id,
                'soko_uuid' => $customer->soko_uuid,
                'external_uuid' => $customer->external_uuid,
