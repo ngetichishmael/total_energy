@@ -9,30 +9,49 @@ use Livewire\WithPagination;
 
 class Index extends Component
 {
-   protected $paginationTheme = 'bootstrap';
-   public $start;
-   public $end;
-   use WithPagination;
-   public function render()
-   {
-      return view('livewire.target.index', [
-         'targets' => $this->data()
-      ]);
-   }
-   public function data()
-   {
-      $query = SalesTarget::all();
-      // if (!is_null($this->start)) {
-      //    if (Carbon::parse($this->start)->equalTo(Carbon::parse($this->end))) {
-      //       $query->whereDate('created_at', 'LIKE', "%" . $this->start . "%");
-      //    } else {
-      //       if (is_null($this->end)) {
-      //          $this->end = Carbon::now()->endOfMonth()->format('Y-m-d');
-      //       }
-      //       $query->whereBetween('created_at', [$this->start, $this->end]);
-      //    }
-      // }
+    protected $paginationTheme = 'bootstrap';
+    public $start;
+    public $end;
+    public $search = '';
+    public $perPage = 15; // Set a default per page value
+    
+    use WithPagination;
 
-      return $query;
+    public function updatedStart($value)
+   {
+      $this->start = $value;
    }
+
+   public function updatedEnd($value)
+   {
+      $this->end = $value;
+   }
+
+
+   public function render()
+    {
+        return view('livewire.target.index', [
+            'targets' => $this->data()
+        ]);
+    }
+
+    public function data()
+    {
+        $query = SalesTarget::query()
+            ->whereRaw('AchievedSalesTarget >= SalesTarget');
+    
+        if ($this->start && $this->end) {
+            $query->whereBetween('created_at', [$this->start, $this->end]);
+        }
+    
+        if ($this->search) {
+            $query->whereHas('user', function ($subquery) {
+                $subquery->where('name', 'like', '%' . $this->search . '%');
+            });
+        }
+    
+        return $query->paginate($this->perPage);
+    }
+    
+    
 }
