@@ -43,13 +43,10 @@ class customersController extends Controller
     public function index(Request $request, $businessCode)
     {
         $user = $request->user();
-
-        // $assigned_regions = AssignedRegion::where('user_code', $user->user_code)
-        //     ->distinct()
-        //     ->pluck('region_id');
+    
         $subregions = Subregion::where('region_id', $user->route_code)
             ->pluck('id');
-
+    
         if ($subregions->isEmpty()) {
             return response()->json([
                 "user" => $user,
@@ -58,8 +55,10 @@ class customersController extends Controller
                 "data" => [],
             ]);
         }
+        
         $areas = Area::whereIn('subregion_id', $subregions->toArray())
             ->pluck('id');
+        
         if ($areas->isEmpty()) {
             return response()->json([
                 "user" => $user,
@@ -68,15 +67,36 @@ class customersController extends Controller
                 "data" => [],
             ]);
         }
-        $query = customers::with('Wallet')->whereIn('route_code', $areas->toArray())->orderBy('id', 'DESC')->get();
-
+        
+        $customers = customers::with('Wallet')
+            ->whereIn('route_code', $areas->toArray())
+            ->orderBy('id', 'DESC')
+            ->get();
+        
+        // Construct the default image URL
+        $defaultImageUrl = asset('images/no-image.png');
+        
+        // Modify the image URLs
+        foreach ($customers as $customer) {
+            $imageFileName = $customer->image;
+            $imagePath = public_path('images/' . $imageFileName);
+            $imageUrl = file_exists($imagePath) ? asset('images/' . $imageFileName) : $defaultImageUrl;
+            
+            $customer->image = $imageUrl;
+        }
+    
         return response()->json([
             "user" => $user,
             "success" => true,
             "message" => "Customer List",
-            "data" => $query,
+            "data" => $customers,
         ]);
     }
+    
+    
+    
+    
+    
 
     /**
      * Customer details
