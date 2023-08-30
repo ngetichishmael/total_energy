@@ -41,6 +41,12 @@ class Index extends Component
             'targets' => $data
         ]);
     }
+
+    public function applyFilters()
+   {
+      $this->resetPage(); // Reset pagination when applying filters
+   }
+
     
     
     

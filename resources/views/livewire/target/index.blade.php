@@ -14,17 +14,16 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label for="validationTooltip01">Start Date</label>
-                <input  name="startDate" type="date" class="form-control" id="validationTooltip01"
-                    placeholder="YYYY-MM-DD HH:MM" required />
+                <input wire:model="start" name="startDate" type="date" class="form-control" id="validationTooltip01" required />
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
                 <label for="validationTooltip01">End Date</label>
-                <input name="endDate" type="date" class="form-control" id="validationTooltip01"
-                    placeholder="YYYY-MM-DD HH:MM" required />
+                <input wire:model="end" name="endDate" type="date" class="form-control" id="validationTooltip01" required />
             </div>
         </div>
+
         <div class="col-md-2">
             <div class="form-group">
                 <label for="">Perpage: </label>
