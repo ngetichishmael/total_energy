@@ -34,6 +34,19 @@ class CustomerController extends Controller
             ->whereIn('subregions.region_id', $assignedRegions);
     })->get();
     
+    
+       // Construct the default image URL
+       $defaultImageUrl = asset('images/no-image.png');
+        
+       // Modify the image URLs
+       foreach ($customers as $customer) {
+           $imageFileName = $customer->image;
+           $imagePath = public_path('images/' . $imageFileName);
+           $imageUrl = file_exists($imagePath) ? asset('images/' . $imageFileName) : $defaultImageUrl;
+           
+           $customer->image = $imageUrl;
+       }
+
    //  return response()->json($customers);
 
       // $user = Auth::user(); // Fetch the authenticated user
@@ -62,62 +75,21 @@ class CustomerController extends Controller
            return response()->json(['message' => 'Customer not found'], 404);
        }
    
-        // Construct the image URL
-        $defaultImageUrl = asset('images/no-image.png');
-        $imagePath = $customer->image;
-        $imageUrl = $defaultImageUrl;
-    
-        // Check if the image file exists
-        if ($imagePath && file_exists(public_path($imagePath))) {
-            $imageUrl = asset($imagePath);
-        }
-
+       $defaultImageUrl = asset('images/no-image.png');
+   
+       // Modify the image URL
+       $imageFileName = $customer->image;
+       $imagePath = public_path('images/' . $imageFileName);
+       $imageUrl = file_exists($imagePath) ? asset('images/' . $imageFileName) : $defaultImageUrl;
+   
+       $customer->image = $imageUrl;
    
        // Return the customer details along with the image URL
        return response()->json([
-            'status' => 200,
-            'success' => true,
-            'message' => 'Customer details retrieved successfully',
-            'customer' => [
-               'id' => $customer->id,
-               'soko_uuid' => $customer->soko_uuid,
-               'external_uuid' => $customer->external_uuid,
-               'source' => $customer->source,
-               'customer_name' => $customer->customer_name,
-               'account' => $customer->account,
-               'manufacturer_number' => $customer->manufacturer_number,
-               'vat_number' => $customer->vat_number,
-               'approval' => $customer->approval,
-               'delivery_time' => $customer->delivery_time,
-               'address' => $customer->address,
-               'city' => $customer->city,
-               'province' => $customer->province,
-               'postal_code' => $customer->postal_code,
-               'country' => $customer->country,
-               'latitude' => $customer->latitude,
-               'longitude' => $customer->longitude,
-               'contact_person' => $customer->contact_person,
-               'telephone' => $customer->telephone,
-               'customer_group' => $customer->customer_group,
-               'customer_secondary_group' => $customer->customer_secondary_group,
-               'price_group' => $customer->price_group,
-               'route' => $customer->route,
-               'route_code' => $customer->route_code,
-               'region_id' => $customer->region_id,
-               'subregion_id' => $customer->subregion_id,
-               'zone_id' => $customer->zone_id,
-               'unit_id' => $customer->unit_id,
-               'branch' => $customer->branch,
-               'status' => $customer->status,
-               'email' => $customer->email,
-               'image' => $imageUrl,
-               'phone_number' => $customer->phone_number,
-               'business_code' => $customer->business_code,
-               'created_by' => $customer->created_by,
-               'updated_by' => $customer->updated_by,
-               'created_at' => $customer->created_at,
-               'updated_at' => $customer->updated_at,
-           ]
+           'status' => 200,
+           'success' => true,
+           'message' => 'Customer details retrieved successfully',
+           'customer' => $customer
        ]);
    }
    
