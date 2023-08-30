@@ -51,19 +51,20 @@ class Index extends Component
 
     public function exportExcel()
     {
-        $data = $this->data();
+        $data = $this->data; // Change data() to data
         $fileName = 'targets.xlsx';
-
+    
         return Excel::download(new TargetExport($data), $fileName);
     }
-
+    
     public function exportCsv()
     {
-        $data = $this->data();
+        $data = $this->data; // Change data() to data
         $fileName = 'targets.csv';
-
+    
         return Excel::download(new TargetExport($data), $fileName, \Maatwebsite\Excel\Excel::CSV);
     }
+    
 
     
     
