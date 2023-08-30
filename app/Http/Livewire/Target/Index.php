@@ -7,6 +7,13 @@ use Livewire\Component;
 use App\Models\SalesTarget;
 use Livewire\WithPagination;
 
+use Excel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+
+
 class Index extends Component
 {
     protected $paginationTheme = 'bootstrap';
@@ -42,10 +49,21 @@ class Index extends Component
         ]);
     }
 
-    public function applyFilters()
-   {
-      $this->resetPage(); // Reset pagination when applying filters
-   }
+    public function exportExcel()
+    {
+        $data = $this->data();
+        $fileName = 'targets.xlsx';
+
+        return Excel::download(new TargetExport($data), $fileName);
+    }
+
+    public function exportCsv()
+    {
+        $data = $this->data();
+        $fileName = 'targets.csv';
+
+        return Excel::download(new TargetExport($data), $fileName, \Maatwebsite\Excel\Excel::CSV);
+    }
 
     
     
