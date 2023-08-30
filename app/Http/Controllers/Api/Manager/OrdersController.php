@@ -83,6 +83,27 @@ class OrdersController extends Controller
         }
         return $customers->toArray();
     }
+
+    public function showOrderDetails($order_code)
+    {
+        // Retrieve the order based on the provided order code
+        $order = Orders::where('order_code', $order_code)
+            ->with('customer', 'user', 'orderitems')
+            ->first();
+    
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+    
+        return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => 'Order details retrieved successfully',
+            'data' => $order
+        ]);
+    }
+    
+
     public function allOrdersUsingAPIResource(Request $request)
     {
         return response()->json([
