@@ -1,4 +1,5 @@
-<div class="card">
+<div>
+    <div class="card">
     <h5 class="card-header"></h5>
     <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50 row">
         <div class="col-md-3 user_role">
@@ -94,4 +95,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>
