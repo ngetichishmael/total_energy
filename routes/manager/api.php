@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Manager\TerritoryInformationsController;
 use App\Http\Controllers\Api\Manager\UsersController;
 use App\Http\Controllers\Api\Manager\RoutesController;
 use App\Http\Controllers\Api\Manager\ReportsController;
+use App\Http\Controllers\Api\Manager\VisitsController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,9 @@ Route::group(['namespace' => 'Api'], function () {
 
        Route::get('/manager/all/orders', [OrdersController::class, 'allOrders']);
        Route::get('/manager/order/{order_code}/details', [OrdersController::class, 'showOrderDetails']);
+       Route::post('/manager/orders/allocation', [OrdersController::class, 'allocatingOrders']);
+
+       Route::get('/manager/customers/checkins', [VisitsController::class, 'getCustomerCheckins']);
 
 
        Route::get('/manager/routes/data', [RoutesController::class, 'getRoutes']);

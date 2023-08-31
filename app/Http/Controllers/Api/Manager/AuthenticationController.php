@@ -134,7 +134,7 @@ class AuthenticationController extends Controller
                     'code' => $code
                 ]);
     
-                $message = "A request has been received to reset your account login credentials. To proceed with the password reset process, use this OTP: " . $code;
+                $message = "Total Energies : A request has been received to reset your account login credentials. To proceed with the password reset process, use this OTP: " . $code;
                 info($message);
                 (new SMS())($user->phone_number, $message);
     
