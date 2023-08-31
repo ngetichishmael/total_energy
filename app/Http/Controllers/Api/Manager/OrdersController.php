@@ -133,7 +133,7 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function allocateOrders2(Request $request)
+    public function allocatingOrders(Request $request)
     {
         $route_code = $request->user()->route_code;
         $this->validate($request, [
