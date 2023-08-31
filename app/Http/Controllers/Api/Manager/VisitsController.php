@@ -62,7 +62,7 @@ class VisitsController extends Controller
         return response()->json([
             'status' => 200,
             'success' => true,
-            'message' => "Assigned customer check-ins",
+            'message' => "Customer check-ins",
             'data' => $customerCheckins,
         ]);
     }
