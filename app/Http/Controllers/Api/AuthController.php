@@ -139,33 +139,45 @@ class AuthController extends Controller
     * @return response()
     */
 
-   public function sendOTP($number)
-   {
-
-
-      $user = FacadesDB::table('users')->where('phone_number', $number)->first();
-
-      if ($user) {
-         try {
-
-            $code = rand(100000, 999999);
-
-            UserCode::updateOrCreate([
-               'user_id' => $user->id,
-               'code' => $code
-            ]);
-            $message = "Your total reset OTP is  " . $code;
-            info($message);
-            (new SMS())($user->phone_number, $message);
-
-            return response()->json(['data' => $user, 'otp' => $code]);
-         } catch (ExceptionHandler $e) {
-            return response()->json(['message' => 'Error occured while trying to send OTP code']);
-         }
-      } else {
-         return response()->json(['message' => 'User is not registered!'], 500);
-      }
-   }
+    public function sendOTP($number)
+    {
+        $user = FacadesDB::table('users')->where('phone_number', $number)->first();
+    
+        if ($user) {
+            try {
+                $recentCode = UserCode::where('user_id', $user->id)
+                    ->where('created_at', '>=', now()->subMinutes(5))
+                    ->latest('created_at')
+                    ->first();
+    
+                if ($recentCode) {
+                    return response()->json([
+                        'message' => 'An OTP has already been sent. Try again after 5 minutes to request a new OTP.',
+                        'data' => $user,
+                        'recent_otp' => $recentCode->code,
+                    ], 400);
+                }
+    
+                $code = rand(100000, 999999);
+    
+                UserCode::updateOrCreate([
+                    'user_id' => $user->id,
+                    'code' => $code
+                ]);
+    
+                $message = "A request has been received to reset your account login credentials. To proceed with the password reset process, use this OTP: " . $code;
+                info($message);
+                (new SMS())($user->phone_number, $message);
+    
+                return response()->json(['data' => $user, 'otp' => $code]);
+            } catch (Exception $e) {
+                return response()->json(['message' => 'Error occurred while trying to send OTP code'], 500);
+            }
+        } else {
+            return response()->json(['message' => 'User not found!'], 404);
+        }
+    }
+    
 
    /**
     * verify otp

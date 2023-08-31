@@ -10,7 +10,7 @@ use App\Helpers\Helper;
 use App\Helpers\MKOCustomer;
 use App\Helpers\MKOEditCustomer;
 use App\Http\Controllers\Controller;
-use App\Models\AssignedRegion;
+use App\Models\Area;
 use App\Models\Cart;
 use App\Models\customers;
 use App\Models\customer\checkin;
@@ -21,6 +21,7 @@ use App\Models\Order_items;
 use App\Models\order_payments;
 use App\Models\Routes;
 use App\Models\Route_customer;
+use App\Models\Subregion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,10 +44,31 @@ class customersController extends Controller
     {
         $user = $request->user();
 
-        $assigned_regions = AssignedRegion::where('user_code', $user->user_code)
-            ->pluck('region_id')
-            ->toArray();
-        $query = customers::with('Wallet')->whereIn('route_code', $assigned_regions)->get();
+        // $assigned_regions = AssignedRegion::where('user_code', $user->user_code)
+        //     ->distinct()
+        //     ->pluck('region_id');
+        $subregions = Subregion::where('region_id', $user->route_code)
+            ->pluck('id');
+
+        if ($subregions->isEmpty()) {
+            return response()->json([
+                "user" => $user,
+                "success" => true,
+                "message" => "Customer List",
+                "data" => [],
+            ]);
+        }
+        $areas = Area::whereIn('subregion_id', $subregions->toArray())
+            ->pluck('id');
+        if ($areas->isEmpty()) {
+            return response()->json([
+                "user" => $user,
+                "success" => true,
+                "message" => "Customer List",
+                "data" => [],
+            ]);
+        }
+        $query = customers::with('Wallet')->whereIn('route_code', $areas->toArray())->orderBy('id', 'DESC')->get();
 
         return response()->json([
             "user" => $user,
@@ -75,6 +97,7 @@ class customersController extends Controller
     {
         $route_code = $request->user()->route_code;
         info("route_code=" . $route_code);
+
         switch ($route_code) {
             case 2:
                 $customerModel = MKOCustomer::class;

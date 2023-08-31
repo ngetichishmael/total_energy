@@ -26,19 +26,23 @@ Route::group(['namespace' => 'Api'], function () {
    | Authentication
    |--------------------------------------------------------------------------
    */
-   Route::post('/manager/login',  [AuthenticationController::class, 'login']);
-   
+   Route::post('/manager/login', [AuthenticationController::class, 'login']);
+   Route::post('/manager/reset/otp/{number}', [AuthenticationController::class, 'sendOTP']);
+   Route::post('/manger/verify/otp/{number}/{otp}', [AuthenticationController::class, 'verifyOTP']);
+   Route::post('/manager/reset/password/update', [AuthenticationController::class, 'updatePassword']);
    Route::post('signup', 'AuthController@userSignUp');
 
-
+   // Authenticated routes
    Route::middleware(['auth:sanctum'])->group(function () {
-      Route::get('/manager/{phonenumber}/details',  [AuthenticationController::class, 'user_details']);
-      
-      Route::get('/manager/customers', [CustomerController::class, 'getCustomers']);
-      Route::get('/manager/users', [UsersController::class, 'getUsers']);
-      Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
-      Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
-      Route::get('/manager/all/orders', [OrdersController::class, 'allOrders']);
-      Route::get('/manager/dashboard/data', [DashboardAppController::class, 'dashboard']);
+       Route::get('/manager/{phonenumber}/details', [AuthenticationController::class, 'user_details']);
+       Route::post('/manager/logout', [AuthenticationController::class, 'logout']);
+
+       Route::get('/manager/customers/list', [CustomerController::class, 'getCustomers']);
+       Route::get('/manager/dashboard/data', [DashboardAppController::class, 'dashboard']);
+
+       Route::get('/manager/users', [UsersController::class, 'getUsers']);
+       Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
+       Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
+       Route::get('/manager/all/orders', [OrdersController::class, 'allOrders']);
    });
 });

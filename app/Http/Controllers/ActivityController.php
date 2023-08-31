@@ -4,21 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\activity_log;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class ActivityController extends Controller
 {
 
-   use WithPagination;
+    use WithPagination;
 
-   protected $paginationTheme = 'bootstrap';
-   public $perPage = 25;
+    protected $paginationTheme = 'bootstrap';
+    public $perPage = 25;
     /**
      * Display a listing of the resource.
      *
@@ -26,64 +20,31 @@ class ActivityController extends Controller
      */
 
     public function __construct()
-     {
-         $this->middleware('auth');
-     }
-
-   public function index()
-   {
-      return view('livewire.activity.layout');
-   }
-
-   public function sales()
-   {
-      return view('app.activity.sales');
-   }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
     {
-        //
+        $this->middleware('auth');
     }
 
-   /**
-    * Display the specified resource.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-    */
-   public function show($id)
-   {
-      $activity = activity_log::whereId($id)->first();
-      $activities=activity_log::where('user_code',$activity->user_code )->get();
-      $user =User::where('user_code', $activity->user_code)->get();
-      return view('livewire.activity.view',compact('activity', 'activities','user'));
-   }
-
-   /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function index()
     {
-        //
+        return view('livewire.activity.layout');
+    }
+
+    public function sales()
+    {
+        return view('app.activity.sales');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function show($id)
     {
-        //
+        $activity = activity_log::whereId($id)->first();
+        $activities = activity_log::where('user_code', $activity->user_code)->get();
+        $user = User::where('user_code', $activity->user_code)->get();
+        return view('livewire.activity.view', compact('activity', 'activities', 'user'));
     }
 }

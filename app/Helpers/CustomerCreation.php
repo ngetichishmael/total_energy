@@ -5,19 +5,21 @@ namespace App\Helpers;
 use App\Models\Area;
 use App\Models\customers;
 use App\Models\MKOCustomer;
-use App\Models\Subregion;
 use Illuminate\Support\Str;
 
 class CustomerCreation
 {
-    public static function createCustomer($request, $source, $approved = "Approved")
+    public static function createCustomer($request, $source)
     {
         $image_path = $request->file('image')->store('image', 'public');
         $emailData = $request->email == null ? strtolower(str_replace(' ', '', $request->customer_name)) . '@totalenergies.com' : $request->email;
 
         $area = Area::whereId($request->route_code)->firstOrFail();
-        $subregion = $area->subregion ?? 1;
-        $region = $subregion->region ?? 1;
+        $subregion = $area->subregion_id ?? 1;
+        $region = $subregion->region_id ?? 1;
+        info('area :' . json_encode($area->id));
+        info('subregion :' . json_encode($subregion));
+        info('region :' . json_encode($region));
 
         $customer = customers::updateOrCreate(
             [
@@ -53,7 +55,9 @@ class CustomerCreation
                 'unit_id' => $request->route_code,
                 'branch' => $request->branch,
                 'created_by' => $request->user()->id,
-                'approval' => $approved,
+                'approval' => ($request->outlet === "Wholesalers" ? (
+                    in_array($request->route_code, [1, 5, 6, 7, 9, 10, 11]) ?
+                    "Not Approved" : "Approved") : "Approved"),
                 'business_code' => $request->business_code,
             ]
         );
