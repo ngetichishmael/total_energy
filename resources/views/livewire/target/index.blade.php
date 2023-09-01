@@ -1,45 +1,61 @@
-<div class="row">
-    <div class="col-md-3">
-        <label for="validationTooltip01">Start Date</label>
-        <input wire:model="start" name="start" type="date" class="form-control" id="validationTooltip01"
-            placeholder="YYYY-MM-DD HH:MM" required />
-    </div>
-    <div class="col-md-3">
-        <label for="validationTooltip01">End Date</label>
-        <input wire:model="end" name="startDate" type="date" class="form-control" id="validationTooltip01"
-            placeholder="YYYY-MM-DD HH:MM" required />
-    </div>
-    <div class="col-md-3">
-        <label for="">User Category</label>
-        <select wire:model="" class="form-control" disabled>`
-            <option value="" selected>select</option>
-            <option value=""></option>
+<div>
+    <div class="card">
+    <h5 class="card-header"></h5>
+    <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50 row">
+        <div class="col-md-3 user_role">
+            <div class="input-group input-group-merge">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i data-feather="search"></i></span>
+                </div>
+                <input wire:model.debounce.300ms="search" type="text" id="fname-icon" class="form-control"
+                    name="fname-icon" placeholder="Search" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="validationTooltip01">Start Date</label>
+                <input wire:model="start" name="startDate" type="date" class="form-control" id="validationTooltip01" required />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="validationTooltip01">End Date</label>
+                <input wire:model="end" name="endDate" type="date" class="form-control" id="validationTooltip01" required />
+            </div>
+        </div>
 
-        </select>
-    </div>
-    <div class="col-md-3">
-        <button type="button" class="btn btn-icon btn-outline-success" wire:click="export" wire:loading.attr="disabled"
-            data-toggle="tooltip" data-placement="top" title="Export Excel">
-            <img src="{{ asset('assets/img/excel.png') }}"alt="Export Excel" width="20" height="20"
-                data-toggle="tooltip" data-placement="top" title="Export Excel">Export to Excel
-        </button>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="">Perpage: </label>
+                <select wire:model="perPage" class="form-control">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="btn-group">
+                <button type="button" class="btn btn-icon btn-outline-primary dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" wire:loading.attr="disabled">
+                    <img src="{{ asset('assets/img/excel.png') }}" alt="Export Excel" width="15" height="15">
+                    Export
+                </button>
+                <div class="dropdown-menu dropdown-menu-left">
+                   <a class="dropdown-item" wire:click="exportExcel">Excel</a>
+                    <a class="dropdown-item" wire:click="exportCsv">CSV</a>  
+                    <a class="dropdown-item"  id="exportPdfBtn">PDF</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-3">
-        <label for="">Status</label>
-        <select wire:model="" class="form-control">`
-            <option value="" selected>select</option>
-            <option value=""></option>
+@include('partials.stickymenu')
 
-        </select>
-    </div>
-</div>
 <br>
 <div class="row">
-    @include('partials.stickymenu')
-
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="card card-default">
             <div class="card-body">
                 <table class="table table-striped table-bordered">
@@ -47,24 +63,25 @@
                         <tr>
                             <th>#</th>
                             <th>User Name</th>
-                            <th>User Type</th>
                             <th>Target</th>
                             <th>Achieved</th>
-                            <th>Action</th>
+                            <th>Deadline</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($targets as $key => $target)
-                            <tr>
-                                <td>{{ $target->User }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><a href="" class="btn btn-sm"
-                                        style="background-color: rgb(173, 37, 37);color:white">View</a></td>
-                            </tr>
-                        @endforeach
+                    @foreach ($targets as $key => $target)
+                        <tr>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $target->user->name ?? '' }}</td>
+                            <td>{{ number_format($target->SalesTarget) ?? '' }}</td>
+                            <td>{{ number_format($target->AchievedSalesTarget) ?? '' }}</td>
+                            <td>{{ $target->Deadline ?? '' }}</td>
+                            <td> <span class="badge badge-pill badge-light-success mr-1"> ACHIEVED </span></td>
+
+                        </tr>
+                    @endforeach
+
 
 
 
@@ -76,4 +93,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

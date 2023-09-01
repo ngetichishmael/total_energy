@@ -34,6 +34,19 @@ class CustomerController extends Controller
             ->whereIn('subregions.region_id', $assignedRegions);
     })->get();
     
+    
+       // Construct the default image URL
+       $defaultImageUrl = asset('images/no-image.png');
+        
+       // Modify the image URLs
+       foreach ($customers as $customer) {
+           $imageFileName = $customer->image;
+           $imagePath = public_path('images/' . $imageFileName);
+           $imageUrl = file_exists($imagePath) ? asset('images/' . $imageFileName) : $defaultImageUrl;
+           
+           $customer->image = $imageUrl;
+       }
+
    //  return response()->json($customers);
 
       // $user = Auth::user(); // Fetch the authenticated user
@@ -52,6 +65,35 @@ class CustomerController extends Controller
          "data" => $customers,
       ]);
    }
+
+   public function showCustomerDetails($customerId)
+   {
+       // Retrieve the customer based on the provided customer ID
+       $customer = customers::find($customerId);
+   
+       if (!$customer) {
+           return response()->json(['message' => 'Customer not found'], 404);
+       }
+   
+       $defaultImageUrl = asset('images/no-image.png');
+   
+       // Modify the image URL
+       $imageFileName = $customer->image;
+       $imagePath = public_path('images/' . $imageFileName);
+       $imageUrl = file_exists($imagePath) ? asset('images/' . $imageFileName) : $defaultImageUrl;
+   
+       $customer->image = $imageUrl;
+   
+       // Return the customer details along with the image URL
+       return response()->json([
+           'status' => 200,
+           'success' => true,
+           'message' => 'Customer details retrieved successfully',
+           'customer' => $customer
+       ]);
+   }
+   
+
 
    
    public function searchExternalCustomer(Request $request)

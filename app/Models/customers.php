@@ -92,8 +92,13 @@ class customers extends Model
      */
     public function Orders(): HasMany
     {
-        return $this->hasMany(Orders::class, 'id', 'customerID');
+        return $this->hasMany(Orders::class, 'customerID', 'id');
     }
+    
+    
+    
+    
+
     /**
      * Get the Wallet associated with the customers
      *
@@ -103,4 +108,6 @@ class customers extends Model
     {
         return $this->hasOne(EWallet::class, 'customer_id', 'id');
     }
+
+
 }
