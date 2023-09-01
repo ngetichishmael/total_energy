@@ -124,12 +124,8 @@
                                     {{ $contact->address }}
                                 </td>
                                 <td>
-                                    @if ($contact->Area && $contact->Area->Subregion && $contact->Area->Subregion->Region)
-                                        {!! $contact->Area->Subregion->Region->name !!}
-                                        @if ($contact->Area->Subregion->name)
-                                            , <br><i>{!! $contact->Area->Subregion->name !!}</i>
-                                        @endif
-                                    @endif
+                                    {!! $contact->Area->Subregion->Region->name ?? '' !!}
+                                    , <br><i>{!! $contact->Area->Subregion->name ?? '' !!}</i>
                                 </td>
                                 <td>
                                     {!! $contact->Area->name ?? '' !!}

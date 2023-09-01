@@ -25,50 +25,59 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    {!! Form::open([
-                        'route' => 'routes.store',
-                        'class' => 'row',
-                        'enctype' => 'multipart/form-data',
-                        'method' => 'post',
-                    ]) !!}
-                    {!! csrf_field() !!}
-                    <div class="form-group col-md-12 mb-1">
-                        <label for="">Routes</label>
-                        {!! Form::select('name', $zones, null, ['class' => 'form-control select2', 'multiple' => '']) !!}
-                    </div>
-                    <div class="row mb-1">
-                        <div class="form-group col-md-4">
-                            <label for="">Start Date</label>
-                            {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => '']) !!}
+                    <form action="{{ route('routes.store') }}" method="post" class="row" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group col-md-12 mb-1">
+                            <label for="name">Routes</label>
+                            <select name="name[]" class="form-control select2" multiple>
+                                @foreach ($zones as $zone)
+                                    <option value="{{ $zone }}">{{ $zone }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="">End Date</label>
-                            {!! Form::date('end_date', null, ['class' => 'form-control', 'required' => '']) !!}
+                        <div class="row mb-1">
+                            <div class="form-group col-md-4">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" name="start_date" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="end_date">End Date</label>
+                                <input type="date" name="end_date" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="status">Status</label>
+                                <select name="status" class="form-control" required>
+                                    <option value="">Choose status</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Close">Close</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="">Status</label>
-                            {!! Form::select('status', ['' => 'Choose status', 'Active' => 'Active', 'Close' => 'Close'], null, [
-                                'class' => 'form-control',
-                                'required' => '',
-                            ]) !!}
+                        <div class="form-group col-md-12 mb-1">
+                            <label for="customers">Add Customer to Route</label>
+                            <select name="customers[]" class="form-control select2" multiple>
+                                @foreach ($customers as $customer)
+                                    <option value="{{ $customer }}">{{ $customer }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                    </div>
-                    <div class="form-group col-md-12 mb-1">
-                        <label for="">Add Customer to Route</label>
-                        {!! Form::select('customers[]', $customers, null, ['class' => 'form-control select2', 'multiple' => '']) !!}
-                    </div>
-                    <div class="form-group col-md-12 mb-1">
-                        <label for="">Add sales people to Route</label>
-                        {!! Form::select('sales_persons[]', $salesPeople, null, ['class' => 'form-control select2', 'multiple' => '']) !!}
-                    </div>
-                    <div class="form-group mb-1">
-                        <button class="btn btn-success" type="submit">Save Information</button>
-                    </div>
-                    {!! Form::close() !!}
+                        <div class="form-group col-md-12 mb-1">
+                            <label for="sales_persons">Add sales people to Route</label>
+                            <select name="sales_persons[]" class="form-control select2" multiple>
+                                @foreach ($salesPeople as $salesPerson)
+                                    <option value="{{ $salesPerson }}">{{ $salesPerson }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mb-1">
+                            <button class="btn btn-success" type="submit">Save Information</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
 @endsection
 {{-- page scripts --}}
 @section('scripts')
