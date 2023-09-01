@@ -15,13 +15,13 @@ class UsersController extends Controller
 
        $usersQuery = User::withCount('Customers')
            ->with(['TargetSales', 'TargetLeads', 'TargetsOrder', 'TargetsVisit'])
-           ->whereIn('account_type', ['Distributors', 'Lubes Sales Executive', 'Managers']);
+           ->whereIn('account_type', ['Distributors', 'Lube Sales Executive', 'Managers']);
 
        if ($loggedInAccountType == 'Managers') {
            $usersQuery->where('route_code', '=', $request->user()->route_code);
        }
 
-       $users = $usersQuery // Exclude the logged-in user
+       $users = $usersQuery->where('id', '!=', Auth::id()) // Exclude the logged-in user
            ->get();
 
        $message = "";
