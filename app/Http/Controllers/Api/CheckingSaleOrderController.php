@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\customer\checkin;
+use App\Models\customer\customers;
 use App\Models\Orders as Order;
 use App\Models\Order_items;
 use App\Models\products\product_information;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -102,6 +104,13 @@ class CheckingSaleOrderController extends Controller
                 'updated_at' => now(),
             ]);
         }
+       $customer = customers::find($checkin->customer_id);
+
+       if ($customer) {
+          $customer->update([
+             'last_order_date' => Carbon::now(),
+          ]);
+       }
         return response()->json([
             "success" => true,
             "message" => "Product added to order",
@@ -177,6 +186,13 @@ class CheckingSaleOrderController extends Controller
                 ->where('user_code', $user_code)
                 ->increment('AchievedOrdersTarget', $value["qty"]);
         }
+       $customer = customers::find($checkinCode);
+
+       if ($customer) {
+          $customer->update([
+             'last_order_date' => Carbon::now(),
+          ]);
+       }
         return response()->json([
             "success" => true,
             "message" => "Product added to order",

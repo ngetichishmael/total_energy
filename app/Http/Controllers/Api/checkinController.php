@@ -347,7 +347,13 @@ class checkinController extends Controller
          //delete item
          $cartItem->delete();
       }
+      $customer = customers::find($checkin->customer_id);
 
+      if ($customer) {
+         $customer->update([
+            'last_order_date' => Carbon::now(),
+         ]);
+      }
       return response()->json([
          "success" => true,
          "message" => "Order created successfully",

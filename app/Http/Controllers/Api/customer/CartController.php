@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\customer\customers;
 use App\Models\CustomerCart;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -28,7 +30,13 @@ class CartController extends Controller
             ->where('product_id', $request->product_id)
             ->increment('quantity', $request->quantity);
       }
+      $customer = customers::find($request->user()->id);
 
+      if ($customer) {
+         $customer->update([
+            'last_order_date' => Carbon::now(),
+         ]);
+      }
       return response()->json([
          "success" => true,
          "message" => "Product added to cart successfully",
