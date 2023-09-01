@@ -42,6 +42,8 @@ Route::group(['namespace' => 'Api'], function () {
 
        Route::get('/manager/customers/list', [CustomerController::class, 'getCustomers']);
        Route::get('/manager/customer/{id}/details', [CustomerController::class, 'showCustomerDetails']);
+       Route::get('/manager/customer/{id}/orders', [OrdersController::class, 'showCustomerOrders']);
+
 
        Route::get('/manager/dashboard/data', [DashboardAppController::class, 'dashboard']);
        Route::post('/manager/dashboard/data/custom', [DashboardAppController::class, 'custom']);
