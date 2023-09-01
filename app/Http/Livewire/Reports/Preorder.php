@@ -104,8 +104,4 @@ class Preorder extends Component
         }
         return $customers->toArray();
     }
-    // public function export()
-    // {
-    //    return Excel::download(new PreorderExport, 'preorders.xlsx');
-    // }
 }
