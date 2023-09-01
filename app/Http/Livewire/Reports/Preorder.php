@@ -29,36 +29,6 @@ class Preorder extends Component
     {
         $count = 1;
 
-<<<<<<< HEAD
-      return view('livewire.reports.preorder', [
-         'preorders' => $this->data(),
-         'count' => $count
-      ]);
-   }
-   public function data()
-   {
-       $query = Orders::with('User', 'Customer')->where('order_type', 'Pre Order');
-       
-       if (!is_null($this->start)) {
-           if (Carbon::parse($this->start)->equalTo(Carbon::parse($this->end))) {
-               $query->whereDate('created_at', 'LIKE', "%" . $this->start . "%");
-           } else {
-               if (is_null($this->end)) {
-                   $this->end = Carbon::now()->endOfMonth()->format('Y-m-d');
-               }
-               $query->whereBetween('created_at', [$this->start, $this->end]);
-           }
-       }
-       
-       // Add sorting by created_at in descending order
-       $query->orderBy('created_at', 'desc');
-   
-       return $query->paginate(15);
-   }
-   
-   public function filter(): array
-   {
-=======
         return view('livewire.reports.preorder', [
             'preorders' => $this->data(),
             'count' => $count,
@@ -82,7 +52,6 @@ class Preorder extends Component
     }
     public function filter(): array
     {
->>>>>>> origin/ish
 
         $array = [];
         $user = Auth::user();
