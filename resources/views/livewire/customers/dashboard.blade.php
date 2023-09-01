@@ -98,12 +98,12 @@
                     <thead>
                         <th width="15%">Name</th>
                         <th>Type</th>
-                        <th>Number</th>
-                        <th width="15%">Address</th>
+                        <th>Phone</th>
+{{--                        <th width="15%">Address</th>--}}
                         <th width="15%">Zone/Region</th>
                         <th width="15%">Route</th>
-                        <th>Created By</th>
-                        <th>Created At</th>
+                        <th width="15%">Created By</th>
+                        <th width="15%">Created On</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
@@ -148,7 +148,7 @@
                                     {!! $contact->Creator->name ?? '' !!}
                                 </td>
                                 <td>
-                                    {!! $contact->created_at ? $contact->created_at->format('Y-m-d h:i A') : '' !!}
+                                    {!! $contact->created_at ? $contact->created_at->format('Y-m-d') : '' !!}
                                 </td>
                                 <td>
                                     <div class="dropdown">
