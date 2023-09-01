@@ -15,7 +15,7 @@ class UsersController extends Controller
 
        $usersQuery = User::withCount('Customers')
            ->with(['TargetSales', 'TargetLeads', 'TargetsOrder', 'TargetsVisit'])
-           ->whereIn('account_type', ['Distributors', 'Lube Sales Executive', 'Managers']);
+           ->whereIn('account_type', ['Distributors', 'Lube Sales Executive']);
 
        if ($loggedInAccountType == 'Managers') {
            $usersQuery->where('route_code', '=', $request->user()->route_code);
