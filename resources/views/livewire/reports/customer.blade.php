@@ -13,7 +13,7 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label for="validationTooltip01">Start Date</label>
-                <input  name="startDate" type="date" class="form-control" id="validationTooltip01"
+                <input name="startDate" type="date" class="form-control" id="validationTooltip01"
                     placeholder="YYYY-MM-DD HH:MM" required />
             </div>
         </div>
@@ -43,9 +43,9 @@
                     Export
                 </button>
                 <div class="dropdown-menu dropdown-menu-left">
-                    <a class="dropdown-item"  id="exportExcelBtn">Excel</a>
-                    <a class="dropdown-item"  id="exportCsvBtn">CSV</a>
-                    <a class="dropdown-item"  id="exportPdfBtn">PDF</a>
+                    <a class="dropdown-item" id="exportExcelBtn">Excel</a>
+                    <a class="dropdown-item" id="exportCsvBtn">CSV</a>
+                    <a class="dropdown-item" id="exportPdfBtn">PDF</a>
                     <!-- <a class="dropdown-item" wire:click="printAndRedirect" id="printBtn">Print</a> -->
                 </div>
             </div>
@@ -71,13 +71,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($contacts as $contact)
+                            @foreach ($contacts as $key => $contact)
                                 <tr>
-                                    <td>{{ $count++ }}</td>
+                                    <td>{{ $key + 1 }}</td>
                                     <td>{{ $contact->customer_name }}</td>
                                     <td>{{ $contact->phone_number }}</td>
                                     <td>{{ $contact->order_count }}</td>
-                                    <td>{{ $contact->last_order_date }}</td>
+                                    <td>{{ $contact->last_ordering_date }}</td>
                                 </tr>
                             @endforeach
                             @if ($contacts->isEmpty())
@@ -88,7 +88,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="mt-1">  {{ $contacts->links() }}</div>
+                <div class="mt-1"> {{ $contacts->links() }}</div>
 
             </div>
         </div>

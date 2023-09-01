@@ -21,7 +21,7 @@ class UsersController extends Controller
            $usersQuery->where('route_code', '=', $request->user()->route_code);
        }
 
-       $users = $usersQuery->where('id', '!=', Auth::id()) // Exclude the logged-in user
+       $users = $usersQuery // Exclude the logged-in user
            ->get();
 
        $message = "";

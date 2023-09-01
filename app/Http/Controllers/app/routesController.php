@@ -9,20 +9,15 @@ use App\Models\Routes;
 use App\Models\Route_customer;
 use App\Models\Route_sales;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Illuminate\View\View;
-use Session;
 
 class routesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(): Response | View
     {
         return view('app.routes.index');
@@ -35,8 +30,8 @@ class routesController extends Controller
      */
     public function create(): Response | View
     {
-        $customers = customers::where('business_code', Auth::user()->business_code)->pluck('customer_name', 'id');
-        $salesPeople = User::where('business_code', Auth::user()->business_code)->pluck('name', 'id');
+        $customers = customers::pluck('customer_name', 'id');
+        $salesPeople = User::pluck('name', 'id');
         $zones = Relationship::where('has_children', '0')->pluck('name', 'name');
 
         return view('app.routes.create', compact('customers', 'salesPeople', 'zones'));

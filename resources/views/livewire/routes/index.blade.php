@@ -33,7 +33,7 @@
                         <tr>
                             <td>{!! $count + 1 !!}</td>
                             <td>{!! $route->name !!}</td>
-                            <td>{!! $route->user->name ?? '' !!}</td>
+                            <td>{!! $route->user->name !!}</td>
                             <td>{!! $route->status !!}</td>
                             <td>{!! $route->Type !!}</td>
                             <td>{!! $route->start_date !!}</td>

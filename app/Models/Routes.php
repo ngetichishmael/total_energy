@@ -28,4 +28,13 @@ class Routes extends Model
     {
         return $this->belongsTo(User::class, 'created_by', 'user_code');
     }
+    /**
+     * Get all of the Customers for the Routes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function Customers(): HasMany
+    {
+        return $this->hasMany(Route_customer::class, 'routeID', 'route_code');
+    }
 }

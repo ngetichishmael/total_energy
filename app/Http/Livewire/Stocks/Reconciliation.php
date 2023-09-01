@@ -17,10 +17,15 @@ class Reconciliation extends Component
     public function render()
     {
         $searchTerm = '%' . $this->search . '%';
-      $warehouses = warehousing::with( 'region', 'subregion','ReconciledProducts')
-         ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')->simplePaginate($this->perPage);
+        $warehouses = warehousing::with('region', 'subregion', 'ReconciledProducts')
+            ->when($searchTerm,
+                function ($query) use ($searchTerm) {
+                    $query->where('name', 'LIKE', $searchTerm);
+                }
+            )
+            ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
+            ->paginate($this->perPage);
 
-
-        return view('livewire.stocks.reconciliation',['warehouses' => $warehouses]);
+        return view('livewire.stocks.reconciliation', ['warehouses' => $warehouses]);
     }
 }
