@@ -108,8 +108,21 @@
                     </thead>
                     <tbody>
                         @forelse ($contacts as $count => $contact)
-                            <!-- <td>{!! $count + 1 !!}</td> -->
-                            <tr>
+             <tr style="color:
+                      @php
+                          $lastOrderDate = $contact->last_order_date ? \Carbon\Carbon::parse($contact->last_order_date) : null;
+                            $threeMonthsAgo = now()->subMonths(3);
+                            $sixMonthsAgo = now()->subMonths(6);
+
+                            if ($lastOrderDate === null || $lastOrderDate >= $threeMonthsAgo) {
+                               echo 'green';
+                                } elseif ($lastOrderDate >= $sixMonthsAgo) {
+                                   echo '#F39C12';
+                                    } else {
+                                           echo 'red';
+                                 }
+                                 @endphp">
+                              <!-- <td>{!! $count + 1 !!}</td> -->
                                 <td>
                                     {!! $contact->customer_name !!} <br>
                                     @if ($contact->status === 'Active')
@@ -120,9 +133,6 @@
                                 </td>
                                 <td>{!! $contact->customer_group !!}</td>
                                 <td>{!! $contact->phone_number !!}</td>
-                                <td>
-                                    {{ $contact->address }}
-                                </td>
                                 <td>
                                     @if ($contact->Area && $contact->Area->Subregion && $contact->Area->Subregion->Region)
                                         {!! $contact->Area->Subregion->Region->name !!}

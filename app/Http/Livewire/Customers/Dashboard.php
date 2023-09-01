@@ -7,6 +7,7 @@ use App\Models\Area;
 use App\Models\customers;
 use App\Models\Subregion;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -96,11 +97,29 @@ class Dashboard extends Component
 
         return $areas;
     }
+   public function getBackgroundColorClass($lastOrderDate)
+   {
+      if (!$lastOrderDate) {
+         return ''; // Default class if last_order_date is null
+      }
+
+      $lastOrderDate = Carbon::parse($lastOrderDate);
+      $currentDate = Carbon::now();
+      $differenceInMonths = $lastOrderDate->diffInMonths($currentDate);
+
+      if ($differenceInMonths >= 6) {
+         return 'bg-red'; // Red background class for past 6 months or more
+      } elseif ($differenceInMonths >= 3) {
+         return 'bg-yellow'; // Yellow background class for past 3 to 6 months
+      } else {
+         return 'bg-green'; // Green background class for less than 3 months
+      }
+   }
 
     public function getCustomer()
     {
         $searchTerm = '%' . $this->search . '%';
-        $query = customers::orderBy('created_at', 'DESC'); // Order by created_at in descending order (most recent first)
+        $query = customers::orderBy('id', 'DESC');// Order by created_at in descending order (most recent first)
 
         // Apply the search term filter
         $query->where(function ($q) use ($searchTerm) {
