@@ -38,7 +38,7 @@ class Customer extends Component
                 'customers.customer_name as customer_number,
                 customers.phone_number as phonenumber,
                 COUNT(orders.id) as order_count,
-                MAX(orders.delivery_date) as last_order_date'
+                MAX(orders.delivery_date) as last_ordering_date'
             )
             ->groupBy(
                 'customers.id',

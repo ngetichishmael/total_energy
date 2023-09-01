@@ -77,7 +77,7 @@
                                     <td>{{ $contact->customer_name }}</td>
                                     <td>{{ $contact->phone_number }}</td>
                                     <td>{{ $contact->order_count }}</td>
-                                    <td>{{ $contact->last_order_date }}</td>
+                                    <td>{{ $contact->last_ordering_date }}</td>
                                 </tr>
                             @endforeach
                             @if ($contacts->isEmpty())
