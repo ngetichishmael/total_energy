@@ -97,25 +97,6 @@ class Dashboard extends Component
 
         return $areas;
     }
-   public function getBackgroundColorClass($lastOrderDate)
-   {
-      if (!$lastOrderDate) {
-         return ''; // Default class if last_order_date is null
-      }
-
-      $lastOrderDate = Carbon::parse($lastOrderDate);
-      $currentDate = Carbon::now();
-      $differenceInMonths = $lastOrderDate->diffInMonths($currentDate);
-
-      if ($differenceInMonths >= 6) {
-         return 'bg-red'; // Red background class for past 6 months or more
-      } elseif ($differenceInMonths >= 3) {
-         return 'bg-yellow'; // Yellow background class for past 3 to 6 months
-      } else {
-         return 'bg-green'; // Green background class for less than 3 months
-      }
-   }
-
     public function getCustomer()
     {
         $searchTerm = '%' . $this->search . '%';

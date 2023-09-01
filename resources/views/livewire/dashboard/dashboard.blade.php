@@ -1,5 +1,5 @@
 <div>
-   <div class="justify-content-end align-items-center mx-50 mb-2" > <a type="button" href="{{route('dashboard.allocated.users')}}" class="btn-success btn-lg rounded-2">View New Stocks Allocations</a></div>
+   <div class="justify-content-end align-items-center mx-50 mb-2" > <a type="button" href="{{route('dashboard.allocated.users')}}" class="btn-success btn-lg rounded-2">View Current Stocks Allocations</a></div>
     <div class="col-xl-12 col-md-12 col-12">
 
         <div class="card">
