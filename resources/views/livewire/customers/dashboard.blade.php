@@ -22,7 +22,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="col-md-2 user_role">
                 <div class="form-group">
                     <label for="selectArea">Area</label>

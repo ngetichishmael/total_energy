@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\Manager\OrdersController;
 use App\Http\Controllers\Api\Manager\SendNotificationController;
 use App\Http\Controllers\Api\Manager\TerritoryInformationsController;
 use App\Http\Controllers\Api\Manager\UsersController;
+use App\Http\Controllers\Api\Manager\RoutesController;
+use App\Http\Controllers\Api\Manager\ReportsController;
+use App\Http\Controllers\Api\Manager\VisitsController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -38,11 +41,56 @@ Route::group(['namespace' => 'Api'], function () {
        Route::post('/manager/logout', [AuthenticationController::class, 'logout']);
 
        Route::get('/manager/customers/list', [CustomerController::class, 'getCustomers']);
+       Route::get('/manager/customer/{id}/details', [CustomerController::class, 'showCustomerDetails']);
+       Route::post('/manager/customer/{id}/orders', [OrdersController::class, 'showCustomerOrders']);
+
+
        Route::get('/manager/dashboard/data', [DashboardAppController::class, 'dashboard']);
+       Route::post('/manager/dashboard/data/custom', [DashboardAppController::class, 'custom']);
 
        Route::get('/manager/users', [UsersController::class, 'getUsers']);
        Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
        Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
+
        Route::get('/manager/all/orders', [OrdersController::class, 'allOrders']);
+       Route::get('/manager/order/{order_code}/details', [OrdersController::class, 'showOrderDetails']);
+       Route::post('/manager/orders/allocation', [OrdersController::class, 'allocatingOrders']);
+
+       Route::get('/manager/customers/checkins', [VisitsController::class, 'getCustomerCheckins']);
+
+
+       Route::get('/manager/routes/data', [RoutesController::class, 'getRoutes']);
+
+       Route::get('/manager/reports/data', [ReportsController::class, 'reports']);
+
+       Route::get('/manager/vansales/today', [ReportsController::class, 'vanSalesToday']);
+       Route::get('/manager/vansales/yesterday', [ReportsController::class, 'vanSalesYesterday']);
+       Route::get('/manager/vansales/current-week', [ReportsController::class, 'vanSalesThisWeek']);
+       Route::get('/manager/vansales/last-week', [ReportsController::class, 'vanSalesLastWeek']);
+       Route::get('/manager/vansales/current-month', [ReportsController::class, 'vanSalesThisMonth']);
+       Route::get('/manager/vansales/last-month', [ReportsController::class, 'vanSalesLastMonth']);
+ 
+       Route::get('/manager/preorder/today', [ReportsController::class, 'preOrderToday']);
+       Route::get('/manager/preorder/yesterday', [ReportsController::class, 'preOrderYesterday']);
+       Route::get('/manager/preorder/current-week', [ReportsController::class, 'preOrderThisWeek']);
+       Route::get('/manager/preorder/last-week', [ReportsController::class, 'preOrderLastWeek']);
+       Route::get('/manager/preorder/current-month', [ReportsController::class, 'preOrderThisMonth']);
+       Route::get('/manager/preorder/last-month', [ReportsController::class, 'preOrderLastMonth']);
+
+       Route::get('/manager/visits/today', [ReportsController::class, 'visitsToday']);
+       Route::get('/manager/visits/yesterday', [ReportsController::class, 'visitsToday']);
+       Route::get('/manager/visits/current-week', [ReportsController::class, 'visitsToday']);
+       Route::get('/manager/visits/last-week', [ReportsController::class, 'visitsWeek']);
+       Route::get('/manager/visits/current-month', [ReportsController::class, 'visitsMonth']);
+       Route::get('/manager/visits/last-month', [ReportsController::class, 'visitsMonth']);
+
+ 
+       Route::get('/manager/active-users/today', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'activeUsersToday']);
+       Route::get('/manager/active-users/last-week', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'activeUsersWeek']);
+       Route::get('/manager/active-users/last-month', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'activeUsersMonth']);
+ 
+       Route::get('/manager/orders/completed', [ReportsController::class, 'orderFulfillment']);
+
+
    });
 });
