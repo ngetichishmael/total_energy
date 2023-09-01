@@ -55,6 +55,7 @@
 
 <br>
 <div class="row">
+<<<<<<< HEAD
     <div class="col-md-12">
         <div class="card card-default">
             <div class="card-body">
@@ -90,6 +91,51 @@
                 </table>
 
                 {{-- <div class="mt-1">{!! $suppliers->links() !!}</div> --}}
+=======
+    @include('partials.stickymenu')
+
+    <div class="col-md-12">
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-responsive">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>User Name</th>
+                                <th>User Type</th>
+                                <th>Target</th>
+                                <th>Achieved</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($targets as $key => $target)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $target->name }}</td>
+                                    <td>{{ $target->account_type }}</td>
+                                    <td class="cell-fit">
+                                        <strong>Leads:</strong> {{ $target->leads_target }},<strong>Orders:</strong>
+                                        {{ $target->orders_target }},<strong>Sales:</strong>
+                                        {{ $target->sales_target }},<strong>Visits:</strong>
+                                        {{ $target->visits_target }}
+                                    </td>
+                                    <td class="cell-fit">
+                                        <strong>Leads:</strong>
+                                        {{ $target->achieved_leads_target }},<strong>Orders:</strong>
+                                        {{ $target->achieved_orders_target }},<strong>Sales:</strong>
+                                        {{ $target->achieved_sales_target }},<strong>Visits:</strong>
+                                        {{ $target->achieved_visits_target }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="mt-1">
+                        {{ $targets->links() }}
+                    </div>
+                </div>
+>>>>>>> origin/ish
             </div>
         </div>
     </div>

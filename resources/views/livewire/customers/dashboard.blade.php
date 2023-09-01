@@ -134,12 +134,20 @@
                                 <td>{!! $contact->customer_group !!}</td>
                                 <td>{!! $contact->phone_number !!}</td>
                                 <td>
+<<<<<<< HEAD
                                     @if ($contact->Area && $contact->Area->Subregion && $contact->Area->Subregion->Region)
                                         {!! $contact->Area->Subregion->Region->name !!}
                                         @if ($contact->Area->Subregion->name)
                                             , <br><i>{!! $contact->Area->Subregion->name !!}</i>
                                         @endif
                                     @endif
+=======
+                                    {{ $contact->address }}
+                                </td>
+                                <td>
+                                    {!! $contact->Area->Subregion->Region->name ?? '' !!}
+                                    , <br><i>{!! $contact->Area->Subregion->name ?? '' !!}</i>
+>>>>>>> origin/ish
                                 </td>
                                 <td>
                                     {!! $contact->Area->name ?? '' !!}

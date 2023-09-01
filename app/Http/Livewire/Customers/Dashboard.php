@@ -100,7 +100,13 @@ class Dashboard extends Component
     public function getCustomer()
     {
         $searchTerm = '%' . $this->search . '%';
+<<<<<<< HEAD
         $query = customers::orderBy('id', 'DESC');// Order by created_at in descending order (most recent first)
+=======
+        $query = customers::whereHas('Creator')
+            ->whereHas('Area')
+            ->orderBy('created_at', 'DESC'); // Order by created_at in descending order (most recent first)
+>>>>>>> origin/ish
 
         // Apply the search term filter
         $query->where(function ($q) use ($searchTerm) {

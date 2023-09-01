@@ -14,8 +14,12 @@ class Index extends Component
     public $search = '';
     public function render()
     {
-        $routes = Routes::with("user")->paginate($this->perPage);
+        $routes = Routes::with(['User:id,name',
+            'Customers.customer'])
+            ->withCount('Customers')
+            ->paginate($this->perPage);
 
         return view('livewire.routes.index', compact('routes'));
     }
+
 }

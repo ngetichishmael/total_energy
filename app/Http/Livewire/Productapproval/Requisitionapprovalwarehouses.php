@@ -3,26 +3,29 @@
 namespace App\Http\Livewire\Productapproval;
 
 use App\Models\warehousing;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Requisitionapprovalwarehouses extends Component
 {
-   use WithPagination;
-   protected $paginationTheme = 'bootstrap';
-   public $perPage = 10;
-   public $orderBy = 'id';
-   public $orderAsc = true;
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    public $perPage = 10;
+    public $orderBy = 'id';
+    public $search = "";
+    public $orderAsc = true;
     public function render()
     {
-       $warehouses = warehousing::where('business_code', Auth::user()->business_code)
-          ->withCount([
-             'stockRequisitions as approval_count' => function ($query) {
+        $searchTerm = '%' . $this->search . '%';
+        $warehouses = warehousing::withCount([
+            'stockRequisitions as approval_count' => function ($query) {
                 $query->where('status', 'Waiting Approval');
-             }
-          ])
-          ->orderBy($this->orderBy,$this->orderAsc ? 'asc' : 'desc')->paginate($this->perPage);
+            },
+        ])
+            ->when($searchTerm, function ($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', $searchTerm);
+            })
+            ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')->paginate($this->perPage);
         return view('livewire.productapproval.requisitionapprovalwarehouses', compact('warehouses'));
     }
 }
