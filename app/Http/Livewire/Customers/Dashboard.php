@@ -96,7 +96,6 @@ class Dashboard extends Component
 
         return $areas;
     }
-
     public function getCustomer()
     {
         $searchTerm = '%' . $this->search . '%';

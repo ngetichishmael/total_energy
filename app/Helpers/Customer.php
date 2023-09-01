@@ -33,7 +33,7 @@ class Customer
          'latitude' => $request->latitude,
          'longitude' => $request->longitude,
          'business_code' => $request->business_code,
-         'created_by' => $request->user()->user_code,
+         'created_by' => $request->user()->id,
          'route_code' => $request->route_code,
          'customer_group' => $request->outlet,
          'region_id' => $request->route_code,

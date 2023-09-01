@@ -339,7 +339,6 @@ class productController extends Controller
             'id' => $id,
             'brands' => $brands,
             'categories' => $categories,
-            'brands' => $brands,
             'suppliers' => $suppliers,
             'product_information' => $product_information,
             'product_inventory' => $product_inventory,
