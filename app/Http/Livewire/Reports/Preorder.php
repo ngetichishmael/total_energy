@@ -36,7 +36,7 @@ class Preorder extends Component
     }
     public function data()
     {
-        $query = Orders::with('User', 'Customer')->where('order_type', 'Pre Order');
+        $query = Orders::whereHas('User')->whereHas('Customer')->with('User', 'Customer')->where('order_type', 'Pre Order');
         if (!is_null($this->start)) {
             if (Carbon::parse($this->start)->equalTo(Carbon::parse($this->end))) {
                 $query->whereDate('created_at', 'LIKE', "%" . $this->start . "%");
