@@ -119,6 +119,7 @@
                                 } elseif ($lastOrderDate >= $sixMonthsAgo) {
                                    echo '#F39C12';
                                     } else {
+
                                            echo 'red';
                                  }
                                  @endphp">
