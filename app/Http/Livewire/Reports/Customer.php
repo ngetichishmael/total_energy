@@ -2,16 +2,12 @@
 
 namespace App\Http\Livewire\Reports;
 
-use Livewire\Component;
-use Carbon\Carbon;
-use Livewire\WithPagination;
 use App\Exports\CustomersExport;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Models\Area;
 use App\Models\customers;
-use App\Models\Subregion;
-use App\Models\Orders;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Customer extends Component
 {
@@ -33,35 +29,44 @@ class Customer extends Component
 
     public function render()
     {
+        $searchTerm = '%' . $this->search . '%';
         // Get initial query
-        $contactsQuery = Customers::query();
-
-        // Apply search filter if the search input is not empty
-        if (!empty($this->search)) {
-
-            $contactsQuery->where('customer_name', 'LIKE', '%' . $this->search . '%')
-                          ->orWhere('email', 'LIKE', '%' . $this->search . '%');
-        }
-
-        $contactsQuery->leftJoin('orders', 'customers.id', '=', 'orders.customerID')
-                      ->selectRaw('customers.*, COUNT(orders.id) as order_count, MAX(orders.delivery_date) as last_order_date')
-                      ->groupBy('customers.id', 'customers.soko_uuid', 'customers.external_uuid', 'customers.source', 'customers.customer_name', 'customers.account', 'customers.manufacturer_number', 'customers.vat_number', 'customers.approval', 'customers.delivery_time', 'customers.address', 'customers.city', 'customers.province', 'customers.postal_code', 'customers.country', 'customers.latitude', 'customers.longitude', 'customers.contact_person', 'customers.telephone', 'customers.customer_group', 'customers.customer_secondary_group', 'customers.price_group', 'customers.route', 'customers.route_code', 'customers.region_id', 'customers.subregion_id', 'customers.zone_id', 'customers.unit_id', 'customers.branch', 'customers.status', 'customers.email', 'customers.image', 'customers.phone_number', 'customers.business_code', 'customers.created_by', 'customers.updated_by', 'customers.created_at', 'customers.updated_at')
-                      ->orderBy('order_count', $this->orderAsc ? 'asc' : 'desc');
+        $contactsQuery = Customers::withCount('Orders')
+            ->whereHas('Orders')
+            ->leftJoin('orders', 'customers.id', '=', 'orders.customerID')
+            ->selectRaw(
+                'customers.customer_name as customer_number,
+                customers.phone_number as phonenumber,
+                COUNT(orders.id) as order_count,
+                MAX(orders.delivery_date) as last_order_date'
+            )
+            ->groupBy(
+                'customers.id',
+                'customers.soko_uuid',
+                'customers.external_uuid',
+                'customers.source',
+                'customers.customer_name',
+                'customers.account',
+                'customers.manufacturer_number',
+                'customers.vat_number',
+                'customers.approval',
+                'customers.delivery_time'
+            )
+            ->orderBy('order_count', $this->orderAsc ? 'asc' : 'desc');
         $contacts = $contactsQuery->paginate($this->perPage);
-       if (strcasecmp(Auth::user()->account_type, 'distributor') == 0) {
-          foreach ($contacts as $contact) {
-             if ($contact->Area && $contact->Area->Subregion && $contact->Area->Subregion->Region) {
-                $contact->Area->Subregion->Region->id;
-             }
-             if ($contact->Area->Subregion->id) {
-                $contact->Area->Subregion->id;
-             }
-          }
-       }
+        if (strcasecmp(Auth::user()->account_type, 'distributor') == 0) {
+            foreach ($contacts as $contact) {
+                if ($contact->Area && $contact->Area->Subregion && $contact->Area->Subregion->Region) {
+                    $contact->Area->Subregion->Region->id;
+                }
+                if ($contact->Area->Subregion->id) {
+                    $contact->Area->Subregion->id;
+                }
+            }
+        }
         $count = ($this->perPage * ($contacts->currentPage() - 1)) + 1;
         return view('livewire.reports.customer', compact('contacts', 'count'));
     }
-
 
     public function export()
     {
