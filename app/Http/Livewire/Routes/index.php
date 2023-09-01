@@ -16,6 +16,8 @@ class Index extends Component
     {
         $routes = Routes::with(['User:id,name',
             'Customers.customer'])
+            ->whereHas('Customers')
+            ->whereHas('User')
             ->withCount('Customers')
             ->paginate($this->perPage);
 
