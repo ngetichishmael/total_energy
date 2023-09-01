@@ -57,6 +57,44 @@ class OrdersController extends Controller
            'Data' => $orders
        ]);
    }
+
+   public function showCustomerOrders($customerId)
+   {
+       // Retrieve the customer based on the provided customer ID
+       $customer = customers::find($customerId);
+   
+       if (!$customer) {
+           return response()->json(['message' => 'Customer not found'], 404);
+       }
+   
+       // Retrieve the customer's orders with their associated order items
+       $ordersWithItems = $customer->orders()
+           ->with('orderItems')
+           ->get();
+   
+       // Transform the data into the desired format
+       $formattedData = [
+           'status' => 200,
+           'success' => true,
+           'message' => 'Customer and there associated orders retrieved successfully',
+           'data' => [
+               'customer' => $customer->toArray(),
+               'orders' => []
+           ]
+       ];
+   
+       foreach ($ordersWithItems as $order) {
+           $formattedOrder = $order->toArray();
+           $formattedOrder['order_items'] = $order->orderItems->toArray();
+           $formattedData['data']['orders'][] = $formattedOrder;
+       }
+   
+       // Return the customer and their associated orders with items
+       return response()->json($formattedData);
+   }
+   
+   
+
    
 
     public function filter($region_id): array
