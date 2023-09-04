@@ -48,7 +48,7 @@
                          @foreach ($users as $key => $user)
                              <tr>
                                  <td>{!! $key + 1 !!}</td>
-                                 <td>{!! $user->Region->name ?? ' ' !!}</td>
+                                 <td>{!! $user->Region->name ?? 'NAIROBI' !!}</td>
                                  <td>{!! $user->name !!}</td>
                                  <td>
                                      {!! $user->email !!}
