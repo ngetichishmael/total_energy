@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AppPermission;
 use App\Models\AssignedRegion;
 use App\Models\Region;
+use App\Models\suppliers\suppliers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
@@ -16,26 +17,25 @@ use Illuminate\Support\Str;
 class usersController extends Controller
 {
 
-   public function getUsers(Request $request)
-   {
-      $accountType = $request->input('account_type');
-      $users = User::where('account_type', $accountType)->get();
+    public function getUsers(Request $request)
+    {
+        $accountType = $request->input('account_type');
+        $users = User::where('account_type', $accountType)->get();
 
-      return response()->json(['users' => $users]);
-   }
-   public function getDistributors(Request $request)
-   {
-      $distributors = suppliers::whereNotIn('name', ['Sidai', 'sidai'])->orWhereNull('name')->orWhere('name', '')
-         ->whereIn('status', ['Active', 'active'])
-         ->orWhereNull('status')
-         ->orWhere('status', '')
-         ->get();
+        return response()->json(['users' => $users]);
+    }
+    public function getDistributors(Request $request)
+    {
+        $distributors = suppliers::orWhereNull('name')
+            ->orWhereNull('status')
+            ->get();
 
-      return response()->json(['users' => $distributors]);
-   }
-   
+        return response()->json(['users' => $distributors]);
+    }
+
     //list
-    function list() {
+    public function list()
+    {
         // $lists = User::whereIn('account_type', ['Admin', 'Manager'])
         //    ->distinct('account_type')
         //    ->whereNotIn('account_type', ['Customer'])

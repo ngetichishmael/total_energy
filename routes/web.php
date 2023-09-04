@@ -26,6 +26,9 @@ Route::get('signup', 'Auth\RegisterController@signup_form')->name('signup.page')
 Route::post('signup/account', 'Auth\RegisterController@signup')->name('signup');
 Route::get('logout', 'Auth\LoginController@logout');
 Route::get('api/tests', [TestingController::class, 'test']);
+Route::get('password/new/reset', 'NewPasswordRegistrationController@getNewPassword')->name('password.registration');
+Route::post('password/send/reset', 'NewPasswordRegistrationController@checkPhoneNumber')->name('password.phone');
+
 Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => ['verified']], function () {
@@ -130,7 +133,6 @@ Route::group(['middleware' => ['verified']], function () {
         'create' => 'supplier.create',
         'store' => 'supplier.store',
     ]);
-
     // Routes for reports
     Route::middleware('web')->group(function () {
         Route::get('reports', 'app\ReportsController@reports')->name('users.reports');
