@@ -23,7 +23,6 @@
         @include('partials._messages')
         <div>
 
-<<<<<<< HEAD
             <div class="card">
                 <h5 class="card-header"></h5>
                 <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50 row">
@@ -31,57 +30,6 @@
                         <div class="input-group input-group-merge">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i data-feather="search"></i></span>
-=======
-      <div class="card card-default">
-         <div class="card-body">
-            <table class="table table-striped table-bordered" style="font-size: x-small; font-weight: lighter">
-               <thead>
-                <tr>
-                    <th width="1%">#</th>
-                    <th>Name</th>
-                    <th>Wholesale Price</th>
-                    <th>Retail Price</th>
-                    <th>SKU Volume</th>
-                    <th>Current Stock</th>
-                    <th>Date</th>
-                     <th>Actions</th>
-                </tr>
-               </thead>
-               <tbody>
-               @forelse ($products as $key => $product)
-                    <tr>
-                        <td>{!! $key + 1 !!}</td>
-                        <td>{!! $product->product_name !!}</td>
-
-                        @if ($product->ProductPrice->buying_price == 0)
-                            <td>{{ 'Price Not set' }}</td>
-                        @else
-                            <td>{{ number_format((float) $product->ProductPrice->buying_price) }}</td>
-                        @endif
-                        <td>
-                            {{ number_format((float) $product->ProductPrice()->pluck('selling_price')->implode('')) }}
-                        </td>
-                        <td>{{$product->sku_code}}</td>
-                        <td>{{ $product->Inventory()->pluck('current_stock')->implode('') }}</td>
-                        <td>{{ $product->updated_at->format('d/m/Y h:i A') }}</td>
-
-                       <td>
-                            <div class="dropdown">
-                                <button type="button" class="btn btn-sm dropdown-toggle show-arrow" data-toggle="dropdown"
-                                    style="background-color: #089000; color:white">
-                                    <i data-feather="settings"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('products.restock', $product->id) }}">
-                                        <i data-feather="plus-circle" class="mr-50"></i>
-                                        <span>Re Stock</span>
-                                    </a>
-                                   <a class="dropdown-item" href="{{ route('products.edit', $product->id) }}">
-                                        <i data-feather="edit" class="mr-50"></i>
-                                        <span>Edit</span>
-                                    </a>
-                                </div>
->>>>>>> origin/steven
                             </div>
                             <input wire:model.debounce.300ms="search" type="text" id="fname-icon" class="form-control"
                                 name="fname-icon" placeholder="Search" />
@@ -110,7 +58,7 @@
 
         <div class="card card-default">
             <div class="card-body">
-                <table class="table table-striped table-bordered" style="font-size: small">
+                <table class="table table-striped table-bordered" style="font-weight: lighter">
                     <thead>
                         <tr>
                             <th width="1%">#</th>
