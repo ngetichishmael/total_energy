@@ -31,7 +31,11 @@ class RoutesController extends Controller
         }
     
         // Return the routes as a JSON response
-        return response()->json(['routes' => $routes]);
+        return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => 'Routes Data',
+            'data' => $routes]);
     }
     
     
