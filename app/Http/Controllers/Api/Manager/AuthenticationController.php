@@ -83,7 +83,7 @@ class AuthenticationController extends Controller
                 "created_at" => $user->created_at,
                 "updated_at" => $user->updated_at,
                 "main_region" => $user->mainRegion,
-                "other_assigned_regions" => $assignedRegions->all(), // Remove pivot information
+                // "other_assigned_regions" => $assignedRegions->all(), // Remove pivot information
             ],
         ]);
     }
