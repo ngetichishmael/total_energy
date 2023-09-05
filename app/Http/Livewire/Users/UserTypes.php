@@ -2,61 +2,74 @@
 
 namespace App\Http\Livewire\Users;
 
-use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class UserTypes extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    public $groupView = true; // Default to Group View
+    public $perPage = 10;
+    public $search = "";
+
+    public function toggleView()
+    {
+        $this->groupView = !$this->groupView;
+    }
+
     public function render()
     {
-        $user = Auth::user(); // Get the logged-in user
+        $groups = $this->getUserGroups();
+        $users = ($this->groupView) ? $this->getGroupUsers() : $this->getUsers();
+        $counting = 1;
+        return view('livewire.users.user-types', compact('groups', 'users', 'counting'));
+    }
 
-        $userRole = $user->account_type; // Get the logged-in user's role
+    private function buildBaseQuery()
+    {
+        $user = Auth::user();
+        $userRole = $user->account_type;
+        $userRouteCode = $user->route_code;
 
-        $accountTypes = Role::pluck('name')->toArray();
+        $query = User::query();
 
-        $listsQuery = User::query();
-
-        // If the user's role is not "Admin", exclude the "Admin" role from the query
         if ($userRole !== 'Admin') {
-            $listsQuery->where('account_type', '!=', 'Admin');
-        }
-
-        // If the user's role is not "Admin", include route_code related to the logged-in user
-        if ($userRole !== 'Admin') {
-            $listsQuery->where(function ($query) use ($user) {
-                $query->where('route_code', $user->route_code)
+            $query->where(function ($query) use ($userRouteCode) {
+                $query->where('route_code', $userRouteCode)
                     ->orWhereNull('route_code');
             });
         }
 
-        $lists = $listsQuery->pluck('account_type')->unique();
+        return $query;
+    }
 
-        $countsQuery = Role::leftJoin('users', 'roles.name', '=', 'users.account_type')
-            ->whereIn('roles.name', $accountTypes)
-            ->whereNotIn('roles.name', ['Customer']);
+    private function getUserGroups()
+    {
+        return $this->buildBaseQuery()
+            ->groupBy('account_type')
+            ->selectRaw('account_type, count(id) as count')
+            ->pluck('count', 'account_type');
+    }
 
-        // If the user's role is not "Admin", exclude the "Admin" role from the counts query
-        if ($userRole !== 'Admin') {
-            $countsQuery->where('roles.name', '!=', 'Admin');
-        }
+    private function getGroupUsers()
+    {
+        return $this->getUserGroups()
+            ->map(function ($count, $group) {
+                return $this->buildBaseQuery()
+                    ->where('account_type', $group)
+                    ->get();
+            })
+            ->collapse();
+    }
 
-        // If the user's role is not "Admin", include route_code related to the logged-in user
-        if ($userRole !== 'Admin') {
-            $countsQuery->where(function ($query) use ($user) {
-                $query->where('users.route_code', $user->route_code)
-                    ->orWhereNull('users.route_code');
-            });
-        }
-
-        $counts = $countsQuery->groupBy('roles.name')
-            ->selectRaw('roles.name, count(users.id) as count')
-            ->pluck('count', 'roles.name');
-
-        $count = 1;
-
-        return view('livewire.users.user-types', compact('lists', 'counts', 'count'));
+    public function getUsers()
+    {
+        $searchTerm = '%' . $this->search . '%';
+        return $this->buildBaseQuery()
+            ->search($searchTerm)
+            ->paginate($this->perPage);
     }
 }

@@ -89,6 +89,7 @@
   'user.dashboard' => 'App\\Http\\Livewire\\User\\Dashboard',
   'user.user-types' => 'App\\Http\\Livewire\\User\\UserTypes',
   'users.admins' => 'App\\Http\\Livewire\\Users\\Admins',
+  'users.dashboard' => 'App\\Http\\Livewire\\Users\\Dashboard',
   'users.distributors' => 'App\\Http\\Livewire\\Users\\Distributors',
   'users.lube-sales-executive' => 'App\\Http\\Livewire\\Users\\LubeSalesExecutive',
   'users.managers' => 'App\\Http\\Livewire\\Users\\Managers',
