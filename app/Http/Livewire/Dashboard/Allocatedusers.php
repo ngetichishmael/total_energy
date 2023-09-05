@@ -19,13 +19,12 @@ class Allocatedusers extends Component
           ->prepend('choose', '');
 
        $allocationsQuery = \App\Models\inventory\allocations::join('users', 'users.user_code', '=', 'inventory_allocations.sales_person')
-          ->where('inventory_allocations.business_code', Auth::user()->business_code)
+          ->where('inventory_allocations.business_code', Auth::user()->business_code)->where('inventory_allocations.status', '=', 'Pending Delivery')
           //  ->select('inventory_allocations.*', 'inventory_allocations.created_at as allocation_created_at', 'inventory_allocations.status as allocation_status', 'users.*')
           ->select(
              'inventory_allocations.*',
              'inventory_allocations.id as allocation_id',
              'inventory_allocations.created_at as allocation_created_at',
-             'inventory_allocations.status as allocation_status',
              'users.id as user_id',
              'users.name as name',
              'users.route_code'
