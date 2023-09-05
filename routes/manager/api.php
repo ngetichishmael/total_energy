@@ -51,6 +51,10 @@ Route::group(['namespace' => 'Api'], function () {
        Route::post('/manager/dashboard/data/custom', [DashboardAppController::class, 'custom']);
 
        Route::get('/manager/users', [UsersController::class, 'getUsers']);
+       Route::post('/manager/deactivate/user/{user_code}', [UsersController::class, 'suspendUser']);
+       Route::post('/manager/activate/user/{user_code}', [UsersController::class, 'activateUser']);
+       Route::get('/manager/users/account_types', [UsersController::class, 'accountTypes']);
+
        Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
        Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
 
@@ -91,6 +95,11 @@ Route::group(['namespace' => 'Api'], function () {
        Route::get('/manager/active-users/last-month', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'activeUsersMonth']);
  
        Route::get('/manager/orders/completed', [ReportsController::class, 'orderFulfillment']);
+
+       Route::post('/manager/assign/lead/target', [TargetController::class, 'assignLeadTarget']);
+       Route::post('/manager/assign/sale/target', [TargetController::class, 'assignSaleTarget']);
+       Route::post('/manager/assign/visit/target', [TargetController::class, 'assignVisitTarget']);
+       Route::post('/manager/assign/order/target', [TargetController::class, 'assignOrderTarget']);
 
 
    });
