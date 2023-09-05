@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 
 class Routes extends Model
 {
@@ -37,4 +38,6 @@ class Routes extends Model
     {
         return $this->hasMany(Route_customer::class, 'routeID', 'route_code');
     }
+
+
 }

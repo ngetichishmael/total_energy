@@ -43,6 +43,8 @@ Route::group(['namespace' => 'Api'], function () {
        Route::get('/manager/customers/list', [CustomerController::class, 'getCustomers']);
        Route::get('/manager/customer/{id}/details', [CustomerController::class, 'showCustomerDetails']);
        Route::post('/manager/customer/{id}/orders', [OrdersController::class, 'showCustomerOrders']);
+       Route::post('/manager/customer/{id}/deliveries', [OrdersController::class, 'showCustomerDeliveries']);
+
 
 
        Route::get('/manager/dashboard/data', [DashboardAppController::class, 'dashboard']);
@@ -57,7 +59,6 @@ Route::group(['namespace' => 'Api'], function () {
        Route::post('/manager/orders/allocation', [OrdersController::class, 'allocatingOrders']);
 
        Route::get('/manager/customers/checkins', [VisitsController::class, 'getCustomerCheckins']);
-
 
        Route::get('/manager/routes/data', [RoutesController::class, 'getRoutes']);
 

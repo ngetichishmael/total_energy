@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Manager;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserCode;
+use App\Models\Region;
+use App\Models\AssignedRegion;
 use App\Helpers\SMS;
 use App\Models\activity_log;
 use Illuminate\Http\Request;
@@ -19,49 +21,75 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthenticationController extends Controller
 {
-   public function login(Request $request)
-   {
 
-      //(!Auth::attempt(['email' => $request->email, 'password' => $request->password], true))
-      if (!Auth::attempt(
-         [
+    public function login(Request $request)
+    {
+        if (!Auth::attempt([
             'phone_number' => $request->phone_number,
             'password' => $request->password,
-            'account_type' =>'Managers',
-            'status' =>'Active'
-         ],
-         true
-      )) 
-      
-      {
-         return response()
-            ->json(['message' => 'Unauthorized'], 401);
-      }
-
-      $user = User::where('phone_number', $request['phone_number'])->firstOrFail();
-
-      $token = $user->createToken('auth_token')->plainTextToken;
-
-      $random = Str::random(20);
-      $activityLog = new activity_log();
-      $activityLog->source = 'Mobile App';
-      $activityLog->activity = 'Manager Login in Mobile Device';
-      $activityLog->user_code = auth()->user()->user_code;
-      $activityLog->section = 'Mobile Login';
-      $activityLog->action = 'User ' . auth()->user()->name . ' Logged in in mobile appication';
-      $activityLog->userID = auth()->user()->id;
-      $activityLog->activityID = $random;
-      $activityLog->ip_address = $request->ip() ?? '127.0.0.1';
-      $activityLog->save();
-
-      return response()->json([
-         "success" => true,
-         "token_type" => 'Bearer',
-         "message" => "Successfully Log in",
-         "access_token" => $token,
-         "user" => $user
-      ]);
-   }
+            'account_type' => 'Managers',
+            'status' => 'Active'
+        ], true)) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+    
+        $user = User::with(['mainRegion', 'assignedRegions'])->where('phone_number', $request['phone_number'])->firstOrFail();
+    
+        // Remove pivot information from assigned regions
+        $assignedRegions = $user->assignedRegions->map(function ($region) {
+            return [
+                'id' => $region->id,
+                'name' => $region->name,
+                'primary_key' => $region->primary_key,
+                'created_at' => $region->created_at,
+                'updated_at' => $region->updated_at,
+            ];
+        });
+    
+        $token = $user->createToken('auth_token')->plainTextToken;
+    
+        $random = Str::random(20);
+        $activityLog = new activity_log();
+        $activityLog->source = 'Mobile App';
+        $activityLog->activity = 'Manager Login in Mobile Device';
+        $activityLog->user_code = auth()->user()->user_code;
+        $activityLog->section = 'Mobile Login';
+        $activityLog->action = 'User ' . auth()->user()->name . ' Logged in in mobile application';
+        $activityLog->userID = auth()->user()->id;
+        $activityLog->activityID = $random;
+        $activityLog->ip_address = $request->ip() ?? '127.0.0.1';
+        $activityLog->save();
+    
+        return response()->json([
+            "success" => true,
+            "token_type" => 'Bearer',
+            "message" => "Successfully Log in",
+            "access_token" => $token,
+            "user" => [
+                "id" => $user->id,
+                "user_code" => $user->user_code,
+                "name" => $user->name,
+                "email" => $user->email,
+                "email_verified_at" => $user->email_verified_at,
+                "business_code" => $user->business_code,
+                "phone_number" => $user->phone_number,
+                "location" => $user->location,
+                "gender" => $user->gender,
+                "account_type" => $user->account_type,
+                "status" => $user->status,
+                "fcm_token" => $user->fcm_token,
+                "admin_id" => $user->admin_id,
+                "route_code" => $user->route_code,
+                "created_at" => $user->created_at,
+                "updated_at" => $user->updated_at,
+                "main_region" => $user->mainRegion,
+                "other_assigned_regions" => $assignedRegions->all(), // Remove pivot information
+            ],
+        ]);
+    }
+    
+    
+    
 
    public function user_details($phone_number)
    {

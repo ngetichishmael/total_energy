@@ -122,6 +122,7 @@
                     </li>
                 </ul>
             </li>
+            @if (Auth::user()->account_type === 'Distributors')
             <li class="nav-item {!! Nav::isRoute('*Payment') !!}">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="dollar-sign"></i><span class="menu-title text-truncate" data-i18n="Todo">
@@ -138,6 +139,7 @@
                     </li>
                 </ul>
             </li>
+            @endif  
 {{--            <li class="nav-item {!! Nav::isResource('product') !!}">--}}
 {{--                <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span--}}
 {{--                        class="menu-title text-truncate" data-i18n="Invoice">Products</span></a>--}}
@@ -275,8 +277,16 @@
                  </li>
               </ul>
            </li>
+
+           <li class="nav-item {!! Nav::isResource('reports') !!}">
+                <a class="d-flex align-items-center" href="{!! route('users.reports') !!}">
+                   <i data-feather='pocket'></i> <span class="menu-title text-truncate" data-i18n="Invoice">
+                        Reports</span></a>
+           </li>
+
+
         @if (Auth::user()->account_type === 'Admin')
-            <li class="nav-item {!! Nav::isResource('reports') !!}">
+            <li class="nav-item {!! Nav::isResource('performance') !!}">
                 <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i
                         data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Invoice">
                         Performance Analysis</span></a>
