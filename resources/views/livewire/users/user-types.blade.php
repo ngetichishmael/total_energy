@@ -1,6 +1,4 @@
 <div>
-    <!-- Header with Logo and Navigation (not shown in this example) -->
-
     <div class="d-flex justify-content-between align-items-center mt-4">
         <h1>
             @if ($groupView)
@@ -28,6 +26,4 @@
             @endif
         </div>
     </div>
-
-    <!-- Footer Navigation (not shown in this example) -->
 </div>
