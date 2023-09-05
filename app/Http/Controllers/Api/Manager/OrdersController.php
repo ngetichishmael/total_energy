@@ -97,6 +97,7 @@ class OrdersController extends Controller
    {
        // Assuming you have a Customer model with a relationship to orders, you can retrieve the customer's orders.
        $customer = customers::find($id);
+       $custom = customers::find($id);
 
        if (!$customer) {
            return response()->json(['message' => 'Customer not found'], 404);
@@ -109,8 +110,9 @@ class OrdersController extends Controller
         'status' => 200,
         'success' => true,
         'message' => 'Customer and there associated Deliveries retrieved successfully',
-        'data' => $deliveries]);
-   }
+        'customer' => $custom,
+        'orders' => $deliveries]);
+   } 
    
 
    
