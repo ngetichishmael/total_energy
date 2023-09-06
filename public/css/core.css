@@ -204,6 +204,7 @@ svg {
 
 table {
   border-collapse: collapse;
+   font-weight: lighter;
 }
 
 caption {
@@ -1875,6 +1876,7 @@ pre code {
   width: 100%;
   margin-bottom: 1rem;
   color: #6e6b7b;
+   font-weight: lighter;
 }
 .table th,
 .table td {

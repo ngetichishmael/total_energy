@@ -57,6 +57,64 @@ class OrdersController extends Controller
            'Data' => $orders
        ]);
    }
+
+   public function showCustomerOrders($customerId)
+   {
+       // Retrieve the customer based on the provided customer ID
+       $customer = customers::find($customerId);
+   
+       if (!$customer) {
+           return response()->json(['message' => 'Customer not found'], 404);
+       }
+   
+       // Retrieve the customer's orders with their associated order items
+       $ordersWithItems = $customer->orders()
+           ->with('orderItems')
+           ->get();
+   
+       // Transform the data into the desired format
+       $formattedData = [
+           'status' => 200,
+           'success' => true,
+           'message' => 'Customer and there associated orders retrieved successfully',
+           'data' => [
+               'customer' => $customer->toArray(),
+               'orders' => []
+           ]
+       ];
+   
+       foreach ($ordersWithItems as $order) {
+           $formattedOrder = $order->toArray();
+           $formattedOrder['order_items'] = $order->orderItems->toArray();
+           $formattedData['data']['orders'][] = $formattedOrder;
+       }
+   
+       // Return the customer and their associated orders with items
+       return response()->json($formattedData);
+   }
+   
+   public function showCustomerDeliveries(Request $request, $id)
+   {
+       // Assuming you have a Customer model with a relationship to orders, you can retrieve the customer's orders.
+       $customer = customers::find($id);
+       $custom = customers::find($id);
+
+       if (!$customer) {
+           return response()->json(['message' => 'Customer not found'], 404);
+       }
+
+       // Fetch the orders with "Delivered" status for the customer.
+       $deliveries = $customer->orders()->where('order_status', 'Delivered')->get();
+
+       return response()->json([
+        'status' => 200,
+        'success' => true,
+        'message' => 'Customer and there associated Deliveries retrieved successfully',
+        'customer' => $custom,
+        'orders' => $deliveries]);
+   } 
+   
+
    
 
     public function filter($region_id): array
@@ -83,6 +141,27 @@ class OrdersController extends Controller
         }
         return $customers->toArray();
     }
+
+    public function showOrderDetails($order_code)
+    {
+        // Retrieve the order based on the provided order code
+        $order = Orders::where('order_code', $order_code)
+            ->with('customer', 'user', 'orderitems')
+            ->first();
+    
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+    
+        return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => 'Order details retrieved successfully',
+            'data' => $order
+        ]);
+    }
+    
+
     public function allOrdersUsingAPIResource(Request $request)
     {
         return response()->json([
@@ -112,7 +191,7 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function allocateOrders2(Request $request)
+    public function allocatingOrders(Request $request)
     {
         $route_code = $request->user()->route_code;
         $this->validate($request, [

@@ -1,5 +1,7 @@
 <div>
+   <div class="justify-content-end align-items-center mx-50 mb-2" > <a type="button" href="{{route('dashboard.allocated.users')}}" class="btn-success btn-lg rounded-2">View Current Stocks Allocations</a></div>
     <div class="col-xl-12 col-md-12 col-12">
+
         <div class="card">
             <div class="pt-0 pb-2 d-flex justify-content-end align-items-center mx-50 row">
                 <div class="col-md-2">
@@ -175,7 +177,7 @@
         </a>
     </div>
 @endforeach
-               
+
 
                     </div>
                 </div>

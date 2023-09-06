@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\DeliveriesController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\OutletTypesController;
 use App\Http\Controllers\Api\productCategoriesController;
-use App\Http\Controllers\Api\ReconciledProductsController;
 use App\Http\Controllers\Api\ReportsController;
 use App\Http\Controllers\Api\StockRequisitionController;
 use App\Http\Controllers\Api\SurveryAnswersController;
@@ -37,6 +36,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     //customers
     Route::get('customers/{businessCode}', 'customersController@index')->middleware('auth:sanctum');
+    Route::post('user/checking', 'checkinController@checkinUser')->middleware('auth:sanctum');
     Route::post('customers/add-customer', 'customersController@add_customer')->middleware('auth:sanctum');
     Route::post('customer/edit-customer', 'customersController@editCustomer')->middleware('auth:sanctum');
     Route::get('customers/{code}/details', 'customersController@details');
@@ -167,7 +167,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     // Reconcillations
     Route::get('/reconcile/payment', 'ReconciliationController@index')->middleware('auth:sanctum');
-    Route::post('/reconcile/products', [ReconciledProductsController::class, 'index'])->middleware('auth:sanctum');
+    Route::post('/reconcile/products', 'ReconciliationController@index')->middleware('auth:sanctum');
     Route::get('/get/targets', [TargetsController::class, 'getSalespersonTarget'])->middleware('auth:sanctum');
 
     /**

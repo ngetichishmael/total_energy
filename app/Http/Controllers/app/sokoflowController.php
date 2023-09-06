@@ -61,10 +61,10 @@ class sokoflowController extends Controller
         $strike = DB::table('customer_checkin')->whereDate('created_at', Carbon::today())->count();
         $customersCount = Orders::distinct('customerID')->whereDate('created_at', Carbon::today())->count();
 
-        
+
 
         return view('app.dashboard.dashboard', [
-        
+
             'Cash' => $cash,
             'Mpesa' => $mpesa,
             'Cheque' => $cheque,
@@ -154,4 +154,10 @@ class sokoflowController extends Controller
     {
         return view('app.dashboard.user-summary');
     }
+   public function allocated(){
+      return view('app.dashboard.allocated');
+   }
+   public function allocatedusers(){
+      return view('app.dashboard.allocatedusers');
+   }
 }

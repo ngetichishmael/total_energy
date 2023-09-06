@@ -22,7 +22,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="col-md-2 user_role">
                 <div class="form-group">
                     <label for="selectArea">Area</label>
@@ -99,17 +98,32 @@
                         <th width="15%">Name</th>
                         <th>Type</th>
                         <th>Number</th>
+{{--                        <th>source</th>--}}
                         <th width="15%">Address</th>
                         <th width="15%">Zone/Region</th>
                         <th width="15%">Route</th>
-                        <th>Created By</th>
-                        <th>Created At</th>
+                        <th width="15%">Created By</th>
+                        <th width="15%">Created On</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
                         @forelse ($contacts as $count => $contact)
                             <!-- <td>{!! $count + 1 !!}</td> -->
-                            <tr>
+                            <tr style="color:
+           @php
+                $lastOrderDate = $contact->last_order_date ? \Carbon\Carbon::parse($contact->last_order_date) : null;
+                $currentDate = now();
+                $threeMonthsAgo = $currentDate->copy()->subMonths(3);
+                $sixMonthsAgo = $currentDate->copy()->subMonths(6);
+
+                if ($lastOrderDate === null || ($lastOrderDate->year === $currentDate->year && $lastOrderDate->month >= $threeMonthsAgo->month) || ($lastOrderDate->year === $currentDate->year && $lastOrderDate->month === $threeMonthsAgo->month && $lastOrderDate->day >= $threeMonthsAgo->day)) {
+                    echo 'green';
+                } elseif (($lastOrderDate->year === $currentDate->year && $lastOrderDate->month >= $sixMonthsAgo->month) || ($lastOrderDate->year === $currentDate->year && $lastOrderDate->month === $sixMonthsAgo->month && $lastOrderDate->day >= $sixMonthsAgo->day)) {
+                    echo '#FFD650';
+                } else {
+                    echo 'darkred';
+                }
+            @endphp">
                                 <td>
                                     {!! $contact->customer_name !!} <br>
                                     @if ($contact->status === 'Active')
@@ -120,16 +134,11 @@
                                 </td>
                                 <td>{!! $contact->customer_group !!}</td>
                                 <td>{!! $contact->phone_number !!}</td>
+{{--                                <td>{!! $contact->source !!}</td>--}}
+                                <td>{{ $contact->address }} </td>
                                 <td>
-                                    {{ $contact->address }}
-                                </td>
-                                <td>
-                                    @if ($contact->Area && $contact->Area->Subregion && $contact->Area->Subregion->Region)
-                                        {!! $contact->Area->Subregion->Region->name !!}
-                                        @if ($contact->Area->Subregion->name)
-                                            , <br><i>{!! $contact->Area->Subregion->name !!}</i>
-                                        @endif
-                                    @endif
+                                    {!! $contact->Area->Subregion->Region->name ?? '' !!}
+                                    , <br><i>{!! $contact->Area->Subregion->name ?? '' !!}</i>
                                 </td>
                                 <td>
                                     {!! $contact->Area->name ?? '' !!}
@@ -138,7 +147,7 @@
                                     {!! $contact->Creator->name ?? '' !!}
                                 </td>
                                 <td>
-                                    {!! $contact->created_at ? $contact->created_at->format('Y-m-d h:i A') : '' !!}
+                                    {!! $contact->created_at ? $contact->created_at->format('Y-m-d') : '' !!}
                                 </td>
                                 <td>
                                     <div class="dropdown">

@@ -96,11 +96,12 @@ class Dashboard extends Component
 
         return $areas;
     }
-
     public function getCustomer()
     {
         $searchTerm = '%' . $this->search . '%';
-        $query = customers::orderBy('created_at', 'DESC'); // Order by created_at in descending order (most recent first)
+        $query = customers::whereHas('Creator')
+            ->whereHas('Area')
+            ->orderBy('created_at', 'DESC'); // Order by created_at in descending order (most recent first)
 
         // Apply the search term filter
         $query->where(function ($q) use ($searchTerm) {
