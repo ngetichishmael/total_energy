@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\CheckIn as ModelsCheckIn;
 use App\Models\customer\checkin;
 use App\Models\customer\customers;
 use App\Models\inventory\allocations;
@@ -66,7 +67,7 @@ class checkinController extends Controller
  */
     public function checkinUser(Request $request)
     {
-        $checkin = CheckIn::create([
+        $checkin = ModelsCheckIn::create([
             'user_id' => $request->user()->id,
             'name' => $request->user()->name,
             'latitude' => $request->latitude,
