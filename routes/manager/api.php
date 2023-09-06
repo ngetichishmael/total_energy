@@ -101,6 +101,8 @@ Route::group(['namespace' => 'Api'], function () {
        Route::post('/manager/assign/visit/target', [TargetController::class, 'assignVisitTarget']);
        Route::post('/manager/assign/order/target', [TargetController::class, 'assignOrderTarget']);
 
+       Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
+
 
    });
 });
