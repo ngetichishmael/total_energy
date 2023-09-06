@@ -215,9 +215,14 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item {!! Nav::isResource('reports') !!}">
+                    <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i
+                            data-feather='book-open'></i><span class="menu-title text-truncate" data-i18n="Invoice">
+                            Reports</span></a>
+            </li>
             @if (Auth::user()->account_type === 'Admin')
                 <li class="nav-item {!! Nav::isResource('reports') !!}">
-                    <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i
+                    <a class="d-flex align-items-center" href="#"><i
                             data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Invoice">
                             Performance Analysis</span></a>
                 </li>

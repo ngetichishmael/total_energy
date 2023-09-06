@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
+
 
 class Dashboard extends Component
 {
@@ -32,6 +34,8 @@ class Dashboard extends Component
     public $perOrderFulfilment = 10;
     public $perActiveUsers = 10;
     public $perUserTotal = 10;
+    public $userRegion;
+
 
     // Individual functions for data retrieval
 
@@ -434,6 +438,12 @@ class Dashboard extends Component
             ->sum('amount');
         $this->sumAll = DB::table('order_payments')
             ->sum('amount');
+
+        $user = Auth::user();
+
+            if ($user) {
+                $this->userRegion = $user->Region->name; // Assuming 'Region' is the relationship
+            }
     }
     public function updatedStart()
     {
