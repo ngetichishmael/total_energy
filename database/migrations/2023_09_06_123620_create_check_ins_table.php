@@ -14,7 +14,7 @@ class CreateCheckInsTable extends Migration
      */
     public function up()
     {
-        Schema::create('check_user_ins', function (Blueprint $table) {
+        Schema::create('check_ins', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
             $table->string('name');
