@@ -6,7 +6,7 @@
 @section('content')
    <div class="row mb-2">
       <div class="col-md-8">
-         <h2 class="page-header"> Route</h2>
+         <h2 class="page-header"> Route Schedules</h2>
       </div>
       <!-- <div class="col-md-4">
          <center>
