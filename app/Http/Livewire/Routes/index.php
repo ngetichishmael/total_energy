@@ -11,7 +11,7 @@ class Index extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $perPage = 10;
+    public $perPage = 15;
     public $search = null;
 
     public function render()
