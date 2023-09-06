@@ -159,9 +159,9 @@ Route::group(['middleware' => ['verified']], function () {
     Route::get('reports/customers/{id}', ['uses' => 'app\ReportsController@customers', 'as' => 'customers.reports']);
     Route::get('reports/products/{code}', ['uses' => 'app\ReportsController@productreport', 'as' => 'allproducts.reports']);
     Route::get('reports/{code}/products', ['uses' => 'app\ReportsController@products', 'as' => 'report.products']);
-    Route::get('orders/items/{order_code}', ['uses' => 'app\ReportsController@preorderitems', 'as' => 'product.items']);
-    Route::get('orders/vansaleitems/{order_code}', ['uses' => 'app\ReportsController@vansaleitems', 'as' => 'vansale.items']);
-    Route::get('orders/deliveryitems/{order_code}', ['uses' => 'app\ReportsController@deliveryitems', 'as' => 'delivery.items']);
+    Route::get('orders/items/{order_code}', ['uses' => 'app\ReportsController@items', 'as' => 'product.items']);
+    Route::get('orders/vansaleitems/{order_code}', ['uses' => 'app\ReportsController@items', 'as' => 'vansale.items']);
+    Route::get('orders/deliveryitems/{order_code}', ['uses' => 'app\ReportsController@items', 'as' => 'delivery.items']);
     Route::get('reports/tsr/details', ['uses' => 'app\ReportsController@tsr', 'as' => 'tsr.details']);
     Route::get('reports/rsm/details', ['uses' => 'app\ReportsController@rsm', 'as' => 'rsm.details']);
     Route::get('reports/shop-attendee/details', ['uses' => 'app\ReportsController@shopattendee', 'as' => 'attendee.details']);

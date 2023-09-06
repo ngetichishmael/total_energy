@@ -71,20 +71,17 @@ class ReportsController extends Controller
         return view('app.items.supplier', ['orders' => $orders]);
     }
 
-    public function preorderitems($order_code)
+    public function items($order_code)
     {
-        $items = Order_items::where('order_code', $order_code)->get();
-        return view('app.items.preorder', ['items' => $items]);
-    }
-    public function vansaleitems($order_code)
-    {
-        $items = Order_items::where('order_code', $order_code)->get();
-        return view('app.items.vansale', ['items' => $items]);
-    }
-    public function deliveryitems($order_code)
-    {
-        $items = Order_items::where('order_code', $order_code)->get();
-        return view('app.items.delivery', ['items' => $items]);
+        $items = Order_items::join('product_information', 'product_information.id', '=', 'order_items.productID')
+            ->select(
+                'order_items.id',
+                'order_items.product_name as name',
+                'product_information.sku_code as code'
+            )
+            ->groupBy('order_items.id')
+            ->where('order_code', $order_code)->get();
+        return view('app.items.items', ['items' => $items]);
     }
     public function tsr()
     {
