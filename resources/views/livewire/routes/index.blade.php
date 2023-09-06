@@ -1,17 +1,18 @@
 <div>
     <div class="card">
-        <h5 class="card-header"></h5>
+        <h5 class="card-header">Routes</h5>
         <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50 row">
-            <div class="col-md-4 user_role">
+            <div class="col-md-4">
+                <!-- Search Input -->
                 <div class="input-group input-group-merge">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i data-feather="search"></i></span>
                     </div>
-                    <input wire:model="search" type="text" id="fname-icon" class="form-control" name="fname-icon"
-                        placeholder="Search" />
+                    <input wire:model.debounce.500ms="search" type="text" class="form-control" placeholder="Search" />
                 </div>
             </div>
-            <div class="col-md-2 user_role">
+            <div class="col-md-2">
+                <!-- Per Page Dropdown -->
                 <div class="form-group">
                     <label for="selectSmall">Per Page</label>
                     <select wire:model="perPage" class="form-control form-control-sm" id="selectSmall">
@@ -24,15 +25,17 @@
             </div>
 
             <div class="col-md-2">
-                <a class="btn btn" style="background-color:#1877F2; color:#ffffff;" href="{!! route('routes.create') !!}"> <i
-                        data-feather="user-plus" style="padding:2px"></i> Add Route</a>
+                <!-- Add Route Button -->
+                <a class="btn btn" style="background-color:#1877F2; color:#ffffff;" href="{!! route('routes.create') !!}">
+                    <i data-feather="user-plus" style="padding:2px"></i> Add Route
+                </a>
             </div>
-
         </div>
     </div>
 
     <div class="card card-default">
         <div class="card-body">
+            <!-- Route Table -->
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -56,9 +59,15 @@
                             <td>{!! $route->start_date !!}</td>
                             <td>{!! $route->end_date !!}</td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                             <td colspan="7" class="text-center">No routes found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
+
+            <!-- Pagination Links -->
             <div class="mt-1">{!! $routes->links() !!}</div>
         </div>
     </div>
