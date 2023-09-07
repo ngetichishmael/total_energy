@@ -47,7 +47,6 @@ class Customer
                 'telephone' => $request->phone_number,
                 'phone_number' => $request->phone_number,
                 'email' => $emailData,
-                'type' => $request->type,
                 'street' => $request->address,
                 'address' => $request->address,
                 'customer_group' => $request->outlet,
