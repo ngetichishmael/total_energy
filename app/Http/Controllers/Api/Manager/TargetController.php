@@ -84,44 +84,66 @@ class TargetController extends Controller
 
    public function assignLeadTarget(Request $request)
    {
-      $validator           =  Validator::make($request->all(), [
-         "user_code"   => "required",
-         "target"   => "required",
-      ]);
-      if ($validator->fails()) {
-         return response()->json(
-            [
-               "status" => 401, "message" => "validation_error",
-               "errors" => $validator->errors()
-            ],
-            403
-         );
-      }
-      LeadsTargets::updateOrCreate(
-         [
-            'user_code' => $request->user_code,
-            'Deadline' =>  $request->date ?? $this->lastDayofMonth,
-         ],
-         [
-            'LeadsTarget' => $request->target,
-//            'bussiness_code' => $request->user()->business_code,
-         ]
-      );
-      $users=User::find($request->user_code);
-      $list=[];
-      foreach ($users as $user){
-         $list=$user->name;
-      }
-      $action="Assigning Leads Targets";
-      $activity="Lead Targets assigned for the following users ".$list;
-      $this->activitylogs($action, $activity);
-      return response()->json([
-         "success" => true,
-         "status" => 200,
-         "message" => "Target assigned for the following users ",
-         "data" =>$users,
-      ]);
+       $validator = Validator::make($request->all(), [
+           "user_code" => "required",
+           "target"    => "required",
+       ]);
+   
+       if ($validator->fails()) {
+           return response()->json(
+               [
+                   "status"  => 401,
+                   "message" => "Validation error",
+                   "errors"  => $validator->errors(),
+               ],
+               403
+           );
+       }
+   
+       $userCode = $request->user_code;
+       $targetValue = $request->target;
+       $deadline = $request->date ?? $this->lastDayofMonth;
+   
+       // Update or create the leads target for the user
+       LeadsTargets::updateOrCreate(
+           [
+               'user_code' => $userCode,
+               'Deadline'  => $deadline,
+           ],
+           [
+               'LeadsTarget' => $targetValue,
+           ]
+       );
+   
+       // Retrieve the user(s) with the assigned target using 'user_code'
+       $users = User::whereIn('user_code', (array)$userCode)->get();
+   
+       if ($users->isNotEmpty()) {
+           $userNames = $users->pluck('name')->implode(', ');
+   
+           $action = "Assigning Leads Targets";
+           $activity = "Lead Targets assigned for the following users: " . $userNames;
+   
+           // Log the activity
+           $this->activitylogs($action, $activity);
+   
+           return response()->json([
+               "success"  => true,
+               "status"   => 200,
+               "message"  => "Target assigned successfully for the following users",
+               "data"     => $users,        // Include user details in the response
+               "lead_target"   => $targetValue // Include assigned target in the response
+           ]);
+       }
+   
+       return response()->json([
+           "status"  => 404,
+           "message" => "User not found",
+       ], 404);
    }
+   
+
+   
    public function assignOrderTarget(Request $request)
    {
       $validator           =  Validator::make($request->all(), [
