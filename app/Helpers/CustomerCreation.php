@@ -30,7 +30,7 @@ class CustomerCreation
                 'source' => $source,
                 'soko_uuid' => $request->odoo_uuid ?? Str::uuid(),
                 'external_uuid' => $request->external_id ?? Str::uuid(),
-                'company_type' => $request->company_type,
+                'customer_secondary_group' => $request->company_type ?? $request->outlet,
                 'image' => $image_path,
                 'telephone' => $request->phone_number,
                 'mobile' => $request->phone_number,
