@@ -26,6 +26,7 @@
         <div class="col-md-3">
             <label for="">Time Frame</label>
             <select wire:model="timeFrame" class="form-control">
+                <option value="month">Month</option>
                 <option value="quarter">Quarter</option>
                 <option value="half_year">Half Year</option>
                 <option value="year">Year</option>
