@@ -45,16 +45,29 @@ class TargetController extends Controller
        $targetValue = $request->target;
        $deadline = $request->date ?? $this->lastDayofMonth;
    
-       // Update or create the visits target for the user
-       VisitsTarget::updateOrCreate(
-           [
+       // Check if the user already has a target for the current month
+       $currentMonthTarget = VisitsTarget::where('user_code', $userCode)
+           ->whereYear('Deadline', now()->year)
+           ->whereMonth('Deadline', now()->month)
+           ->first();
+   
+       if ($currentMonthTarget) {
+           // Update the existing target for the current month
+           $currentMonthTarget->update([
+               'VisitsTarget' => $targetValue,
+           ]);
+   
+           $responseTarget = $currentMonthTarget;
+       } else {
+           // Create a new target for the current month
+           $createdTarget = VisitsTarget::create([
                'user_code' => $userCode,
                'Deadline'  => $deadline,
-           ],
-           [
                'VisitsTarget' => $targetValue,
-           ]
-       );
+           ]);
+   
+           $responseTarget = $createdTarget;
+       }
    
        // Retrieve the user with the assigned target using 'user_code'
        $user = User::where('user_code', $userCode)->first();
@@ -71,7 +84,7 @@ class TargetController extends Controller
                "status"   => 200,
                "message"  => "Target assigned successfully for the following user",
                "user"     => $user,        // Include user details in the response
-               "Visit_target"   => $targetValue // Include assigned target in the response
+               "visit_target"   => $responseTarget, // Include details of the assigned target in the response
            ]);
        }
    
@@ -80,6 +93,7 @@ class TargetController extends Controller
            "message" => "User not found",
        ], 404);
    }
+   
    
 
    public function assignLeadTarget(Request $request)
@@ -104,16 +118,30 @@ class TargetController extends Controller
        $targetValue = $request->target;
        $deadline = $request->date ?? $this->lastDayofMonth;
    
-       // Update or create the leads target for the user
-       LeadsTargets::updateOrCreate(
-           [
+       // Check if the user already has a target for the current month
+       $currentMonthTarget = LeadsTargets::where('user_code', $userCode)
+           ->whereYear('Deadline', now()->year)
+           ->whereMonth('Deadline', now()->month)
+           ->first();
+   
+       if ($currentMonthTarget) {
+           // Update the existing target for the current month
+           $currentMonthTarget->update([
+               'LeadsTarget' => $targetValue,
+           ]);
+   
+           $responseTarget = $currentMonthTarget;
+       } else {
+           // Create a new target for the current month
+           $createdTarget = LeadsTargets::create([
                'user_code' => $userCode,
                'Deadline'  => $deadline,
-           ],
-           [
                'LeadsTarget' => $targetValue,
-           ]
-       );
+               'AchievedLeadsTarget' => 0,
+           ]);
+   
+           $responseTarget = $createdTarget;
+       }
    
        // Retrieve the user(s) with the assigned target using 'user_code'
        $users = User::whereIn('user_code', (array)$userCode)->get();
@@ -128,11 +156,11 @@ class TargetController extends Controller
            $this->activitylogs($action, $activity);
    
            return response()->json([
-               "success"  => true,
-               "status"   => 200,
-               "message"  => "Target assigned successfully for the following users",
-               "data"     => $users,        // Include user details in the response
-               "lead_target"   => $targetValue // Include assigned target in the response
+               "success"     => true,
+               "status"      => 200,
+               "message"     => "Target assigned successfully for the following users",
+               "data"        => $users,           // Include user details in the response
+               "lead_target" => $responseTarget, // Include details of the assigned target in the response
            ]);
        }
    
@@ -141,6 +169,7 @@ class TargetController extends Controller
            "message" => "User not found",
        ], 404);
    }
+   
    
 
    
