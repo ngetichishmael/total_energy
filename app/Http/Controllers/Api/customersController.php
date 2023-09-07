@@ -43,10 +43,10 @@ class customersController extends Controller
     public function index(Request $request, $businessCode)
     {
         $user = $request->user();
-    
+
         $subregions = Subregion::where('region_id', $user->route_code)
             ->pluck('id');
-    
+
         if ($subregions->isEmpty()) {
             return response()->json([
                 "user" => $user,
@@ -55,10 +55,10 @@ class customersController extends Controller
                 "data" => [],
             ]);
         }
-        
+
         $areas = Area::whereIn('subregion_id', $subregions->toArray())
             ->pluck('id');
-        
+
         if ($areas->isEmpty()) {
             return response()->json([
                 "user" => $user,
@@ -67,24 +67,24 @@ class customersController extends Controller
                 "data" => [],
             ]);
         }
-        
+
         $customers = customers::with('Wallet')
             ->whereIn('route_code', $areas->toArray())
             ->orderBy('id', 'DESC')
             ->get();
-        
+
         // Construct the default image URL
         $defaultImageUrl = asset('images/no-image.png');
-        
+
         // Modify the image URLs
         foreach ($customers as $customer) {
             $imageFileName = $customer->image;
             $imagePath = public_path('images/' . $imageFileName);
             $imageUrl = file_exists($imagePath) ? asset('images/' . $imageFileName) : $defaultImageUrl;
-            
+
             $customer->image = $imageUrl;
         }
-    
+
         return response()->json([
             "user" => $user,
             "success" => true,
@@ -92,11 +92,6 @@ class customersController extends Controller
             "data" => $customers,
         ]);
     }
-    
-    
-    
-    
-    
 
     /**
      * Customer details
@@ -130,6 +125,17 @@ class customersController extends Controller
                 break;
         }
         $respond = $customerModel::addCustomer($request);
+        DB::table('customers as c')
+            ->join('areas as a', 'c.route_code', '=', 'a.id')
+            ->join('subregions as s', 'a.subregion_id', '=', 's.id')
+            ->join('regions as r', 's.region_id', '=', 'r.id')
+            ->update([
+                'c.region_id' => DB::raw('r.id'),
+                'c.zone_id' => DB::raw('a.id'),
+                'c.unit_id' => DB::raw('a.id'),
+                'c.route' => DB::raw('a.id'),
+                'c.subregion_id' => DB::raw('s.id'),
+            ]);
         return response()->json([$respond], $respond['status']);
     }
 

@@ -98,7 +98,7 @@
                         <th width="15%">Name</th>
                         <th>Type</th>
                         <th>Number</th>
-{{--                        <th>source</th>--}}
+                        {{--                        <th>source</th> --}}
                         <th width="15%">Address</th>
                         <th width="15%">Zone/Region</th>
                         <th width="15%">Route</th>
@@ -109,9 +109,10 @@
                     <tbody>
                         @forelse ($contacts as $count => $contact)
                             <!-- <td>{!! $count + 1 !!}</td> -->
-                            <tr style="color:
+                            <tr
+                                style="color:
            @php
-                $lastOrderDate = $contact->last_order_date ? \Carbon\Carbon::parse($contact->last_order_date) : null;
+$lastOrderDate = $contact->last_order_date ? \Carbon\Carbon::parse($contact->last_order_date) : null;
                 $currentDate = now();
                 $threeMonthsAgo = $currentDate->copy()->subMonths(3);
                 $sixMonthsAgo = $currentDate->copy()->subMonths(6);
@@ -122,8 +123,7 @@
                     echo '#FFD650';
                 } else {
                     echo 'darkred';
-                }
-            @endphp">
+                } @endphp">
                                 <td>
                                     {!! $contact->customer_name !!} <br>
                                     @if ($contact->status === 'Active')
@@ -134,7 +134,7 @@
                                 </td>
                                 <td>{!! $contact->customer_group !!}</td>
                                 <td>{!! $contact->phone_number !!}</td>
-{{--                                <td>{!! $contact->source !!}</td>--}}
+                                {{--                                <td>{!! $contact->source !!}</td> --}}
                                 <td>{{ $contact->address }} </td>
                                 <td>
                                     {!! $contact->Area->Subregion->Region->name ?? '' !!}
