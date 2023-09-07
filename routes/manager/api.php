@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Manager\UsersController;
 use App\Http\Controllers\Api\Manager\RoutesController;
 use App\Http\Controllers\Api\Manager\ReportsController;
 use App\Http\Controllers\Api\Manager\VisitsController;
+use App\Http\Controllers\Api\Manager\TargetController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
