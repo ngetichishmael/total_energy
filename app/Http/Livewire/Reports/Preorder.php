@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Reports;
 
+use App\Exports\PreorderExport;
 use App\Models\Area;
 use App\Models\customer\customers;
 use App\Models\Orders;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Preorder extends Component
 {
@@ -83,5 +85,9 @@ class Preorder extends Component
             return $array;
         }
         return $customers->toArray();
+    }
+    public function export()
+    {
+        return Excel::download(new PreorderExport, 'preorders.xlsx');
     }
 }
