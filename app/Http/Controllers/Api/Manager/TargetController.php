@@ -251,44 +251,77 @@ class TargetController extends Controller
 
    public function assignSaleTarget(Request $request)
    {
-      $validator =  Validator::make($request->all(), [
-         "user_code"   => "required",
-         "target"   => "required",
-      ]);
-      if ($validator->fails()) {
-         return response()->json(
-            [
-               "status" => 401, "message" => "validation_error",
-               "errors" => $validator->errors()
-            ],
-            403
-         );
-      }
-      SalesTarget::updateOrCreate(
-         [
-            'user_code' =>  $request->user_code,
-            'Deadline' => $request->date ?? $this->lastDayofMonth,
-         ],
-         [
-            'SalesTarget' => $request->target,
-//            'bussiness_code' => $request->user()->business_code,
-         ]
-      );
-      $users=User::find($request->user_code);
-      $list=[];
-      foreach ($users as $user){
-         $list=$user->name;
-      }
-      $action="Assigning Sales Targets";
-      $activity="Sales Target assigned for the following user ".$list;
-      $this->activitylogs($action, $activity);
-      return response()->json([
-         "success" => true,
-         "status" => 200,
-         "message" => "Target assigned for the following users",
-         "data" => $users,
-      ]);
+       $validator = Validator::make($request->all(), [
+           "user_code" => "required",
+           "target"    => "required",
+       ]);
+   
+       if ($validator->fails()) {
+           return response()->json(
+               [
+                   "status"  => 401,
+                   "message" => "Validation error",
+                   "errors"  => $validator->errors(),
+               ],
+               403
+           );
+       }
+   
+       $userCode = $request->user_code;
+       $targetValue = $request->target;
+       $deadline = $request->date ?? $this->lastDayofMonth;
+   
+       // Check if the user already has a sales target for the current month
+       $currentMonthTarget = SalesTarget::where('user_code', $userCode)
+           ->whereYear('Deadline', now()->year)
+           ->whereMonth('Deadline', now()->month)
+           ->first();
+   
+       if ($currentMonthTarget) {
+           // Update the existing sales target for the current month
+           $currentMonthTarget->update([
+               'SalesTarget' => $targetValue,
+           ]);
+   
+           $responseTarget = $currentMonthTarget;
+       } else {
+           // Create a new sales target for the current month
+           $createdTarget = SalesTarget::create([
+               'user_code' => $userCode,
+               'Deadline'  => $deadline,
+               'SalesTarget' => $targetValue,
+               'AchievedSalesTarget' => 0,
+
+           ]);
+   
+           $responseTarget = $createdTarget;
+       }
+   
+       // Retrieve the user with the assigned target using 'user_code'
+       $user = User::where('user_code', $userCode)->first();
+   
+       if ($user) {
+           $action = "Assigning Sales Targets";
+           $activity = "Sales Target assigned for the following user: " . $user->name;
+   
+           // Log the activity
+           $this->activitylogs($action, $activity);
+   
+           return response()->json([
+               "success"  => true,
+               "status"   => 200,
+               "message"  => "Target assigned successfully for the following user",
+               "user"     => $user,        // Include user details in the response
+               "sale_target"   => $responseTarget, // Include details of the assigned target in the response
+           ]);
+       }
+   
+       return response()->json([
+           "status"  => 404,
+           "message" => "User not found",
+       ], 404);
    }
+   
    public function activitylogs($activity,$action): void
    {
       $rdm = Str::random(20);
