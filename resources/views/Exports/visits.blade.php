@@ -96,36 +96,41 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($data as $visit)
-                    <tr>
-                        <td>{{ $visit->name ?? ''}}</td>
-                        <td>{{ $visit->Customer->customer_name ?? ''}}</td>
-                        <td>{{ $visit->ip ?? ''}}</td>
-                        <td>{{ $visit->start_time ?? ''}}</td>
-                        <td>{{ $visit->stop_time ?? ''}}</td>
-                        <td>
-                                @if (isset($visit->stop_time))
-                                    @php
-                                    $start = \Carbon\Carbon::parse($visit->start_time);
-                                    $stop = \Carbon\Carbon::parse($visit->stop_time);
-                                    $durationInSeconds = $start->diffInSeconds($stop);
+            @forelse ($data as $visit)
+            <tr>
+                <td>{{ $visit->name ?? '' }}</td>
+                <td>{{ $visit->Customer->customer_name ?? '' }}</td>
+                <td>{{ $visit->ip ?? '' }}</td>
+                <td>{{ $visit->start_time ?? '' }}</td>
+                <td>{{ $visit->stop_time ?? '' }}</td>
+                <td>
+                    @if (isset($visit->stop_time))
+                        @php
+                            $start = \Carbon\Carbon::parse($visit->start_time);
+                            $stop = \Carbon\Carbon::parse($visit->stop_time);
+                            $durationInSeconds = $stop->diffInSeconds($start);
 
-                                    if ($durationInSeconds < 60) {
-                                        echo $durationInSeconds . ' secs';
-                                    } elseif ($durationInSeconds < 3600) {
-                                        echo floor($durationInSeconds / 60) . ' mins';
-                                    } else {
-                                        echo floor($durationInSeconds / 3600) . ' hrs';
-                                    }
-                                    @endphp
-                                @else
-                                    <span style="color: red; font-weight: bold;">Visit Active</span>
-                                @endif
-                            </td>
+                            if ($durationInSeconds < 60) {
+                                echo $durationInSeconds . ' secs';
+                            } elseif ($durationInSeconds < 3600) {
+                                echo floor($durationInSeconds / 60) . ' mins';
+                            } else {
+                                echo floor($durationInSeconds / 3600) . ' hrs';
+                            }
+                        @endphp
+                    @else
+                        <span style="color: red; font-weight: bold;">Visit Active</span>
+                    @endif
+                </td>
+                <td>{{ $visit->created_at->format('d-m-Y h:i A') }}</td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="7" class="text-center">No Visit found</td>
 
-                            <td>{{ $visit->created_at->format('d-m-Y h:i A') }}</td>
-                    </tr>
-                @endforeach
+            </tr>
+        @endforelse
+
             </tbody>
         </table>
     </div>
