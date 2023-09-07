@@ -1,41 +1,37 @@
 <div>
-          
-<div class="card">
-            <h5 class="card-header"></h5>
-            <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50 row">
-                <div class="col-md-3 user_role">
-                    <div class="input-group input-group-merge">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i data-feather="search"></i></span>
-                        </div>
-                        <input  wire:model.debounce.300ms="search" type="text" id="fname-icon" class="form-control" name="fname-icon" placeholder="Search" />
-                    </div>
-                </div>
-                <div class="col-md-2 user_role">
-                    <div class="form-group">
-                        <label for="selectSmall">Per Page</label>
-                        <select wire:model="perPage" class="form-control form-control-sm" id="selectSmall">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                    </div>
-                </div>
-       
 
-        
-             <div class="col-md-6 d-flex justify-content-end">
-                    <div class="demo-inline-spacing">
-                        <a href="{{ route('visit.target.create') }}" class="btn btn-outline-secondary">New Target</a>
-             
+    <div class="card">
+        <h5 class="card-header"></h5>
+        <div class="pt-0 pb-2 d-flex justify-content-between align-items-center mx-50 row">
+            <div class="col-md-3 user_role">
+                <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i data-feather="search"></i></span>
                     </div>
+                    <input wire:model.debounce.300ms="search" type="text" id="fname-icon" class="form-control"
+                        name="fname-icon" placeholder="Search" />
                 </div>
-             
             </div>
-        </div>
+            <div class="col-md-2 user_role">
+                <div class="form-group">
+                    <label for="selectSmall">Per Page</label>
+                    <select wire:model="perPage" class="form-control form-control-sm" id="selectSmall">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end">
+                <div class="demo-inline-spacing">
+                    <a href="{{ route('visit.target.create') }}" class="btn btn-outline-secondary">New Target</a>
 
-    
+                </div>
+            </div>
+
+        </div>
+    </div>
     <div class="card card-default">
         <div class="card-body">
             <table class="table table-striped table-bordered">
@@ -48,7 +44,6 @@
                         <th>Deadline</th>
                         <th>Success Ratio</th>
                         <th>Action</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -63,28 +58,29 @@
                                 {{ $this->getSuccessRatio($target->TargetsVisit->AchievedVisitsTarget ?? 0, $target->TargetsVisit->VisitsTarget ?? 0) }}%
                             </td>
                             <td>
-                            <div class="dropdown">
-                                    <button type="button" class="btn btn-sm dropdown-toggle show-arrow " data-toggle="dropdown" style="background-color:#1877F2; color:#ffffff;">
-                                                        <i data-feather="eye"></i>
-                                                    </button>
-                                        <div class="dropdown-menu">
-                                    
-                                            <a class="dropdown-item" href="{{ route('visitstarget.edit', $target->user_code) }}">
-                                                <i data-feather='edit' class="mr-50"></i>
-                                                <span>Edit</span>
-                                            </a>
-                                            <a class="dropdown-item" href="{{ route('visit.target.show', [
-                                            'visit' => $target->user_code,
-                                        ]) }}">
-                                                                <i data-feather='eye' class="mr-50"></i>
-                                                                <span>View</span>
-                                                            </a>
-                                        
-                                
-                                        </div>
-                                    </div>
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-sm dropdown-toggle show-arrow "
+                                        data-toggle="dropdown" style="background-color:#1877F2; color:#ffffff;">
+                                        <i data-feather="eye"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
 
-                               
+                                        <a class="dropdown-item"
+                                            href="{{ route('visitstarget.edit', $target->user_code) }}">
+                                            <i data-feather='edit' class="mr-50"></i>
+                                            <span>Edit</span>
+                                        </a>
+                                        <a class="dropdown-item"
+                                            href="{{ route('visit.target.show', [
+                                                'visit' => $target->user_code,
+                                            ]) }}">
+                                            <i data-feather='eye' class="mr-50"></i>
+                                            <span>View</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+
                             </td>
                         </tr>
                     @empty
