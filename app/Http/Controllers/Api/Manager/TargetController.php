@@ -64,6 +64,7 @@ class TargetController extends Controller
                'user_code' => $userCode,
                'Deadline'  => $deadline,
                'VisitsTarget' => $targetValue,
+               'AchievedVisitsTarget' => 0,
            ]);
    
            $responseTarget = $createdTarget;
@@ -175,45 +176,79 @@ class TargetController extends Controller
    
    public function assignOrderTarget(Request $request)
    {
-      $validator           =  Validator::make($request->all(), [
-         "user_code"   => "required",
-         "target"   => "required",
+      $validator = Validator::make($request->all(), [
+         "user_code" => "required",
+         "target"    => "required",
       ]);
+
       if ($validator->fails()) {
          return response()->json(
-            [
-               "status" => 401, "message" => "validation_error",
-               "errors" => $validator->errors()
-            ],
-            403
+               [
+                  "status"  => 401,
+                  "message" => "Validation error",
+                  "errors"  => $validator->errors(),
+               ],
+               403
          );
       }
-      OrdersTarget::updateOrCreate(
-         [
-            'user_code' => $request->user_code,
-            'Deadline' => $request->date ?? $this->lastDayofMonth,
 
-         ],
-         [
-            'OrdersTarget' => $request->target,
-//            'bussiness_code' => $request->user()->business_code,
-         ]
-      );
-      $users=User::find($request->user_code);
-      $list=[];
-      foreach ($users as $user){
-         $list=$user->name;
+      $userCode = $request->user_code;
+      $targetValue = $request->target;
+      $deadline = $request->date ?? $this->lastDayofMonth;
+
+      // Check if the user already has an order target for the current month
+      $currentMonthTarget = OrdersTarget::where('user_code', $userCode)
+         ->whereYear('Deadline', now()->year)
+         ->whereMonth('Deadline', now()->month)
+         ->first();
+
+      if ($currentMonthTarget) {
+         // Update the existing order target for the current month
+         $currentMonthTarget->update([
+               'OrdersTarget' => $targetValue,
+         ]);
+
+         $responseTarget = $currentMonthTarget;
+      } else {
+         // Create a new order target for the current month
+         $createdTarget = OrdersTarget::create([
+               'user_code' => $userCode,
+               'Deadline'  => $deadline,
+               'OrdersTarget' => $targetValue,
+               'AchievedOrdersTarget' => 0,
+
+         ]);
+
+         $responseTarget = $createdTarget;
       }
-      $action="Assigning Orders Targets";
-      $activity="Orders Target assigned for the following user ".$list;
-      $this->activitylogs($action, $activity);
+
+      // Retrieve the user with the assigned target using 'user_code'
+      $user = User::where('user_code', $userCode)->first();
+
+      if ($user) {
+         $action = "Assigning Orders Targets";
+         $activity = "Orders Target assigned for the following user: " . $user->name;
+
+         // Log the activity
+         $this->activitylogs($action, $activity);
+
+         return response()->json([
+               "success"  => true,
+               "status"   => 200,
+               "message"  => "Target assigned successfully for the following user",
+               "user"     => $user,        // Include user details in the response
+               "order_target"   => $responseTarget, // Include details of the assigned target in the response
+         ]);
+      }
+
       return response()->json([
-         "success" => true,
-         "status" => 200,
-         "message" => "Target assigned for the following users",
-         "data" => User::find($request->user_code),
-      ]);
+         "status"  => 404,
+         "message" => "User not found",
+      ], 404);
    }
+
+
+
    public function assignSaleTarget(Request $request)
    {
       $validator =  Validator::make($request->all(), [
