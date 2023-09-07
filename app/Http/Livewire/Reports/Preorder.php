@@ -50,6 +50,17 @@ class Preorder extends Component
 
         return $query->orderBy('id', 'DESC')->paginate(15);
     }
+    public function details($code)
+    {
+        $order = Orders::with('orderItems.Information')->where('order_code', $code)->first();
+        $orderItems = $order->orderItems;
+        $total = 0;
+        foreach ($orderItems as $item) {
+            $numericSku = intval(preg_replace('/[^0-9]/', '', $item->Information->sku_code));
+            $total += $numericSku;
+        }
+        return $total;
+    }
     public function filter(): array
     {
 

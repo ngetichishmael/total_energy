@@ -61,12 +61,13 @@
     <div class="col-md-12">
         <div class="card card-inverse">
             <div class="card-body">
-              <div class="d-flex flex-row flex-nowrap overflow-auto">
+                <div class="d-flex flex-row flex-nowrap overflow-auto">
                     <table id="data-table-default" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Order ID</th>
+                                <th>Total Status</th>
                                 <th>Status</th>
                                 <th>Customer Name</th>
                                 <th>User Name</th>
@@ -79,12 +80,14 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $delivery->order_code }}</td>
+                                    <td>{{ number_format($this->details($delivery->order_code)) }}</td>
                                     <td>{{ $delivery->order_status }}</td>
                                     <td>{{ optional($delivery->Customer)->customer_name }}</td>
                                     <td>{{ optional($delivery->User)->name }}</td>
                                     <td>{{ optional($delivery->User)->account_type }}</td>
                                     <td><a href="{{ URL('orders/deliveryitems/' . $delivery->order_code) }}"
-                                            class="btn" style="background-color: rgb(173, 37, 37);color:white">View</a></td>
+                                            class="btn"
+                                            style="background-color: rgb(173, 37, 37);color:white">View</a></td>
                                 </tr>
                             @endforeach
                         </tbody>

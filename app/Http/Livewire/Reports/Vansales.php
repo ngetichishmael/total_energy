@@ -33,7 +33,10 @@ class Vansales extends Component
     }
     public function data()
     {
-        $query = Orders::with('User', 'Customer')->where('order_type', 'Van sales');
+        $query = Orders::with('User', 'Customer')
+            ->whereHas('Customer')
+            ->whereHas('User')
+            ->where('order_type', 'Van sales');
         if (!is_null($this->start)) {
             if (Carbon::parse($this->start)->equalTo(Carbon::parse($this->end))) {
                 $query->whereDate('created_at', 'LIKE', "%" . $this->start . "%");
@@ -46,6 +49,17 @@ class Vansales extends Component
         }
 
         return $query->orderBy('id', 'DESC')->paginate(7);
+    }
+    public function details($code)
+    {
+        $order = Orders::with('orderItems.Information')->where('order_code', $code)->first();
+        $orderItems = $order->orderItems;
+        $total = 0;
+        foreach ($orderItems as $item) {
+            $numericSku = intval(preg_replace('/[^0-9]/', '', $item->Information->sku_code));
+            $total += $numericSku;
+        }
+        return $total;
     }
     public function filter(): array
     {

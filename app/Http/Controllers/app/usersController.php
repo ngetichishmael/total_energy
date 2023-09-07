@@ -36,12 +36,6 @@ class usersController extends Controller
     //list
     public function list()
     {
-        // $lists = User::whereIn('account_type', ['Admin', 'Manager'])
-        //    ->distinct('account_type')
-        //    ->whereNotIn('account_type', ['Customer'])
-        //    ->groupBy('account_type')
-        //    ->pluck('account_type');
-        // $count = 1;
         return view('app.users.usertypes');
     }
     public function index()
@@ -223,12 +217,11 @@ class usersController extends Controller
     //update
     public function update(Request $request, $user_code)
     {
+        AssignedRegion::where('user_code', $user_code)->delete();
         foreach ($request->route as $route) {
-            AssignedRegion::updateOrCreate([
+            AssignedRegion::create([
                 "user_code" => $user_code,
                 "region_id" => $route,
-            ], [
-                "user_code" => $user_code,
             ]
             );
         }

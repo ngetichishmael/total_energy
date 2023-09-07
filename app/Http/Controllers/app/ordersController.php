@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\app;
 
+use App\Helpers\SMS;
 use App\Http\Controllers\Controller;
 use App\Models\activity_log;
 use App\Models\Cart;
@@ -24,8 +25,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth as FacadesAuth;
-use App\Helpers\SMS;
 
 class ordersController extends Controller
 {
@@ -61,18 +60,28 @@ class ordersController extends Controller
     //order details
     public function details($code)
     {
-        $order = Orders::where('order_code', $code)->first();
-        $items = Order_items::where('order_code', $order->order_code)->get();
-        $sub = Order_items::select('sub_total')->where('order_code', $order->order_code)->get();
-        $total = Order_items::select('total_amount')->where('order_code', $order->order_code)->get();
-        $Customer_id = Orders::select('customerID')->where('order_code', $code)->first();
-        $id = $Customer_id->customerID;
-        $test = customers::where('id', $id)->first();
-        // dd($test->id);
+        $order = Orders::with('orderItems.Information', 'customer', 'User')->where('order_code', $code)->first();
+
+        if (!$order) {
+            return redirect()->route('orders.index')->with('error', 'Order not found.');
+        }
+        $orderItems = $order->orderItems;
+        $customer = $order->customer;
+        $username = $order->User->name ?? "";
+
         $payment = order_payments::where('order_id', $order->order_code)->first();
-        // dd($payment);
-        return view('app.orders.details', compact('order', 'items', 'test', 'payment', 'sub', 'total'));
+
+        $subTotal = $orderItems->sum('sub_total');
+        $totalAmount = $orderItems->sum('total_amount');
+        // Initialize an array to store quantities by sku_code
+        $total = 0;
+        foreach ($orderItems as $item) {
+            $numericSku = intval(preg_replace('/[^0-9]/', '', $item->Information->sku_code));
+            $total += $numericSku;
+        }
+        return view('app.orders.details', compact('order', 'orderItems', 'customer', 'username', 'payment', 'subTotal', 'totalAmount'));
     }
+
     public function detail($code)
     {
         $order = Orders::where('order_code', $code)->first();
@@ -211,13 +220,13 @@ class ordersController extends Controller
                 return redirect()->route('orders.pendingorders');
             }
         }
-       for ($i = 0; $i < count($request->allocate); $i++) {
-          $check = product_inventory::where('productID', $request->item_code[$i])->first();
-          if ($check->current_stock < $request->allocate[$i]) {
-             Session()->flash('error', 'Current stock ' . $check->current_stock . ' is less than your allocation quantity of ' .$request->allocate[$i]);
-             return Redirect::back();
-          }
-       }
+        for ($i = 0; $i < count($request->allocate); $i++) {
+            $check = product_inventory::where('productID', $request->item_code[$i])->first();
+            if ($check->current_stock < $request->allocate[$i]) {
+                Session()->flash('error', 'Current stock ' . $check->current_stock . ' is less than your allocation quantity of ' . $request->allocate[$i]);
+                return Redirect::back();
+            }
+        }
         $delivery = Delivery::updateOrCreate(
             [
                 "business_code" => Str::random(20),
@@ -279,23 +288,16 @@ class ordersController extends Controller
             ]);
         }
 
-
         $user = User::where('user_code', $request->user)->first();
 
         if ($user) {
             $phone_number = $user->phone_number;
-
-            try {
-                $message = "An order (Reference Number: $request->order_code) from Total Energies has been allocated to you and awaits your acceptance. Kindly check your account for further details.";
-                info($message);
-                (new SMS())($phone_number, $message);
-            } catch (Exception $e) {
-                return response()->json(['message' => 'Error occurred while trying to send the notification']);
-            }
+            $message = "An order (Reference Number: $request->order_code) from Total Energies has been allocated to you and awaits your acceptance. Kindly check your account for further details.";
+            info($message);
+            (new SMS())($phone_number, $message);
         } else {
             return response()->json(['message' => 'User not found'], 404);
         }
-
 
         $random = Str::random(20);
         $activityLog = new activity_log();
