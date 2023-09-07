@@ -14,10 +14,12 @@ class DashboardView extends Component
     public $timeFrame = 'month';
     public $start;
     public $end;
+    private $endDate; // Define $endDate as a class property
 
     public function render()
     {
         $today = Carbon::now();
+        $this->endDate = Carbon::now();
         $targetsQuery = VisitsTarget::with('User')->where('user_code', $this->user_code);
 
         // Apply time frame filter
@@ -25,7 +27,7 @@ class DashboardView extends Component
         $this->Period($targetsQuery, $this->start, $this->end);
 
         // Fetch targets
-        $targets = $targetsQuery->get();
+        $targets = $targetsQuery->groupBy('Deadline')->get();
 
         return view('livewire.visits.dashboard-view', [
             'targets' => $targets,
@@ -57,31 +59,32 @@ class DashboardView extends Component
 
     private function applyTimeFrameFilter($query)
     {
-        $endDate = Carbon::now();
-
         if ($this->timeFrame === 'month') {
             // For the "Month" time frame, show achievements for the current month
-            $startDate = Carbon::now()->startOfMonth();
-            $endDate = Carbon::now()->endOfMonth();
+            $query->where('Deadline', 'LIKE', "%" . $this->endDate->format('m') . "%");
         } elseif ($this->timeFrame === 'quarter') {
             // For the "Quarter" time frame, group achievements by month within the current quarter
-            $startMonth = ($endDate->quarter - 1) * 3 + 1; // Calculate the start month of the quarter
-            $startDate = Carbon::now()->startOfYear()->month($startMonth);
-            $endDate = $startDate->copy()->addMonths(2)->endOfMonth(); // Set the end date to the last day of the quarter
+            $currentQuarter = ceil($this->endDate->quarter / 3); // Determine the current quarter
+            $startMonth = ($currentQuarter - 1) * 3 + 1; // Calculate the start month of the quarter
+            $endMonth = $startMonth + 2; // Calculate the end month of the quarter
+            $query->where(function ($query) use ($startMonth, $endMonth) {
+                for ($month = $startMonth; $month <= $endMonth; $month++) {
+                    $query->orWhere('Deadline', 'LIKE', "%" . $this->endDate->format('Y') . "-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "%");
+                }
+            });
         } elseif ($this->timeFrame === 'half_year') {
             // For the "Half Year" time frame, group achievements by month within the current half year
-            $startMonth = $endDate->month <= 6 ? 1 : 7;
-            $startDate = Carbon::now()->startOfYear()->month($startMonth);
-            $endDate = $startDate->copy()->addMonths(5)->endOfMonth(); // Set the end date to the last day of the half year
+            $startMonth = $this->endDate->month <= 6 ? 1 : 7;
+            $endMonth = $startMonth + 5; // Calculate the end month of the half year
+            $query->where(function ($query) use ($startMonth, $endMonth) {
+                for ($month = $startMonth; $month <= $endMonth; $month++) {
+                    $query->orWhere('Deadline', 'LIKE', "%" . $this->endDate->format('Y') . "-" . str_pad($month, 2, '0', STR_PAD_LEFT) . "%");
+                }
+            });
         } elseif ($this->timeFrame === 'year') {
             // For the "Year" time frame, group achievements by month from January to December
-            $startDate = Carbon::now()->startOfYear();
-            $endDate = $startDate->copy()->endOfYear();
+            $query->where('Deadline', 'LIKE', "%" . $this->endDate->format('Y') . "-%");
         }
-
-        // Apply the filter
-        $query->whereDate('Deadline', '>=', $startDate->format('Y-m-d'))
-            ->whereDate('Deadline', '<=', $endDate->format('Y-m-d'));
     }
 
     public function getSuccessRatio($achieved, $target)

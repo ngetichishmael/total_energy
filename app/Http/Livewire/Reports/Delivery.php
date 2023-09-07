@@ -43,6 +43,11 @@ class Delivery extends Component
     public function details($code)
     {
         $order = Orders::with('orderItems.Information')->where('order_code', $code)->first();
+
+        if (!isset($order->orderItems)) {
+            return 0;
+        }
+
         $orderItems = $order->orderItems;
         $total = 0;
         foreach ($orderItems as $item) {
@@ -51,6 +56,7 @@ class Delivery extends Component
         }
         return $total;
     }
+
     public function filter(): array
     {
 
