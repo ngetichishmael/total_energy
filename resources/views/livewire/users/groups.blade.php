@@ -15,19 +15,19 @@
                 <td>{{ $count }}</td>
                 <td>
                     <div class="d-flex" style="gap:10px">
-                        @if ($group == 'Admin')
+                        @if ($group == 'Admin' && Auth()->user()->account_type === 'Admin')
                             <a href="{{ route('users.admins') }}" class="btn btn btn-sm"
                                 style="background-color:#1877F2; color:#ffffff;">View</a>
                         @elseif($group == 'Lube Sales Executive')
                             <a href="{{ route('LubeSalesExecutive') }}" class="btn btn btn-sm"
                                 style="background-color:#1877F2; color:#ffffff;">View</a>
-                        @elseif($group == 'Distributors')
+                        @elseif($group == 'Distributors' && Auth()->user()->account_type === 'Admin')
                             <a href="{{ route('Distributors') }}" class="btn btn btn-sm"
                                 style="background-color:#1877F2; color:#ffffff;">View</a>
                         @elseif($group == 'Lube Merchandizers')
                             <a href="{{ route('lubemerchandizer') }}" class="btn btn btn-sm"
                                 style="background-color:#1877F2; color:#ffffff;">View </a>
-                        @elseif($group == 'Managers')
+                        @elseif($group == 'Managers' && Auth()->user()->account_type === 'Admin')
                             <a href="{{ route('Managers') }}" class="btn btn btn-sm"
                                 style="background-color:#1877F2; color:#ffffff;">View </a>
                         @endif

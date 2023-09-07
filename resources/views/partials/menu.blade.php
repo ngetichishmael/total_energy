@@ -139,10 +139,24 @@
             </li>
             @endif
 
-                <li><a class="d-flex align-items-center{!! Nav::isResource('route-schedulw') !!}" href="{!! route('routes.index') !!}"><i
+                {{-- <li><a class="d-flex align-items-center{!! Nav::isResource('route-schedulw') !!}" href="{!! route('routes.index') !!}"><i
                             data-feather="compass"></i><span class="menu-item text-truncate">Route
                             Scheduling</span></a>
-                </li>
+                </li> --}}
+                <li class="nav-item {!! Nav::isResource('routes') !!}">
+                    <a class="d-flex align-items-center" href="">
+                    <i data-feather='compass'></i><span class="menu-title text-truncate" data-i18n="Todo"> Route
+                       Scheduling</span>
+                    </a>
+                    <ul class="menu-content">
+                    <li style="padding-left: 50px"><a class="d-flex align-items-center" href=" {!! route('routes.index') !!}">
+                    <span class="menu-item text-truncate">Assigned</span></a>
+                    </li>
+                    <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{!! route('routes.individual') !!}">
+                    <span class="menu-item text-truncate">Individual</span></a>
+                    </li>
+                    </ul>
+                    </li>
                 @if (Auth::user()->account_type === 'Admin')
                     <li class="nav-item {!! Nav::isResource('regions') !!}">
                         <a class="d-flex align-items-center" href="#"><i data-feather="map-pin"></i><span

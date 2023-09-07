@@ -39,7 +39,7 @@ class UserTypes extends Component
         if ($userRole !== 'Admin') {
             $query->where(function ($query) use ($userRouteCode) {
                 $query->where('route_code', $userRouteCode)
-                    ->orWhereNull('route_code');
+                    ->where('account_type', 'LIKE', '%lube%');
             });
         }
 

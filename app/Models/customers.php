@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Area;
+use App\Models\Region;
 use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,9 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Models\Area; 
-use App\Models\Subregion; 
-use App\Models\Region; 
 
 class customers extends Model
 {
@@ -30,7 +29,7 @@ class customers extends Model
     public function scopeFilterCustomers($query)
     {
         $user = Auth::user();
-    
+
         if (Auth::check()) {
             if ($user->account_type == 'Admin') {
                 return $query;
@@ -42,13 +41,12 @@ class customers extends Model
                             ->where('user_code', $user->user_code);
                     });
                 })->pluck('id');
-    
+
                 return $query->whereIn('route_code', $userAreaIds);
             }
         }
     }
-    
-    
+
     public function newQuery()
     {
         if (Route::current() && in_array('web', Route::current()->middleware())) {
@@ -65,8 +63,9 @@ class customers extends Model
      */
     public function Region(): BelongsTo
     {
-        return $this->belongsTo(Region::class, 'route_code', 'id');
+        return $this->belongsTo(Region::class, 'region_id', 'id');
     }
+
     /**
      * Get the Creator associated with the customers
      *
@@ -83,7 +82,16 @@ class customers extends Model
      */
     public function Area(): BelongsTo
     {
-        return $this->belongsTo(Area::class, 'unit_id', 'id');
+        return $this->belongsTo(Area::class, 'route_code', 'id');
+    }
+    /**
+     * Get the Subregion that owns the customers
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Subregion(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'subregion_id', 'id');
     }
     /**
      * Get all of the Orders for the customers
@@ -94,10 +102,17 @@ class customers extends Model
     {
         return $this->hasMany(Orders::class, 'customerID', 'id');
     }
-    
-    
-    
-    
+
+    /**
+     * Get the latest order for the customer.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function latestOrder(): HasOne
+    {
+        return $this->hasOne(Order::class, 'customerID', 'id')
+            ->latest();
+    }
 
     /**
      * Get the Wallet associated with the customers
@@ -108,6 +123,5 @@ class customers extends Model
     {
         return $this->hasOne(EWallet::class, 'customer_id', 'id');
     }
-
 
 }

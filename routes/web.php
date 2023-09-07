@@ -136,7 +136,7 @@ Route::group(['middleware' => ['verified']], function () {
     // Routes for reports
     Route::middleware('web')->group(function () {
         Route::get('reports', 'app\ReportsController@reports')->name('users.reports');
-        Route::get('reports/pre-oders', 'app\ReportsController@reports')->name('preorders.reports');
+        Route::get('reports/pre-orders', 'app\ReportsController@reports')->name('preorders.reports');
         Route::get('reports/Van-sales', 'app\ReportsController@reports')->name('vansales.reports');
         Route::get('reports/delivery', 'app\ReportsController@reports')->name('delivery.reports');
         Route::get('reports/total-users', 'app\ReportsController@reports')->name('sidai.reports');
@@ -314,6 +314,7 @@ Route::group(['middleware' => ['verified']], function () {
     Route::get('/get-subregions/{regionId}', 'app\warehousingController@getByRegion')->name('get-subregions');;
 
     Route::get('routes', ['uses' => 'app\routesController@index', 'as' => 'routes.index']);
+    Route::get('routes/individual', ['uses' => 'app\routesController@individual', 'as' => 'routes.individual']);
     Route::get('routes/create', ['uses' => 'app\routesController@create', 'as' => 'routes.create']);
     Route::post('routes/store', ['uses' => 'app\routesController@store', 'as' => 'routes.store']);
     Route::get('routes/{code}/update', ['uses' => 'app\routesController@update', 'as' => 'routes.update']);

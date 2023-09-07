@@ -61,6 +61,7 @@
                         <th>Region</th>
                         <th>Route</th>
                         <th>Sales Person</th>
+                        <th>Total Volume</th>
                         <th>Amount</th>
                         <th>Balance</th>
                         <th>Date</th>
@@ -79,6 +80,7 @@
                                     {{ Str::limit($order->Customer->Area->name ?? null, 20) }}</td>
                                 <td title="{{ $order->User->name ?? null }}">
                                     {{ Str::limit($order->User->name ?? null, 10) }}</td>
+                                <td>{{ number_format($this->details($order->order_code)) }}</td>
                                 <td>{{ isset($order->Order->price_total) ? number_format($order->Order->price_total) : '' }}
                                 </td>
                                 <td>{{ isset($order->Order->balance) ? number_format($order->Order->balance) : '' }}
@@ -129,4 +131,4 @@
         </div>
     </div>
 
-<br>
+    <br>
