@@ -45,7 +45,6 @@ class Customer
                 'customer_secondary_group' => $request->company_type ?? $request->outlet,
                 'image' => $image_path,
                 'telephone' => $request->phone_number,
-                'mobile' => $request->phone_number,
                 'phone_number' => $request->phone_number,
                 'email' => $emailData,
                 'type' => $request->type,
