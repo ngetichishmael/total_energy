@@ -46,7 +46,8 @@ class Lead extends Component
             $endDate->endOfMonth();
         }
         $query->whereHas('TargetLead', function ($targetSaleQuery) use ($endDate) {
-            $targetSaleQuery->whereDate('Deadline', '<=', $endDate->format('Y-m-d'));
+            $targetSaleQuery->where('Deadline', 'LIKE', "%" . $endDate->format('m') . "%");
+
         });
     }
     public function getSuccessRatio($achieved, $target)
