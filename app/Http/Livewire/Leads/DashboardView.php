@@ -53,20 +53,27 @@ class DashboardView extends Component
     private function applyTimeFrameFilter($query)
     {
         $endDate = Carbon::now();
+
+        // Set end date based on selected time frame
         if ($this->timeFrame === 'quarter') {
             $endDate->endOfQuarter();
+            $startDate = $endDate->copy()->subMonths(3)->startOfQuarter();
         } elseif ($this->timeFrame === 'half_year') {
             $endMonth = $endDate->month <= 6 ? 6 : 12;
             $endDate->setMonth($endMonth)->endOfMonth();
+            $startDate = $endDate->copy()->subMonths(6)->startOfMonth();
         } elseif ($this->timeFrame === 'year') {
             $endDate->endOfYear();
+            $startDate = $endDate->copy()->startOfYear();
         } elseif ($this->timeFrame === 'month') {
             $endDate->endOfMonth();
+            $startDate = $endDate->copy()->startOfMonth();
         }
 
         // Apply the filter
-        $query->whereDate('Deadline', '<=', $endDate->format('Y-m-d'));
+        $query->whereBetween('Deadline', [$startDate->format('Y-m-d'), $endDate->format('Y-m-d')]);
     }
+
     public function getSuccessRatio($achieved, $target)
     {
         if ($target != 0) {
