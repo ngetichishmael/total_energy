@@ -40,7 +40,7 @@ class Customer
             ],
             [
                 'source' => "Sokoflow",
-                'odoo_uuid' => $request->odoo_uuid ?? Str::uuid(),
+                'soko_uuid' => $request->odoo_uuid ?? Str::uuid(),
                 'external_uuid' => $request->external_id ?? Str::uuid(),
                 'company_type' => $request->company_type,
                 'image' => $image_path,
