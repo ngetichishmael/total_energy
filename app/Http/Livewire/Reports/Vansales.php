@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Reports;
 
+use App\Exports\VansaleExport;
 use App\Models\Area;
 use App\Models\Orders;
 use App\Models\Subregion;
@@ -9,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Vansales extends Component
 {
@@ -84,8 +86,8 @@ class Vansales extends Component
         }
         return $customers->toArray();
     }
-    // public function export()
-    // {
-    //    return Excel::download(new VansaleExport, 'vansales.xlsx');
-    // }
+    public function export()
+    {
+        return Excel::download(new VansaleExport, 'vansales.xlsx');
+    }
 }
