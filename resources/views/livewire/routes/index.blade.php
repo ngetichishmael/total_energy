@@ -43,7 +43,6 @@
                         <th>Name</th>
                         <th>Sales Name</th>
                         <th>Status</th>
-                        <th>Type</th>
                         <th>Start Date</th>
                         <th>End Date</th>
                     </tr>
@@ -55,13 +54,12 @@
                             <td>{!! $route->name !!}</td>
                             <td>{!! $route->user->name !!}</td>
                             <td>{!! $route->status !!}</td>
-                            <td>{!! $route->Type !!}</td>
                             <td>{!! $route->start_date !!}</td>
                             <td>{!! $route->end_date !!}</td>
                         </tr>
                     @empty
                         <tr>
-                             <td colspan="7" class="text-center">No routes found.</td>
+                            <td colspan="7" class="text-center">No routes found.</td>
                         </tr>
                     @endforelse
                 </tbody>
