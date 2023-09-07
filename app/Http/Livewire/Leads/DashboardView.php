@@ -54,24 +54,29 @@ class DashboardView extends Component
     {
         $endDate = Carbon::now();
 
-        // Set end date based on selected time frame
-        if ($this->timeFrame === 'quarter') {
-            $endDate->endOfQuarter();
-            $startDate = $endDate->copy()->subMonths(3)->startOfQuarter();
+        if ($this->timeFrame === 'month') {
+            // For the "Month" time frame, show achievements for the current month
+            $startDate = Carbon::now()->startOfMonth();
+            $endDate = Carbon::now()->endOfMonth();
+        } elseif ($this->timeFrame === 'quarter') {
+            // For the "Quarter" time frame, group achievements by month within the current quarter
+            $startMonth = ($endDate->quarter - 1) * 3 + 1; // Calculate the start month of the quarter
+            $startDate = Carbon::now()->startOfYear()->month($startMonth);
+            $endDate = $startDate->copy()->addMonths(2)->endOfMonth(); // Set the end date to the last day of the quarter
         } elseif ($this->timeFrame === 'half_year') {
-            $endMonth = $endDate->month <= 6 ? 6 : 12;
-            $endDate->setMonth($endMonth)->endOfMonth();
-            $startDate = $endDate->copy()->subMonths(6)->startOfMonth();
+            // For the "Half Year" time frame, group achievements by month within the current half year
+            $startMonth = $endDate->month <= 6 ? 1 : 7;
+            $startDate = Carbon::now()->startOfYear()->month($startMonth);
+            $endDate = $startDate->copy()->addMonths(5)->endOfMonth(); // Set the end date to the last day of the half year
         } elseif ($this->timeFrame === 'year') {
-            $endDate->endOfYear();
-            $startDate = $endDate->copy()->startOfYear();
-        } elseif ($this->timeFrame === 'month') {
-            $endDate->endOfMonth();
-            $startDate = $endDate->copy()->startOfMonth();
+            // For the "Year" time frame, group achievements by month from January to December
+            $startDate = Carbon::now()->startOfYear();
+            $endDate = $startDate->copy()->endOfYear();
         }
 
         // Apply the filter
-        $query->whereBetween('Deadline', [$startDate->format('Y-m-d'), $endDate->format('Y-m-d')]);
+        $query->whereDate('Deadline', '>=', $startDate->format('Y-m-d'))
+            ->whereDate('Deadline', '<=', $endDate->format('Y-m-d'));
     }
 
     public function getSuccessRatio($achieved, $target)
