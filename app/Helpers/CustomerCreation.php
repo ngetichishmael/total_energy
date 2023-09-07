@@ -34,9 +34,10 @@ class CustomerCreation
                 'image' => $image_path,
                 'telephone' => $request->phone_number,
                 'phone_number' => $request->phone_number,
-                'account' => $request->phone_number,
+                'account' => $request->customer_name,
                 'email' => $emailData,
                 'address' => $request->address,
+                'price_group' => "Price Group 1",
                 'customer_group' => $request->outlet,
                 'city' => $request->address,
                 'postal_code' => $request->address,
@@ -55,6 +56,7 @@ class CustomerCreation
                 'status' => "Active",
                 'delivery_time' => now(),
                 'created_by' => $request->user()->id,
+                'updated_by' => $request->user()->id,
                 'approval' => ($request->outlet === "Wholesalers" ? (
                     in_array($request->route_code, [1, 5, 6, 7, 9, 10, 11]) ?
                     "Not Approved" : "Approved") : "Approved"),
