@@ -117,6 +117,36 @@ class OrdersController extends Controller
         ]);
     }
 
+    public function pendingOrders(Request $request)
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+        
+        // Retrieve the user's assigned regions
+        $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
+        
+        // Retrieve pending customer orders assigned to the regions of the authenticated user with order_status "Pending Delivery"
+        $orders = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+            $query->select('customers.id')
+                ->from('customers')
+                ->join('areas', 'customers.route_code', '=', 'areas.id')
+                ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                ->whereIn('subregions.region_id', $assignedRegions);
+        })
+        ->where('order_status', 'Pending Delivery') // Filter by order_status
+        ->with('customer', 'user', 'orderitems') // Eager load relationships
+        ->orderBy('created_at', 'desc') // Order by created_at in descending order
+        ->get();
+        
+        return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => 'Pending Orders based on the Manager\'s Assigned Routes, with the Order items, the Sales associate, and the customer',
+            'Data' => $orders
+        ]);
+    }
+
+
 
    public function showCustomerOrders($customerId)
    {
