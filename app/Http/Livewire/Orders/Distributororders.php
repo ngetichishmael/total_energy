@@ -28,7 +28,7 @@ class Distributororders extends Component
     {
         $searchTerm = '%' . $this->search . '%';
         $pendingorders = Orders::with('Customer', 'user')
-            ->where('order_type', '=', 'Pre Order')
+            ->where('order_type', '=', 'Van sales')
             ->where(function ($query) use ($searchTerm) {
                 $query->whereHas('Customer', function ($subQuery) use ($searchTerm) {
                     $subQuery->where('customer_name', 'like', $searchTerm);
