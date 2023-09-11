@@ -12,46 +12,47 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class Pendingdeliveries extends Component
 {
+  
+
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $perPage = 25;
-
+    public $perPage = 15;
     public $search = null;
-    public $orderBy = 'delivery.id';
+    public $orderBy = 'orders.id';
     public $orderAsc = false;
     public $customer_name = null;
-    public $fromDate;
-    public $toDate;
 
     public $start;
     public $end;
+
+    public $fromDate;
+    public $toDate;
 
     protected $queryString = ['search', 'fromDate', 'toDate'];
     public function render()
     {
         $searchTerm = '%' . $this->search . '%';
         $sokoflow = suppliers::where('name', 'MarkG')->first();
-        $orders = Delivery::whereNotIn('delivery_status', ['Pending', 'Partial delivery'])
-            ->with('Customer', 'User', 'Order', 'DeliveryItems')
-            ->where(function ($query) use ($searchTerm) {
-                $query->whereHas('Customer', function ($subQuery) use ($searchTerm) {
-                    $subQuery->where('customer_name', 'like', $searchTerm);
-                })
-                    ->orWhereHas('User', function ($subQuery) use ($searchTerm) {
-                        $subQuery->where('name', 'like', $searchTerm);
-                    })
-                    ->orWhereHas('Order', function ($subQuery) use ($searchTerm) {
-                        $subQuery->where('order_code', 'like', $searchTerm);
-                    });
+
+        $orders = Orders::with('Customer', 'user')
+        ->where('order_status', '=', 'Waiting acceptance')
+        ->where('order_type', '=', 'Pre Order')
+        ->where(function ($query) use ($searchTerm) {
+            $query->whereHas('Customer', function ($subQuery) use ($searchTerm) {
+                $subQuery->where('customer_name', 'like', $searchTerm);
             })
-            ->when($this->fromDate, function ($query) {
-                return $query->whereDate('created_at', '>=', $this->fromDate);
-            })
-            ->when($this->toDate, function ($query) {
-                return $query->whereDate('created_at', '<=', $this->toDate);
-            })
-            ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
-            ->paginate($this->perPage);
+                ->orWhereHas('User', function ($subQuery) use ($searchTerm) {
+                    $subQuery->where('name', 'like', $searchTerm);
+                });
+        })
+        ->when($this->fromDate, function ($query) {
+            $query->whereDate('created_at', '>=', $this->fromDate);
+        })
+        ->when($this->toDate, function ($query) {
+            $query->whereDate('created_at', '<=', $this->toDate);
+        })
+        ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
+        ->paginate($this->perPage);
         return view('livewire.orders.pendingdeliveries', compact('orders'));
     }
     public function export()

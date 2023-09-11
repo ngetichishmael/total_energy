@@ -13,7 +13,7 @@ class index extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $perPage = 25;
+    public $perPage = 15;
     public $search = null;
     public $orderBy = 'delivery.id';
     public $orderAsc = true;
@@ -37,7 +37,9 @@ class index extends Component
     {
 
         $searchTerm = '%' . $this->search . '%';
-        $deliveries = Orders::whereIn('order_status', ['Delivered', 'Partial delivery'])->with('User', 'Customer')
+        $deliveries = Orders::whereIn('order_status', ['Delivered', 'Partial delivery'])
+        ->where('order_type', 'Pre Order')
+        ->with('User', 'Customer')
             ->when($this->fromDate, function ($query) {
                 return $query->whereDate('created_at', '>=', $this->fromDate);
             })

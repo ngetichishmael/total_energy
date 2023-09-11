@@ -103,7 +103,7 @@ class OrdersController extends Controller
                 ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
                 ->whereIn('subregions.region_id', $assignedRegions);
         })
-        ->where('order_status', 'Waiting Acceptance') // Filter by order_status
+        ->where('order_status', 'Waiting acceptance') // Filter by order_status
         ->where('order_type', 'Pre Order') // Filter by order_type
         ->with('customer', 'user', 'orderitems') // Eager load relationships
         ->orderBy('created_at', 'desc') // Order by created_at in descending order
@@ -126,7 +126,7 @@ class OrdersController extends Controller
         // Retrieve the user's assigned regions
         $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
         
-        // Retrieve completed customer orders assigned to the regions of the authenticated user with order_type "Pre Order" and order_status "delivered"
+        // Retrieve completed customer orders assigned to the regions of the authenticated user with order_type "Pre Order" and order_status "delivered" or "partially delivered"
         $orders = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
             $query->select('customers.id')
                 ->from('customers')
@@ -134,10 +134,13 @@ class OrdersController extends Controller
                 ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
                 ->whereIn('subregions.region_id', $assignedRegions);
         })
-        ->where('order_type', 'Pre Order') // Filter by order_type
-        ->where('order_status', 'delivered') // Filter by order_status
+        ->where('order_type', 'Pre Order')
+        ->orderBy('created_at', 'desc') 
+        ->where(function ($query) {
+            $query->where('order_status', 'delivered')
+                ->orWhere('order_status', 'Partial delivery'); // Filter by order_status (delivered or partially delivered)
+        })
         ->with('customer', 'user', 'orderitems') // Eager load relationships
-        ->orderBy('created_at', 'desc') // Order by created_at in descending order
         ->get();
         
         return response()->json([
@@ -147,6 +150,7 @@ class OrdersController extends Controller
             'Data' => $orders
         ]);
     }
+    
 
     public function pendingOrders(Request $request)
     {
