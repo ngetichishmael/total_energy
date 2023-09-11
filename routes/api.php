@@ -166,8 +166,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('/survey/responses', [SurveryAnswersController::class, 'index']);
 
     // Reconcillations
-    Route::get('/reconcile/payment', 'ReconciliationController@index')->middleware('auth:sanctum');
-    Route::post('/reconcile/products', 'ReconciliationController@index')->middleware('auth:sanctum');
+    Route::get('/reconcile/payment', 'Api\ReconciliationController@index')->middleware('auth:sanctum');
+    Route::post('/reconcile/products', 'Api\ReconciliationController@index')->middleware('auth:sanctum');
     Route::get('/get/targets', [TargetsController::class, 'getSalespersonTarget'])->middleware('auth:sanctum');
 
     /**

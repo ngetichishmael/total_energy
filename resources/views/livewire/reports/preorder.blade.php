@@ -45,10 +45,8 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-left">
                         <a class="dropdown-item" wire:click="export" id="exportExcelBtn">Excel</a>
-                        <a class="dropdown-item" wire:click="exportCSV" id="exportPdfBtn"> CSV</a>
-                        <a class="dropdown-item" wire:click="exportPDF" id="exportCsvBtn">PDF</a>
-                        <!-- <a class="dropdown-item" wire:click="printAndRedirect" id="printBtn">Print</a> -->
-
+                        <a class="dropdown-item" wire:click="export" id="exportPdfBtn"> CSV</a>
+                        <a class="dropdown-item" wire:click="export" id="exportCsvBtn">PDF</a>
                     </div>
                 </div>
             </div>

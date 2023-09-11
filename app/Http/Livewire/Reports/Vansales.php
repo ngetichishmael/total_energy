@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Reports;
 
+use App\Exports\VansaleExport;
 use App\Models\Area;
 use App\Models\Orders;
 use App\Models\Subregion;
@@ -9,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Vansales extends Component
 {
@@ -53,6 +55,11 @@ class Vansales extends Component
     public function details($code)
     {
         $order = Orders::with('orderItems.Information')->where('order_code', $code)->first();
+
+        if (!isset($order->orderItems)) {
+            return 0;
+        }
+
         $orderItems = $order->orderItems;
         $total = 0;
         foreach ($orderItems as $item) {
@@ -61,6 +68,7 @@ class Vansales extends Component
         }
         return $total;
     }
+
     public function filter(): array
     {
 
@@ -84,8 +92,8 @@ class Vansales extends Component
         }
         return $customers->toArray();
     }
-    // public function export()
-    // {
-    //    return Excel::download(new VansaleExport, 'vansales.xlsx');
-    // }
+    public function export()
+    {
+        return Excel::download(new VansaleExport, 'vansales.xlsx');
+    }
 }

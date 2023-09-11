@@ -32,7 +32,6 @@ class Customer
         info('area :' . json_encode($area->id));
         info('subregion :' . json_encode($subregion));
         info('region :' . json_encode($region));
-
         $customer = customers::updateOrCreate(
             [
                 'customer_name' => $request->customer_name,
@@ -46,13 +45,13 @@ class Customer
                 'image' => $image_path,
                 'telephone' => $request->phone_number,
                 'phone_number' => $request->phone_number,
+                'account' => $request->customer_name,
                 'email' => $emailData,
-                'type' => $request->type,
-                'street' => $request->address,
                 'address' => $request->address,
                 'customer_group' => $request->outlet,
                 'city' => $request->address,
                 'postal_code' => $request->address,
+                'price_group' => "Price Group 1",
                 'province' => $request->address,
                 'country' => $request->country ?? "Kenya",
                 'latitude' => $request->latitude,
@@ -60,12 +59,15 @@ class Customer
                 'manufacturer_number' => $request->manufacturer_number,
                 'route' => $request->route_code,
                 'route_code' => $request->route_code,
-                'region_id' => $subregion,
-                'subregion_id' => $region,
+                'subregion_id' => $subregion,
+                'region_id' => $region,
                 'zone_id' => $request->route_code,
                 'unit_id' => $request->route_code,
                 'branch' => $request->branch,
+                'status' => "Active",
+                'delivery_time' => now(),
                 'created_by' => $request->user()->id,
+                'updated_by' => $request->user()->id,
                 'approval' => ($request->outlet === "Wholesalers" ? (
                     in_array($request->route_code, [1, 5, 6, 7, 9, 10, 11]) ?
                     "Not Approved" : "Approved") : "Approved"),
