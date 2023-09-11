@@ -12,7 +12,7 @@ class Distributororders extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $perPage = 25;
+    public $perPage = 15;
     public $search = null;
     public $orderBy = 'orders.id';
     public $orderAsc = false;
