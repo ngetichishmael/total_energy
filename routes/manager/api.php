@@ -63,7 +63,7 @@ Route::group(['namespace' => 'Api'], function () {
        Route::get('/manager/orders/vansales', [OrdersController::class, 'vansales']);
        Route::get('/manager/orders/completed', [OrdersController::class, 'completedOrders']);
        Route::get('/manager/orders/pending', [OrdersController::class, 'pendingOrders']);
-       Route::get('/manager/all/orders', [OrdersController::class, 'allOrders']);
+       Route::get('/manager/orders/pending/deliveries', [OrdersController::class, 'waitingAcceptanceOrders']);
 
        Route::get('/manager/order/{order_code}/details', [OrdersController::class, 'showOrderDetails']);
        Route::post('/manager/orders/allocation', [OrdersController::class, 'allocatingOrders']);
