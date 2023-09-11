@@ -5,11 +5,14 @@ namespace App\Http\Livewire\Reports;
 use App\Models\Area;
 use App\Models\customer\customers;
 use App\Models\Orders;
+use App\Exports\PreOrdersExport;
 use App\Models\Subregion;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Preorder extends Component
 {
@@ -72,5 +75,28 @@ class Preorder extends Component
             return $array;
         }
         return $customers->toArray();
+    }
+    public function export()
+    {
+        return Excel::download(new PreOrdersExport(), 'preorders.xlsx');
+    }
+
+    public function exportCSV()
+    {
+        return Excel::download(new PreOrdersExport(), 'preorders.csv');
+    }
+
+    public function exportPDF()
+    {
+        $data = [
+            'orders' => $this->data(),
+        ];
+
+        $pdf = Pdf::loadView('Exports.preorders_pdf', $data);
+
+        // Add the following response headers
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'preorder.pdf');
     }
 }

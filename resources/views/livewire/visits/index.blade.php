@@ -84,7 +84,7 @@
                             @endforeach
 
                         </tbody>
-                    </table>
+                </table>
                 </div>
 
                 {{-- <div class="mt-1">{!! $suppliers->links() !!}</div> --}}

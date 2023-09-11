@@ -9,6 +9,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Exports\DeliveryExport;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Delivery extends Component
 {
@@ -63,8 +66,27 @@ class Delivery extends Component
         }
         return $customers->toArray();
     }
-    // public function export()
-    // {
-    //    return Excel::download(new DeliveryExport, 'DeliveryReport.xlsx');
-    // }
+    public function export()
+    {
+        return Excel::download(new DeliveryExport(), 'delivery.xlsx');
+    }
+
+    public function exportCSV()
+    {
+        return Excel::download(new DeliveryExport(), 'delivery.csv');
+    }
+
+    public function exportPDF()
+    {
+        $data = [
+            'deliveries' => $this->data(),
+        ];
+
+        $pdf = Pdf::loadView('Exports.delivery_pdf', $data);
+
+        // Add the following response headers
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'delivery.pdf');
+    }
 }

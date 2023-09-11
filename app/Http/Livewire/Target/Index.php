@@ -5,6 +5,9 @@ namespace App\Http\Livewire\Target;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Exports\TargetsExport;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -37,5 +40,28 @@ class Index extends Component
             ->paginate(10);
 
         return $data;
+    }
+    public function export()
+    {
+        return Excel::download(new TargetsExport(), 'targets.xlsx');
+    }
+ 
+    public function exportCSV()
+    {
+        return Excel::download(new TargetsExport(), 'targets.csv');
+    }
+ 
+    public function exportPDF()
+    {
+        $data = [
+            'targets' => $this->data(),
+        ];
+ 
+        $pdf = Pdf::loadView('Exports.targets_pdf', $data);
+ 
+        // Add the following response headers
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'targets.pdf');
     }
 }

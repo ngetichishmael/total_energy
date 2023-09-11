@@ -11,6 +11,7 @@ use App\Models\Area;
 use App\Models\Subregion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Payments extends Component
@@ -77,4 +78,28 @@ class Payments extends Component
    // {
    //    return Excel::download(new PaymentsExport, 'Payments.xlsx');
    // }
+   public function export()
+   {
+       return Excel::download(new PaymentsExport(), 'payments.xlsx');
+   }
+
+   public function exportCSV()
+   {
+       return Excel::download(new PaymentsExport(), 'payments.csv');
+   }
+
+   public function exportPDF()
+   {
+       $data = [
+           'payments' => $this->data(),
+       ];
+
+       $pdf = Pdf::loadView('Exports.payments_pdf', $data);
+
+       // Add the following response headers
+       return response()->streamDownload(function () use ($pdf) {
+           echo $pdf->output();
+       }, 'payments.pdf');
+   }
+
 }
