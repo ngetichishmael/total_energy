@@ -38,7 +38,7 @@ Route::group(['namespace' => 'Api'], function () {
 
    // Authenticated routes
    Route::middleware(['auth:sanctum'])->group(function () {
-       Route::get('/manager/{phonenumber}/details', [AuthenticationController::class, 'user_details']);
+       Route::get('/manager/{user_code}/details', [AuthenticationController::class, 'user_details']);
        Route::post('/manager/logout', [AuthenticationController::class, 'logout']);
 
        Route::get('/manager/customers/list', [CustomerController::class, 'getCustomers']);

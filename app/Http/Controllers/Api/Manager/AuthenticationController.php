@@ -91,15 +91,24 @@ class AuthenticationController extends Controller
     
     
 
-   public function user_details($phone_number)
-   {
-      $user = User::where('phone_number', $phone_number)->first();
-      return response()->json([
-         "success" => true,
-         "message" => "Manager Details",
-         "data" => $user
-      ]);
-   }
+    public function user_details($user_code)
+    {
+        $user = User::where('user_code', $user_code)->first();
+    
+        if (!$user) {
+            return response()->json([
+                "success" => false,
+                "message" => "User not found"
+            ], 404);
+        }
+    
+        return response()->json([
+            "success" => true,
+            "message" => "Manager Details",
+            "data" => $user
+        ]);
+    }
+    
 
 
    /**
