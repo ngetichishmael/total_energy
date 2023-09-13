@@ -52,6 +52,7 @@ Route::group(['namespace' => 'Api'], function () {
        Route::post('/manager/dashboard/data/custom', [DashboardAppController::class, 'custom']);
 
        Route::get('/manager/users', [UsersController::class, 'getUsers']);
+       Route::post('/manager/user/{user_code}/details', [UsersController::class, 'getUserDetails']);
        Route::post('/manager/deactivate/user/{user_code}', [UsersController::class, 'suspendUser']);
        Route::post('/manager/activate/user/{user_code}', [UsersController::class, 'activateUser']);
        Route::get('/manager/users/account_types', [UsersController::class, 'accountTypes']);

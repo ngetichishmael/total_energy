@@ -41,6 +41,39 @@ class UsersController extends Controller
        ]);
    }
 
+   public function getUserDetails($user_code)
+   {
+       $user = User::where('user_code', $user_code)
+           ->withCount('Customers')
+           ->with(['TargetSales', 'TargetLeads', 'TargetsOrder', 'TargetsVisit'])
+           ->first();
+   
+       if (!$user) {
+           return response()->json([
+               "success" => false,
+               "message" => "User not found"
+           ], 404);
+       }
+   
+       $loggedInAccountType = Auth::user()->account_type;
+   
+       $message = "User Details";
+   
+       if ($loggedInAccountType == 'Managers') {
+           $message .= " (Filtered by manager's route code)";
+       }
+   
+       $message .= ". The details include sales, leads, orders, and visits targets for the user.";
+   
+       return response()->json([
+           "success" => true,
+           "status" => 200,
+           "message" => $message,
+           "data" => $user,
+       ]);
+   }
+   
+
    public function accountTypes()
    {
        $account_types = User::whereNotIn('account_type', ['Managers', 'Admin'])
