@@ -92,6 +92,9 @@ class View extends Component
         $visits = $query->paginate($this->perPage);
         return $visits;
     }
+
+
+    
     public function getChecking($checking_code)
     {
         $result = SaleReport::where('checking_code', $checking_code)->first();

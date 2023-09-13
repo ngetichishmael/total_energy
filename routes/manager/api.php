@@ -71,6 +71,8 @@ Route::group(['namespace' => 'Api'], function () {
 
        Route::get('/manager/customers/checkins', [VisitsController::class, 'getCustomerCheckins']);
        Route::get('/manager/users/checkins', [VisitsController::class, 'getUserCheckins']);
+       Route::post('/manager/user/{user_code}/checkins', [VisitsController::class, 'viewUserCheckins']);
+
 
 
        Route::get('/manager/routes/data', [RoutesController::class, 'getRoutes']);
