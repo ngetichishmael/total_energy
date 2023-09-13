@@ -70,6 +70,8 @@ Route::group(['namespace' => 'Api'], function () {
        Route::post('/manager/orders/allocation', [OrdersController::class, 'allocatingOrders']);
 
        Route::get('/manager/customers/checkins', [VisitsController::class, 'getCustomerCheckins']);
+       Route::get('/manager/users/checkins', [VisitsController::class, 'getUserCheckins']);
+
 
        Route::get('/manager/routes/data', [RoutesController::class, 'getRoutes']);
 

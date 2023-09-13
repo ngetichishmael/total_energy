@@ -11,6 +11,7 @@ use App\Models\AssignedRegion;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
+
 class VisitsController extends Controller
 {
     public function getCustomerCheckins()
@@ -66,4 +67,51 @@ class VisitsController extends Controller
             'data' => $customerCheckins,
         ]);
     }
+
+    public function getUserCheckins(Request $request)
+    {
+        $currentMonth = Carbon::now()->format('Y-m');
+
+        $searchTerm = '%' . $request->input('search') . '%';
+
+        // Use an alias for the query to be able to reference it in the ORDER BY clause
+        $query = User::leftJoin('customer_checkin', function ($join) use ($currentMonth) {
+            $join->on('users.user_code', '=', 'customer_checkin.user_code')
+                ->whereRaw('customer_checkin.start_time <= customer_checkin.stop_time')
+                ->whereYear('customer_checkin.created_at', '=', Carbon::parse($currentMonth)->format('Y'))
+                ->whereMonth('customer_checkin.created_at', '=', Carbon::parse($currentMonth)->format('m'));
+        })
+            ->select(
+                'users.name as name',
+                DB::raw('COUNT(customer_checkin.id) as visit_count'),
+                DB::raw('MAX(customer_checkin.created_at) as last_visit_date')
+            )
+            ->where('users.name', 'like', $searchTerm)
+            ->groupBy('users.name')
+            ->havingRaw('visit_count > 0'); // Only include users with completed visits
+
+        // Modify the SQL query to order by visit_count in descending order
+        $query->orderByDesc('visit_count');
+
+        $visits = $query->get();
+
+        $formattedVisits = [];
+
+        foreach ($visits as $visit) {
+            $formattedVisits[] = [
+                'name' => $visit->name,
+                'visit_count' => $visit->visit_count,
+                'last_visit_date' => $visit->last_visit_date ? Carbon::parse($visit->last_visit_date)->format('j M, Y') : 'N/A',
+                'last_visit_time' => $visit->last_visit_date ? Carbon::parse($visit->last_visit_date)->format('h:i A') : 'N/A',
+            ];
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User Visits Data for the current month',
+            'data' => $formattedVisits,
+        ]);
+    }
+
+
 }
