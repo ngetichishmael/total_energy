@@ -84,16 +84,22 @@ class CustomerController extends Controller
    
        $customer->image = $imageUrl;
    
-       // Return the customer details along with the image URL
+       // Count the total orders related to this customer
+       $totalOrders = $customer->orders()->where('order_status', '<>', 'DELIVERED')->count();
+   
+       // Count the delivered orders related to this customer
+       $deliveredOrders = $customer->orders()->where('order_status', 'DELIVERED')->count();
+   
+       // Return the customer details along with the image URL and order counts
        return response()->json([
            'status' => 200,
            'success' => true,
            'message' => 'Customer details retrieved successfully',
-           'customer' => $customer
+           'customer' => $customer,
+           'orders' => $totalOrders,
+           'deliveries' => $deliveredOrders
        ]);
    }
-   
-
 
    
    public function searchExternalCustomer(Request $request)
