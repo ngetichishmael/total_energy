@@ -6,27 +6,35 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CustomerResource;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\UserResource;
+
+use App\Helpers\SMS;
 use App\Models\activity_log;
+use App\Models\Cart;
 use App\Models\customers;
 use App\Models\Delivery;
 use App\Models\Delivery_items;
-use App\Models\inventory\items;
-use App\Models\Order_items;
 use App\Models\Orders;
+use App\Models\Orders as Order;
+use App\Models\Order_items;
+use App\Models\order_payments;
 use App\Models\products\product_information;
 use App\Models\products\product_inventory;
 use App\Models\products\product_price;
 use App\Models\suppliers\suppliers;
 use App\Models\User;
-use App\Models\Subregion;
-use App\Models\AssignedRegion;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use App\Models\warehousing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+
+use App\Models\inventory\items;
+use App\Models\Subregion;
+use App\Models\AssignedRegion;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class OrdersController extends Controller
 {
@@ -319,109 +327,158 @@ class OrdersController extends Controller
 
     public function allocatingOrders(Request $request)
     {
+        // Validate the request payload
         $this->validate($request, [
-            'account_type' => 'required',
-        
+            'order_code' => 'required|string', // Assuming 'order_code' is a string
+            'products' => 'required|array',
+            'products.*.product_id' => 'required|integer',
+            'products.*.allocated_quantity' => 'required|integer|min:1',
+            'note' => 'nullable|string',
+            'user_code' => 'required|string',
         ]);
-        $supplierID = null;
+    
+        // Check if the order with the provided 'order_code' exists
+        $order = Order::where('order_code', $request->order_code)->first();
+    
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+    
+        // Initialize variables for tracking total sum and quantity
         $totalSum = 0;
         $quantity = 0;
-        
-       
-        for ($i = 0; $i < count($request->allocate); $i++) {
-            $check = product_inventory::where('productID', $request->item_code[$i])->first();
-            if ($check->current_stock < $request->allocate[$i]) {
-                return response()->json(['error' => 'Current stock ' . $check->current_stock . ' is less than your allocation quantity of ' . $request->allocate[$i]], 400);
+
+         // Check if a delivery with the same 'order_code' already exists
+    $delivery = Delivery::where('order_code', $request->order_code)->first();
+
+    // If a delivery already exists, update it; otherwise, create a new one
+    if ($delivery) {
+        // Update the existing delivery
+        $delivery->update([
+            "allocated" => $request->user_code,
+            "delivery_note" => $request->note,
+            "delivery_status" => "Waiting acceptance",
+            "Type" => "Warehouse",
+            "created_by" => Auth::user()->user_code,
+        ]);
+    } else {
+        // Create a new delivery record
+        $delivery = Delivery::create([
+            "business_code" => Str::random(20),
+            "order_code" => $request->order_code,
+            "delivery_code" => Str::random(20),
+            "allocated" => $request->user_code,
+            "delivery_note" => $request->note,
+            "delivery_status" => "Waiting acceptance",
+            "Type" => "Warehouse",
+            "created_by" => Auth::user()->user_code,
+        ]);
+    }
+    
+        // Create a new delivery record
+        // $delivery = Delivery::updateOrCreate(
+        //     [
+        //         "business_code" => Str::random(20),
+        //         "order_code" => $request->order_code,
+        //     ],
+        //     [
+        //         "delivery_code" => Str::random(20),
+        //         "allocated" => $request->user_code,
+        //         "delivery_note" => $request->note,
+        //         "delivery_status" => "Waiting acceptance",
+        //         "Type" => "Warehouse",
+        //         "created_by" => Auth::user()->user_code,
+        //     ]
+        // );
+    
+        foreach ($request->products as $productData) {
+            $productId = $productData['product_id'];
+            $allocatedQuantity = $productData['allocated_quantity'];
+    
+            // Check product inventory
+            $check = product_information::where('id', $productId)->first();
+    
+            if (!$check || $check->current_stock > $allocatedQuantity) {
+                return response()->json(['error' => "Insufficient stock for product ID $productId"], 400);
             }
-        }
-        
-        $delivery = Delivery::updateOrCreate(
-            [
-                "business_code" => Str::random(20),
-                "customer" => $request->customer,
-                "order_code" => $request->order_code,
-            ],
-            [
-                "delivery_code" => Str::random(20),
-                "allocated" => $request->user,
-                "delivery_note" => $request->note,
-                "delivery_status" => "Waiting acceptance",
-                "Type" => "Warehouse",
-                "created_by" => Auth::user()->user_code,
-            ]
-        );
-        
-        for ($i = 0; $i < count($request->allocate); $i++) {
-            $pricing = product_price::whereId($request->item_code[$i])->first();
-            $totalSum += $request->price[$i];
+    
+            // Retrieve product pricing
+            $pricing = product_price::where('productID', $productId)->first();
+    
+            // Calculate subtotal for the allocated quantity
+            $subTotal = $pricing->selling_price * $allocatedQuantity;
+            $totalSum += $subTotal;
+    
+            // Create a delivery item record
             Delivery_items::updateOrCreate(
                 [
                     "business_code" => Auth::user()->business_code,
                     "delivery_code" => $delivery->delivery_code,
-                    "productID" => $request->item_code[$i],
+                    "productID" => $productId,
                 ],
                 [
                     "selling_price" => $pricing->selling_price,
-                    "sub_total" => $request->price[$i],
-                    "total_amount" => $request->price[$i],
-                    "product_name" => $request->product[$i],
-                    "allocated_quantity" => $request->allocate[$i],
+                    "sub_total" => $subTotal,
+                    "total_amount" => $subTotal,
+                    "product_name" => $pricing->product_name,
+                    "allocated_quantity" => $allocatedQuantity,
                     "delivery_item_code" => Str::random(20),
-                    "requested_quantity" => $request->requested[$i],
+                    "requested_quantity" => $allocatedQuantity, // Change this if needed
                     "created_by" => Auth::user()->user_code,
                 ]
             );
-            
-            Order_items::where('productID', $request->item_code[$i])
+    
+            // Update the order item with the allocated quantity and subtotal
+            Order_items::where('productID', $productId)
                 ->where('order_code', $request->order_code)
                 ->update([
-                    "requested_quantity" => $request->requested[$i],
-                    "allocated_quantity" => $request->allocate[$i],
-                    "allocated_subtotal" => $request->price[$i],
-                    "allocated_totalamount" => $request->price[$i],
+                    // "requested_quantity" => $allocatedQuantity, // Change this if needed
+                    "allocated_quantity" => $allocatedQuantity,
+                    "allocated_subtotal" => $subTotal,
+                    "allocated_totalamount" => $subTotal,
                 ]);
-            
-            $quantity += 1;
+    
+            $quantity += $allocatedQuantity;
         }
-        
-        $order = Orders::where('order_code', $request->order_code)->first();
-        
-        if ($order) {
-            $order->update([
-                "order_status" => "Waiting acceptance",
-                "price_total" => $totalSum,
-                "balance" => $totalSum,
-                "initial_total_price" => $order->price_total,
-                "updated_qty" => $quantity,
-            ]);
-        }
-        
-        $user = User::where('user_code', $request->user)->first();
-        
+    
+        // Update the order with the new order status, total price, and quantity
+        $order->update([
+            "order_status" => "Waiting acceptance",
+            "price_total" => $totalSum,
+            "balance" => $totalSum,
+            "initial_total_price" => $order->price_total,
+            "updated_qty" => $quantity,
+        ]);
+    
+        // Send a notification to the user
+        $user = User::where('user_code', $request->user_code)->first();
+    
         if ($user) {
             $phone_number = $user->phone_number;
-            $message = "An order (Reference Number: $request->order_code) from Total Energies has been allocated to you and awaits your acceptance. Kindly check your account for further details.";
+            $message = "An order (Reference Number: $request->order_code) has been allocated to you and awaits your acceptance. Please check your account for details.";
             info($message);
-            (new SMS())($phone_number, $message);
+            // Implement your SMS sending logic here
         } else {
             return response()->json(['error' => 'User not found'], 404);
         }
-        
+    
+        // Log the activity
         $random = Str::random(20);
         $activityLog = new activity_log();
         $activityLog->source = 'Web App';
         $activityLog->activity = 'Allocate an order to a User';
-        $activityLog->user_code = auth()->user()->user_code;
+        $activityLog->user_code = Auth::user()->user_code;
         $activityLog->section = 'Order Allocation';
-        $activityLog->action = 'Order allocated to user ' . $request->name . ' Role ' . $request->account_type . '';
-        $activityLog->userID = auth()->user()->id;
+        $activityLog->action = "Order allocated to user {$user->name} Role {$request->account_type}";
+        $activityLog->userID = Auth::user()->id;
         $activityLog->activityID = $random;
         $activityLog->ip_address = "";
         $activityLog->save();
-        
-        return response()->json(['message' => 'Delivery created and orders allocated to a user'], 200);
     
+        return response()->json(['message' => 'Delivery created and orders allocated to a user'], 200);
     }
+    
+
     public function allocateOrders(Request $request)
     {
         $random = Str::random(20);
