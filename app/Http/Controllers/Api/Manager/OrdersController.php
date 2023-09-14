@@ -341,7 +341,9 @@ class OrdersController extends Controller
         $order = Order::where('order_code', $request->order_code)->first();
     
         if (!$order) {
-            return response()->json(['error' => 'Order not found'], 404);
+            return response()->json([
+                "success" => false,
+                'message' => 'Order not found'], 404);
         }
     
         // Initialize variables for tracking total sum and quantity
@@ -459,7 +461,9 @@ class OrdersController extends Controller
             info($message);
             // Implement your SMS sending logic here
         } else {
-            return response()->json(['error' => 'User not found'], 404);
+            return response()->json([
+                "success" => false,
+                'message' => 'User not found'], 404);
         }
     
         // Log the activity
@@ -475,7 +479,9 @@ class OrdersController extends Controller
         $activityLog->ip_address = "";
         $activityLog->save();
     
-        return response()->json(['message' => 'Delivery created and orders allocated to a user'], 200);
+        return response()->json([
+            "success" => true,
+            'message' => 'Delivery created and orders allocated to a user'], 200);
     }
     
 
