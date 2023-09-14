@@ -158,10 +158,7 @@ class VisitsController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Completed User Visits Data',
-            'data' => [
-                'username' => $username,
-                'visits' => $formattedVisits,
-            ],
+            'data' => $formattedVisits
         ]);
     }
 
