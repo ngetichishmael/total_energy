@@ -93,7 +93,7 @@
                                             <i data-feather="settings"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{!! route('orders.details', $order->order_code) !!}">
+                                            <a class="dropdown-item" href="{!! route('orders.viewdetails', $order->order_code) !!}">
                                                 <i data-feather="eye" class="mr-50"></i>
                                                 <span>View</span>
                                             </a>

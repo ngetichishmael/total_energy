@@ -388,6 +388,7 @@ Route::group(['middleware' => ['verified']], function () {
     /* === Orders === */
     Route::get('orders', ['uses' => 'app\ordersController@index', 'as' => 'orders.index']);
     Route::get('orders/{code}/details', ['uses' => 'app\ordersController@details', 'as' => 'orders.details']);
+    Route::get('orders/{code}/viewdetails', ['uses' => 'app\ordersController@viewdetails', 'as' => 'orders.viewdetails']);
     Route::get('orders/{code}/detail', ['uses' => 'app\ordersController@detail', 'as' => 'order.detail']);
     Route::get('orders/customer/{id}', ['uses' => 'app\ordersController@makeOrder', 'as' => 'make.orders']);
     Route::get('orders/{code}/delivery/allocation', ['uses' => 'app\ordersController@allocation', 'as' => 'orders.delivery.allocation']);

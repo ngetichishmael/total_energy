@@ -82,6 +82,31 @@ class ordersController extends Controller
         return view('app.orders.details', compact('order', 'orderItems', 'customer', 'username', 'payment', 'subTotal', 'totalAmount'));
     }
 
+    public function viewdetails($code)
+    {
+        $order = Orders::with('orderItems.Information', 'customer', 'User')->where('order_code', $code)->first();
+
+        if (!$order) {
+            return redirect()->route('orders.index')->with('error', 'Order not found.');
+        }
+        $orderItems = $order->orderItems;
+        $customer = $order->customer;
+        $username = $order->User->name ?? "";
+
+        $payment = order_payments::where('order_id', $order->order_code)->first();
+
+        $subTotal = $orderItems->sum('allocated_subtotal');
+        $totalAmount = $orderItems->sum('allocated_totalamount');
+        // Initialize an array to store quantities by sku_code
+        $total = 0;
+        foreach ($orderItems as $item) {
+            $numericSku = intval(preg_replace('/[^0-9]/', '', $item->Information->sku_code));
+            $total += $numericSku;
+        }
+        return view('app.orders.viewdetails', compact('order', 'orderItems', 'customer', 'username', 'payment', 'subTotal', 'totalAmount'));
+    }
+
+
     public function detail($code)
     {
         $order = Orders::where('order_code', $code)->first();
