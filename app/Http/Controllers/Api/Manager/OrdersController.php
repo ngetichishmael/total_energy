@@ -398,11 +398,29 @@ class OrdersController extends Controller
             $allocatedQuantity = $productData['allocated_quantity'];
     
             // Check product inventory
-            $check = product_information::where('id', $productId)->first();
+            // $check = product_information::where('id', $productId)->first();
     
-            if (!$check || $check->current_stock > $allocatedQuantity) {
-                return response()->json(['error' => "Insufficient stock for product ID $productId"], 400);
+            // if (!$check || $check->current_stock > $allocatedQuantity) {
+            //     return response()->json([
+            //         "success" => false,
+            //         'message' => "Insufficient stock for product ID $productId"], 400);
+            // }
+            // Check product inventory
+           // Check product inventory and get product name
+            $check = product_inventory::where('productID', $productId)->first();
+
+            if (!$check || $allocatedQuantity > $check->current_stock) {
+                // Fetch the product name from the product_information table
+                $productInfo = product_information::where('id', $productId)->first();
+                $productName = $productInfo ? $productInfo->product_name : "Unknown Product";
+
+                return response()->json([
+                    "success" => false,
+                    'message' => "Insufficient stock for product: $productName",
+                ], 400);
             }
+
+
     
             // Retrieve product pricing
             $pricing = product_price::where('productID', $productId)->first();
@@ -481,7 +499,7 @@ class OrdersController extends Controller
     
         return response()->json([
             "success" => true,
-            'message' => 'Delivery created and orders allocated to a user'], 200);
+            'message' => 'Order successfully allocated'], 200);
     }
     
 

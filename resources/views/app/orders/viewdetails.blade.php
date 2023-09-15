@@ -142,7 +142,7 @@
                                             <span class="font-weight-bold">{!! $item->allocated_quantity !!}</span>
                                         </td>
                                         <td class="py-1">
-                                            <span class="font-weight-bold"> ksh {!! number_format($item->selling_price * $item->allocated_quantity) !!} </span>
+                                            <span class="font-weight-bold"> ksh {!! number_format($item->selling_price * $item->allocatedquantity) !!} </span>
                                         </td>
                                     </tr>
                                 @endforeach
