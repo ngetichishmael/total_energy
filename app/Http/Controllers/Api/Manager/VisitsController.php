@@ -17,7 +17,10 @@ class VisitsController extends Controller
     public function getCustomerCheckins()
     {
         $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
-
+    
+        $currentMonth = now()->startOfMonth();
+        $endOfCurrentMonth = now()->endOfMonth();
+    
         $customerCheckins = checkin::whereIn('customer_id', function ($query) use ($assignedRegions) {
                 $query->select('customers.id')
                     ->from('customers')
@@ -27,6 +30,7 @@ class VisitsController extends Controller
             })
             ->leftJoin('customers', 'customer_checkin.customer_id', '=', 'customers.id')
             ->leftJoin('users', 'customer_checkin.user_code', '=', 'users.user_code')
+            ->whereBetween('customer_checkin.created_at', [$currentMonth, $endOfCurrentMonth])
             ->select(
                 'customer_checkin.id',
                 'customer_checkin.code',
@@ -48,7 +52,7 @@ class VisitsController extends Controller
                     $start = Carbon::parse($checkin->start_time);
                     $stop = Carbon::parse($checkin->stop_time);
                     $durationInSeconds = $start->diffInSeconds($stop);
-
+    
                     if ($durationInSeconds < 60) {
                         $checkin->duration = $durationInSeconds . ' secs';
                     } elseif ($durationInSeconds < 3600) {
@@ -59,14 +63,15 @@ class VisitsController extends Controller
                 }
                 return $checkin;
             });
-
+    
         return response()->json([
             'status' => 200,
             'success' => true,
-            'message' => "Customer check-ins",
+            'message' => "Customer check-ins for the current month",
             'data' => $customerCheckins,
         ]);
     }
+    
 
     public function getUserCheckins(Request $request)
     {
