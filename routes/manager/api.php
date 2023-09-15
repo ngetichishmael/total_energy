@@ -105,7 +105,7 @@ Route::group(['namespace' => 'Api'], function () {
        Route::get('/manager/active-users/last-week', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'activeUsersWeek']);
        Route::get('/manager/active-users/last-month', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'activeUsersMonth']);
  
-       Route::get('/manager/orders/completed', [ReportsController::class, 'orderFulfillment']);
+    //    Route::get('/manager/orders/completed', [ReportsController::class, 'orderFulfillment']);
 
        Route::post('/manager/assign/lead/target', [TargetController::class, 'assignLeadTarget']);
        Route::post('/manager/assign/sale/target', [TargetController::class, 'assignSaleTarget']);

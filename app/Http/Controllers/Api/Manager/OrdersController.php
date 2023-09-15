@@ -149,6 +149,7 @@ class OrdersController extends Controller
                 ->orWhere('order_status', 'Partial delivery'); // Filter by order_status (delivered or partially delivered)
         })
         ->with('customer', 'user', 'orderitems') // Eager load relationships
+        ->orderBy('created_at', 'desc') // Order by created_at in descending order
         ->get();
         
         return response()->json([
