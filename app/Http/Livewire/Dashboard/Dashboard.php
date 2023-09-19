@@ -9,6 +9,11 @@ use App\Models\Orders;
 use App\Models\order_payments as OrderPayment;
 use App\Models\products\product_information;
 use App\Models\User;
+use App\Models\Region;
+use App\Models\Routes;
+use App\Models\Subregion;
+use App\Models\AssignedRegion;
+use App\Models\Area;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -138,8 +143,16 @@ class Dashboard extends Component
 
     public function getVanSales()
     {
+        $user = Auth::user();
 
-        $query = Orders::where('order_type', 'Van sales');
+        $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
+
+        $assignedCustomerIds = customers::whereHas('area.subregion.region', function ($query) use ($assignedRegions) {
+            $query->whereIn('id', $assignedRegions);
+        })->pluck('id');
+
+        $query = Orders::whereIn('customerID', $assignedCustomerIds)
+            ->where('order_type', 'Van sales');
 
         if (empty($this->start) && empty($this->end)) {
             $currentMonth = Carbon::now()->startOfMonth();
@@ -154,8 +167,8 @@ class Dashboard extends Component
         }
 
         return $query->count();
-
     }
+
 
     public function getPreOrderCount()
     {

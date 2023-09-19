@@ -145,12 +145,35 @@ class ReportsController extends Controller
          "message" => "Reports data",
          "data" => (object)[
             'van_sales' => [
-               'today' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Van sales')->whereDate('created_at', $todayDate)->sum('price_total'),
-               'yesterday' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Van sales')->whereDate('created_at', Carbon::yesterday())->sum('price_total'),
-               'this_week' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Van sales')->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('price_total'),
-               'last_week' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Van sales')->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])->sum('price_total'),
-               'this_month' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Van sales')->whereMonth('created_at', Carbon::now()->month)->sum('price_total'),
-               'last_month' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Van sales')->whereMonth('created_at', Carbon::now()->subMonth()->month)->sum('price_total'),
+               'today' => Orders::whereIn('customerID', $assignedCustomerIds)
+               ->where('order_type', 'Van sales')
+               ->whereDate('created_at', $todayDate)
+               ->count(),
+               'yesterday' => Orders::whereIn('customerID', $assignedCustomerIds)
+               ->where('order_type', 'Van sales')
+               ->whereDate('created_at', Carbon::yesterday())
+               ->count(),
+            
+            'this_week' => Orders::whereIn('customerID', $assignedCustomerIds)
+                  ->where('order_type', 'Van sales')
+                  ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                  ->count(),
+            
+            'last_week' => Orders::whereIn('customerID', $assignedCustomerIds)
+                  ->where('order_type', 'Van sales')
+                  ->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
+                  ->count(),
+            
+            'this_month' => Orders::whereIn('customerID', $assignedCustomerIds)
+                  ->where('order_type', 'Van sales')
+                  ->whereMonth('created_at', Carbon::now()->month)
+                  ->count(),
+            
+            'last_month' => Orders::whereIn('customerID', $assignedCustomerIds)
+                  ->where('order_type', 'Van sales')
+                  ->whereMonth('created_at', Carbon::now()->subMonth()->month)
+                  ->count(),
+           
            ],
            'pre_orders' => [
                'today' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_type', 'Pre Order')->whereDate('created_at', $todayDate)->sum('price_total'),
