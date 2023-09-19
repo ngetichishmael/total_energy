@@ -77,6 +77,12 @@ Route::group(['namespace' => 'Api'], function () {
        Route::post('/manager/customers/checkins/currentmonth', [VisitsController::class, 'getCustomerCheckinsForCurrentMonth']);
 
        Route::get('/manager/users/checkins', [VisitsController::class, 'getUserCheckins']);
+       Route::post('/manager/users/checkins/today', [VisitsController::class, 'getUserCheckinsToday']);
+       Route::post('/manager/users/checkins/yesterday', [VisitsController::class, 'getUserCheckinsYesterday']);
+       Route::post('/manager/users/checkins/currentweek', [VisitsController::class, 'getUserCheckinsCurrentWeek']);
+       Route::post('/manager/users/checkins/lastweek', [VisitsController::class, 'getUserCheckinsLastWeek']);
+       Route::post('/manager/users/checkins/currentmonth', [VisitsController::class, 'getUserCheckinsCurrentMonth']);
+
        Route::post('/manager/user/{user_code}/checkins', [VisitsController::class, 'viewUserCheckins']);
 
 

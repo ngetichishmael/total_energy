@@ -356,6 +356,237 @@ class VisitsController extends Controller
 
         
     }
+
+    public function getUserCheckinsToday(Request $request)
+    {
+        $currentDate = Carbon::now()->format('Y-m-d'); // Get the current date in Y-m-d format
+
+        $searchTerm = '%' . $request->input('search') . '%';
+
+        $query = User::leftJoin('customer_checkin', function ($join) use ($currentDate) {
+            $join->on('users.user_code', '=', 'customer_checkin.user_code')
+                ->whereRaw('customer_checkin.start_time <= customer_checkin.stop_time')
+                ->whereDate('customer_checkin.created_at', '=', $currentDate); // Filter by current date
+        })
+            ->select(
+                'users.user_code as user_code',
+                'users.name as name',
+                DB::raw('COUNT(customer_checkin.id) as visit_count'),
+                DB::raw('MAX(customer_checkin.created_at) as last_visit_date')
+            )
+            ->where('users.name', 'like', $searchTerm)
+            ->groupBy('users.user_code', 'users.name')
+            ->havingRaw('visit_count > 0');
+
+        $query->orderByDesc('visit_count');
+
+        $visits = $query->get();
+
+        $formattedVisits = [];
+
+        foreach ($visits as $visit) {
+            $formattedVisits[] = [
+                'user_code' => $visit->user_code,
+                'name' => $visit->name,
+                'visit_count' => $visit->visit_count,
+                'last_visit_date' => $visit->last_visit_date ? Carbon::parse($visit->last_visit_date)->format('j M, Y') : 'N/A',
+                'last_visit_time' => $visit->last_visit_date ? Carbon::parse($visit->last_visit_date)->format('h:i A') : 'N/A',
+            ];
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User Visits Data for the current date',
+            'data' => $formattedVisits,
+        ]);
+    }
+
+
+    public function getUserCheckinsYesterday(Request $request)
+    {
+        $yesterday = Carbon::yesterday()->format('Y-m-d'); // Get the date for yesterday in Y-m-d format
+
+        $searchTerm = '%' . $request->input('search') . '%';
+
+        $query = User::leftJoin('customer_checkin', function ($join) use ($yesterday) {
+            $join->on('users.user_code', '=', 'customer_checkin.user_code')
+                ->whereRaw('customer_checkin.start_time <= customer_checkin.stop_time')
+                ->whereDate('customer_checkin.created_at', '=', $yesterday); // Filter by yesterday's date
+        })
+            ->select(
+                'users.user_code as user_code',
+                'users.name as name',
+                DB::raw('COUNT(customer_checkin.id) as visit_count'),
+                DB::raw('MAX(customer_checkin.created_at) as last_visit_date')
+            )
+            ->where('users.name', 'like', $searchTerm)
+            ->groupBy('users.user_code', 'users.name')
+            ->havingRaw('visit_count > 0');
+
+        $query->orderByDesc('visit_count');
+
+        $visits = $query->get();
+
+        $formattedVisits = [];
+
+        foreach ($visits as $visit) {
+            $formattedVisits[] = [
+                'user_code' => $visit->user_code,
+                'name' => $visit->name,
+                'visit_count' => $visit->visit_count,
+                'last_visit_date' => $visit->last_visit_date ? Carbon::parse($visit->last_visit_date)->format('j M, Y') : 'N/A',
+                'last_visit_time' => $visit->last_visit_date ? Carbon::parse($visit->last_visit_date)->format('h:i A') : 'N/A',
+            ];
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User Visits Data for yesterday',
+            'data' => $formattedVisits,
+        ]);
+    }
+
+    public function getUserCheckinsCurrentWeek(Request $request)
+    {
+        $startOfWeek = Carbon::now()->startOfWeek()->format('Y-m-d'); // Get the start of the current week
+        $endOfWeek = Carbon::now()->endOfWeek()->format('Y-m-d');     // Get the end of the current week
+
+        $searchTerm = '%' . $request->input('search') . '%';
+
+        $query = User::leftJoin('customer_checkin', function ($join) use ($startOfWeek, $endOfWeek) {
+            $join->on('users.user_code', '=', 'customer_checkin.user_code')
+                ->whereRaw('customer_checkin.start_time <= customer_checkin.stop_time')
+                ->whereDate('customer_checkin.created_at', '>=', $startOfWeek) // Filter from the start of the week
+                ->whereDate('customer_checkin.created_at', '<=', $endOfWeek);   // Filter to the end of the week
+        })
+            ->select(
+                'users.user_code as user_code',
+                'users.name as name',
+                DB::raw('COUNT(customer_checkin.id) as visit_count'),
+                DB::raw('MAX(customer_checkin.created_at) as last_visit_date')
+            )
+            ->where('users.name', 'like', $searchTerm)
+            ->groupBy('users.user_code', 'users.name')
+            ->havingRaw('visit_count > 0');
+
+        $query->orderByDesc('visit_count');
+
+        $visits = $query->get();
+
+        $formattedVisits = [];
+
+        foreach ($visits as $visit) {
+            $formattedVisits[] = [
+                'user_code' => $visit->user_code,
+                'name' => $visit->name,
+                'visit_count' => $visit->visit_count,
+                'last_visit_date' => $visit->last_visit_date ? Carbon::parse($visit->last_visit_date)->format('j M, Y') : 'N/A',
+                'last_visit_time' => $visit->last_visit_date ? Carbon::parse($visit->last_visit_date)->format('h:i A') : 'N/A',
+            ];
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User Visits Data for the current week',
+            'data' => $formattedVisits,
+        ]);
+    }
+
+    public function getUserCheckinsLastWeek(Request $request)
+    {
+        $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek()->format('Y-m-d'); // Get the start of last week
+        $endOfLastWeek = Carbon::now()->subWeek()->endOfWeek()->format('Y-m-d');     // Get the end of last week
+
+        $searchTerm = '%' . $request->input('search') . '%';
+
+        $query = User::leftJoin('customer_checkin', function ($join) use ($startOfLastWeek, $endOfLastWeek) {
+            $join->on('users.user_code', '=', 'customer_checkin.user_code')
+                ->whereRaw('customer_checkin.start_time <= customer_checkin.stop_time')
+                ->whereDate('customer_checkin.created_at', '>=', $startOfLastWeek) // Filter from the start of last week
+                ->whereDate('customer_checkin.created_at', '<=', $endOfLastWeek);   // Filter to the end of last week
+        })
+            ->select(
+                'users.user_code as user_code',
+                'users.name as name',
+                DB::raw('COUNT(customer_checkin.id) as visit_count'),
+                DB::raw('MAX(customer_checkin.created_at) as last_visit_date')
+            )
+            ->where('users.name', 'like', $searchTerm)
+            ->groupBy('users.user_code', 'users.name')
+            ->havingRaw('visit_count > 0');
+
+        $query->orderByDesc('visit_count');
+
+        $visits = $query->get();
+
+        $formattedVisits = [];
+
+        foreach ($visits as $visit) {
+            $formattedVisits[] = [
+                'user_code' => $visit->user_code,
+                'name' => $visit->name,
+                'visit_count' => $visit->visit_count,
+                'last_visit_date' => $visit->last_visit_date ? Carbon::parse($visit->last_visit_date)->format('j M, Y') : 'N/A',
+                'last_visit_time' => $visit->last_visit_date ? Carbon::parse($visit->last_visit_date)->format('h:i A') : 'N/A',
+            ];
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User Visits Data for last week',
+            'data' => $formattedVisits,
+        ]);
+    }
+
+    public function getUserCheckinsCurrentMonth(Request $request)
+    {
+        $startOfMonth = Carbon::now()->startOfMonth()->format('Y-m-d'); // Get the start of the current month
+        $endOfMonth = Carbon::now()->endOfMonth()->format('Y-m-d');     // Get the end of the current month
+
+        $searchTerm = '%' . $request->input('search') . '%';
+
+        $query = User::leftJoin('customer_checkin', function ($join) use ($startOfMonth, $endOfMonth) {
+            $join->on('users.user_code', '=', 'customer_checkin.user_code')
+                ->whereRaw('customer_checkin.start_time <= customer_checkin.stop_time')
+                ->whereDate('customer_checkin.created_at', '>=', $startOfMonth) // Filter from the start of the current month
+                ->whereDate('customer_checkin.created_at', '<=', $endOfMonth);   // Filter to the end of the current month
+        })
+            ->select(
+                'users.user_code as user_code',
+                'users.name as name',
+                DB::raw('COUNT(customer_checkin.id) as visit_count'),
+                DB::raw('MAX(customer_checkin.created_at) as last_visit_date')
+            )
+            ->where('users.name', 'like', $searchTerm)
+            ->groupBy('users.user_code', 'users.name')
+            ->havingRaw('visit_count > 0');
+
+        $query->orderByDesc('visit_count');
+
+        $visits = $query->get();
+
+        $formattedVisits = [];
+
+        foreach ($visits as $visit) {
+            $formattedVisits[] = [
+                'user_code' => $visit->user_code,
+                'name' => $visit->name,
+                'visit_count' => $visit->visit_count,
+                'last_visit_date' => $visit->last_visit_date ? Carbon::parse($visit->last_visit_date)->format('j M, Y') : 'N/A',
+                'last_visit_time' => $visit->last_visit_date ? Carbon::parse($visit->last_visit_date)->format('h:i A') : 'N/A',
+            ];
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User Visits Data for the current month',
+            'data' => $formattedVisits,
+        ]);
+    }
+
+
+
+
     public function getCustomerCheckinsForCurrentMonth()
     {
         $assignedRegions = AssignedRegion::where('user_code', auth()->user()->user_code)->pluck('region_id');
