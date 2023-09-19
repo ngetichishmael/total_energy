@@ -207,12 +207,36 @@ class ReportsController extends Controller
             
            ],
            'order_fulfillment' => [
-               'today' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_status', 'DELIVERED')->whereDate('created_at', $todayDate)->sum('price_total'),
-               'yesterday' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_status', 'DELIVERED')->whereDate('created_at', Carbon::yesterday())->sum('price_total'),
-               'this_week' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_status', 'DELIVERED')->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('price_total'),
-               'last_week' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_status', 'DELIVERED')->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])->sum('price_total'),
-               'this_month' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_status', 'DELIVERED')->whereMonth('created_at', Carbon::now()->month)->sum('price_total'),
-               'last_month' => Orders::whereIn('customerID', $assignedCustomerIds)->where('order_status', 'DELIVERED')->whereMonth('created_at', Carbon::now()->subMonth()->month)->sum('price_total'),
+               'today' => Orders::whereIn('customerID', $assignedCustomerIds)
+                     ->where('order_status', 'DELIVERED')
+                     ->whereDate('created_at', $todayDate)
+                     ->count(),
+                     
+               'yesterday' => Orders::whereIn('customerID', $assignedCustomerIds)
+                     ->where('order_status', 'DELIVERED')
+                     ->whereDate('created_at', Carbon::yesterday())
+                     ->count(),
+               
+               'this_week' => Orders::whereIn('customerID', $assignedCustomerIds)
+                     ->where('order_status', 'DELIVERED')
+                     ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                     ->count(),
+               
+               'last_week' => Orders::whereIn('customerID', $assignedCustomerIds)
+                     ->where('order_status', 'DELIVERED')
+                     ->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
+                     ->count(),
+               
+               'this_month' => Orders::whereIn('customerID', $assignedCustomerIds)
+                     ->where('order_status', 'DELIVERED')
+                     ->whereMonth('created_at', Carbon::now()->month)
+                     ->count(),
+               
+               'last_month' => Orders::whereIn('customerID', $assignedCustomerIds)
+                     ->where('order_status', 'DELIVERED')
+                     ->whereMonth('created_at', Carbon::now()->subMonth()->month)
+                     ->count(),
+               
            ],
 
             'active_users' => [
@@ -228,28 +252,22 @@ class ReportsController extends Controller
             'customers_visits' => [
                'today' => checkin::whereIn('customer_id', $assignedCustomerIds)->select('customer_id', 'updated_at')
                    ->whereDate('updated_at', $todayDate)
-                   ->groupBy('customer_id')
                    ->count(),
                    
                'yesterday' => checkin::whereIn('customer_id', $assignedCustomerIds)->select('customer_id', 'updated_at')
                    ->whereDate('updated_at', Carbon::yesterday())
-                   ->groupBy('customer_id')
                    ->count(),
                'this_week' => checkin::whereIn('customer_id', $assignedCustomerIds)->select('customer_id', 'updated_at')
                    ->whereBetween('updated_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                   ->groupBy('customer_id')
                    ->count(),
                'last_week' => checkin::whereIn('customer_id', $assignedCustomerIds)->select('customer_id', 'updated_at')
                    ->whereBetween('updated_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
-                   ->groupBy('customer_id')
                    ->count(),
                'this_month' => checkin::whereIn('customer_id', $assignedCustomerIds)->select('customer_id', 'updated_at')
                    ->whereMonth('updated_at', Carbon::now()->month)
-                   ->groupBy('customer_id')
                    ->count(),
                'last_month' => checkin::whereIn('customer_id', $assignedCustomerIds)->select('customer_id', 'updated_at')
                    ->whereMonth('updated_at', Carbon::now()->subMonth()->month)
-                   ->groupBy('customer_id')
                    ->count(),
            ],
          ]

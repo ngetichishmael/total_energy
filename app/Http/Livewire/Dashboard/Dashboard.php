@@ -240,11 +240,18 @@ class Dashboard extends Component
 
     public function getStrikeCount()
     {
+        // Check if start and end dates are not set, then set them to the current month
+        if (empty($this->start) || empty($this->end)) {
+            $this->start = now()->startOfMonth();
+            $this->end = now()->endOfMonth();
+        }
+    
         return checkin::where(function (Builder $query) {
             $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
         })
             ->count();
     }
+    
 
     public function getCustomersCount()
     {
