@@ -340,12 +340,16 @@ class DashboardAppController extends Controller
          //    'month' => customers::currentMonth()->count(),
          //    'last_month' => customers::lastMonth()->count(),
          // ],
-         'pending_approval' => allocations::where('status', 'Pending Delivery')
-         ->whereHas('user', function ($query) {
-             $query->where('route_code', auth()->user()->route_code)
-                   ->where('id', '!=', auth()->user()->id); // Exclude the logged-in user's ID
-         })
-         ->count(),  
+         'pending_approval' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+            $query->select('customers.id')
+                ->from('customers')
+                ->join('areas', 'customers.route_code', '=', 'areas.id')
+                ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                ->whereIn('subregions.region_id', $assignedRegions);
+        })
+        ->where('order_status', 'Pending Delivery')
+        ->where('order_type', 'Pre Order')
+        ->count(),
      
      
 
