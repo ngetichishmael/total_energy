@@ -4,28 +4,31 @@ namespace App\Http\Livewire\Target;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan; // Import the Artisan facade
 use Livewire\Component;
 
 class Order extends Component
 {
-    public $perPage = 10;
+    public $perPage = 20;
     public $search = '';
     public $timeFrame = 'month';
 
     public function render()
     {
-
         $targetsQuery = User::with('TargetsOrder')->where('account_type', '<>', 'Admin');
         $today = Carbon::now();
-        // $targetsQuery = SalesTarget::query();
+
         // Apply search filter
         if (!empty($this->search)) {
             $targetsQuery->where('name', 'LIKE', '%' . $this->search . '%');
         }
+
         // Apply time frame filter
         $this->applyTimeFrameFilter($targetsQuery);
+
         // Fetch targets
         $targets = $targetsQuery->get();
+
         return view('livewire.target.order', [
             'targets' => $targets,
             'today' => $today,
@@ -52,6 +55,7 @@ class Order extends Component
             $targetSaleQuery->where('Deadline', 'LIKE', "%" . $endDate->format('m') . "%");
         });
     }
+
     public function getSuccessRatio($achieved, $target)
     {
         if ($target != 0) {
@@ -59,5 +63,13 @@ class Order extends Component
         }
 
         return 0;
+    }
+
+    public function resetTargets()
+    {
+        // Run the Artisan command to reset targets
+        Artisan::call('reset:targets');
+        
+        // Optional: You can add a success message or redirect back to the page.
     }
 }

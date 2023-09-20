@@ -144,19 +144,24 @@ class Dashboard extends Component
     public function getVanSales()
     {
         $user = Auth::user();
-
-        $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
-
-        $assignedCustomerIds = customers::whereHas('area.subregion.region', function ($query) use ($assignedRegions) {
-            $query->whereIn('id', $assignedRegions);
-        })->pluck('id');
-
-        $query = Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Van sales');
-
+    
+        // Check the user's account type
+        if ($user->account_type === 'Admin') {
+            $query = Orders::where('order_type', 'Van sales');
+        } else {
+            $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
+    
+            $assignedCustomerIds = customers::whereHas('area.subregion.region', function ($query) use ($assignedRegions) {
+                $query->whereIn('id', $assignedRegions);
+            })->pluck('id');
+    
+            $query = Orders::whereIn('customerID', $assignedCustomerIds)
+                ->where('order_type', 'Van sales');
+        }
+    
         if (empty($this->start) && empty($this->end)) {
             $currentMonth = Carbon::now()->startOfMonth();
-            $query->whereBetween('updated_at', [$currentMonth, Carbon::now()]);
+            $query->whereBetween('created_at', [$currentMonth, Carbon::now()]);
         } else {
             if (!empty($this->start)) {
                 $query->where('created_at', '>=', $this->start);
@@ -165,15 +170,29 @@ class Dashboard extends Component
                 $query->where('created_at', '<=', $this->end);
             }
         }
-
+    
         return $query->count();
     }
+    
 
 
     public function getPreOrderCount()
     {
-
-        $query = Orders::where('order_type', 'Pre Order');
+        $user = Auth::user();
+    
+        // Check the user's account type
+        if ($user->account_type === 'Admin') {
+            $query = Orders::where('order_type', 'Pre Order');
+        } else {
+            $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
+    
+            $assignedCustomerIds = customers::whereHas('area.subregion.region', function ($query) use ($assignedRegions) {
+                $query->whereIn('id', $assignedRegions);
+            })->pluck('id');
+    
+            $query = Orders::whereIn('customerID', $assignedCustomerIds)
+                ->where('order_type', 'Pre Order');
+        }
 
         if (empty($this->start) && empty($this->end)) {
             $currentMonth = Carbon::now()->startOfMonth();

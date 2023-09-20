@@ -27,7 +27,9 @@ class AuthenticationController extends Controller
         if (!Auth::attempt([
             'phone_number' => $request->phone_number,
             'password' => $request->password,
-            'account_type' => 'Managers',
+            function ($query) {
+                $query->whereIn('account_type', ['Managers', 'Admin']);
+            },
             'status' => 'Active'
         ], true)) {
             return response()->json(['message' => 'Unauthorized'], 401);

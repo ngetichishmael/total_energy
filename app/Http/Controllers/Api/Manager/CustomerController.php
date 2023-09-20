@@ -20,52 +20,47 @@ class CustomerController extends Controller
 {
    public function getCustomers()
    {
-          // Get the authenticated user
-    $user = Auth::user();
-    
-    // Retrieve the user's assigned regions
-    $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
-    
-    // Retrieve customers assigned to the regions of the authenticated user
-    $customers = customers::whereIn('route_code', function ($query) use ($assignedRegions) {
-        $query->select('areas.id')
-            ->from('areas')
-            ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-            ->whereIn('subregions.region_id', $assignedRegions);
-    })->get();
-    
-    
+       // Get the authenticated user
+       $user = Auth::user();
+   
+       // Check the user's account type
+       if ($user->account_type === 'Admin') {
+           $customers = customers::all();
+       } else {
+           // Retrieve the user's assigned regions
+           $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id')->toArray();
+   
+           // Retrieve customers assigned to the regions of the authenticated user
+           $customers = customers::whereIn('route_code', function ($query) use ($assignedRegions) {
+               $query->select('areas.id')
+                   ->from('areas')
+                   ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                   ->whereIn('subregions.region_id', $assignedRegions);
+           })->get();
+       }
+   
        // Construct the default image URL
        $defaultImageUrl = asset('images/no-image.png');
-        
+   
        // Modify the image URLs
-       foreach ($customers as $customer) {
+       $customers->transform(function ($customer) use ($defaultImageUrl) {
            $imageFileName = $customer->image;
            $imagePath = public_path('images/' . $imageFileName);
            $imageUrl = file_exists($imagePath) ? asset('images/' . $imageFileName) : $defaultImageUrl;
-           
+   
            $customer->image = $imageUrl;
-       }
-
-   //  return response()->json($customers);
-
-      // $user = Auth::user(); // Fetch the authenticated user
-
-      // $route_code = $user->route_code;
-      // $region = Region::whereId($route_code)->first();
-      // $subregion = Subregion::where('region_id', $region->id)->pluck('id');
-      // $areas = Area::whereIn('subregion_id', $subregion)->pluck('id');
-
-      // $query = customers::whereIn('route_code', $areas)->get();
-
-      return response()->json([
-         "success" => true,
-         "message" => "Customer List",
-         "status" => 200,
-         "data" => $customers,
-      ]);
+   
+           return $customer;
+       });
+   
+       return response()->json([
+           "success" => true,
+           "message" => "Customer List",
+           "status" => 200,
+           "data" => $customers,
+       ]);
    }
-
+   
    public function showCustomerDetails($customerId)
    {
        // Retrieve the customer based on the provided customer ID
