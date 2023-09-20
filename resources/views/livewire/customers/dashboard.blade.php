@@ -35,9 +35,20 @@
                     </select>
                 </div>
             </div>
+           <div class="col-md-2 customer-status">
+              <div class="form-group">
+                 <label for="selectArea">Customer Status</label>
+           <select id="customerFilter" class="form-control form-control-sm" wire:model="filter" id="filter">
+              <option class="selected" value="all">All</option>
+              <option value="new">New Customers</option>
+              <option value="warm">Warm</option>
+              <option value="partial">Partial</option>
+              <option value="cold">Cold</option>
+           </select>
+              </div>
+           </div>
 
-
-            <div class="col-md-2 d-flex justify-content-end">
+           <div class="col-md-2 d-flex justify-content-end">
                 <div class="demo-inline-spacing">
                     <a href="{!! route('customer.create') !!}" class="btn btn-outline-secondary">Add Customer</a>
 
@@ -93,7 +104,7 @@
     <div class="card card-default">
         <div class="card-body">
             <div class="pt-0 card-datatable">
-                <table class="table table-striped table-bordered zero-configuration table-responsive">
+                <table class="table table-striped table-bordered zero-configuration table-responsive font-weight-lighter">
                     <thead>
                         <th width="15%">Name</th>
                         <th>Type</th>
@@ -113,11 +124,11 @@
         @php
             $lastOrderDate = $contact->last_order_date ? \Carbon\Carbon::parse($contact->last_order_date) : null;
             $currentDate = now();
-            $threeMonthsAgo = $currentDate->copy()->subMonths(3);
-            $oneMonthAgo = $currentDate->copy()->subMonth();
+            $threeMonthsAgo = now()->subMonths(3);
+            $oneMonthAgo = now()->subMonth();
 
-            if (!$lastOrderDate) {
-                echo 'darkgray';
+            if ($lastOrderDate==null || !$lastOrderDate) {
+                echo 'black';
             } elseif ($lastOrderDate->greaterThanOrEqualTo($oneMonthAgo)) {
                 echo 'green';
             } elseif ($lastOrderDate->greaterThanOrEqualTo($threeMonthsAgo)) {
@@ -174,21 +185,21 @@
                                                 <i data-feather='eye' class="mr-50"></i>
                                                 <span>View</span>
                                             </a>
-                                            @if ($contact->approval === 'Approved')
-                                                <a wire:click.prevent="deactivate({{ $contact->id }})"
-                                                    onclick="confirm('Are you sure you want to DEACTIVATE this user?')||event.stopImmediatePropagation()"
-                                                    class="dropdown-item">
-                                                    <i data-feather='check-circle' class="mr-50"></i>
-                                                    <span>Disapprove</span>
-                                                </a>
-                                            @else
-                                                <a wire:click.prevent="activate({{ $contact->id }})"
-                                                    onclick="confirm('Are you sure you want to ACTIVATE this customer?')||event.stopImmediatePropagation()"
-                                                    class="dropdown-item">
-                                                    <i data-feather='x-circle' class="mr-50"></i>
-                                                    <span>Approve</span>
-                                                </a>
-                                            @endif
+{{--                                            @if ($contact->approval === 'Approved')--}}
+{{--                                                <a wire:click.prevent="deactivate({{ $contact->id }})"--}}
+{{--                                                    onclick="confirm('Are you sure you want to DEACTIVATE this user?')||event.stopImmediatePropagation()"--}}
+{{--                                                    class="dropdown-item">--}}
+{{--                                                    <i data-feather='check-circle' class="mr-50"></i>--}}
+{{--                                                    <span>Disapprove</span>--}}
+{{--                                                </a>--}}
+{{--                                            @else--}}
+{{--                                                <a wire:click.prevent="activate({{ $contact->id }})"--}}
+{{--                                                    onclick="confirm('Are you sure you want to ACTIVATE this customer?')||event.stopImmediatePropagation()"--}}
+{{--                                                    class="dropdown-item">--}}
+{{--                                                    <i data-feather='x-circle' class="mr-50"></i>--}}
+{{--                                                    <span>Approve</span>--}}
+{{--                                                </a>--}}
+{{--                                            @endif--}}
                                         </div>
                                     </div>
                                 </td>

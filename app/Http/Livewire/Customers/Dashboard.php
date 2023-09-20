@@ -7,6 +7,7 @@ use App\Models\Area;
 use App\Models\customers;
 use App\Models\Subregion;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -24,6 +25,7 @@ class Dashboard extends Component
 
     public $start = null;
     public $end = null;
+   public $filter = 'all';
 
     public function render()
     {
@@ -136,6 +138,24 @@ class Dashboard extends Component
                 $query->whereIn('unit_id', $this->areas());
             }
         }
+       if ($this->filter === 'new') {
+          // Filter customers where last order date is null
+          $query->whereNull('last_order_date');
+          info("new customers ");
+//          info($query);
+       }elseif ($this->filter === 'warm') {
+   // Filter customers where last order date is within the last 30 days
+$query->whereBetween('last_order_date', [Carbon::now()->subDays(30), Carbon::now()]);
+} elseif ($this->filter === 'partial') {
+   // Filter customers where last order date is more than one month and less than or equal to three months
+$oneMonthAgo = Carbon::now()->subMonth();
+$threeMonthsAgo = Carbon::now()->subMonths(3);
+$query->whereBetween('last_order_date', [$oneMonthAgo, $threeMonthsAgo]);
+} elseif ($this->filter === 'cold') {
+   // Filter customers where last order date is more than three months
+$threeMonthsAgo = Carbon::now()->subMonths(3);
+$query->where('last_order_date', '<', $threeMonthsAgo);
+}
 
         $contacts = $query->paginate($this->perPage);
         return $contacts;
