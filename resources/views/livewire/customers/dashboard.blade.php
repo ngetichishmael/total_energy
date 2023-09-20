@@ -96,9 +96,9 @@
                 <table class="table table-striped table-bordered zero-configuration table-responsive">
                     <thead>
                         <th width="15%">Name</th>
-                        <th>Type</th>
+{{--                        <th>Type</th>--}}
                         <th>Number</th>
-                        {{--                        <th>source</th> --}}
+                        <th>last order date</th>
                         <th width="15%">Address</th>
                         <th width="15%">Zone/Region</th>
                         <th width="15%">Route</th>
@@ -109,30 +109,33 @@
                     <tbody>
                         @forelse ($contacts as $count => $contact)
                             <!-- <td>{!! $count + 1 !!}</td> -->
-                            <tr
-                                style="color:
-           @php
-$lastOrderDate = $contact->last_order_date ? \Carbon\Carbon::parse($contact->last_order_date) : null;
-                $currentDate = now();
-                $threeMonthsAgo = $currentDate->copy()->subMonths(3);
-                $sixMonthsAgo = $currentDate->copy()->subMonths(6);
+                            <tr style="color:
+        @php
+            $lastOrderDate = $contact->last_order_date ? \Carbon\Carbon::parse($contact->last_order_date) : null;
+            $currentDate = now();
+            $threeMonthsAgo = $currentDate->copy()->subMonths(3);
+            $oneMonthAgo = $currentDate->copy()->subMonth();
 
-                if ($lastOrderDate === null || ($lastOrderDate->year === $currentDate->year && $lastOrderDate->month >= $threeMonthsAgo->month) || ($lastOrderDate->year === $currentDate->year && $lastOrderDate->month === $threeMonthsAgo->month && $lastOrderDate->day >= $threeMonthsAgo->day)) {
-                    echo 'green';
-                } elseif (($lastOrderDate->year === $currentDate->year && $lastOrderDate->month >= $sixMonthsAgo->month) || ($lastOrderDate->year === $currentDate->year && $lastOrderDate->month === $sixMonthsAgo->month && $lastOrderDate->day >= $sixMonthsAgo->day)) {
-                    echo '#FFD650';
-                } else {
-                    echo 'darkred';
-                } @endphp">
+            if (!$lastOrderDate) {
+                echo 'darkgray';
+            } elseif ($lastOrderDate->greaterThanOrEqualTo($oneMonthAgo)) {
+                echo 'green';
+            } elseif ($lastOrderDate->greaterThanOrEqualTo($threeMonthsAgo)) {
+                echo 'orangered';
+            } else {
+                echo 'darkred';
+            }
+        @endphp">
                                 <td>
                                     {!! $contact->customer_name !!} <br>
-                                    @if ($contact->status === 'Active')
-                                        <span class="badge badge-pill badge-light-success mr-1">Approved</span>
-                                    @else
-                                        <span class="badge badge-pill badge-light-warning mr-1">Pending</span>
-                                    @endif
+{{--                                    @if ($contact->status === 'Active')--}}
+{{--                                        <span class="badge badge-pill badge-light-success mr-1">Approved</span>--}}
+{{--                                    @else--}}
+{{--                                        <span class="badge badge-pill badge-light-warning mr-1">Pending</span>--}}
+{{--                                    @endif--}}
                                 </td>
                                 <td>{!! $contact->customer_group !!}</td>
+                                <td>{!! $contact->last_order_date !!}</td>
                                 <td>{!! $contact->phone_number !!}</td>
                                 {{--                                <td>{!! $contact->source !!}</td> --}}
                                 <td>{{ $contact->address }} </td>
