@@ -51,7 +51,7 @@
                            </tr>
                         @empty
                            <tr>
-                              <td colspan="6" class="text-center">No allocations found.</td>
+                              <td colspan="6" class="text-center">No stock holdings found.</td>
                            </tr>
                         @endforelse
                         </tbody>

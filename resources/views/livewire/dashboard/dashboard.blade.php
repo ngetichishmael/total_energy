@@ -1,7 +1,7 @@
 <div>
 <div class="d-flex justify-content-between align-items-center mx-50 mb-2">
     <div>
-        <a type="button" href="{{ route('dashboard.allocated.users') }}" class="btn-primary btn-lg rounded-2">View Current Stocks Allocations</a>
+        <a type="button" href="{{ route('dashboard.allocated.users') }}" class="btn-primary btn-lg rounded-2">Stock  Holdings</a>
     </div>
     @if(Auth::check() && Auth::user()->account_type == 'Managers')
 
