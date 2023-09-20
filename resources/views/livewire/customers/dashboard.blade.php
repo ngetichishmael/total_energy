@@ -96,9 +96,9 @@
                 <table class="table table-striped table-bordered zero-configuration table-responsive">
                     <thead>
                         <th width="15%">Name</th>
-{{--                        <th>Type</th>--}}
+                        <th>Type</th>
                         <th>Number</th>
-                        <th>last order date</th>
+{{--                        <th>last order date</th>--}}
                         <th width="15%">Address</th>
                         <th width="15%">Zone/Region</th>
                         <th width="15%">Route</th>
@@ -135,7 +135,7 @@
 {{--                                    @endif--}}
                                 </td>
                                 <td>{!! $contact->customer_group !!}</td>
-                                <td>{!! $contact->last_order_date !!}</td>
+{{--                                <td>{!! $contact->last_order_date !!}</td>--}}
                                 <td>{!! $contact->phone_number !!}</td>
                                 {{--                                <td>{!! $contact->source !!}</td> --}}
                                 <td>{{ $contact->address }} </td>
