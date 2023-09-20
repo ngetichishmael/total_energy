@@ -20,7 +20,7 @@ class UsersController extends Controller
         if ($user->account_type === 'Admin') {
             $usersQuery = User::withCount('Customers')
                 ->with(['TargetSales', 'TargetLeads', 'TargetsOrder', 'TargetsVisit'])
-                ->whereIn('account_type', ['Distributors', 'Lube Sales Executive']);
+                ->whereIn('account_type', ['Managers','Admin','Distributors', 'Lube Sales Executive']);
         } else {
             $loggedInAccountType = $user->account_type;
     
