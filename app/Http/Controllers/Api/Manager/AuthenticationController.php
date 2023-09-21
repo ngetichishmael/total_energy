@@ -52,7 +52,7 @@ class AuthenticationController extends Controller
     
         $random = Str::random(20);
         $activityLog = new activity_log();
-        $activityLog->source = 'Mobile App';
+        $activityLog->source = 'Manager Mobile App';
         $activityLog->activity = 'Manager Login in Mobile Device';
         $activityLog->user_code = auth()->user()->user_code;
         $activityLog->section = 'Mobile Login';

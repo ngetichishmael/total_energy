@@ -517,7 +517,7 @@ class OrdersController extends Controller
         // Log the activity
         $random = Str::random(20);
         $activityLog = new activity_log();
-        $activityLog->source = 'Web App';
+        $activityLog->source = 'Manager Mobile App';
         $activityLog->activity = 'Allocate an order to a User';
         $activityLog->user_code = Auth::user()->user_code;
         $activityLog->section = 'Order Allocation';
@@ -563,6 +563,7 @@ class OrdersController extends Controller
         ]);
         $random = Str::random(20);
         $activityLog = new activity_log();
+        $activityLog->source = 'Manager Mobile App';
         $activityLog->activity = 'Manager order allocation';
         $activityLog->user_code = auth()->user()->user_code;
         $activityLog->section = 'Allocate orders';

@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Exports\VansalesExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Vansales extends Component
@@ -94,6 +96,25 @@ class Vansales extends Component
     }
     public function export()
     {
-        return Excel::download(new VansaleExport, 'vansales.xlsx');
+        return Excel::download(new VansalesExport(), 'vansales.xlsx');
+    }
+
+    public function exportCSV()
+    {
+        return Excel::download(new VansalesExport(), 'vansales.csv');
+    }
+
+    public function exportPDF()
+    {
+        $data = [
+            'vansales' => $this->data(),
+        ];
+
+        $pdf = Pdf::loadView('Exports.vansales_pdf', $data);
+
+        // Add the following response headers
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'vansales.pdf');
     }
 }

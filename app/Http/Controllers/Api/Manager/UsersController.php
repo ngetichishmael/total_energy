@@ -157,6 +157,7 @@ class UsersController extends Controller
     {
        $rdm = Str::random(20);
        $activityLog = new activity_log();
+       $activityLog->source = 'Manager Mobile App';
        $activityLog->activity = $activity;
        $activityLog->user_code = auth()->user()->user_code;
        $activityLog->section = 'Mobile';
