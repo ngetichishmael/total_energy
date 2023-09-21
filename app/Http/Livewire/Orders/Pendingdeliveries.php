@@ -59,10 +59,23 @@ class Pendingdeliveries extends Component
         return Excel::download(new OrdersExport, 'orders.xlsx');
     }
 
-    public function getRegionData($order_code)
+    public function details($code)
     {
+        $order = Orders::with('orderItems.Information')->where('order_code', $code)->first();
 
+        if (!isset($order->orderItems)) {
+            return 0;
+        }
+
+        $orderItems = $order->orderItems;
+        $total = 0;
+        foreach ($orderItems as $item) {
+            $numericSku = intval(preg_replace('/[^0-9]/', '', $item->Information->sku_code));
+            $total += $numericSku;
+        }
+        return $total;
     }
+
     public function deactivate($id)
     {
 

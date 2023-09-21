@@ -1,33 +1,30 @@
-<div>
-    <table>
-        <thead>
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Sales Rep</th>
+            <th>Number of Items</th>
+            <th>Region</th>
+            <th>Sub Region</th>
+            <th>Status</th>
+            <th>Created Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($preorders as $key => $preorder)
             <tr>
-                <th>Order ID</th>
-                <th>Customer Name</th>
-                <th>Added By</th>
-                <th>Region</th>
-                <th>Status</th>
-                <th>Created At</th>
+                <td>{{ $key + 1 }}</td>
+                <td>{{ $preorder->order_code }}</td>
+                <td>{{ $preorder->Customer->customer_name ?? 'N/A' }}</td>
+                <td>{{ $preorder->User->name ?? 'N/A' }}</td>
+                <td>{{ $preorder->order_items_count }}</td>
+                <td>{{ $preorder->User->Region->name ?? 'N/A' }}</td>
+                <td>{{ $preorder->Customer->Area->Subregion->name ?? 'N/A' }}</td>
+                <td>{{ $preorder->order_status ?? 'N/A' }}</td>
+                <td>{{ $preorder->created_at->format('d/m/Y') ?? '' }}</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach($orders as $order)
-                <tr>
-                    <td>{{ $order->order_code }}</td>
-                    <td>{{ $order->Customer->customer_name ?? '' }}</td>
-                    <td>{{ $order->User->name ?? '' }}</td>
-                    <td class="cell-fit">
-                        {{ $order->Customer->Area->Subregion->name ?? '' }},
-                        {{ $order->User->Region->name ?? '' }}
-                    </td>
-                    <td>{{ $order->order_status ?? '' }}</td>
-                    <td>{{ $order->created_at->format('d/m/Y') ?? '' }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    <div class="mt-4">
-        <button wire:click="export" class="btn btn-primary">Export CSV</button>
-    </div>
-</div>
+        @endforeach
+    </tbody>
+</table>

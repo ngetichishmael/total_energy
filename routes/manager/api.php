@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Manager\UsersController;
 use App\Http\Controllers\Api\Manager\RoutesController;
 use App\Http\Controllers\Api\Manager\ReportsController;
 use App\Http\Controllers\Api\Manager\VisitsController;
+use App\Http\Controllers\Api\Manager\TargetController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -43,12 +44,18 @@ Route::group(['namespace' => 'Api'], function () {
        Route::get('/manager/customers/list', [CustomerController::class, 'getCustomers']);
        Route::get('/manager/customer/{id}/details', [CustomerController::class, 'showCustomerDetails']);
        Route::post('/manager/customer/{id}/orders', [OrdersController::class, 'showCustomerOrders']);
+       Route::post('/manager/customer/{id}/deliveries', [OrdersController::class, 'showCustomerDeliveries']);
+
 
 
        Route::get('/manager/dashboard/data', [DashboardAppController::class, 'dashboard']);
        Route::post('/manager/dashboard/data/custom', [DashboardAppController::class, 'custom']);
 
        Route::get('/manager/users', [UsersController::class, 'getUsers']);
+       Route::post('/manager/deactivate/user/{user_code}', [UsersController::class, 'suspendUser']);
+       Route::post('/manager/activate/user/{user_code}', [UsersController::class, 'activateUser']);
+       Route::get('/manager/users/account_types', [UsersController::class, 'accountTypes']);
+
        Route::post('/manager/send/notification', [SendNotificationController::class, 'receiveNotification']);
        Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
 
@@ -57,7 +64,6 @@ Route::group(['namespace' => 'Api'], function () {
        Route::post('/manager/orders/allocation', [OrdersController::class, 'allocatingOrders']);
 
        Route::get('/manager/customers/checkins', [VisitsController::class, 'getCustomerCheckins']);
-
 
        Route::get('/manager/routes/data', [RoutesController::class, 'getRoutes']);
 
@@ -90,6 +96,13 @@ Route::group(['namespace' => 'Api'], function () {
        Route::get('/manager/active-users/last-month', [\App\Http\Controllers\Api\Manager\ReportsController::class, 'activeUsersMonth']);
  
        Route::get('/manager/orders/completed', [ReportsController::class, 'orderFulfillment']);
+
+       Route::post('/manager/assign/lead/target', [TargetController::class, 'assignLeadTarget']);
+       Route::post('/manager/assign/sale/target', [TargetController::class, 'assignSaleTarget']);
+       Route::post('/manager/assign/visit/target', [TargetController::class, 'assignVisitTarget']);
+       Route::post('/manager/assign/order/target', [TargetController::class, 'assignOrderTarget']);
+
+       Route::get('/manager/all/regions', [TerritoryInformationsController::class, 'getAllTerritories']);
 
 
    });

@@ -93,6 +93,26 @@ class OrdersController extends Controller
        return response()->json($formattedData);
    }
    
+   public function showCustomerDeliveries(Request $request, $id)
+   {
+       // Assuming you have a Customer model with a relationship to orders, you can retrieve the customer's orders.
+       $customer = customers::find($id);
+       $custom = customers::find($id);
+
+       if (!$customer) {
+           return response()->json(['message' => 'Customer not found'], 404);
+       }
+
+       // Fetch the orders with "Delivered" status for the customer.
+       $deliveries = $customer->orders()->where('order_status', 'Delivered')->get();
+
+       return response()->json([
+        'status' => 200,
+        'success' => true,
+        'message' => 'Customer and there associated Deliveries retrieved successfully',
+        'customer' => $custom,
+        'orders' => $deliveries]);
+   } 
    
 
    

@@ -1,5 +1,21 @@
 <div>
-   <div class="justify-content-end align-items-center mx-50 mb-2" > <a type="button" href="{{route('dashboard.allocated.users')}}" class="btn-success btn-lg rounded-2">View Current Stocks Allocations</a></div>
+<div class="d-flex justify-content-between align-items-center mx-50 mb-2">
+    <div>
+        <a type="button" href="{{ route('dashboard.allocated.users') }}" class="btn-primary btn-lg rounded-2">View Current Stocks Allocations</a>
+    </div>
+    @if(Auth::check() && Auth::user()->account_type == 'Managers')
+
+    <div>
+        <a type="button" href="#" class="btn-success btn-lg rounded-2">
+        @if ($userRegion) <b> {{ $userRegion ?? '' }} </b> Manager  @endif </a>
+    </div>
+    @endif
+
+</div>
+
+
+
+
     <div class="col-xl-12 col-md-12 col-12">
 
         <div class="card">

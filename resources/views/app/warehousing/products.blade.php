@@ -58,7 +58,7 @@
 
         <div class="card card-default">
             <div class="card-body">
-                <table class="table table-striped table-bordered" style="font-size: small">
+                <table class="table table-striped table-bordered" style="font-weight: lighter">
                     <thead>
                         <tr>
                             <th width="1%">#</th>

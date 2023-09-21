@@ -5,7 +5,6 @@
                 <a class="navbar-brand" href="{{ url('/dashboard') }}">
                     <img src="{!! asset('app-assets/images/small_logo.png') !!}" alt="soko flow" class="img" width="170px" height="50px">
 
-                    <!-- <h2 class="brand-text" style="color:#000; font-size:28px;  font-family: Montserrat;">Total Energies</h2> -->
                 </a>
             </li>
             <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i
@@ -121,6 +120,7 @@
                     </li>
                 </ul>
             </li>
+            @if (Auth::user()->account_type === 'Distributors')
             <li class="nav-item {!! Nav::isRoute('*Payment') !!}">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="dollar-sign"></i><span class="menu-title text-truncate" data-i18n="Todo">
@@ -137,68 +137,51 @@
                     </li>
                 </ul>
             </li>
-            {{--            <li class="nav-item {!! Nav::isResource('product') !!}"> --}}
-            {{--                <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span --}}
-            {{--                        class="menu-title text-truncate" data-i18n="Invoice">Products</span></a> --}}
-            {{--                <ul class="menu-content"> --}}
-            {{--                    <li><a class="d-flex align-items-center" href="{!! route('product.index') !!}"><i --}}
-            {{--                                data-feather="circle"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Products</span></a> --}}
-            {{--                    </li> --}}
+            @endif
 
-            {{--                    @if (Auth::user()->account_type === 'Admin') --}}
-            {{--                        <li><a class="d-flex align-items-center" href="{!! route('product.category') !!}"><i --}}
-            {{--                                    data-feather="circle"  style="color:#ffffff;"></i><span --}}
-            {{--                                    class="menu-item text-truncate">Categories</span></a> --}}
-            {{--                        </li> --}}
-            {{--                        <li><a class="d-flex align-items-center" href="{!! route('product.brand') !!}"><i --}}
-            {{--                                    data-feather="circle"  style="color:#ffffff;"></i><span class="menu-item text-truncate">Brands</span></a> --}}
-            {{--                        </li> --}}
-            {{--                    @endif --}}
-            {{--                </ul> --}}
-            {{--            </li> --}}
-
-            @if (Auth::user()->account_type === 'Admin')
-                <li><a class="d-flex align-items-center{!! Nav::isResource('route-schedulw') !!}" href="{!! route('routes.index') !!}"><i
+                {{-- <li><a class="d-flex align-items-center{!! Nav::isResource('route-schedulw') !!}" href="{!! route('routes.index') !!}"><i
                             data-feather="compass"></i><span class="menu-item text-truncate">Route
                             Scheduling</span></a>
-                </li>
-
-                <li class="nav-item {!! Nav::isResource('regions') !!}">
-                    <a class="d-flex align-items-center" href="#"><i data-feather="map-pin"></i><span
-                            class="menu-title text-truncate" data-i18n="Invoice">Regions</span></a>
+                </li> --}}
+                <li class="nav-item {!! Nav::isResource('routes') !!}">
+                    <a class="d-flex align-items-center" href="">
+                    <i data-feather='compass'></i><span class="menu-title text-truncate" data-i18n="Todo"> Route
+                       Scheduling</span>
+                    </a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center nav-item {!! Nav::isResource('zone') !!}"
-                                href="{{ route('regions') }}"><i data-feather="map-pin"
-                                    style="color:#ffffff;"></i><span class="menu-item text-truncate">Region</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center {!! Nav::isResource('sub-regions') !!}"
-                                href="{{ route('subregions') }}"><i data-feather="map-pin"
-                                    style="color:#ffffff;"></i><span class="menu-item text-truncate">Sub
-                                    region</span></a>
-                        </li>
-
-                        <li><a class="d-flex align-items-center{!! Nav::isResource('areas') !!}"
-                                href="{{ route('areas') }}"><i data-feather="map-pin"
-                                    style="color:#ffffff;"></i><span class="menu-item text-truncate">Routes</span></a>
-                        </li>
-
+                    <li style="padding-left: 50px"><a class="d-flex align-items-center" href=" {!! route('routes.index') !!}">
+                    <span class="menu-item text-truncate">Assigned</span></a>
+                    </li>
+                    <li style="padding-left: 50px"><a class="d-flex align-items-center" href="{!! route('routes.individual') !!}">
+                    <span class="menu-item text-truncate">Individual</span></a>
+                    </li>
                     </ul>
-                </li>
-            @endif
-            @if (Auth::user()->account_type === 'Admin')
-                <!-- <li class="nav-item {!! Nav::isResource('supplier') !!}">
-            <a class="d-flex align-items-center" href="#"><i data-feather='refresh-ccw'></i><span
-                    class="menu-title text-truncate" data-i18n="Invoice">Suppliers</span></a>
-            <ul class="menu-content">
-                <li><a class="d-flex align-items-center" href="{!! route('supplier') !!}"><i
-                            data-feather="circle"></i><span class="menu-item text-truncate">Suppliers</span></a>
-                </li>
-                <li><a class="d-flex align-items-center" href="{!! route('supplier.category.index') !!}"><i
-                            data-feather="circle"></i><span class="menu-item text-truncate">Categories</span></a>
-                </li>
-            </ul>
-        </li> -->
-            @endif
+                    </li>
+                @if (Auth::user()->account_type === 'Admin')
+                    <li class="nav-item {!! Nav::isResource('regions') !!}">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="map-pin"></i><span
+                                class="menu-title text-truncate" data-i18n="Invoice">Regions</span></a>
+                        <ul class="menu-content">
+                            <li><a class="d-flex align-items-center nav-item {!! Nav::isResource('zone') !!}"
+                                    href="{{ route('regions') }}"><i data-feather="map-pin"
+                                        style="color:#ffffff;"></i><span
+                                        class="menu-item text-truncate">Region</span></a>
+                            </li>
+                            <li><a class="d-flex align-items-center {!! Nav::isResource('sub-regions') !!}"
+                                    href="{{ route('subregions') }}"><i data-feather="map-pin"
+                                        style="color:#ffffff;"></i><span class="menu-item text-truncate">Sub
+                                        region</span></a>
+                            </li>
+
+                            <li><a class="d-flex align-items-center{!! Nav::isResource('areas') !!}"
+                                    href="{{ route('areas') }}"><i data-feather="map-pin"
+                                        style="color:#ffffff;"></i><span
+                                        class="menu-item text-truncate">Routes</span></a>
+                            </li>
+
+                        </ul>
+                    </li>
+                @endif
             <li class="nav-item {!! Nav::isResource('target') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather="target"></i><span
                         class="menu-title text-truncate" data-i18n="Invoice">Targets</span></a>
@@ -221,42 +204,6 @@
                     </li>
                 </ul>
             </li>
-
-            <!-- <li class="nav-item {!! Nav::isResource('deliver') !!}">
-            <a class="d-flex align-items-center" href="{!! route('delivery.index') !!}">
-                <i data-feather='truck'></i><span class="menu-title text-truncate" data-i18n="Todo">
-                    Deliveries</span>
-            </a>
-        </li> -->
-            {{-- <li class="nav-item">
-            <a class="d-flex align-items-center" href="#">
-                <i data-feather='calendar'></i><span class="menu-title text-truncate" data-i18n="Todo"> Scheduled
-                    visits</span>
-            </a>
-        </li> --}}
-
-            <!-- <li class="nav-item {!! Nav::isResource('survey') !!}">
-            <a class="d-flex align-items-center" href="#">
-                <i data-feather='clipboard'></i><span class="menu-title text-truncate">Survey</span>
-            </a>
-            <ul class="menu-content">
-                <li>
-                    <a class="d-flex align-items-center" href="{!! route('survey.index') !!}">
-                        <i data-feather="circle">
-                        </i>
-                        <span class="menu-item text-truncate">Survey</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-items-center {!! Nav::isResource('survey') !!}" href="{!! route('SurveryResponses') !!}">
-                        <i data-feather="circle">
-                        </i>
-                        <span class="menu-item text-truncate">Responses</span>
-                    </a>
-                </li>
-            </ul>
-        </li> -->
-
             <li class="nav-item {!! Nav::isResource('warehousing') !!}">
                 <a class="d-flex align-items-center" href="#"><i data-feather='archive'></i><span
                         class="menu-title text-truncate" data-i18n="Invoice"> Warehousing</span></a>
@@ -282,9 +229,14 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item {!! Nav::isResource('reports') !!}">
+                    <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i
+                            data-feather='book-open'></i><span class="menu-title text-truncate" data-i18n="Invoice">
+                            Reports</span></a>
+            </li>
             @if (Auth::user()->account_type === 'Admin')
                 <li class="nav-item {!! Nav::isResource('reports') !!}">
-                    <a class="d-flex align-items-center" href="{!! route('users.reports') !!}"><i
+                    <a class="d-flex align-items-center" href="#"><i
                             data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Invoice">
                             Performance Analysis</span></a>
                 </li>
@@ -296,9 +248,7 @@
             </li>
 
         </ul>
-
         <br>
         <br>
     </div>
-
 </div>

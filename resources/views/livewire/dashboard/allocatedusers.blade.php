@@ -33,7 +33,7 @@
                         {{-- <th>Total Items</th> --}}
                         <th>Date Allocated</th>
                         <th>Allocated by</th>
-                        <th>Status</th>
+{{--                        <th>Status</th>--}}
                         <th>Action</th>
                         </thead>
                         <tbody>
@@ -44,7 +44,7 @@
                               {{-- <td>{!! Sales::total_allocated_items($allocation->allocation_code)->sum('current_qty') !!}</td> --}}
                               <td>{!! date('F jS, Y', strtotime($allocation->created_at)) !!}</td>
                               <td>{!! Sales::user($allocation->created_by)->name !!}</td>
-                              <td><span class="badge bg-secondary">{!! $allocation->status !!}</span></td>
+{{--                              <td><span class="badge bg-secondary">{!! $allocation->status !!}</span></td>--}}
                               <td>
                                  <a href="{!! route('inventory.allocate.items', $allocation->allocation_code) !!}" class="btn btn-sm btn-success">view Items</a>
                               </td>
