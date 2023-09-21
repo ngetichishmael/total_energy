@@ -58,72 +58,6 @@ class DashboardAppController extends Controller
         $lastMonthEnd = Carbon::now()->subMonth()->endOfMonth();
     
         $loggedInUserId = auth()->user()->id;
-
-        $today = User::where('route_code', auth()->user()->route_code)->joinSub(
-            checkin::select('user_code')
-                ->whereBetween('created_at', [$todayStart, $todayEnd])
-                ->groupBy('user_code'),
-            'customer_checkin',
-            function ($join) {
-                $join->on('users.user_code', '=', 'customer_checkin.user_code');
-            }
-        )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
-        ->distinct('users.id')->count();
-        
-        $yesterday = User::where('route_code', auth()->user()->route_code)->joinSub(
-            checkin::select('user_code')
-                ->whereBetween('created_at', [$yesterdayStart, $yesterdayEnd])
-                ->groupBy('user_code'),
-            'customer_checkin',
-            function ($join) {
-                $join->on('users.user_code', '=', 'customer_checkin.user_code');
-            }
-        )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
-        ->distinct('users.id')->count();
-        
-        $this_week = User::where('route_code', auth()->user()->route_code)->joinSub(
-            checkin::select('user_code')
-                ->whereBetween('created_at', [$thisWeekStart, $thisWeekEnd])
-                ->groupBy('user_code'),
-            'customer_checkin',
-            function ($join) {
-                $join->on('users.user_code', '=', 'customer_checkin.user_code');
-            }
-        )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
-        ->distinct('users.id')->count();
-        
-        $last_week = User::where('route_code', auth()->user()->route_code)->joinSub(
-            checkin::select('user_code')
-                ->whereBetween('created_at', [$lastWeekStart, $lastWeekEnd])
-                ->groupBy('user_code'),
-            'customer_checkin',
-            function ($join) {
-                $join->on('users.user_code', '=', 'customer_checkin.user_code');
-            }
-        )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
-        ->distinct('users.id')->count();
-        
-        $current_month_users = User::where('route_code', auth()->user()->route_code)->joinSub(
-            checkin::select('user_code')
-                ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
-                ->groupBy('user_code'),
-            'customer_checkin',
-            function ($join) {
-                $join->on('users.user_code', '=', 'customer_checkin.user_code');
-            }
-        )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
-        ->distinct('users.id')->count();
-        
-        $last_month_users = User::where('route_code', auth()->user()->route_code)->joinSub(
-            checkin::select('user_code')
-                ->whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])
-                ->groupBy('user_code'),
-            'customer_checkin',
-            function ($join) {
-                $join->on('users.user_code', '=', 'customer_checkin.user_code');
-            }
-        )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
-        ->distinct('users.id')->count();
         
             // Get the authenticated user
         $user = Auth::user();
@@ -136,15 +70,177 @@ class DashboardAppController extends Controller
             $query->whereIn('regions.id', $assignedRegions);
         })->pluck('id');
         
-        // Calculate the visit statistics for different time intervals
+       
+
+
+       
+
+
+        if ($user->account_type === 'Admin') {
+
+            $today = User::joinSub(
+                checkin::select('user_code')
+                    ->whereBetween('created_at', [$todayStart, $todayEnd])
+                    ->groupBy('user_code'),
+                'customer_checkin',
+                function ($join) {
+                    $join->on('users.user_code', '=', 'customer_checkin.user_code');
+                }
+            )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+            ->distinct('users.id')->count();
+            
+            $yesterday = User::joinSub(
+                checkin::select('user_code')
+                    ->whereBetween('created_at', [$yesterdayStart, $yesterdayEnd])
+                    ->groupBy('user_code'),
+                'customer_checkin',
+                function ($join) {
+                    $join->on('users.user_code', '=', 'customer_checkin.user_code');
+                }
+            )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+            ->distinct('users.id')->count();
+            
+            $this_week = User::joinSub(
+                checkin::select('user_code')
+                    ->whereBetween('created_at', [$thisWeekStart, $thisWeekEnd])
+                    ->groupBy('user_code'),
+                'customer_checkin',
+                function ($join) {
+                    $join->on('users.user_code', '=', 'customer_checkin.user_code');
+                }
+            )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+            ->distinct('users.id')->count();
+            
+            $last_week = User::joinSub(
+                checkin::select('user_code')
+                    ->whereBetween('created_at', [$lastWeekStart, $lastWeekEnd])
+                    ->groupBy('user_code'),
+                'customer_checkin',
+                function ($join) {
+                    $join->on('users.user_code', '=', 'customer_checkin.user_code');
+                }
+            )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+            ->distinct('users.id')->count();
+            
+            $current_month_users = User::joinSub(
+                checkin::select('user_code')
+                    ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
+                    ->groupBy('user_code'),
+                'customer_checkin',
+                function ($join) {
+                    $join->on('users.user_code', '=', 'customer_checkin.user_code');
+                }
+            )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+            ->distinct('users.id')->count();
+            
+            $last_month_users = User::joinSub(
+                checkin::select('user_code')
+                    ->whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])
+                    ->groupBy('user_code'),
+                'customer_checkin',
+                function ($join) {
+                    $join->on('users.user_code', '=', 'customer_checkin.user_code');
+                }
+            )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+            ->distinct('users.id')->count();
+
+            // Calculate the visit statistics for different time intervals
+        $todayVisits = Checkin::whereBetween('updated_at', [Carbon::today(), Carbon::tomorrow()])
+            ->distinct('code')->count();
+
+        $yesterdayVisits = Checkin::whereBetween('updated_at', [Carbon::yesterday(), Carbon::today()])
+            ->distinct('code')->count();
+     
+        $thisWeekVisits = Checkin::whereBetween('updated_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->distinct('code')->count();
+        
+        $lastWeekVisits = Checkin::whereBetween('updated_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
+            ->distinct('code')->count();
+        
+        $thisMonthVisits = Checkin::whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            ->distinct('code')->count();
+        
+        $lastMonthVisits = Checkin::whereBetween('updated_at', [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()])
+            ->distinct('code')->count();
+
+        } else {
+
+            $today = User::where('route_code', auth()->user()->route_code)->joinSub(
+                checkin::select('user_code')
+                    ->whereBetween('created_at', [$todayStart, $todayEnd])
+                    ->groupBy('user_code'),
+                'customer_checkin',
+                function ($join) {
+                    $join->on('users.user_code', '=', 'customer_checkin.user_code');
+                }
+            )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+            ->distinct('users.id')->count();
+            
+            $yesterday = User::where('route_code', auth()->user()->route_code)->joinSub(
+                checkin::select('user_code')
+                    ->whereBetween('created_at', [$yesterdayStart, $yesterdayEnd])
+                    ->groupBy('user_code'),
+                'customer_checkin',
+                function ($join) {
+                    $join->on('users.user_code', '=', 'customer_checkin.user_code');
+                }
+            )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+            ->distinct('users.id')->count();
+            
+            $this_week = User::where('route_code', auth()->user()->route_code)->joinSub(
+                checkin::select('user_code')
+                    ->whereBetween('created_at', [$thisWeekStart, $thisWeekEnd])
+                    ->groupBy('user_code'),
+                'customer_checkin',
+                function ($join) {
+                    $join->on('users.user_code', '=', 'customer_checkin.user_code');
+                }
+            )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+            ->distinct('users.id')->count();
+            
+            $last_week = User::where('route_code', auth()->user()->route_code)->joinSub(
+                checkin::select('user_code')
+                    ->whereBetween('created_at', [$lastWeekStart, $lastWeekEnd])
+                    ->groupBy('user_code'),
+                'customer_checkin',
+                function ($join) {
+                    $join->on('users.user_code', '=', 'customer_checkin.user_code');
+                }
+            )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+            ->distinct('users.id')->count();
+            
+            $current_month_users = User::where('route_code', auth()->user()->route_code)->joinSub(
+                checkin::select('user_code')
+                    ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
+                    ->groupBy('user_code'),
+                'customer_checkin',
+                function ($join) {
+                    $join->on('users.user_code', '=', 'customer_checkin.user_code');
+                }
+            )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+            ->distinct('users.id')->count();
+            
+            $last_month_users = User::where('route_code', auth()->user()->route_code)->joinSub(
+                checkin::select('user_code')
+                    ->whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])
+                    ->groupBy('user_code'),
+                'customer_checkin',
+                function ($join) {
+                    $join->on('users.user_code', '=', 'customer_checkin.user_code');
+                }
+            )->where('users.id', '<>', $loggedInUserId) // Exclude logged-in user
+            ->distinct('users.id')->count();
+
+            
+         // Calculate the visit statistics for different time intervals
         $todayVisits = Checkin::whereIn('customer_id', $assignedCustomerIds)
             ->whereBetween('updated_at', [Carbon::today(), Carbon::tomorrow()])
             ->distinct('code')->count();
 
-            $yesterdayVisits = Checkin::whereIn('customer_id', $assignedCustomerIds)
+        $yesterdayVisits = Checkin::whereIn('customer_id', $assignedCustomerIds)
             ->whereBetween('updated_at', [Carbon::yesterday(), Carbon::today()])
             ->distinct('code')->count();
-        
+     
         $thisWeekVisits = Checkin::whereIn('customer_id', $assignedCustomerIds)
             ->whereBetween('updated_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
             ->distinct('code')->count();
@@ -161,27 +257,27 @@ class DashboardAppController extends Controller
             ->whereBetween('updated_at', [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()])
             ->distinct('code')->count();
 
-
-                // Calculate the order counts for different time intervals
-        $todayOrders = Orders::whereIn('customerID', $assignedCustomerIds)
-        ->whereBetween('created_at', [Carbon::today(), Carbon::tomorrow()])
-        ->count();
-
-        $yesterdayOrders = Orders::whereIn('customerID', $assignedCustomerIds)
-            ->whereBetween('created_at', [Carbon::yesterday(), Carbon::today()])
-            ->count();
-
-        $thisWeekOrders = Orders::whereIn('customerID', $assignedCustomerIds)
-            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-            ->count();
-
-        $lastWeekOrders = Orders::whereIn('customerID', $assignedCustomerIds)
-            ->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
-            ->count();
-
-        $thisMonthOrders = Orders::whereIn('customerID', $assignedCustomerIds)
-            ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->count();
+         // Calculate the order counts for different time intervals
+         $todayOrders = Orders::whereIn('customerID', $assignedCustomerIds)
+         ->whereBetween('created_at', [Carbon::today(), Carbon::tomorrow()])
+         ->count();
+ 
+         $yesterdayOrders = Orders::whereIn('customerID', $assignedCustomerIds)
+             ->whereBetween('created_at', [Carbon::yesterday(), Carbon::today()])
+             ->count();
+ 
+         $thisWeekOrders = Orders::whereIn('customerID', $assignedCustomerIds)
+             ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+             ->count();
+ 
+         $lastWeekOrders = Orders::whereIn('customerID', $assignedCustomerIds)
+             ->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
+             ->count();
+ 
+         $thisMonthOrders = Orders::whereIn('customerID', $assignedCustomerIds)
+             ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+             ->count();
+        }
 
        $data = [
          'status' => 200,
@@ -211,160 +307,227 @@ class DashboardAppController extends Controller
         //     'last_week' => $lastWeekOrders,
         //     'this_month' => $thisMonthOrders,
         //  ],
-         'new_customers_added' => [
-            'today' => customers::whereIn('route_code', function ($query) use ($assignedRegions) {
-                $query->select('areas.id')
-                    ->from('areas')
-                    ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-                    ->whereIn('subregions.region_id', $assignedRegions);
-            })
-            ->whereBetween('created_at', [Carbon::today(), Carbon::tomorrow()])
-            ->count(),
+        'new_customers_added' => [
+            'today' => $user->account_type === 'Admin' ?
+                customers::whereBetween('created_at', [Carbon::today(), Carbon::tomorrow()])
+                ->count() :
+                customers::whereIn('route_code', function ($query) use ($assignedRegions, $user) {
+                    $query->select('areas.id')
+                        ->from('areas')
+                        ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                        ->whereIn('subregions.region_id', $assignedRegions);
+                })
+                ->whereBetween('created_at', [Carbon::today(), Carbon::tomorrow()])
+                ->count(),
+        
+            'yesterday' => $user->account_type === 'Admin' ?
+                customers::whereBetween('created_at', [Carbon::yesterday(), Carbon::today()])
+                ->count() :
+                customers::whereIn('route_code', function ($query) use ($assignedRegions, $user) {
+                    $query->select('areas.id')
+                        ->from('areas')
+                        ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                        ->whereIn('subregions.region_id', $assignedRegions);
+                })
+                ->whereBetween('created_at', [Carbon::yesterday(), Carbon::today()])
+                ->count(),
+        
+            'this_week' => $user->account_type === 'Admin' ?
+                customers::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                ->count() :
+                customers::whereIn('route_code', function ($query) use ($assignedRegions, $user) {
+                    $query->select('areas.id')
+                        ->from('areas')
+                        ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                        ->whereIn('subregions.region_id', $assignedRegions);
+                })
+                ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                ->count(),
+        
+            'last_week' => $user->account_type === 'Admin' ?
+                customers::whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
+                ->count() :
+                customers::whereIn('route_code', function ($query) use ($assignedRegions, $user) {
+                    $query->select('areas.id')
+                        ->from('areas')
+                        ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                        ->whereIn('subregions.region_id', $assignedRegions);
+                })
+                ->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
+                ->count(),
+        
+            'this_month' => $user->account_type === 'Admin' ?
+                customers::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                ->count() :
+                customers::whereIn('route_code', function ($query) use ($assignedRegions, $user) {
+                    $query->select('areas.id')
+                        ->from('areas')
+                        ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                        ->whereIn('subregions.region_id', $assignedRegions);
+                })
+                ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                ->count(),
+        
+            'last_month' => $user->account_type === 'Admin' ?
+                customers::whereBetween('created_at', [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()])
+                ->count() :
+                customers::whereIn('route_code', function ($query) use ($assignedRegions, $user) {
+                    $query->select('areas.id')
+                        ->from('areas')
+                        ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                        ->whereIn('subregions.region_id', $assignedRegions);
+                })
+                ->whereBetween('created_at', [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()])
+                ->count(),
+        ],
+        
 
-            'yesterday' => customers::whereIn('route_code', function ($query) use ($assignedRegions) {
-                $query->select('areas.id')
-                    ->from('areas')
-                    ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-                    ->whereIn('subregions.region_id', $assignedRegions);
-            })
-            ->whereBetween('created_at', [Carbon::yesterday(), Carbon::today()])
-            ->count(),
-    
-            'this_week' => customers::whereIn('route_code', function ($query) use ($assignedRegions) {
-                $query->select('areas.id')
-                    ->from('areas')
-                    ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-                    ->whereIn('subregions.region_id', $assignedRegions);
-            })
-            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-            ->count(),
-    
-            'last_week' => customers::whereIn('route_code', function ($query) use ($assignedRegions) {
-                $query->select('areas.id')
-                    ->from('areas')
-                    ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-                    ->whereIn('subregions.region_id', $assignedRegions);
-            })
-            ->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
-            ->count(),
-    
-            'this_month' => customers::whereIn('route_code', function ($query) use ($assignedRegions) {
-                $query->select('areas.id')
-                    ->from('areas')
-                    ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-                    ->whereIn('subregions.region_id', $assignedRegions);
-            })
-            ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->count(),
-    
-            'last_month' => customers::whereIn('route_code', function ($query) use ($assignedRegions) {
-                $query->select('areas.id')
-                    ->from('areas')
-                    ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-                    ->whereIn('subregions.region_id', $assignedRegions);
-            })
-            ->whereBetween('created_at', [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()])
-            ->count(),
-         
-         ],
+        'pre_sales_value' => [
+            'today' => $user->account_type === 'Admin' ?
+                Orders::where('order_type', 'Pre Order')
+                    ->whereBetween('created_at', [Carbon::today(), Carbon::tomorrow()])
+                    ->count() :
+                Orders::whereIn('customerID', $assignedCustomerIds)
+                    ->where('order_type', 'Pre Order')
+                    ->whereBetween('created_at', [Carbon::today(), Carbon::tomorrow()])
+                    ->count(),
+        
+            'yesterday' => $user->account_type === 'Admin' ?
+                Orders::where('order_type', 'Pre Order')
+                    ->whereBetween('created_at', [Carbon::yesterday(), Carbon::today()])
+                    ->count() :
+                Orders::whereIn('customerID', $assignedCustomerIds)
+                    ->where('order_type', 'Pre Order')
+                    ->whereBetween('created_at', [Carbon::yesterday(), Carbon::today()])
+                    ->count(),
+        
+            'this_week' => $user->account_type === 'Admin' ?
+                Orders::where('order_type', 'Pre Order')
+                    ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->count() :
+                Orders::whereIn('customerID', $assignedCustomerIds)
+                    ->where('order_type', 'Pre Order')
+                    ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->count(),
+        
+            'last_week' => $user->account_type === 'Admin' ?
+                Orders::where('order_type', 'Pre Order')
+                    ->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
+                    ->count() :
+                Orders::whereIn('customerID', $assignedCustomerIds)
+                    ->where('order_type', 'Pre Order')
+                    ->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
+                    ->count(),
+        
+            'this_month' => $user->account_type === 'Admin' ?
+                Orders::where('order_type', 'Pre Order')
+                    ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->count() :
+                Orders::whereIn('customerID', $assignedCustomerIds)
+                    ->where('order_type', 'Pre Order')
+                    ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->count(),
+        
+            'last_month' => $user->account_type === 'Admin' ?
+                Orders::where('order_type', 'Pre Order')
+                    ->whereBetween('created_at', [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()])
+                    ->count() :
+                Orders::whereIn('customerID', $assignedCustomerIds)
+                    ->where('order_type', 'Pre Order')
+                    ->whereBetween('created_at', [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()])
+                    ->count(),
+        ],
+        
 
-         'pre_sales_value' => [
-            'today' => Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Pre Order')
-            ->whereBetween('created_at', [Carbon::today(), Carbon::tomorrow()])
-            ->count(),
-            
-        'yesterday' => Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Pre Order')
-            ->whereBetween('created_at', [Carbon::yesterday(), Carbon::today()])
-            ->count(),
-            
-        'this_week' => Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Pre Order')
-            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-            ->count(),
-            
-        'last_week' => Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Pre Order')
-            ->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
-            ->count(),
-            
-        'this_month' => Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Pre Order')
-            ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->count(),
-            
-        'last_month' => Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Pre Order')
-            ->whereBetween('created_at', [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()])
-            ->count(),
-         ],
+        'Van_sales_value' => [
+            'today' => $user->account_type === 'Admin' ?
+                Orders::where('order_type', 'Van sales')
+                    ->whereBetween('created_at', [Carbon::today(), Carbon::tomorrow()])
+                    ->count() :
+                Orders::whereIn('customerID', $assignedCustomerIds)
+                    ->where('order_type', 'Van sales')
+                    ->whereBetween('created_at', [Carbon::today(), Carbon::tomorrow()])
+                    ->count(),
+        
+            'yesterday' => $user->account_type === 'Admin' ?
+                Orders::where('order_type', 'Van sales')
+                    ->whereBetween('created_at', [Carbon::yesterday(), Carbon::today()])
+                    ->count() :
+                Orders::whereIn('customerID', $assignedCustomerIds)
+                    ->where('order_type', 'Van sales')
+                    ->whereBetween('created_at', [Carbon::yesterday(), Carbon::today()])
+                    ->count(),
+        
+            'this_week' => $user->account_type === 'Admin' ?
+                Orders::where('order_type', 'Van sales')
+                    ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->count() :
+                Orders::whereIn('customerID', $assignedCustomerIds)
+                    ->where('order_type', 'Van sales')
+                    ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->count(),
+        
+            'last_week' => $user->account_type === 'Admin' ?
+                Orders::where('order_type', 'Van sales')
+                    ->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
+                    ->count() :
+                Orders::whereIn('customerID', $assignedCustomerIds)
+                    ->where('order_type', 'Van sales')
+                    ->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
+                    ->count(),
+        
+            'this_month' => $user->account_type === 'Admin' ?
+                Orders::where('order_type', 'Van sales')
+                    ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->count() :
+                Orders::whereIn('customerID', $assignedCustomerIds)
+                    ->where('order_type', 'Van sales')
+                    ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->count(),
+        
+            'last_month' => $user->account_type === 'Admin' ?
+                Orders::where('order_type', 'Van sales')
+                    ->whereBetween('created_at', [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()])
+                    ->count() :
+                Orders::whereIn('customerID', $assignedCustomerIds)
+                    ->where('order_type', 'Van sales')
+                    ->whereBetween('created_at', [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()])
+                    ->count(),
+        ],
+        
 
-         'Van_sales_value' => [
-            'today' => Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Van sales')
-            ->whereBetween('created_at', [Carbon::today(), Carbon::tomorrow()])
-            ->count(),
-            
-        'yesterday' => Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Van sales')
-            ->whereBetween('created_at', [Carbon::yesterday(), Carbon::today()])
-            ->count(),
-            
-        'this_week' => Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Van sales')
-            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-            ->count(),
-            
-        'last_week' => Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Van sales')
-            ->whereBetween('created_at', [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()])
-            ->count(),
-            
-        'this_month' => Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Van sales')
-            ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->count(),
-            
-        'last_month' => Orders::whereIn('customerID', $assignedCustomerIds)
-            ->where('order_type', 'Van sales')
-            ->whereBetween('created_at', [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()])
-            ->count(),
-         ],
-
-         // 'existing_customer_visit' => [
-         //    'today' => customers::today()->count(),
-         //    'yesterday' => customers::yesterday()->count(),
-         //    'this_week' => customers::currentWeek()->count(),
-         //    'last_week' => customers::lastWeek()->count(),
-         //    'month' => customers::currentMonth()->count(),
-         //    'last_month' => customers::lastMonth()->count(),
-         // ],
-         'pending_approval' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
-            $query->select('customers.id')
-                ->from('customers')
-                ->join('areas', 'customers.route_code', '=', 'areas.id')
-                ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-                ->whereIn('subregions.region_id', $assignedRegions);
-        })
+        'pending_approval' => $user->account_type === 'Admin' ?
+            Orders::where('order_status', 'Pending Delivery')
+            ->where('order_type', 'Pre Order')
+            ->count() :
+            Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+                $query->select('customers.id')
+                    ->from('customers')
+                    ->join('areas', 'customers.route_code', '=', 'areas.id')
+                    ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                    ->whereIn('subregions.region_id', $assignedRegions);
+            })
         ->where('order_status', 'Pending Delivery')
         ->where('order_type', 'Pre Order')
         ->count(),
      
      
 
-         'completed_deliveries' => Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
-            $query->select('customers.id')
-                ->from('customers')
-                ->join('areas', 'customers.route_code', '=', 'areas.id')
-                ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-                ->whereIn('subregions.region_id', $assignedRegions);
-        })
-        ->where('order_status', 'DELIVERED')
-        ->where('order_type', 'Pre Order')
-        ->count(),
+        'completed_deliveries' => $user->account_type === 'Admin' ?
+            Orders::where('order_status', 'DELIVERED')
+            ->where('order_type', 'Pre Order')
+            ->count() :
+            Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+                $query->select('customers.id')
+                    ->from('customers')
+                    ->join('areas', 'customers.route_code', '=', 'areas.id')
+                    ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                    ->whereIn('subregions.region_id', $assignedRegions);
+            })
+            ->where('order_status', 'DELIVERED')
+            ->where('order_type', 'Pre Order')
+            ->count(),
 
-        //  'custom_data' => $this->custom($request)->getData(),
       ];
       return response()->json($data, 200);
    }
