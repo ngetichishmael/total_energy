@@ -28,10 +28,17 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('reset:targets')->hourlyAt(1);
 
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('custom:logout-all-users')->dailyAt('00:00');
+
         $schedule->call(MKOCustomerSchedule::class)->dailyAt('17:55');
         $schedule->call(CrystalCustomerSchedule::class)->dailyAt('10:30');
         $schedule->command('assign:default-target')->monthlyOn(1, '00:00');
+        $schedule->command('logout:all')
+        ->dailyAt('00:00');
+        $schedule->command('reset:targets')
+        ->dailyAt('19:48');
+        // $schedule->command('reset:targets')
+        // ->monthlyOn(1, '00:00');
 
     }
 
@@ -46,4 +53,5 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+    
 }
