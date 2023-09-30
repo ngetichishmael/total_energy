@@ -34,11 +34,11 @@ class Kernel extends ConsoleKernel
         $schedule->call(CrystalCustomerSchedule::class)->dailyAt('10:30');
         $schedule->command('assign:default-target')->monthlyOn(1, '00:00');
         $schedule->command('logout:all')
-        ->dailyAt('00:00');
-        $schedule->command('reset:targets')
-        ->dailyAt('19:48');
+        ->dailyAt('05:41');
         // $schedule->command('reset:targets')
-        // ->monthlyOn(1, '00:00');
+        // ->dailyAt('19:48');
+        $schedule->command('reset:targets')
+        ->monthlyOn(1, '00:00');
 
     }
 

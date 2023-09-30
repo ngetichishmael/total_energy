@@ -15,22 +15,20 @@ class Sales extends Component
     public function render()
     {
 
-        $targetsQuery = User::with('TargetSale')->where('account_type', '<>', 'Admin');
-        $today = Carbon::now();
-        // $targetsQuery = SalesTarget::query();
-        // Apply search filter
-        if (!empty($this->search)) {
-            $targetsQuery->where('name', 'LIKE', '%' . $this->search . '%');
-        }
-        // Apply time frame filter
-        $this->applyTimeFrameFilter($targetsQuery);
-        // Fetch targets
-        $targets = $targetsQuery->get();
-        return view('livewire.target.sales', [
-            'targets' => $targets,
-            'today' => $today,
-        ]);
-    }
+      $targetsQuery = User::with('TargetSale')->where('account_type', '<>', 'Admin');
+      $today = Carbon::now();
+      if (!empty($this->search)) {
+         $targetsQuery->where('name', 'LIKE', '%' . $this->search . '%');
+      }
+      // Apply time frame filter
+      $this->applyTimeFrameFilter($targetsQuery);
+      // Fetch targets
+      $targets = $targetsQuery->get();
+      return view('livewire.target.sales', [
+         'targets' => $targets,
+         'today' => $today,
+      ]);
+   }
 
     private function applyTimeFrameFilter($query)
     {
