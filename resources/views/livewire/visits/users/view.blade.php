@@ -100,48 +100,48 @@
                                     <table class="table table-bordered">
                                         <tr>
                                             <td>Customer Ordered:</td>
-                                            <td>{{ $checkingData['customer_ordered'] ?? ''}}</td>
+                                            <td>{{ $checkingData['customer_ordered'] ?? 'N/A' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Outlet Has Stock:</td>
-                                            <td>{{ $checkingData['outlet_has_stock'] ?? ''}}</td>
+                                            <td>{{ $checkingData['outlet_has_stock'] ?? 'N/A' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Competitor Supplier:</td>
-                                            <td>{{ $checkingData['competitor_supplier'] ?? ''}}</td>
+                                            <td>{{ $checkingData['competitor_supplier'] ?? 'N/A' }}</td>
                                         </tr>
                                         <td>Likely Ordered Products:</td>
-                                            <td>
-                                                @if (is_array($checkingData['likely_ordered_products'] ?? null))
-                                                    {{ implode(', ', $checkingData['likely_ordered_products']) }}
-                                                @else
-                                                    
-                                                @endif
-                                            </td>
-                                            </tr>
-                                            <tr>
-                                            <td>Highest Sale Products:</td>
-                                            <td>
-                                                @if (is_array($checkingData['highest_sale_products'] ?? null))
-                                                    {{ implode(', ', $checkingData['highest_sale_products']) }}
-                                                @else
-                                                    
-                                                @endif
-                                            </td>
-                                            </tr>
-
-                                    </table>
+                                        <td>
+                                            @if (is_array($checkingData['likely_ordered_products'] ?? null))
+                                                {{ implode(', ', $checkingData['likely_ordered_products']) }}
+                                            @else
+                                                N/A
+                                            @endif
+                                        </td>
+                            </tr>
+                            <tr>
+                                <td>Highest Sale Products:</td>
+                                <td>
+                                    @if (is_array($checkingData['highest_sale_products'] ?? null))
+                                        {{ implode(', ', $checkingData['highest_sale_products']) }}
+                                    @else
+                                        N/A
+                                    @endif
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="8" style="text-align: center;">No Record found.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
+
+                </table>
+                </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="8" style="text-align: center;">No Record found.</td>
+                </tr>
+                @endforelse
+                </tbody>
 
 
-                    <!-- ... Remaining code ... -->
+                <!-- ... Remaining code ... -->
 
                 </table>
 

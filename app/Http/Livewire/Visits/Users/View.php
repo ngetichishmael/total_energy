@@ -93,12 +93,10 @@ class View extends Component
         return $visits;
     }
 
-
-    
     public function getChecking($checking_code)
     {
         $result = SaleReport::where('checking_code', $checking_code)->first();
-    
+
         if ($result) {
             return [
                 "customer_ordered" => $result->customer_ordered,
@@ -118,7 +116,6 @@ class View extends Component
             ];
         }
     }
-    
 
     public function export()
     {
