@@ -43,7 +43,7 @@ class PaymentController extends Controller
 
         order_payments::create([
             'amount' => $amount,
-            'balance' => $balance,
+            'balance' => $amount - $balance,
             'payment_date' => now(),
             'payment_method' => $paymentMethod,
             'reference_number' => $transactionID,
@@ -55,7 +55,7 @@ class PaymentController extends Controller
 
         Orders::where('order_code', '=', $orderID)
             ->update([
-                'balance' => $balance,
+                'balance' => $amount - $balance,
                 'payment_status' => $payment_status,
                 'updated_at' => now(),
             ]);
