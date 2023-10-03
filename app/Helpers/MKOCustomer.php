@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -28,6 +29,17 @@ class MKOCustomer
             'odoo',
         );
         $response = Self::addCustomerToOdoo($request, $customer);
+        if ($response->serverError()) {
+            Log::error('Error occurred ' . $response->status());
+            $customer->delete();
+            $response = [
+                "success" => true,
+                "status" => 401,
+                "message" => "An error occurred while processing",
+                "response" => $response,
+            ];
+            return new Response($response); // Return an HTTP response object
+        }
         if ($response->ok()) {
             return [
                 "success" => true,
