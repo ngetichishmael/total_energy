@@ -66,57 +66,73 @@ class OrdersController extends Controller
        ]);
    }
 
-    public function vansales(Request $request)
-    {
-        // Get the authenticated user
-        $user = Auth::user();
-        
-        // Retrieve the user's assigned regions
-        $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
-        
-        // Retrieve customer orders assigned to the regions of the authenticated user with order_type "Van Sales" and order by created_at in descending order
-        $orders = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
-            $query->select('customers.id')
-                ->from('customers')
-                ->join('areas', 'customers.route_code', '=', 'areas.id')
-                ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-                ->whereIn('subregions.region_id', $assignedRegions);
-        })
-        ->where('order_type', 'Van sales') // Filter by order_type
-        ->with('customer', 'user', 'orderitems') // Eager load relationships
-        ->orderBy('created_at', 'desc') // Order by created_at in descending order
-        ->get();
-        
-        return response()->json([
-            'status' => 200,
-            'success' => true,
-            'message' => 'Filtered Van Sales Orders based on the Manager\'s Assigned Routes, with the Order items, the Sales associate, and the customer',
-            'Data' => $orders
-        ]);
-    }
+   public function vansales(Request $request)
+   {
+       // Get the authenticated user
+       $user = auth()->user();
+       
+       // Check the user's account type
+       if ($user->account_type === 'Admin') {
+           $orders = Orders::where('order_type', 'Van sales')
+               ->orderBy('created_at', 'desc')
+               ->with('customer', 'user', 'orderitems')
+               ->get();
+       } else {
+           // Retrieve the user's assigned regions
+           $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
+   
+           $orders = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+               $query->select('customers.id')
+                   ->from('customers')
+                   ->join('areas', 'customers.route_code', '=', 'areas.id')
+                   ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                   ->whereIn('subregions.region_id', $assignedRegions);
+           })
+           ->where('order_type', 'Van sales')
+           ->orderBy('created_at', 'desc')
+           ->with('customer', 'user', 'orderitems')
+           ->get();
+       }
+   
+       return response()->json([
+           'status' => 200,
+           'success' => true,
+           'message' => 'Filtered Van Sales Orders based on the Manager\'s Assigned Routes, with the Order items, the Sales associate, and the customer',
+           'Data' => $orders
+       ]);
+   }
+   
 
     public function waitingAcceptanceOrders(Request $request)
     {
         // Get the authenticated user
-        $user = Auth::user();
+        $user = auth()->user();
         
-        // Retrieve the user's assigned regions
-        $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
-        
-        // Retrieve customer orders assigned to the regions of the authenticated user with order_status "Waiting Acceptance"
-        $orders = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
-            $query->select('customers.id')
-                ->from('customers')
-                ->join('areas', 'customers.route_code', '=', 'areas.id')
-                ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-                ->whereIn('subregions.region_id', $assignedRegions);
-        })
-        ->where('order_status', 'Waiting acceptance') // Filter by order_status
-        ->where('order_type', 'Pre Order') // Filter by order_type
-        ->with('customer', 'user', 'orderitems') // Eager load relationships
-        ->orderBy('created_at', 'desc') // Order by created_at in descending order
-        ->get();
-        
+        // Check the user's account type
+        if ($user->account_type === 'Admin') {
+            $orders = Orders::where('order_status', 'Waiting acceptance')
+                ->where('order_type', 'Pre Order')
+                ->orderBy('created_at', 'desc')
+                ->with('customer', 'user', 'orderitems')
+                ->get();
+        } else {
+            // Retrieve the user's assigned regions
+            $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
+    
+            $orders = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+                $query->select('customers.id')
+                    ->from('customers')
+                    ->join('areas', 'customers.route_code', '=', 'areas.id')
+                    ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                    ->whereIn('subregions.region_id', $assignedRegions);
+            })
+            ->where('order_status', 'Waiting acceptance')
+            ->where('order_type', 'Pre Order')
+            ->orderBy('created_at', 'desc')
+            ->with('customer', 'user', 'orderitems')
+            ->get();
+        }
+    
         return response()->json([
             'status' => 200,
             'success' => true,
@@ -129,29 +145,33 @@ class OrdersController extends Controller
     public function completedOrders(Request $request)
     {
         // Get the authenticated user
-        $user = Auth::user();
+        $user = auth()->user();
         
-        // Retrieve the user's assigned regions
-        $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
-        
-        // Retrieve completed customer orders assigned to the regions of the authenticated user with order_type "Pre Order" and order_status "delivered" or "partially delivered"
-        $orders = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
-            $query->select('customers.id')
-                ->from('customers')
-                ->join('areas', 'customers.route_code', '=', 'areas.id')
-                ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-                ->whereIn('subregions.region_id', $assignedRegions);
-        })
-        ->where('order_type', 'Pre Order')
-        ->orderBy('created_at', 'desc') 
-        ->where(function ($query) {
-            $query->where('order_status', 'delivered')
-                ->orWhere('order_status', 'Partial delivery'); // Filter by order_status (delivered or partially delivered)
-        })
-        ->with('customer', 'user', 'orderitems') // Eager load relationships
-        ->orderBy('created_at', 'desc') // Order by created_at in descending order
-        ->get();
-        
+        // Check the user's account type
+        if ($user->account_type === 'Admin') {
+            $orders = Orders::where('order_type', 'Pre Order')
+                ->whereIn('order_status', ['delivered', 'Partial delivery'])
+                ->orderBy('created_at', 'desc')
+                ->with('customer', 'user', 'orderitems')
+                ->get();
+        } else {
+            // Retrieve the user's assigned regions
+            $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
+    
+            $orders = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+                $query->select('customers.id')
+                    ->from('customers')
+                    ->join('areas', 'customers.route_code', '=', 'areas.id')
+                    ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                    ->whereIn('subregions.region_id', $assignedRegions);
+            })
+            ->where('order_type', 'Pre Order')
+            ->whereIn('order_status', ['delivered', 'Partial delivery'])
+            ->orderBy('created_at', 'desc')
+            ->with('customer', 'user', 'orderitems')
+            ->get();
+        }
+    
         return response()->json([
             'status' => 200,
             'success' => true,
@@ -164,25 +184,33 @@ class OrdersController extends Controller
     public function pendingOrders(Request $request)
     {
         // Get the authenticated user
-        $user = Auth::user();
+        $user = auth()->user();
         
-        // Retrieve the user's assigned regions
-        $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
-        
-        // Retrieve pending customer orders assigned to the regions of the authenticated user with order_status "Pending Delivery"
-        $orders = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
-            $query->select('customers.id')
-                ->from('customers')
-                ->join('areas', 'customers.route_code', '=', 'areas.id')
-                ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
-                ->whereIn('subregions.region_id', $assignedRegions);
-        })
-        ->where('order_status', 'Pending Delivery') // Filter by order_status
-        ->where('order_type', 'Pre Order') // Filter by order_type
-        ->with('customer', 'user', 'orderitems') // Eager load relationships
-        ->orderBy('created_at', 'desc') // Order by created_at in descending order
-        ->get();
-        
+        // Check the user's account type
+        if ($user->account_type === 'Admin') {
+            $orders = Orders::where('order_status', 'Pending Delivery')
+                ->where('order_type', 'Pre Order')
+                ->with('customer', 'user', 'orderitems')
+                ->orderBy('created_at', 'desc')
+                ->get();
+        } else {
+            // Retrieve the user's assigned regions
+            $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
+    
+            $orders = Orders::whereIn('customerID', function ($query) use ($assignedRegions) {
+                $query->select('customers.id')
+                    ->from('customers')
+                    ->join('areas', 'customers.route_code', '=', 'areas.id')
+                    ->join('subregions', 'areas.subregion_id', '=', 'subregions.id')
+                    ->whereIn('subregions.region_id', $assignedRegions);
+            })
+            ->where('order_status', 'Pending Delivery')
+            ->where('order_type', 'Pre Order')
+            ->with('customer', 'user', 'orderitems')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        }
+    
         return response()->json([
             'status' => 200,
             'success' => true,
@@ -190,6 +218,7 @@ class OrdersController extends Controller
             'Data' => $orders
         ]);
     }
+    
 
 
 
@@ -488,7 +517,7 @@ class OrdersController extends Controller
         // Log the activity
         $random = Str::random(20);
         $activityLog = new activity_log();
-        $activityLog->source = 'Web App';
+        $activityLog->source = 'Manager Mobile App';
         $activityLog->activity = 'Allocate an order to a User';
         $activityLog->user_code = Auth::user()->user_code;
         $activityLog->section = 'Order Allocation';
@@ -534,6 +563,7 @@ class OrdersController extends Controller
         ]);
         $random = Str::random(20);
         $activityLog = new activity_log();
+        $activityLog->source = 'Manager Mobile App';
         $activityLog->activity = 'Manager order allocation';
         $activityLog->user_code = auth()->user()->user_code;
         $activityLog->section = 'Allocate orders';

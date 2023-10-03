@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
 
+
 class Dashboard extends Component
 {
    public $perPage = 10;
@@ -25,11 +26,16 @@ class Dashboard extends Component
       // Apply time frame filter
       $this->applyTimeFrameFilter($targetsQuery);
       // Fetch targets
-      $targets = $targetsQuery->get();
+     // $targets = $targetsQuery->get();
       return view('livewire.target.dashboard', [
-         'targets' => $targets,
+         'targets' => $this->data(),
          'today' => $today,
       ]);
+   }
+   public function data()
+   {
+      
+       return User::with('TargetSale')->where('account_type', '<>', 'Admin')->get();
    }
 
    private function applyTimeFrameFilter($query)
@@ -59,4 +65,5 @@ class Dashboard extends Component
 
       return 0;
    }
+
 }

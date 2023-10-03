@@ -11,35 +11,41 @@ use Illuminate\Support\Str;
 
 class UsersController extends Controller
 {
-   public function getUsers(Request $request)
-   {
-       $loggedInAccountType = Auth::user()->account_type;
-
-       $usersQuery = User::withCount('Customers')
-           ->with(['TargetSales', 'TargetLeads', 'TargetsOrder', 'TargetsVisit'])
-           ->whereIn('account_type', ['Distributors', 'Lube Sales Executive']);
-
-       if ($loggedInAccountType == 'Managers') {
-           $usersQuery->where('route_code', '=', $request->user()->route_code);
-       }
-
-       $users = $usersQuery->where('id', '!=', Auth::id()) // Exclude the logged-in user
-           ->get();
-
-       $message = "";
-       if ($loggedInAccountType == 'Managers') {
-           $message .= "User List Filtered by manager's route code.";
-       }
-
-       $message .= " The list also includes sales, leads, orders, and visits targets for each user.";
-
-       return response()->json([
-           "success" => true,
-           "status" => 200,
-           "message" => $message,
-           "data" => $users,
-       ]);
-   }
+    public function getUsers(Request $request)
+    {
+        $user = Auth::user();
+        $message = "";
+    
+        // Check the user's account type
+        if ($user->account_type === 'Admin') {
+            $usersQuery = User::withCount('Customers')
+                ->with(['TargetSales', 'TargetLeads', 'TargetsOrder', 'TargetsVisit'])
+                ->whereIn('account_type', ['Managers','Admin','Distributors', 'Lube Sales Executive']);
+        } else {
+            $loggedInAccountType = $user->account_type;
+    
+            $usersQuery = User::withCount('Customers')
+                ->with(['TargetSales', 'TargetLeads', 'TargetsOrder', 'TargetsVisit'])
+                ->whereIn('account_type', ['Distributors', 'Lube Sales Executive']);
+    
+            if ($loggedInAccountType == 'Managers') {
+                $usersQuery->where('route_code', '=', $user->route_code);
+                $message .= "User List Filtered by manager's route code. ";
+            }
+    
+            $usersQuery->where('id', '!=', $user->id); // Exclude the logged-in user
+        }
+    
+        $users = $usersQuery->get();
+    
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "message" => $message . "The list also includes sales, leads, orders, and visits targets for each user.",
+            "data" => $users,
+        ]);
+    }
+    
 
    public function getUserDetails($user_code)
    {
@@ -151,6 +157,7 @@ class UsersController extends Controller
     {
        $rdm = Str::random(20);
        $activityLog = new activity_log();
+       $activityLog->source = 'Manager Mobile App';
        $activityLog->activity = $activity;
        $activityLog->user_code = auth()->user()->user_code;
        $activityLog->section = 'Mobile';

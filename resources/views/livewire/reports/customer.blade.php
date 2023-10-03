@@ -43,9 +43,9 @@
                     Export
                 </button>
                 <div class="dropdown-menu dropdown-menu-left">
-                    <a class="dropdown-item" id="exportExcelBtn">Excel</a>
-                    <a class="dropdown-item" id="exportCsvBtn">CSV</a>
-                    <a class="dropdown-item" id="exportPdfBtn">PDF</a>
+                    <a class="dropdown-item" wire:click="export" id="exportExcelBtn">Excel</a>
+                    <a class="dropdown-item" wire:click="exportCSV" id="exportPdfBtn"> CSV</a>
+                    <a class="dropdown-item" wire:click="exportPDF" id="exportCsvBtn">PDF</a>
                     <!-- <a class="dropdown-item" wire:click="printAndRedirect" id="printBtn">Print</a> -->
                 </div>
             </div>

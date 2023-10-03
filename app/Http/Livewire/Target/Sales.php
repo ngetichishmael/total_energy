@@ -17,8 +17,6 @@ class Sales extends Component
 
         $targetsQuery = User::with('TargetSale')->where('account_type', '<>', 'Admin');
         $today = Carbon::now();
-        // $targetsQuery = SalesTarget::query();
-        // Apply search filter
         if (!empty($this->search)) {
             $targetsQuery->where('name', 'LIKE', '%' . $this->search . '%');
         }
@@ -31,7 +29,6 @@ class Sales extends Component
             'today' => $today,
         ]);
     }
-
     private function applyTimeFrameFilter($query)
     {
         $endDate = Carbon::now();

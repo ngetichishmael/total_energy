@@ -27,7 +27,9 @@ class AuthenticationController extends Controller
         if (!Auth::attempt([
             'phone_number' => $request->phone_number,
             'password' => $request->password,
-            'account_type' => 'Managers',
+            function ($query) {
+                $query->whereIn('account_type', ['Managers', 'Admin']);
+            },
             'status' => 'Active'
         ], true)) {
             return response()->json(['message' => 'Unauthorized'], 401);
@@ -50,7 +52,7 @@ class AuthenticationController extends Controller
     
         $random = Str::random(20);
         $activityLog = new activity_log();
-        $activityLog->source = 'Mobile App';
+        $activityLog->source = 'Manager Mobile App';
         $activityLog->activity = 'Manager Login in Mobile Device';
         $activityLog->user_code = auth()->user()->user_code;
         $activityLog->section = 'Mobile Login';
