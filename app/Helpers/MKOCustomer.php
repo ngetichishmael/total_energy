@@ -29,7 +29,7 @@ class MKOCustomer
             'odoo',
         );
         $response = Self::addCustomerToOdoo($request, $customer);
-        if ($response->serverError()) {
+        if (isset($response) && $response->serverError()) {
             Log::error('Error occurred ' . $response->status());
             $customer->delete();
             $response = [
@@ -38,8 +38,9 @@ class MKOCustomer
                 "message" => "An error occurred while processing",
                 "response" => $response,
             ];
-            return new Response($response); // Return an HTTP response object
+            return new Response($response);
         }
+
         if ($response->ok()) {
             return [
                 "success" => true,
