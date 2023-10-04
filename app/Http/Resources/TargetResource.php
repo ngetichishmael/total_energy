@@ -28,8 +28,8 @@ class TargetResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'target_sale' => $this->TargetSale ? [
-                'SalesTarget' => $this->TargetSale->SalesTarget,
-                'AchievedSalesTarget' => $this->TargetSale->AchievedSalesTarget,
+                'SalesTarget' => (int)$this->TargetSale->SalesTarget,
+                'AchievedSalesTarget' => (int)$this->TargetSale->AchievedSalesTarget,
                 'Deadline' => $this->TargetSale->Deadline,
                 'achievement' => $this->getSalesAchieved($this->user_code),
             ] : [
@@ -43,8 +43,8 @@ class TargetResource extends JsonResource
                 ],
             ],
             'target_lead' => $this->TargetLead ? [
-                'LeadsTarget' => $this->TargetLead->LeadsTarget ?? 0,
-                'AchievedLeadsTarget' => $this->TargetLead->AchievedLeadsTarget ?? 0,
+                'LeadsTarget' => (int)$this->TargetLead->LeadsTarget ?? 0,
+                'AchievedLeadsTarget' => (int)$this->TargetLead->AchievedLeadsTarget ?? 0,
                 'Deadline' => $this->TargetLead->Deadline,
                 'achievement' => $this->getLeadsAchieved($this->id),
             ] : [
@@ -58,8 +58,8 @@ class TargetResource extends JsonResource
                 ],
             ],
             'targets_order' => $this->TargetsOrder ? [
-                'OrdersTarget' => $this->TargetsOrder->OrdersTarget ?? 0,
-                'AchievedOrdersTarget' => $this->TargetsOrder->AchievedOrdersTarget ?? 0,
+                'OrdersTarget' => (int)$this->TargetsOrder->OrdersTarget ?? 0,
+                'AchievedOrdersTarget' => (int)$this->TargetsOrder->AchievedOrdersTarget ?? 0,
                 'Deadline' => $this->TargetsOrder->Deadline,
                 'achievement' => $this->getOrdersAchieved($this->user_code),
             ] : [
@@ -73,10 +73,10 @@ class TargetResource extends JsonResource
                 ],
             ],
             'targets_visit' => $this->TargetsVisit ? [
-                'VisitsTarget' => $this->TargetsVisit->VisitsTarget ?? 0,
-                'AchievedVisitsTarget' => $this->TargetsVisit->AchievedVisitsTarget ?? 0,
-                'Deadline' => $this->TargetsVisit->Deadline,
-                'achievement' => $this->getVisitsAchieved($this->user_code),
+                "VisitsTarget" => (int)$this->TargetsVisit->VisitsTarget ?? 0,
+                "AchievedVisitsTarget" => (int)$this->TargetsVisit->AchievedVisitsTarget ?? 0,
+                "Deadline" => $this->TargetsVisit->Deadline,
+                "achievement" => $this->getVisitsAchieved($this->user_code),
             ] : [
                 'VisitsTarget' => 0,
                 'AchievedVisitsTarget' => 0,
