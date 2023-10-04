@@ -100,24 +100,16 @@
                                     <table class="table table-bordered">
                                         <tr>
                                             <td>Has customer made any order?</td>
-                                            <td>{{ $checkingData['customer_ordered'] ?? 'NO' }}</td>
+                                            <td>{{ $checkingData['customer_ordered'] ?? 'N/A' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Did outlet already have Stock ?</td>
-                                            <td>{{ $checkingData['outlet_has_stock'] ?? 'NO' }}</td>
+                                            <td>{{ $checkingData['outlet_has_stock'] ?? 'N/A' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Who is our potential competitors?</td>
-                                            <td>{{ $checkingData['competitor_supplier'] ?? 'NO' }}</td>
+                                            <td>{{ $checkingData['competitor_supplier'] ?? 'N/A' }}</td>
                                         </tr>
-                                        {{-- <td>Likely Ordered Products:</td>
-                                        <td>
-                                            @if (is_array($checkingData['likely_ordered_products'] ?? null))
-                                                {{ implode(', ', $checkingData['likely_ordered_products']) }}
-                                            @else
-                                                N/A
-                                            @endif
-                                        </td> --}}
                             </tr>
                             <tr>
                                 <td>Which products have the highest sale?</td>
@@ -125,7 +117,7 @@
                                     @if (is_array($checkingData['highest_sale_products'] ?? null))
                                         {{ implode(', ', $checkingData['highest_sale_products']) }}
                                     @else
-                                        NONE
+                                        N/A
                                     @endif
                                 </td>
                             </tr>
