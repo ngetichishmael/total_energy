@@ -114,12 +114,12 @@ class customersController extends Controller
         info("route_code=" . $route_code);
 
         switch ($route_code) {
-            case 2:
-                $customerModel = MKOCustomer::class;
-                break;
-            case 1:
-                $customerModel = CrystalCustomer::class;
-                break;
+            // case 2:
+            //     $customerModel = MKOCustomer::class;
+            //     break;
+            // case 1:
+            //     $customerModel = CrystalCustomer::class;
+            //     break;
             default:
                 $customerModel = Customer::class;
                 break;
