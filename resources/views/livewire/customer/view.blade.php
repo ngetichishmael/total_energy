@@ -8,8 +8,14 @@
                  <!-- User Profile image with name -->
                 <div class="header-profile-sidebar text-center">
                     <div class="avatar box-shadow-1 avatar-border avatar-xl">
-                        <img src="{{ asset('images/no-image.png') }}" alt="user_avatar" height="70" width="70" />
-                        <span class="avatar-status-online avatar-status-lg"></span>
+                    <img src="{{ asset('storage/images/' . $customer->image) }}" 
+                        alt="user_avatar" 
+                        height="70" 
+                        width="70" 
+                        onerror="this.src='{{ asset('images/no-image.png') }}';" 
+                    />
+
+                                                <span class="avatar-status-online avatar-status-lg"></span>
                     </div>
                     <br><br>
                     <h4 class="chat-user-name">{{ Str::upper($customer->customer_name??'') }}</h4>
