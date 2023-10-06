@@ -34,31 +34,22 @@
                     $interval = $startTime->diff($stopTime);
 
                     $duration = '';
-                    
+
                     if ($interval->h > 0) {
                         $duration .= $interval->h . 'hrs';
-                    }
-                    
-                    if ($interval->i > 0) {
-                        if ($duration !== '') {
-                            $duration .= ', ';
-                        }
+                    } elseif ($interval->i > 0) {
                         $duration .= $interval->i . 'mins';
-                    }
-                    
-                    if ($interval->s > 0) {
-                        if ($duration !== '') {
-                            $duration .= ', ';
-                        }
+                    } elseif ($interval->s > 0) {
                         $duration .= $interval->s . 'secs';
                     }
                 @endphp
+
 
                   <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
                     <h6>{{ $checkin->code }}</h6>
                     <span class="timeline-event-time"> {{ $duration }}</span>
                   </div>
-                  <p>Started at {{ $checkin->start_time }} to {{ $checkin->stop_time }} )</p>
+                  <p>Started at {{ $checkin->start_time }} to {{ $checkin->stop_time }} </p>
                 @else
                   <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
                     <h6>{{ $checkin->code }}</h6>
