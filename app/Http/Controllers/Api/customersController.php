@@ -26,6 +26,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
 
 /**
  * @group Customers Api's
@@ -79,8 +81,8 @@ class customersController extends Controller
         // Modify the image URLs
         foreach ($customers as $customer) {
             $imageFileName = $customer->image;
-            $imagePath = public_path('images/' . $imageFileName);
-            $imageUrl = file_exists($imagePath) ? asset('images/' . $imageFileName) : $defaultImageUrl;
+            $imagePath = public_path('storage/images/' . $imageFileName);
+            $imageUrl = file_exists($imagePath) ? asset('storage/images/' . $imageFileName) : $defaultImageUrl;
 
             $customer->image = $imageUrl;
         }
