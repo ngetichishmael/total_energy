@@ -22,7 +22,7 @@
                     <div class="user-profile-sidebar-area">
                         <!-- About User -->
                         <h6 class="section-label mb-1">About</h6>
-                        <p>Onboarded by {{ $customer->Creator?->name }} om {{ $customer->created_at->format('d M, Y') }}</p>
+                        <p>Onboarded by {{ $customer->Creator?->name }} on {{ $customer->created_at->format('d M, Y') }}</p>
                         <!-- About User -->
 
                         <!-- User's personal information -->
