@@ -11,7 +11,11 @@ class Visit extends Component
     public function render()
     {
         return view('livewire.customer.visit', [
-            'checkins' => checkin::with('user')->where('customer_id', $this->customer_id)->limit(3)->get(),
-        ]);
+            'checkins' => checkin::with('user')
+            ->where('customer_id', $this->customer_id)
+            ->orderBy('created_at', 'desc')
+            ->limit(4)
+            ->get(),
+                ]);
     }
 }
