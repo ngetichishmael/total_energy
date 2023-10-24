@@ -9,7 +9,6 @@
         'sidai.reports' => 'Total Users',
         'payments.reports' => 'Payments',
         'inventory.reports' => 'Inventory',
-        'inventory.reports' => 'Distributors',
     ];
     $currentRoute = request()
         ->route()
@@ -18,9 +17,12 @@
 
 <ul class="nav nav-tabs">
     @foreach ($menuItems as $route => $name)
+        @php
+            $isActive = $currentRoute === $route || ($currentRoute === 'users.reports' && $route === 'clients.reports');
+        @endphp
         <li class="nav-item">
-            <a href="{{ route($route) }}" class="nav-link {{ $currentRoute === $route ? 'active' : '' }}"
-                style="{{ $currentRoute !== $route ? 'color: #1877F2;' : '' }}">{{ $name }}</a>
+            <a href="{{ route($route) }}" class="nav-link {{ $isActive ? 'active' : '' }}"
+                style="{{ !$isActive ? 'color: #5babed;' : '' }}">{{ $name }}</a>
         </li>
     @endforeach
 </ul>
