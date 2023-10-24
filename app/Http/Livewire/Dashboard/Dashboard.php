@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Models\AssignedRegion;
 use App\Models\customers;
 use App\Models\customer\checkin;
 use App\Models\Delivery;
@@ -9,18 +10,12 @@ use App\Models\Orders;
 use App\Models\order_payments as OrderPayment;
 use App\Models\products\product_information;
 use App\Models\User;
-use App\Models\Region;
-use App\Models\Routes;
-use App\Models\Subregion;
-use App\Models\AssignedRegion;
-use App\Models\Area;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Auth;
-
 
 class Dashboard extends Component
 {
@@ -40,7 +35,6 @@ class Dashboard extends Component
     public $perActiveUsers = 10;
     public $perUserTotal = 10;
     public $userRegion;
-
 
     // Individual functions for data retrieval
 
@@ -144,21 +138,21 @@ class Dashboard extends Component
     public function getVanSales()
     {
         $user = Auth::user();
-    
+
         // Check the user's account type
         if ($user->account_type === 'Admin') {
             $query = Orders::where('order_type', 'Van sales');
         } else {
             $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
-    
+
             $assignedCustomerIds = customers::whereHas('area.subregion.region', function ($query) use ($assignedRegions) {
                 $query->whereIn('id', $assignedRegions);
             })->pluck('id');
-    
+
             $query = Orders::whereIn('customerID', $assignedCustomerIds)
                 ->where('order_type', 'Van sales');
         }
-    
+
         if (empty($this->start) && empty($this->end)) {
             $currentMonth = Carbon::now()->startOfMonth();
             $query->whereBetween('created_at', [$currentMonth, Carbon::now()]);
@@ -170,26 +164,24 @@ class Dashboard extends Component
                 $query->where('created_at', '<=', $this->end);
             }
         }
-    
+
         return $query->count();
     }
-    
-
 
     public function getPreOrderCount()
     {
         $user = Auth::user();
-    
+
         // Check the user's account type
         if ($user->account_type === 'Admin') {
             $query = Orders::where('order_type', 'Pre Order');
         } else {
             $assignedRegions = AssignedRegion::where('user_code', $user->user_code)->pluck('region_id');
-    
+
             $assignedCustomerIds = customers::whereHas('area.subregion.region', function ($query) use ($assignedRegions) {
                 $query->whereIn('id', $assignedRegions);
             })->pluck('id');
-    
+
             $query = Orders::whereIn('customerID', $assignedCustomerIds)
                 ->where('order_type', 'Pre Order');
         }
@@ -264,13 +256,12 @@ class Dashboard extends Component
             $this->start = now()->startOfMonth();
             $this->end = now()->endOfMonth();
         }
-    
+
         return checkin::where(function (Builder $query) {
             $this->whereBetweenDate($query, 'updated_at', $this->start, $this->end);
         })
             ->count();
     }
-    
 
     public function getCustomersCount()
     {
@@ -480,9 +471,9 @@ class Dashboard extends Component
 
         $user = Auth::user();
 
-            if ($user) {
-                $this->userRegion = $user->Region->name; // Assuming 'Region' is the relationship
-            }
+        if ($user) {
+            $this->userRegion = $user->Region->name ?? "General"; // Assuming 'Region' is the relationship
+        }
     }
     public function updatedStart()
     {

@@ -1,18 +1,27 @@
-<div class="row" style="padding-left:6%;">
-    <div class="col-md-12" style="padding:10px">
-        <a href="{{ route('clients.reports') }}" class="btn btn-primary{{ request()->is('clients/reports*') ? ' active' : '' }}" style="font-size: 12px;">Customers</a>
-        <a href="{{ route('preorders.reports') }}" class="btn btn-primary{{ request()->is('preorders/reports*') ? ' active' : '' }}" style="font-size: 12px;">Preorders</a>
-        <a href="{{ route('vansales.reports') }}" class="btn btn-primary" style="font-size: 12px;">Vansales</a>
-        <a href="{{ route('delivery.reports') }}" class="btn btn-primary" style="font-size: 12px;">Delivery</a>
-        <!-- <a href="{{ route('supplier.reports') }}" class="btn btn-primary" style="font-size: 12px;">Suppliers</a> -->
-        <!-- <a href="{{ route('distributor.reports') }}" class="btn btn-primary" style="font-size: 12px;">Distributors</a> -->
-        <!-- <a href="{{ route('warehouse.reports') }}" class="btn btn-primary" style="font-size: 12px;">Warehouse</a>
-        <a href="{{ route('regional.reports') }}" class="btn btn-primary" style="font-size: 12px;">Regional</a> -->
-        <a href="{{ route('visitation.reports') }}" class="btn btn-primary" style="font-size: 12px;">Visitation</a>
-        <a href="{{ route('target.reports') }}" class="btn btn-primary" style="font-size: 12px;">Targets</a>
-        <a href="{{ route('sidai.reports') }}" class="btn btn-primary" style="font-size: 12px;">Total Users</a>
-        <a href="{{ route('payments.reports') }}" class="btn btn-primary" style="font-size: 12px;">Payments</a>
-        <a href="{{ route('inventory.reports') }}" class="btn btn-primary" style="font-size: 12px;">Inventory</a>
-    </div>
-</div>
+@php
+    $menuItems = [
+        'clients.reports' => 'Customers',
+        'preorders.reports' => 'Pre Orders',
+        'vansales.reports' => 'Van Sales',
+        'delivery.reports' => 'Deliveries',
+        'visitation.reports' => 'Visitation',
+        'target.reports' => 'Targets',
+        'sidai.reports' => 'Total Users',
+        'payments.reports' => 'Payments',
+        'inventory.reports' => 'Inventory',
+        'inventory.reports' => 'Distributors',
+    ];
+    $currentRoute = request()
+        ->route()
+        ->getName();
+@endphp
+
+<ul class="nav nav-tabs">
+    @foreach ($menuItems as $route => $name)
+        <li class="nav-item">
+            <a href="{{ route($route) }}" class="nav-link {{ $currentRoute === $route ? 'active' : '' }}"
+                style="{{ $currentRoute !== $route ? 'color: #1877F2;' : '' }}">{{ $name }}</a>
+        </li>
+    @endforeach
+</ul>
 <br>
