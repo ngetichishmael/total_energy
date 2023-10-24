@@ -2,7 +2,7 @@
     <div class="ml-1 col-md-2">
         <label for="">Type</label>
         <select id="typeSelect" class="form-control">
-            <option value="sales" selected>Sales</option>
+            <option value="sales" selected>Volumes</option>
             <option value="leads">Leads</option>
             <option value="visit">Visits</option>
             <option value="order">Orders</option>
@@ -35,13 +35,15 @@
                         salesChartInstance.destroy();
                     }
 
+
                     const ctx = document.getElementById('salesChart').getContext('2d');
                     salesChartInstance = new Chart(ctx, {
                         type: 'bar',
                         data: {
                             labels: data.labels,
                             datasets: [{
-                                    label: data.label.concat('Target'),
+                                    label: data.label === "Sales" ? ' Volume Target' : data.label.concat(
+                                        'Target'),
                                     backgroundColor: '#0085fc',
                                     data: data.targets,
                                     borderWidth: 2,
@@ -61,9 +63,11 @@
                         options: {
                             responsive: true,
                             scales: {
-                                y: {
-                                    beginAtZero: true
+                                myScale: {
+                                    type: 'logarithmic',
+                                    position: 'right',
                                 }
+
                             }
                         }
                     });
