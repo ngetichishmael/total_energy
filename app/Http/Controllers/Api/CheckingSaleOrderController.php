@@ -126,8 +126,9 @@ class CheckingSaleOrderController extends Controller
     public function NewSales(Request $request, $checkinCode, $random)
     {
         $user_code = $request->user()->user_code;
-        $request = $request->collect();
+        $request1 = $request->collect();
         $total = 0;
+       $ordercode =$random;
 
        foreach ($request1 as $value) {
           if (empty($value)) {
