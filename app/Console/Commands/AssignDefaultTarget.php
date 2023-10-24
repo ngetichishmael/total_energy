@@ -15,60 +15,68 @@ class AssignDefaultTarget extends Command
     {
         parent::__construct();
     }
-
     public function handle()
     {
-        $defaultTarget = 100;
         $now = Carbon::now();
-
-        // Calculate end of the current month
         $endOfMonth = $now->endOfMonth()->toDateString();
 
-        // Assuming 'users' table has 'user_code' column
         $users = DB::table('users')
             ->whereNotIn('account_type', ['Admin', 'Managers'])
             ->select('user_code')
             ->get();
 
+        // List of target tables
+        $targetTables = [
+            'leads_targets' => [
+                'table' => "leads_targets",
+                'target' => "LeadsTarget",
+                'achieved' => 'AchievedLeadsTarget',
+            ],
+            'orders_targets' => [
+                'table' => "orders_targets",
+                'target' => "OrdersTarget",
+                'achieved' => 'AchievedOrdersTarget',
+            ],
+            'sales_targets' => [
+                'table' => "sales_targets",
+                'target' => "SalesTarget",
+                'achieved' => 'AchievedSalesTarget',
+            ],
+            'visits_targets' => [
+                'table' => "visits_targets",
+                'target' => "VisitsTarget",
+                'achieved' => 'AchievedVisitsTarget',
+            ],
+        ];
+
         foreach ($users as $user) {
-            // Insert a new row in the respective targets table with end-of-month deadline and timestamps
-            DB::table('leads_targets')->insert([
-                'user_code' => $user->user_code,
-                'LeadsTarget' => $defaultTarget,
-                'AchievedLeadsTarget' => '0',
-                'Deadline' => $endOfMonth,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ]);
+            $userCode = $user->user_code;
 
-            DB::table('orders_targets')->insert([
-                'user_code' => $user->user_code,
-                'OrdersTarget' => $defaultTarget,
-                'AchievedOrdersTarget' => '0',
-                'Deadline' => $endOfMonth,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ]);
+            foreach ($targetTables as $targetTable) {
+                // Attempt to fetch the most recent target for the user from the respective table
+                $lastTarget = DB::table($targetTable['table'])
+                    ->where('user_code', $userCode)
+                    ->orderByDesc('created_at')
+                    ->first();
 
-            DB::table('sales_targets')->insert([
-                'user_code' => $user->user_code,
-                'SalesTarget' => $defaultTarget,
-                'AchievedSalesTarget' => '0',
-                'Deadline' => $endOfMonth,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ]);
+                $targetValue = $lastTarget ? $lastTarget->{$targetTable['target']} : 100; // Use the last target value or default to 100
 
-            DB::table('visits_targets')->insert([
-                'user_code' => $user->user_code,
-                'VisitsTarget' => $defaultTarget,
-                'AchievedVisitsTarget' => '0',
-                'Deadline' => $endOfMonth,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ]);
+                $newTarget = [
+                    'user_code' => $userCode,
+                    $targetTable['target'] => $targetValue,
+                    $targetTable['achieved'] => '0',
+                    'Deadline' => $endOfMonth,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+
+                // Insert a new target row in the respective table
+                DB::table($targetTable['table'])->insert($newTarget);
+            }
         }
 
-        $this->info('Default targets with end-of-month deadline assigned to users successfully.');
+        info('Default or last targets with end-of-month deadline assigned to users successfully.');
+        $this->info('Default or last targets with end-of-month deadline assigned to users successfully.');
     }
+
 }
