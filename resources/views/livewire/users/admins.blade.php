@@ -38,7 +38,7 @@
                     <thead>
                         <tr>
                             <th width="1%">#</th>
-                            <th>Region</th>
+                            {{-- <th>Region</th> --}}
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone</th>
@@ -50,7 +50,7 @@
                         @foreach ($admins as $key => $admin)
                             <tr>
                                 <td>{!! $key + 1 !!}</td>
-                                <td>{!! $admin->Region->name ?? ' ' !!}</td>
+                                {{-- <td>{!! $admin->Region->name ?? ' ' !!}</td> --}}
                                 <td>{!! $admin->name !!}</td>
                                 <td>
                                     {!! $admin->email !!}
